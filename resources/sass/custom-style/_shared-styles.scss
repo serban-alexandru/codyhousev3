@@ -17,3 +17,44 @@
 
 // admin sidebar border color
 .border-right-sidebar { border-right: 1px solid alpha(var(--color-contrast-lower), var(--border-o, 1)); }
+
+:root {
+    // radius
+    --radius: 0.25em; // border radius base size
+}
+
+// custom ajax content loader
+.custom-ajax-frame-loader {
+    text-align: center;
+    padding: 1rem;
+    background-color: inherit;
+}
+
+// fix for dropdown behind table content
+.int-table {
+    overflow: visible !important;
+}
+
+// admin sidebar border color
+.border-right-sidebar { border-left: 1px solid alpha(var(--color-contrast-lower), var(--border-o, 1)); }
+
+
+// admin sub navigation
+.menu-bar__item.has-text {
+    width: auto;
+  }
+  
+  .menu-bar__item.has-text .menu-bar__text {
+    margin-left: .25rem;
+  }
+
+  @media (min-width: 64rem) {
+    .menu-bar .menu-bar__item.has-text:not(.icon-top) {
+      border: 1px solid #bfbfbf;
+      padding: .1rem;
+      border-radius: 30px;
+      margin-top: .5rem;
+      margin-bottom: .5rem;
+    }
+  }
+  

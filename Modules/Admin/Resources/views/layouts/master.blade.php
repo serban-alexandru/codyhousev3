@@ -143,6 +143,12 @@
             <li class="mega-nav__item">
               <a href="http://127.0.0.1:8000/" class="mega-nav__control">Users</a>
             </li>
+            <li class="mega-nav__item">
+                <a href="http://127.0.0.1:8000/" class="mega-nav__control">Blogs</a>
+              </li>
+              <li class="mega-nav__item">
+                <a href="http://127.0.0.1:8000/" class="mega-nav__control">Reviews</a>
+              </li>
           </ul>
 
           <ul class="mega-nav__items js-main-nav custom-mega-nav__items-mobile">
