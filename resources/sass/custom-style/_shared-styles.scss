@@ -1,0 +1,19 @@
+:root {
+    // radius
+    --radius: 0.25em; // border radius base size
+}
+
+// custom ajax content loader
+.custom-ajax-frame-loader {
+    text-align: center;
+    padding: 1rem;
+    background-color: inherit;
+}
+
+// fix for dropdown behind table content
+.int-table {
+    overflow: visible !important;
+}
+
+// admin sidebar border color
+.border-right-sidebar { border-right: 1px solid alpha(var(--color-contrast-lower), var(--border-o, 1)); }
