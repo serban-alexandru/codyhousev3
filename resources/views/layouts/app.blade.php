@@ -27,7 +27,7 @@
 <body>
   @include('partials.header')
 
-  @include('partials.modals')
+  @include('users::partials.modals')
 
   @yield('content')
 
