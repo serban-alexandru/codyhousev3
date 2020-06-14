@@ -11,22 +11,21 @@
 |
 */
 
-Route::post('/login', '\Modules\Users\Http\Controllers\Auth\LoginController@login');
-
+Auth::routes();
 
 Route::get('/login/ajax',[
     'as'   => 'login.ajax',
     'uses' => '\Modules\Users\Http\Controllers\Auth\LoginController@ajaxShowForm'
 ]);
 
-Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
+Route::get('/logout', '\Modules\Users\Http\Controllers\Auth\LoginController@logout');
 
 Route::get('/register/ajax',[
   'as'   => 'register.ajax',
-  'uses' => '\App\Http\Controllers\Auth\RegisterController@ajaxShowForm'
+  'uses' => '\Modules\Users\Http\Controllers\Auth\RegisterController@ajaxShowForm'
 ]);
 
 Route::get('/resetpassword',[
   'as'   => 'password.reset.ajax',
-  'uses' => '\App\Http\Controllers\Auth\ForgotPasswordController@ajaxShowForm'
+  'uses' => '\Modules\Users\Http\Controllers\Auth\ForgotPasswordController@ajaxShowForm'
 ]);
