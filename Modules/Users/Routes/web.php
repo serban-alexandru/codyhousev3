@@ -11,6 +11,22 @@
 |
 */
 
-Route::prefix('users')->group(function() {
-    Route::get('/', 'UsersController@index');
-});
+Route::post('/login', '\Modules\Users\Http\Controllers\Auth\LoginController@login');
+
+
+Route::get('/login/ajax',[
+    'as'   => 'login.ajax',
+    'uses' => '\Modules\Users\Http\Controllers\Auth\LoginController@ajaxShowForm'
+]);
+
+Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
+
+Route::get('/register/ajax',[
+  'as'   => 'register.ajax',
+  'uses' => '\App\Http\Controllers\Auth\RegisterController@ajaxShowForm'
+]);
+
+Route::get('/resetpassword',[
+  'as'   => 'password.reset.ajax',
+  'uses' => '\App\Http\Controllers\Auth\ForgotPasswordController@ajaxShowForm'
+]);
