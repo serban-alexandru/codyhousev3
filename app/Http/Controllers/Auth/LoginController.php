@@ -81,7 +81,7 @@ class LoginController extends Controller
 
         return response()->json([
             'status'  => 'error',
-            'message' => 'Failed to log in. Either email or password is incorrect.',
+            'message' => 'Laravel app: Failed to log in. Either email or password is incorrect.',
             'data'    => null
         ]);
 
@@ -97,7 +97,7 @@ class LoginController extends Controller
 
     public function ajaxShowForm(Request $request)
     {
-        return view('forms.signin');
+        return view('users::forms.signin');
     }
 
 }
