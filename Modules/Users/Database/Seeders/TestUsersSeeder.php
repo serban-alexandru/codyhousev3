@@ -5,7 +5,9 @@ namespace Modules\Users\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-class UsersDatabaseSeeder extends Seeder
+use Modules\Users\Entities\User;
+
+class TestUsersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,8 +18,6 @@ class UsersDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        $this->call(PermissionsSeeder::class);
-        $this->call(RolesSeeder::class);
-        $this->call(UsersSeeder::class);
+        $users = factory(User::class, 200)->create();
     }
 }
