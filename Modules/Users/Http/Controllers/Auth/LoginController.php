@@ -81,7 +81,7 @@ class LoginController extends Controller
 
         return response()->json([
             'status'  => 'error',
-            'message' => 'User module: Failed to log in. Either email or password is incorrect.',
+            'message' => 'Failed to log in. Either email or password is incorrect.',
             'data'    => null
         ]);
 
