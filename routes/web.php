@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
-
 Route::get('/', 'PagesController@index');
 Route::get('/mangas', 'PagesController@mangas');
 Route::get('/blogpage', 'PagesController@blogpage');
