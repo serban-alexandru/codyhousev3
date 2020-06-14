@@ -27,22 +27,8 @@ Route::get('/adminlogin', 'PagesController@adminlogin');
 Route::get('/blogadmin', 'PagesController@blogadmin');
 Route::get('/useradmin', 'PagesController@useradmin');
 Route::get('/home', 'HomeController');
-Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
-Route::get('/login/ajax',[
-  'as'   => 'login.ajax',
-  'uses' => '\App\Http\Controllers\Auth\LoginController@ajaxShowForm'
-]);
 
-Route::get('/register/ajax',[
-  'as'   => 'register.ajax',
-  'uses' => '\App\Http\Controllers\Auth\RegisterController@ajaxShowForm'
-]);
-
-Route::get('/resetpassword',[
-  'as'   => 'password.reset.ajax',
-  'uses' => '\App\Http\Controllers\Auth\ForgotPasswordController@ajaxShowForm'
-]);
 
 Route::group(['middleware' => 'auth'], function(){
   Route::group(['middleware' => 'role:admin'], function(){
