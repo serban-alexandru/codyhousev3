@@ -15,6 +15,13 @@ class RouteServiceProvider extends ServiceProvider
     protected $moduleNamespace = 'Modules\Users\Http\Controllers';
 
     /**
+     * The path to the "home" route for your application.
+     *
+     * @var string
+     */
+    public const HOME = '/home';
+
+    /**
      * Called before routes are registered.
      *
      * Register any model bindings or pattern based filters.
