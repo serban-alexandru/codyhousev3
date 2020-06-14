@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use App\User;
 use Auth;
 
+use App\Role;
+
 class LoginController extends Controller
 {
     /*
@@ -54,7 +56,8 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials, $request->has('remember'))) {
-            $user = User::where('email', $request->input('email'))->first();
+            $user         = User::where('email', $request->input('email'))->first();
+            $redirect_url = $user->permission === Role::where('key', 'admin')->first()->permission ? url('/admin') : $this->redirectTo;
 
             // check if account is inacitve/ suspended
             if ($user->permission < 1) {
@@ -71,7 +74,7 @@ class LoginController extends Controller
                 'status'  => 'success',
                 'message' => 'Login successful. You will be redirected in a moment.',
                 'data'    => [
-                    'redirect_url' => $this->redirectTo
+                    'redirect_url' => $redirect_url
                 ]
             ]);
         }
