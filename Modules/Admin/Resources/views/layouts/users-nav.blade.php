@@ -75,24 +75,9 @@
                         </li>
 
                         {{-- Nav item with text to the right --}}
-                        <li class="menu-bar__item has-text margin-left-auto" aria-controls="modal-search">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                <title>zoom-2</title>
-                                <g fill="#bfbfbf">
-                                    <path fill="#bfbfbf"
-                                        d="M1.29 19.88l4.37-4.37a9.93 9.93 0 0 1-1.66-5.51c0-5.51 4.49-10 10-10s10 4.49 10 10-4.49 10-10 10a9.93 9.93 0 0 1-5.51-1.66l-4.37 4.37a1 1 0 0 1-1.41 0l-1.42-1.42a1 1 0 0 1 0-1.41z m20.71-9.88c0-4.41-3.59-8-8-8s-8 3.59-8 8 3.59 8 8 8 8-3.59 8-8z">
-                                    </path>
-                                </g>
-                            </svg>
-                            {{-- The text to display must be here --}}
-                            <span class="menu-bar__text display@md">Search search</span>
-                            {{-- This is the usual label --}}
-                            <span class="menu-bar__label">Search</span>
-                        </li>
-
+                        <li class="margin-left-auto">
                         <li class="menu-bar__item hide@md no-js:is-hidden" aria-controls="sidebar">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                                <title>ic_menu_24px</title>
                                 <g fill="#bfbfbf">
                                     <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
                                 </g>
