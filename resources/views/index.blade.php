@@ -1,41 +1,6 @@
 @extends('layouts.app')
 @section('content')
 
-<section class="articles-v3">
-  <div class="container max-width-adaptive-lg margin-top-xl margin-bottom-xxl">
-    <ul class="grid gap-lg">
-      <li>
-        <div class="grid gap-md items-start">
-          <a href="#0" class="articles-v3__img col-6@md col-9@xl">
-            <figure class="media-wrapper">
-              <img src="{{ asset('assets/img/team-img-12.jpg') }}" alt="Image description">
-            </figure>
-          </a>
-    
-          <div class="col-6@md col-6@xl">
-            <div class="text-component">
-              <h2 class="articles-v3__headline"><a href="http://127.0.0.1:8000/blogpage">Lorem ipsum dolor sit dolor sit.</a></h2>
-              <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus nihil rem aliquid perferendis delectus in esse praesentium necessitatibus rerum consectetur! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus nihil rem aliquid perferendis delectus in esse praesentium necessitatibus rerum consectetur! Accusamus nihil rem aliquid perferendis delectus in esse praesentium necessitatibus rerum consectetur!</p>
-            </div>
-    
-            <div class="articles-v3__author">
-              <a href="#0" class="articles-v3__author-img">
-                <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Author picture">
-              </a>
-        
-              <div class="text-component text-sm line-height-xs v-space-xs">
-                <p><a href="#0" class="articles-v3__author-name" rel="author">Olivia Gribben</a></p>
-                <p class="color-contrast-medium"><time>Oct 4, 2020</time>, &mdash; 5 min read</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </li>
-
-    </ul>
-  </div>
-</section>
-
 <section class="margin-top-md">
   <div class="drag-gallery js-drag-gallery container max-width-adaptive-lg">
     <ul class="drag-gallery__list gap-md">
