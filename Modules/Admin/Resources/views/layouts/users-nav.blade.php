@@ -54,7 +54,7 @@
                             </svg>
                             <span class="counter counter--critical counter--docked">4 <i
                                     class="sr-only">Notifications</i></span>
-                            <span class="menu-bar__label">Draft</span>
+                            <span class="menu-bar__label">Suspend</span>
                         </li>
 
                         <li class="menu-bar__item" role="menuitem">
