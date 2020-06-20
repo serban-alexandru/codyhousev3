@@ -1,10 +1,10 @@
-@extends('admin::layouts.master')
+@extends('users::layouts.master')
 @section('content')
 
 @include('users::layouts.users-nav')
 
 <!-- 👇 Full Screen Modal -->
-<div class="modal modal--animate-fade bg-contrast-higher bg-opacity-90% js-modal" id="modal-full-width">
+<div class="modal modal--animate-fade bg-contrast-higher bg-opacity-90% js-modal custom-modal-hide-body-scroll" id="modal-full-width">
   <div class="modal__content bg height-100% flex flex-column tabs js-tabs" role="alertdialog" aria-labelledby="modal-title" aria-describedby="modal-description">
     <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
       <!-- 👇 Tabs Navigation -->
