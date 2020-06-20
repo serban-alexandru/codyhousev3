@@ -1,6 +1,6 @@
 @extends('admin::layouts.master')
 @section('content')
-@include('admin::layouts.users-nav')
+@include('admin::layouts.navigation')
 
 <!-- 👇 Modal Search -->
 <div class="modal modal--search modal--animate-fade flex flex-center padding-md js-modal"
@@ -40,7 +40,7 @@
 <div class="modal modal--animate-fade bg-contrast-higher bg-opacity-90% js-modal" id="modal-full-width">
   <div class="modal__content bg height-100% flex flex-column" role="alertdialog" aria-labelledby="modal-title" aria-describedby="modal-description">
     <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
-                
+
         <!-- 👇 Tabs -->
         <nav class="s-tabs">
             <ul class="s-tabs__list">
@@ -52,7 +52,7 @@
             </ul>
           </nav>
                   <!-- End Tabs -->
-                  
+
       <button class="reset modal__close-btn modal__close-btn--inner js-modal__close js-tab-focus">
         <svg class="icon" viewBox="0 0 20 20">
           <title>Close modal window</title>
@@ -75,28 +75,28 @@
                 <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati natus totam assumenda cumque numquam culpa officia, harum vel quibusdam recusandae, blanditiis non quae pariatur? Laborum, animi dolor tempora laboriosam minus nulla sit, hic molestias velit delectus sint aspernatur possimus soluta?</p>
               </div>
             </section>
-        
+
             <section id="tab1Panel2" class="padding-top-md js-tabs__panel">
               <div class="text-component">
                 <h1 class="text-lg">Panel 2</h1>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, nobis! Vitae quis minus accusantium qui atque? Officiis sunt exercitationem natus, minus sapiente debitis eum animi porro. Ut cupiditate amet expedita!</p>
               </div>
             </section>
-        
+
             <section id="tab1Panel3" class="padding-top-md js-tabs__panel">
               <div class="text-component">
                 <h1 class="text-lg">Panel 3</h1>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis, veritatis.</p>
               </div>
             </section>
-        
+
             <section id="tab1Panel4" class="padding-top-md js-tabs__panel">
               <div class="text-component">
                 <h1 class="text-lg">Panel 4</h1>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos, ipsa. Maiores sit totam dignissimos perferendis recusandae quis eligendi quos expedita consequatur, natus debitis, deserunt placeat tenetur odit voluptates, ad nihil cum ipsa quae est facere, voluptate sapiente tempora a officiis. Ipsa perspiciatis aut commodi enim expedita. Saepe at cupiditate quaerat explicabo distinctio quae enim, ab impedit! Sunt, omnis, sit magnam id exercitationem mollitia alias pariatur doloremque nulla. Totam quis, animi minus error molestias sit. Quidem, dolor, aspernatur. Voluptates, magni, provident?</p>
               </div>
             </section>
-        
+
             <section id="tab1Panel5" class="padding-top-md js-tabs__panel">
               <div class="text-component">
                 <h1 class="text-lg">Panel 5</h1>
