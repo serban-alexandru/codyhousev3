@@ -314,4 +314,20 @@ class UsersController extends Controller
 
         return redirect('admin/users')->with('responseMessage', $responseMessage);
     }
+
+    /**
+     * Empty trash
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function emptyTrash()
+    {
+        $users = User::where('is_trashed', 1);
+
+        $deleted = $users->delete();
+
+        $responseMessage = 'Trash has been empty.';
+
+        return redirect('admin/users')->with('responseMessage', $responseMessage);
+    }
 }

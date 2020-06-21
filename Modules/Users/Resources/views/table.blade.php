@@ -14,6 +14,13 @@
   </div>
 </div>
 @endif
+
+  @if(Request::get('is_trashed'))
+    <div class="margin-bottom-md">
+      <a href="{{ url('admin/users/empty-trash') }}" class="btn btn--subtle">Empty trash</a>
+    </div>
+  @endif
+
 <div class="int-table js-int-table">
     <div class="bulk-selected-ids"></div><!-- /.bulk-selected-ids -->
     <div class="int-table__inner" id="site-table-container">

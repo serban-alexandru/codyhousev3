@@ -37,3 +37,4 @@ Route::get('admin/users/activate/{id}', 'UsersController@activate');
 Route::get('admin/users/trash/{id}', 'UsersController@trash');
 Route::get('admin/users/delete/{id}', 'UsersController@destroy');
 Route::get('admin/users/delete/{id}', 'UsersController@destroy');
+Route::get('admin/users/empty-trash', 'UsersController@emptyTrash');
