@@ -403,7 +403,37 @@
         $('.bulk-selected-ids').html(''); // remove hidden inputs on bulk select
         $('.table-total-selected').text('0'); // set counter to 0
 
+        $('#site-table-limit-dropdown').find('[data-index="0"]').click(); // reset dropdown
+
         $('#site-table-with-pagination-container').load(url);
+      });
+
+      // watch for change on the results limit dropdown
+      $(document).on('change', '#site-table-limit', function() {
+        var $this = $(this);
+        var $submitForm = $this.closest('form');
+        /* $submitForm.submit();
+        return; */
+        var url = $submitForm.attr('action');
+        var method = $submitForm.attr('method');
+        var dataType = 'HTML';
+        var data = $submitForm.serialize();
+
+        $.ajax({
+          url: url,
+          method: method,
+          dataType: dataType,
+          data: data
+        })
+          .done(function(data) {
+            $('#site-table-with-pagination-container').html(data);
+          })
+          .fail(function(jqXHR, textStatus) {
+            console.log('Request failed: ' + textStatus);
+            alert('Something went wrong. Please reload the page.');
+          })
+          .always(function() {});
+
       });
 
       // change sort and order whenever a table header column is toggled

@@ -303,5 +303,4 @@
     <script src="{{ asset('assets/js/util.js') }}"></script>
     <script src="{{ asset('assets/js/components/_1_menu.js') }}"></script>
     <script src="{{ asset('assets/js/components/_2_interactive-table.js') }}"></script>
-    <script src="{{ asset('assets/js/components/_1_custom-select.js') }}"></script>
   @endif
