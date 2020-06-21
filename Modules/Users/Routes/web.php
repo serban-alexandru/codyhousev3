@@ -29,3 +29,11 @@ Route::get('/resetpassword',[
   'as'   => 'password.reset.ajax',
   'uses' => '\Modules\Users\Http\Controllers\Auth\ForgotPasswordController@ajaxShowForm'
 ]);
+
+// Admin routes relating to users
+Route::get('admin/users', 'UsersController@index');
+Route::get('admin/users/suspend/{id}', 'UsersController@suspend');
+Route::get('admin/users/activate/{id}', 'UsersController@activate');
+Route::get('admin/users/trash/{id}', 'UsersController@trash');
+Route::get('admin/users/delete/{id}', 'UsersController@destroy');
+Route::get('admin/users/delete/{id}', 'UsersController@destroy');
