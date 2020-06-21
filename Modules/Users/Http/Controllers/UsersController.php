@@ -18,7 +18,7 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-        $bladeTemplate = $request->ajax() ? 'users::table' : 'users::index';
+        $bladeTemplate = $request->ajax() ? 'users::partials.table' : 'users::index';
 
         $q         = $request->input('q');
         $status    = $request->input('status');
