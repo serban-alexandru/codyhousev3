@@ -30,26 +30,9 @@ Route::get('/home', 'HomeController');
 
 Route::group(['middleware' => 'auth'], function(){
   Route::group(['middleware' => 'role:admin'], function(){
-      Route::get('/admin', 'PagesController@admin');
-
-      Route::get('/admin/users', 'UserController@index');
-
-      Route::post('/admin/users/bulk-delete', 'UserController@bulkDelete');
-      Route::get('/admin/users/bulk-delete', function(){
-        abort(404);
-      });
-
-      Route::post('/admin/users/bulk-suspend', 'UserController@bulkSuspend');
-      Route::get('/admin/users/bulk-suspend', function(){
-        abort(404);
-      });
 
       Route::get('/admin/users/edit/{id}', 'UserController@edit');
       Route::post('/admin/users/update/{id}', 'UserController@update');
 
-      Route::get('/admin/users/suspend/{id}', 'UserController@suspend');
-      Route::get('/admin/users/activate/{id}', 'UserController@activate');
-
-      Route::get('/admin/users/delete/{id}', 'UserController@destroy');
   });
 });
