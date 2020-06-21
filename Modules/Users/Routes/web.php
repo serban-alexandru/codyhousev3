@@ -30,13 +30,18 @@ Route::get('/resetpassword',[
   'uses' => '\Modules\Users\Http\Controllers\Auth\ForgotPasswordController@ajaxShowForm'
 ]);
 
-// Admin routes relating to users
-Route::get('admin/users', 'UsersController@index');
-Route::get('admin/users/suspend/{id}', 'UsersController@suspend');
-Route::get('admin/users/activate/{id}', 'UsersController@activate');
-Route::get('admin/users/trash/{id}', 'UsersController@trash');
-Route::get('admin/users/delete/{id}', 'UsersController@destroy');
-Route::get('admin/users/delete/{id}', 'UsersController@destroy');
-Route::get('admin/users/empty-trash', 'UsersController@emptyTrash');
-Route::post('admin/users/bulk-suspend', 'UsersController@bulkSuspend');
-Route::post('admin/users/bulk-delete', 'UsersController@bulkDelete');
+Route::group(['middleware' => 'auth'], function(){
+  Route::group(['middleware' => 'role:admin'], function(){
+
+    Route::get('admin/users', 'UsersController@index');
+    Route::get('admin/users/suspend/{id}', 'UsersController@suspend');
+    Route::get('admin/users/activate/{id}', 'UsersController@activate');
+    Route::get('admin/users/trash/{id}', 'UsersController@trash');
+    Route::get('admin/users/delete/{id}', 'UsersController@destroy');
+    Route::get('admin/users/delete/{id}', 'UsersController@destroy');
+    Route::get('admin/users/empty-trash', 'UsersController@emptyTrash');
+    Route::post('admin/users/bulk-suspend', 'UsersController@bulkSuspend');
+    Route::post('admin/users/bulk-delete', 'UsersController@bulkDelete');
+
+  });
+});
