@@ -90,6 +90,12 @@
                           <span class="sidenav__counter">{{ $suspendedUsersCount }} <i class="sr-only">notifications</i></span>
                         </a>
                       </li>
+                      <li class="sidenav__item">
+                        <a href="{{ url('admin/users?is_trashed=1') }}" class="sidenav__link">
+                          <span class="sidenav__text">Trash</span>
+                          <span class="sidenav__counter">{{ $trashedUsersCount }} <i class="sr-only">notifications</i></span>
+                        </a>
+                      </li>
                     </ul>
                   </li>
 
