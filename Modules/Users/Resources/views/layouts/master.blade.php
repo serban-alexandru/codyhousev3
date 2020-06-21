@@ -226,7 +226,13 @@
       <!-- 👇 search -->
       <div class="mega-nav__search js-mega-nav__search" id="mega-nav-search">
         <div class="mega-nav__search-inner">
-          <input class="form-control width-100%" type="reset search" name="megasite-search" id="megasite-search" placeholder="Search..." aria-label="Search">
+          <form action="{{ url('admin/users') }}" method="GET">
+            <input type="hidden" name="limit" value="{{$limit}}">
+            <input type="hidden" name="sort" value="{{$sort}}">
+            <input type="hidden" name="order" value="{{$order}}">
+
+            <input class="form-control width-100%" type="reset search" name="q" value="{{ $q }}" id="megasite-search" placeholder="Search..." aria-label="Search">
+          </form>
           <div class="margin-top-lg">
             <p class="mega-nav__label">Quick Links</p>
             <ul>
