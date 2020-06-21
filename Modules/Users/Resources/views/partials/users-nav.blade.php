@@ -74,6 +74,28 @@
                             <span class="menu-bar__label">Delete</span>
                         </li>
 
+                        <li class="menu-bar__item" style="margin-left: auto; margin-right: 40px;">
+                            <form action="{{ url('admin/users') }}" method="GET" style="margin-top: -20px;">
+                                <input type="hidden" name="q" value="{{$q}}">
+                                <input type="hidden" name="sort" value="{{$sort}}">
+                                <input type="hidden" name="order" value="{{$order}}">
+
+                                <label class="form-label" for="site-table-limit"></label>
+
+                                <div class="select inline-block js-select" data-trigger-class="btn btn--subtle padding-sm@md padding-xs">
+                                <select name="limit" id="site-table-limit">
+                                    <optgroup label="Amount to show">
+                                    @foreach($availableLimit as $amount)
+                                        <option value="{{$amount}}" @if($limit == $amount) selected @endif>Show {{$amount}}</option>
+                                    @endforeach
+                                    </optgroup>
+                                </select>
+
+                                <svg class="icon icon--xs margin-left-xxxs" aria-hidden="true" viewBox="0 0 16 16"><polygon points="3,5 8,11 13,5 "></polygon></svg>
+                                </div><!-- /.js-select -->
+                            </form>
+                        </li><!-- /.menu-bar__item -->
+
                         <li class="menu-bar__item hide@md no-js:is-hidden" aria-controls="sidebar">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <g fill="#bfbfbf">
@@ -85,27 +107,6 @@
                             </svg>
                         </li>
                     </menu>
-                    <div class="flex flex-column items-start">
-                        <form action="{{ url('admin/users') }}" method="GET" style="margin-top: -15px;">
-                            <input type="hidden" name="q" value="{{$q}}">
-                            <input type="hidden" name="sort" value="{{$sort}}">
-                            <input type="hidden" name="order" value="{{$order}}">
-
-                            <label class="form-label" for="site-table-limit"></label>
-
-                            <div class="select inline-block js-select" data-trigger-class="btn btn--subtle padding-sm">
-                            <select name="limit" id="site-table-limit">
-                                <optgroup label="Amount to show">
-                                @foreach($availableLimit as $amount)
-                                    <option value="{{$amount}}" @if($limit == $amount) selected @endif>Show {{$amount}}</option>
-                                @endforeach
-                                </optgroup>
-                            </select>
-
-                            <svg class="icon icon--xs margin-left-xxxs" aria-hidden="true" viewBox="0 0 16 16"><polygon points="3,5 8,11 13,5 "></polygon></svg>
-                            </div><!-- /.js-select -->
-                        </form>
-                    </div>
                 </nav>
             </div><!-- /.subnav_wrapper -->
         </div>
