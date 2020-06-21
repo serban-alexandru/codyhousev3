@@ -13,9 +13,6 @@
 
       <main class="position-relative padding-top-md z-index-1 col-12@md">
         <div id="site-table-with-pagination-container">
-          <template id="selected-id-template">
-            <input type="hidden" name="selectedIDs[]" value="@{{value}}">
-          </template><!-- /#selected-id-template -->
           @include('users::partials.table')
         </div><!-- /#site-table-with-pagination-container -->
       </main>

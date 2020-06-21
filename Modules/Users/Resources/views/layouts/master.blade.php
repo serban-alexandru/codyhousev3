@@ -374,6 +374,7 @@
       $(document).on('input', '.js-int-table__select-all, .js-int-table__select-row', function(){
         var $checkBoxesChecked = $('.js-int-table__select-row:checked');
         var $totalSelected = $('.table-total-selected');
+        console.log($("#selected-id-template").html());
         var $inputHiddenTemplate = $("#selected-id-template").html().trim();
 
         $('.bulk-selected-ids').html('');
@@ -392,6 +393,9 @@
         e.preventDefault();
         var $this = $(this);
         var url = $this.attr('href');
+
+        $('.bulk-selected-ids').html(''); // remove hidden inputs on bulk select
+        $('.table-total-selected').text('0'); // set counter to 0
 
         $('#site-table-with-pagination-container').load(url);
       });
@@ -413,6 +417,13 @@
         var $this = $(this);
         $('.site-table-filter a').attr('aria-current', '');
         $this.attr('aria-current', 'page');
+      });
+
+      $('[data-control-form]').on('click', function(){
+        var $this = $(this);
+        var $form = $($this.data('control-form'));
+
+        $form.submit();
       });
     })();
   </script>

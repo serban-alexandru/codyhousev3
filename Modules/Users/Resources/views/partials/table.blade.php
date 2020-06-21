@@ -21,8 +21,18 @@
     </div>
   @endif
 
+<template id="selected-id-template">
+  <input type="hidden" name="selectedIDs[]" value="@{{value}}">
+</template><!-- /#selected-id-template -->
+<form action="{{ url('admin/users/bulk-suspend') }}" method="POST" id="form-bulk-suspend"> @csrf
+      <div class="bulk-selected-ids"></div><!-- /.bulk-selected-ids -->
+</form>
+<form action="{{ url('admin/users/bulk-delete') }}" method="POST" id="form-bulk-delete"> @csrf
+      <div class="bulk-selected-ids"></div><!-- /.bulk-selected-ids -->
+</form>
+
 <div class="int-table js-int-table">
-    <div class="bulk-selected-ids"></div><!-- /.bulk-selected-ids -->
+
     <div class="int-table__inner" id="site-table-container">
       <table class="int-table__table" aria-label="Interactive table example">
         <thead class="int-table__header js-int-table__header">

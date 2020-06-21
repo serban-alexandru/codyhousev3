@@ -330,4 +330,90 @@ class UsersController extends Controller
 
         return redirect('admin/users')->with('responseMessage', $responseMessage);
     }
+
+    public function bulkSuspend(Request $request)
+    {
+        $selectedIDs = $request->input('selectedIDs');
+        $loggedInUser = auth()->user();
+        $responseMessage = '';
+
+        // if nothing is selected just return
+        if ($selectedIDs == null) {
+            return back();
+        }
+
+        foreach ($selectedIDs as $key => $id) {
+            $user = User::find($id);
+
+            if ($user) {
+                if ($user->id == $loggedInUser->id) {
+                    $responseMessage .= 'You cannot suspend currently logged in account.';
+                    $responseMessage .= '</br>';
+                }else{
+                    // if user was already suspended then just do nothing
+                    if ($user->permission == 0) {
+                        $responseMessage .= 'User ' . $user->email . ' account was previously suspended.';
+                        $responseMessage .= '</br>';
+                    }else{
+                        $user->previous_permission = $user->permission;
+                        $user->permission          = 0;
+
+                        $saved = $user->save();
+
+                        if ($saved) {
+                            $responseMessage .= 'User ' . $user->email . ' account has been suspended.';
+                            $responseMessage .= '</br>';
+                        }else{
+                            $responseMessage .= 'Failed to suspend user account ' . $user->email . '. Please try again.';
+                            $responseMessage .= '</br>';
+                        }
+                    }
+
+                }
+
+            }else{
+                $responseMessage .= 'User with ID: '. $id . 'is not found.';
+                $responseMessage .= '</br>';
+            }
+        }
+
+        return back()->with('responseMessage', $responseMessage);
+
+    }
+
+    public function bulkDelete(Request $request)
+    {
+        $selectedIDs = $request->input('selectedIDs');
+        $loggedInUser = auth()->user();
+        $responseMessage = '';
+
+        // if nothing is selected just return
+        if ($selectedIDs == null) {
+            return back();
+        }
+
+        foreach ($selectedIDs as $key => $id) {
+            $user = User::find($id);
+
+            if ($user) {
+                if ($user->id == $loggedInUser->id) {
+                    $responseMessage .= 'You cannot delete currently logged in account.';
+                    $responseMessage .= '</br>';
+                }else{
+                    $user->is_trashed = 1;
+                    $user->save();
+
+                    $responseMessage .= 'User ' . $user->email . ' has been deleted.';
+                    $responseMessage .= '</br>';
+                }
+
+            }else{
+                $responseMessage .= 'User with ID: '. $id . 'is not found.';
+                $responseMessage .= '</br>';
+            }
+        }
+
+        return back()->with('responseMessage', $responseMessage);
+
+    }
 }

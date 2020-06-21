@@ -42,7 +42,7 @@
                             <span class="menu-bar__label">Add</span>
                         </li>
 
-                        <li class="menu-bar__item" role="menuitem">
+                        <li class="menu-bar__item" role="menuitem" data-control-form="#form-bulk-suspend">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <title>single-folded-content</title>
                                 <g fill="#bfbfbf">
@@ -52,12 +52,12 @@
                                     <polygon points="22.414,6 17,6 17,0.586 "></polygon>
                                 </g>
                             </svg>
-                            <span class="counter counter--critical counter--docked">4 <i
+                            <span class="counter counter--critical counter--docked"><span class="table-total-selected">0</span><!-- /.table-total-selected --> <i
                                     class="sr-only">Notifications</i></span>
                             <span class="menu-bar__label">Suspend</span>
                         </li>
 
-                        <li class="menu-bar__item" role="menuitem">
+                        <li class="menu-bar__item" role="menuitem" data-control-form="#form-bulk-delete">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                 <title>trash-simple</title>
                                 <g fill="#bfbfbf">
@@ -69,7 +69,7 @@
                                     </path>
                                 </g>
                             </svg>
-                            <span class="counter counter--critical counter--docked">4 <i
+                            <span class="counter counter--critical counter--docked"><span class="table-total-selected">0</span><!-- /.table-total-selected --> <i
                                     class="sr-only">Notifications</i></span>
                             <span class="menu-bar__label">Delete</span>
                         </li>

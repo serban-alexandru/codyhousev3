@@ -38,3 +38,5 @@ Route::get('admin/users/trash/{id}', 'UsersController@trash');
 Route::get('admin/users/delete/{id}', 'UsersController@destroy');
 Route::get('admin/users/delete/{id}', 'UsersController@destroy');
 Route::get('admin/users/empty-trash', 'UsersController@emptyTrash');
+Route::post('admin/users/bulk-suspend', 'UsersController@bulkSuspend');
+Route::post('admin/users/bulk-delete', 'UsersController@bulkDelete');
