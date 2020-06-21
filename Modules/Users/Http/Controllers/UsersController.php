@@ -6,15 +6,77 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
+use Modules\Users\Entities\User;
+use Modules\Users\Entities\Role;
+use DB;
+
 class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('users::index');
+        $bladeTemplate = $request->ajax() ? 'users::table' : 'users::index';
+
+        $q      = $request->input('q');
+        $status = $request->input('status');
+        $role   = $request->input('role');
+        $limit  = $request->input('limit') ? $request->input('limit') : 25;
+        $sort   = $request->input('sort') ? $request->input('sort') : 'id';
+        $order  = $request->input('order') ? $request->input('order') : 'desc';
+
+        // work around for status
+        $statusOrder = ($order == 'asc') ? 'desc' : 'asc';
+
+        $users = User::
+            select('users.*', 'users.permission as status', 'roles.name as role', 'roles.key as roleKey')
+            ->leftJoin('roles', 'roles.permission', '=', 'users.permission');
+
+        $users = ($sort == 'status')
+                ? $users->orderBy($sort, $statusOrder)
+                : $users->orderBy($sort, $order);
+
+        // if search query is not null
+        if ($q != null) {
+            $users = $users->where('users.name', 'LIKE', '%' . $q . '%')
+                ->orWhere ( 'users.username', 'LIKE', '%' . $q . '%' )
+                ->orWhere ( 'users.email', 'LIKE', '%' . $q . '%' );
+        }
+
+        // if status is suspended
+        if ($status === 'suspended') {
+            $users = $users->where('users.permission', '<', 1);
+        }
+
+        // if role is set
+        if ($role) {
+            $users = $users->where('roles.key', $role);
+        }
+
+
+        $users = $users->paginate($limit);
+
+        $availableLimit = ['25', '50', '100', '150', '200'];
+
+        // counters
+        $allUsersCount = User::count();
+        $suspendedUsersCount = User::where('permission', '<', 1)->count();
+
+        $subscriberPermission = Role::where('key', 'subscriber')->first()->permission;
+        $editorPermission     = Role::where('key', 'editor')->first()->permission;
+        $adminPermission      = Role::where('key', 'admin')->first()->permission;
+
+        $subscriberUsersCount = User::where('permission', $subscriberPermission)->count();
+        $editorUsersCount     = User::where('permission', $editorPermission)->count();
+        $adminUsersCount      = User::where('permission', $adminPermission)->count();
+
+        return view($bladeTemplate,
+            compact('users', 'q', 'limit', 'availableLimit', 'sort', 'order', 'allUsersCount', 'suspendedUsersCount', 'subscriberUsersCount', 'editorUsersCount', 'adminUsersCount')
+        );
+
+        // return view('users::index');
     }
 
     /**
