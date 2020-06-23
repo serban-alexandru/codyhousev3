@@ -25,14 +25,3 @@ Route::get('/adminlogin', 'PagesController@adminlogin');
 Route::get('/blogadmin', 'PagesController@blogadmin');
 Route::get('/useradmin', 'PagesController@useradmin');
 Route::get('/home', 'HomeController');
-
-
-
-Route::group(['middleware' => 'auth'], function(){
-  Route::group(['middleware' => 'role:admin'], function(){
-
-      Route::get('/admin/users/edit/{id}', 'UserController@edit');
-      Route::post('/admin/users/update/{id}', 'UserController@update');
-
-  });
-});
