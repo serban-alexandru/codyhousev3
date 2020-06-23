@@ -25,7 +25,7 @@
 
                     <menu class="menu-bar menu-bar--expanded@md js-menu-bar width-100%">
 
-                        <li class="menu-bar__item has-text" aria-controls="modal-add-user" role="menuitem">
+                        <li class="menu-bar__item has-text modal-trigger-add-user" aria-controls="modal-add-user" role="menuitem" data-href="{{ url('admin/users/add') }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
                                 <title>pencil</title>
                                 <rect data-element="frame" x="9.600000000000001" y="9.600000000000001"

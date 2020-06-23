@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Facades\Hash;
 
 use Modules\Users\Entities\User;
 use Modules\Users\Entities\Role;
@@ -112,7 +113,8 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('users::create');
+        $roles = DB::table('roles')->orderBy('id', 'desc')->get();
+        return view('users::forms.add-user', compact('roles'));
     }
 
     /**
@@ -122,7 +124,49 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validate data
+        $this->validate($request,[
+            'name'     => ['required', 'string', 'max:255'],
+            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'username' => ['required', 'string', 'max:255', 'unique:users,username'],
+            'password' => ['required', 'string', 'max:255'],
+        ]);
+
+        // get inputs
+        $name            = $request->input('name');
+        $email           = $request->input('email');
+        $username        = $request->input('username');
+        $password        = $request->input('password');
+        $selectedRoleKey = $request->input('role');
+
+        // save updated user
+        $user = new User;
+        $user->name     = $name;
+        $user->email    = $email;
+        $user->username = $username;
+        $user->password = Hash::make($password);
+
+        $selectedRole = Role::where('key', $selectedRoleKey)->first();
+        $permission   = $selectedRole->permission;
+
+        $user->permission = $permission;
+
+        $saved = $user->save();
+
+        $response = [
+            'status'  => 'success',
+            'message' => 'User has been created.',
+            'clear'   => true,
+        ];
+
+        if (!$saved) {
+            $response = [
+                'status'  => 'error',
+                'message' => 'Failed to add user. Please try again.',
+            ];
+        }
+
+        return response()->json($response);
     }
 
     /**

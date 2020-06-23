@@ -48,7 +48,7 @@
 <!-- 👇 Full Screen Modal -->
 <div class="modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll" id="modal-add-user">
   <div class="modal__content width-100% max-width-xs bg radius-md shadow-md flex flex-column" role="alertdialog" aria-labelledby="modal-add-user-title" aria-describedby="modal-description-4">
-    <form action="{{ url('admin/users/add') }}" id="modal-form-add-user" method="post">
+    <form action="{{ url('admin/users/store') }}" id="modal-form-add-user" class="modal-form" method="post"> @csrf
       <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between flex-shrink-0">
         <h4 class="text-truncate" id="modal-add-user-title">Add User</h4>
 
@@ -63,24 +63,7 @@
         </button>
       </header>
 
-      <div class="padding-y-sm padding-x-md flex-grow overflow-auto momentum-scrolling">
-        <div>
-          <label class="form-label margin-bottom-xxs" for="name">Name</label>
-          <input class="form-control width-100%" type="text" name="name" id="name" required>
-        </div>
-        <div>
-          <label class="form-label margin-bottom-xxs" for="email">Email</label>
-          <input class="form-control width-100%" type="email" name="email" id="email" required>
-        </div>
-        <div>
-          <label class="form-label margin-bottom-xxs" for="username">Username</label>
-          <input class="form-control width-100%" type="text" name="username" id="username" required>
-        </div>
-        <div>
-          <label class="form-label margin-bottom-xxs" for="password">Password</label>
-          <input class="form-control width-100%" type="password" name="password" id="password" required>
-        </div>
-      </div>
+      <div id="ajax-add-user-form">Loading...</div><!-- /#ajax-add-user-form -->
 
       <footer class="padding-y-sm padding-x-md bg shadow-md flex-shrink-0">
         <div class="flex justify-end gap-xs">
