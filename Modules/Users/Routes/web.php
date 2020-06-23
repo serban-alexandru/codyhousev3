@@ -34,6 +34,8 @@ Route::group(['middleware' => 'auth'], function(){
   Route::group(['middleware' => 'role:admin'], function(){
 
     Route::get('admin/users', 'UsersController@index');
+    Route::get('admin/users/edit/{id}', 'UsersController@edit');
+    Route::post('admin/users/update/{id}', 'UsersController@update');
     Route::get('admin/users/suspend/{id}', 'UsersController@suspend');
     Route::get('admin/users/activate/{id}', 'UsersController@activate');
     Route::get('admin/users/trash/{id}', 'UsersController@trash');
