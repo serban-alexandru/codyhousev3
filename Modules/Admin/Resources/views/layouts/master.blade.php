@@ -314,6 +314,14 @@
   <script>
     (function(){
 
+      setInterval(() => {
+        if ($('.mega-nav').hasClass('hide-nav--off-canvas')) {
+          $('.sidebar--sticky-on-desktop').addClass('custom');
+        }else{
+          $('.sidebar--sticky-on-desktop').removeClass('custom');
+        }
+      }, 0);
+
       $('.custom-modal-hide-body-scroll').on('modalIsOpen', function(){
         $('body').css('overflow', 'hidden');
       }).on('modalIsClose', function(){
