@@ -231,7 +231,7 @@
             </th>
             <td class="int-table__cell">{{$user->id}}</td>
             <td class="int-table__cell">
-              <a href="javascript:">{{$user->username}}</a>
+              <a href="{{url('admin/users/edit/'.$user->id)}}" data-update-url="{{url('admin/users/update/'.$user->id)}}" class="modal-trigger-edit-user" aria-controls="modal-edit-user" role="button">{{$user->username}}</a>
             </td>
             <td class="int-table__cell">{{$user->email}}</td>
             <td class="int-table__cell">{{ $user->created_at->format('d/m/Y') }}</td>
@@ -242,7 +242,7 @@
               </button>
               <menu id="menu-table-row-{{$user->id}}" class="menu js-menu">
                 <li role="menuitem">
-                  <a href="{{url('admin/users/edit/'.$user->id)}}" class="menu__content js-menu__content">
+                  <a href="{{url('admin/users/edit/'.$user->id)}}" data-update-url="{{url('admin/users/update/'.$user->id)}}" aria-controls="modal-edit-user" role="button" class="menu__content js-menu__content modal-trigger-edit-user">
                     <svg class="icon menu__icon" aria-hidden="true" viewBox="0 0 12 12"><path d="M10.121.293a1,1,0,0,0-1.414,0L1,8,0,12l4-1,7.707-7.707a1,1,0,0,0,0-1.414Z"></path></svg>
                     <span>Edit</span>
                   </a>
@@ -263,10 +263,12 @@
                 @endphp
 
                 <li role="menuitem">
+                  @if(!Request::get('is_trashed'))
                   <a href="{{url('admin/users/'.$accountStatus['slug'].'/'.$user->id)}}" class="menu__content js-menu__content">
                     <svg class="icon menu__icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M15,4H1C0.4,4,0,4.4,0,5v10c0,0.6,0.4,1,1,1h14c0.6,0,1-0.4,1-1V5C16,4.4,15.6,4,15,4z M14,14H2V6h12V14z"></path><rect x="2" width="12" height="2"></rect></svg>
                     <span>{{$accountStatus['text']}}</span>
                   </a>
+                  @endif
                 </li>
 
                 <li role="menuitem">
@@ -303,4 +305,5 @@
     <script src="{{ asset('assets/js/util.js') }}"></script>
     <script src="{{ asset('assets/js/components/_1_menu.js') }}"></script>
     <script src="{{ asset('assets/js/components/_2_interactive-table.js') }}"></script>
+    <script src="{{ asset('assets/js/components/_1_modal-window.js') }}"></script>
   @endif
