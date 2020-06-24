@@ -38,20 +38,19 @@
 
 <!-- 👇 Full Screen Modal -->
 <div class="modal modal--animate-fade bg-contrast-higher bg-opacity-90% js-modal" id="modal-full-width">
-  <div class="modal__content bg height-100% flex flex-column" role="alertdialog" aria-labelledby="modal-title" aria-describedby="modal-description">
+  <div class="modal__content tabs js-tabs bg height-100% flex flex-column" role="alertdialog" aria-labelledby="modal-title" aria-describedby="modal-description">
     <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
-
-        <!-- 👇 Tabs -->
-        <nav class="s-tabs">
-            <ul class="s-tabs__list">
-              <li><a href="#0">Tab 1</a></li>
-              <li><a href="#0">Tab 2</a></li>
-              <li aria-current="page"><a href="#0" class="s-tabs__item--selected">Tab 3</a></li>
-              <li><a href="#0">Tab 4</a></li>
-              <li><a href="#0">Tab 5</a></li>
-            </ul>
-          </nav>
-                  <!-- End Tabs -->
+      <!-- 👇 Tabs -->
+      <nav class="">
+        <ul class="flex flex-wrap gap-sm js-tabs__controls" aria-label="Tabs Interface">
+          <li><a href="#tab1Panel1" class="tabs__control" aria-selected="true">Tab 1x</a></li>
+          <li><a href="#tab1Panel2" class="tabs__control">Tab 2</a></li>
+          <li><a href="#tab1Panel3" class="tabs__control">Tab 3</a></li>
+          <li><a href="#tab1Panel4" class="tabs__control">Tab 4</a></li>
+          <li><a href="#tab1Panel5" class="tabs__control">Tab 5</a></li>
+        </ul>
+      </nav>
+      <!-- End Tabs -->
 
       <button class="reset modal__close-btn modal__close-btn--inner js-modal__close js-tab-focus">
         <svg class="icon" viewBox="0 0 20 20">
@@ -66,7 +65,7 @@
 
     <div class="padding-y-sm padding-x-md flex-grow overflow-auto">
       <div class="text-component v-space-md line-height-lg">
-<!-- 👇 Tab Panels -->
+        <!-- 👇 Tab Panels -->
         <div class="js-tabs__panels">
             <section id="tab1Panel1" class="padding-top-md js-tabs__panel">
               <div class="text-component">
@@ -114,9 +113,9 @@
         <button class="btn btn--primary">Install</button>
       </div>
     </footer>
-  </div>
+  </div><!-- /.modal__content -->
 
-</div>
+</div><!-- /.modal -->
 <!-- Full Screen Modal End -->
 
 @endsection
