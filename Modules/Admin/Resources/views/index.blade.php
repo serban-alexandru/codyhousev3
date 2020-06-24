@@ -1,6 +1,5 @@
 @extends('admin::layouts.master')
 @section('content')
-@include('admin::layouts.navigation')
 
 <!-- 👇 Modal Search -->
 <div class="modal modal--search modal--animate-fade flex flex-center padding-md js-modal"
