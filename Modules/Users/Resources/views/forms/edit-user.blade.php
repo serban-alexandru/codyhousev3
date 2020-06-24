@@ -1,7 +1,4 @@
 
-
-  <div class="padding-y-sm padding-x-md flex-grow overflow-auto momentum-scrolling">
-
     <div class="alert js-alert margin-bottom-lg" role="alert"> <!-- /.alert--is-visible -->
       <div class="flex items-center justify-between">
         <div class="flex items-center">
@@ -46,5 +43,5 @@
         <p class="text-xs color-contrast-medium margin-top-xxs">You cannot change your role while logged in.</p>
       @endif
     </div>
-  </div><!-- /.momentum-scrolling -->
+
 
