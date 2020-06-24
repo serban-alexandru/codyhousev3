@@ -46,11 +46,21 @@
 @endguest
 
 <!-- 👇 Full Screen Modal -->
-<div class="modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll" id="modal-add-user">
-  <div class="modal__content width-100% max-width-xs bg radius-md shadow-md flex flex-column" role="alertdialog" aria-labelledby="modal-add-user-title" aria-describedby="modal-description-4">
-    <form action="{{ url('admin/users/store') }}" id="modal-form-add-user" class="modal-form" method="post"> @csrf
-      <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between flex-shrink-0">
-        <h4 class="text-truncate" id="modal-add-user-title">Add User</h4>
+<div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll" id="modal-add-user">
+  <div class="modal__content tabs js-tabs width-100% max-width-xs bg radius-md shadow-md flex flex-column" role="alertdialog" aria-labelledby="modal-add-user-title" aria-describedby="modal-description-4">
+    <form action="{{ url('admin/users/store') }}" id="modal-form-add-user" class="modal-form flex flex-column height-100%" method="post"> @csrf
+      <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
+        <!-- 👇 Tabs -->
+        <nav class="">
+          <ul class="flex flex-wrap gap-sm js-tabs__controls" aria-label="Tabs Interface">
+            <li><a href="#tab1Panel1" class="tabs__control" aria-selected="true">User</a></li>
+            <li><a href="#tab1Panel2" class="tabs__control">Tab 2</a></li>
+            <li><a href="#tab1Panel3" class="tabs__control">Tab 3</a></li>
+            <li><a href="#tab1Panel4" class="tabs__control">Tab 4</a></li>
+            <li><a href="#tab1Panel5" class="tabs__control">Tab 5</a></li>
+          </ul>
+        </nav>
+        <!-- End Tabs -->
 
         <button class="reset modal__close-btn modal__close-btn--inner js-modal__close js-tab-focus">
           <svg class="icon" viewBox="0 0 20 20">
@@ -63,7 +73,45 @@
         </button>
       </header>
 
-      <div id="ajax-add-user-form">Loading...</div><!-- /#ajax-add-user-form -->
+      <div class="padding-y-sm padding-x-md flex-grow overflow-auto">
+          <div class="js-tabs__panels">
+            <section id="tab1Panel1" class="padding-top-md js-tabs__panel">
+              <div class="text-component">
+                <h1 class="text-lg">New user</h1>
+                <div id="ajax-add-user-form">Loading...</div><!-- /#ajax-add-user-form -->
+              </div>
+            </section>
+
+            <section id="tab1Panel2" class="padding-top-md js-tabs__panel">
+              <div class="text-component">
+                <h1 class="text-lg">Panel 2</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, nobis! Vitae quis minus accusantium qui atque? Officiis sunt exercitationem natus, minus sapiente debitis eum animi porro. Ut cupiditate amet expedita!</p>
+              </div>
+            </section>
+
+            <section id="tab1Panel3" class="padding-top-md js-tabs__panel">
+              <div class="text-component">
+                <h1 class="text-lg">Panel 3</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis, veritatis.</p>
+              </div>
+            </section>
+
+            <section id="tab1Panel4" class="padding-top-md js-tabs__panel">
+              <div class="text-component">
+                <h1 class="text-lg">Panel 4</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos, ipsa. Maiores sit totam dignissimos perferendis recusandae quis eligendi quos expedita consequatur, natus debitis, deserunt placeat tenetur odit voluptates, ad nihil cum ipsa quae est facere, voluptate sapiente tempora a officiis. Ipsa perspiciatis aut commodi enim expedita. Saepe at cupiditate quaerat explicabo distinctio quae enim, ab impedit! Sunt, omnis, sit magnam id exercitationem mollitia alias pariatur doloremque nulla. Totam quis, animi minus error molestias sit. Quidem, dolor, aspernatur. Voluptates, magni, provident?</p>
+              </div>
+            </section>
+
+            <section id="tab1Panel5" class="padding-top-md js-tabs__panel">
+              <div class="text-component">
+                <h1 class="text-lg">Panel 5</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam modi nesciunt eum, dolores corrupti labore assumenda vel? Cupiditate fugit nihil, sunt nulla nisi blanditiis quidem, eos nesciunt. Quidem dolorem laudantium, ex fuga natus nisi error architecto saepe sapiente dolores assumenda.</p>
+              </div>
+            </section>
+          </div>
+        <!-- 👇 End Tab Panels -->
+      </div><!-- /.padding-y-sm padding-x-md flex-grow overflow-auto -->
 
       <footer class="padding-y-sm padding-x-md bg shadow-md flex-shrink-0">
         <div class="flex justify-end gap-xs">
