@@ -47,7 +47,7 @@
 
 <!-- 👇 Full Screen Modal -->
 <div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll" id="modal-add-user">
-  <div class="modal__content tabs js-tabs width-100% max-width-xs bg radius-md shadow-md flex flex-column" role="alertdialog" aria-labelledby="modal-add-user-title" aria-describedby="modal-description-4">
+  <div class="modal__content height-100% tabs js-tabs width-100% max-width-xs bg radius-md shadow-md flex flex-column" role="alertdialog" aria-labelledby="modal-add-user-title" aria-describedby="modal-description-4">
     <form action="{{ url('admin/users/store') }}" id="modal-form-add-user" class="modal-form flex flex-column height-100%" method="post"> @csrf
       <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
         <!-- 👇 Tabs -->
@@ -134,7 +134,7 @@
 
 <!-- 👇 Full Screen Modal -->
 <div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll" id="modal-edit-user">
-  <div class="modal__content tabs js-tabs width-100% max-width-xs bg radius-md shadow-md flex flex-column" role="alertdialog" aria-labelledby="modal-edit-user-title" aria-describedby="modal-description-4">
+  <div class="modal__content height-100% tabs js-tabs width-100% max-width-xs bg radius-md shadow-md flex flex-column" role="alertdialog" aria-labelledby="modal-edit-user-title" aria-describedby="modal-description-4">
     <form action="#" method="POST" id="modal-edit-user-form" class="modal-form  flex flex-column height-100%"> @csrf
       <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
         <!-- 👇 Tabs -->
