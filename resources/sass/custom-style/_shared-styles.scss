@@ -58,17 +58,13 @@
     }
 }
 
-//  custom modal
-// medium on desktop, full screen on mobile
+// custom modal
+// styles on mobile view
 @include breakpoint(md, "not all") {
     .custom-modal {
-        height: 100%;
         padding: 0px;
         border-radius: 0px;
         .modal__content {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
             max-width: 100%;
             border-radius: 0px;
         }
