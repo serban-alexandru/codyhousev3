@@ -1,12 +1,7 @@
 @extends('admin::layouts.master')
-
-
 @section('content')
-
   @include('users::partials.users-nav')
-
   @include('users::partials.modals')
-
   <section>
     <div class="container max-width-lg">
       <div class="grid gap-md@md">
@@ -19,5 +14,4 @@
       </div><!-- /.grid -->
     </div><!-- /.container -->
   </section>
-
 @endsection
