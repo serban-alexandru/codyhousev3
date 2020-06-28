@@ -217,7 +217,7 @@
           @php
             foreach($users as $key => $user){
               if($user->role === null){
-                $user->role = App\Role::where('permission', $user->previous_permission)->first()->name;
+                $user->role = Modules\Users\Entities\Role::where('permission', $user->previous_permission)->first()->name;
               }
 
           @endphp
