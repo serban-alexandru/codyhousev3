@@ -1,8 +1,8 @@
 <header class="mega-nav mega-nav--mobile mega-nav--desktop@md position-relative js-mega-nav hide-nav js-hide-nav js-hide-nav--main">
   <div class="mega-nav__container">
     <!-- 👇 logo -->
-    <a href="http://127.0.0.1:8000/" class="mega-nav__logo">
-      <h2 class="logo">Curateship</h2>
+    <a href="http://127.0.0.1:8000/admin" class="mega-nav__logo">
+      <h2 class="logo">Admin</h2>
     </a>
 
     <!-- 👇 icon buttons --mobile -->
@@ -57,7 +57,7 @@
           <!-- 👇 layout 2 -> multiple lists -->
           <li class="mega-nav__item js-mega-nav__item">
             <button class="reset mega-nav__control js-mega-nav__control js-tab-focus">
-              Tags
+              Themes
               <i class="mega-nav__arrow-icon" aria-hidden="true">
                 <svg class="icon" viewBox="0 0 16 16">
                   <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
@@ -71,32 +71,18 @@
             <div class="mega-nav__sub-nav-wrapper">
               <div class="mega-nav__sub-nav mega-nav__sub-nav--layout-2">
                 <ul class="mega-nav__sub-items">
-                  <li class="mega-nav__label">Clothing</li>
-                  <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">All Clothing</a></li>
-                  <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">Coats</a></li>
-                  <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">Dresses</a></li>
-                  <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">Jackets</a></li>
-                  <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">Jeans</a></li>
-                  <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">Jackets</a></li>
-                  <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">Jeans</a></li>
+                  <li class="mega-nav__label">Magazine Sites</li>
+                  <li class="mega-nav__sub-item"><a href="http://127.0.0.1:8000/site1" class="mega-nav__sub-link">Site 1</a></li>
                 </ul>
 
                 <ul class="mega-nav__sub-items">
-                  <li class="mega-nav__label">Shoes</li>
+                  <li class="mega-nav__label">Blog Sites</li>
                   <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">All Shoes</a></li>
-                  <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">Trainers</a></li>
-                  <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">Heels</a></li>
-                  <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">Boots</a></li>
-                  <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">Ankle Boots</a></li>
                 </ul>
 
                 <ul class="mega-nav__sub-items">
-                  <li class="mega-nav__label">Jackets</li>
+                  <li class="mega-nav__label">Social Networks Sites</li>
                   <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">All Shoes</a></li>
-                  <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">Trainers</a></li>
-                  <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">Heels</a></li>
-                  <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">Boots</a></li>
-                  <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">Ankle Boots</a></li>
                 </ul>
 
                 <div class="mega-nav__card width-100% max-width-xs margin-x-auto">
@@ -115,13 +101,10 @@
           </li>
           <!-- 👇 link -->
           <li class="mega-nav__item">
-            <a href="http://127.0.0.1:8000/" class="mega-nav__control">Users</a>
+            <a href="http://127.0.0.1:8000/admin/users" class="mega-nav__control">Users</a>
           </li>
           <li class="mega-nav__item">
-              <a href="http://127.0.0.1:8000/" class="mega-nav__control">Blogs</a>
-            </li>
-            <li class="mega-nav__item">
-              <a href="http://127.0.0.1:8000/" class="mega-nav__control">Reviews</a>
+              <a href="http://127.0.0.1:8000/admin/blog" class="mega-nav__control">Blogs</a>
             </li>
         </ul>
 

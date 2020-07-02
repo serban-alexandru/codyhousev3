@@ -11,6 +11,12 @@
 |
 */
 
-Route::prefix('blog')->group(function() {
-    Route::get('/', 'BlogController@index');
+
+
+Route::middleware('auth', 'role:admin')->group(function(){
+
+    Route::prefix('admin')->group(function(){
+      Route::get('blog', 'BlogController@index');
+    });
+
 });
