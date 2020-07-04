@@ -297,6 +297,184 @@ Math.easeOutElastic = function (t, b, c, d) {
   };
   window.addEventListener('mousedown', detectClick);
 }());
+// File#: _1_adaptive-navigation
+// Usage: codyhouse.co/license
+(function() {
+    var AdaptNav = function(element) {
+      this.element = element;
+      this.list = this.element.getElementsByClassName('js-adapt-nav__list')[0];
+      this.items = this.element.getElementsByClassName('js-adapt-nav__item');
+      this.moreBtn = this.element.getElementsByClassName('js-adapt-nav__item--more')[0];
+      this.dropdown = this.moreBtn.getElementsByTagName('ul')[0];
+      this.dropdownItems = this.dropdown.getElementsByTagName('a');
+      this.dropdownClass = 'adapt-nav__dropdown--is-visible';
+      this.resizing = false;
+      // check if items already outrun nav
+      this.outrunIndex = this.items.length;
+      initAdaptNav(this);
+    };
+  
+    function initAdaptNav(nav) {
+      nav.resizing = true;
+      resetOutrun(nav, '', true); // initially hide all elements
+      resetAdaptNav.bind(nav)(); // reset navigation based on available space
+  
+      // listen to resize
+      window.addEventListener('resize', function(event){
+        if(nav.resizing) return;
+        nav.resizing = true;
+        window.requestAnimationFrame(resetAdaptNav.bind(nav));
+      });
+  
+      // wait for font to be loaded
+      if(document.fonts) {
+        document.fonts.ready.then(function() {
+          if(nav.resizing) return;
+          nav.resizing = true;
+          window.requestAnimationFrame(resetAdaptNav.bind(nav));
+        });
+      }
+  
+      /* dropdown behaviour */
+      // init aria-labels
+      Util.setAttributes(nav.moreBtn, {'aria-expanded': 'false', 'aria-haspopup': 'true', 'aria-controls': nav.dropdown.getAttribute('id')});
+      
+      // toggle dropdown on click
+      nav.moreBtn.addEventListener('click', function(event){
+        if( nav.dropdown.contains(event.target) ) return;
+        event.preventDefault();
+        toggleMoreDropdown(nav, !Util.hasClass(nav.dropdown, nav.dropdownClass), true);
+      });
+  
+      // keyboard events 
+      nav.dropdown.addEventListener('keydown', function(event) {
+        // use up/down arrow to navigate list of menu items
+        if( (event.keyCode && event.keyCode == 40) || (event.key && event.key.toLowerCase() == 'arrowdown') ) {
+          navigateItems(nav, event, 'next');
+        } else if( (event.keyCode && event.keyCode == 38) || (event.key && event.key.toLowerCase() == 'arrowup') ) {
+          navigateItems(nav, event, 'prev');
+        }
+      });
+  
+      window.addEventListener('keyup', function(event){
+        if( event.keyCode && event.keyCode == 9 || event.key && event.key.toLowerCase() == 'tab' ) { //close dropdown if focus is outside dropdown element
+          if (!nav.moreBtn.contains(document.activeElement)) toggleMoreDropdown(nav, false, false);
+        } else if( event.keyCode && event.keyCode == 27 || event.key && event.key.toLowerCase() == 'escape' ) {// close menu on 'Esc'
+          toggleMoreDropdown(nav, false, false);
+        } 
+      });
+      
+      // close menu when clicking outside it
+      window.addEventListener('click', function(event){
+        if( !nav.moreBtn.contains(event.target)) toggleMoreDropdown(nav, false);
+      });
+    };
+  
+    function resetAdaptNav() { // reset nav appearance
+      var totalWidth = getListWidth(this.list),
+        moreWidth = getFullWidth(this.moreBtn),
+        maxPosition = totalWidth - moreWidth,
+        cloneList = '',
+        hideAll = false;
+  
+      cloneList = resetOutrun(this, cloneList, false);
+      // loop through items -> create clone (if required) and append to dropdown
+      for(var i = 0; i < this.outrunIndex; i++) {
+        if( Util.hasClass(this.items[i], 'is-hidden')) {
+          Util.addClass(this.items[i], 'adapt-nav__item--hidden');
+          Util.removeClass(this.items[i], 'is-hidden');
+        }
+        var right = this.items[i].offsetWidth + this.items[i].offsetLeft + parseFloat(window.getComputedStyle(this.items[i]).getPropertyValue("margin-right"));
+        if(right >= maxPosition || hideAll) {
+          var clone = this.items[i].cloneNode(true);
+          cloneList = cloneList + modifyClone(clone);
+          Util.addClass(this.items[i], 'is-hidden');
+          hideAll = true;
+        } else {
+          Util.removeClass(this.items[i], 'is-hidden');
+        }
+        Util.removeClass(this.items[i], 'adapt-nav__item--hidden');
+      }
+  
+      Util.toggleClass(this.moreBtn, 'adapt-nav__item--hidden', (cloneList == ''));
+      this.dropdown.innerHTML = cloneList;
+      Util.addClass(this.element, 'adapt-nav--is-visible');
+      this.outrunIndex = this.items.length;
+      this.resizing = false;
+    };
+  
+    function resetOutrun(nav, cloneList, bool) {
+      if(nav.items[0].offsetLeft < 0 || (bool && nav.outrunIndex > 1)) {
+        nav.outrunIndex = nav.outrunIndex - 1;
+        var clone = nav.items[nav.outrunIndex].cloneNode(true);
+        Util.addClass(nav.items[nav.outrunIndex], 'is-hidden');
+        cloneList = modifyClone(clone) + cloneList;
+        return resetOutrun(nav, cloneList, bool);
+      } else {
+        if(bool) nav.outrunIndex = nav.items.length;
+        return cloneList;
+      }
+    };
+  
+    function getListWidth(list) { // get total width of container minus right padding
+      var style = window.getComputedStyle(list);
+      return parseFloat(list.getBoundingClientRect().width) - parseFloat(style.getPropertyValue("padding-right"));
+    };
+  
+    function getFullWidth(item) { // get width of 'More Links' button
+      return parseFloat(window.getComputedStyle(item).getPropertyValue("width"));
+    };
+  
+    function toggleMoreDropdown(nav, bool, moveFocus) { // toggle menu visibility
+      Util.toggleClass(nav.dropdown, nav.dropdownClass, bool);
+      if(bool) {
+        nav.moreBtn.setAttribute('aria-expanded', 'true');
+        Util.moveFocus(nav.dropdownItems[0]);
+        nav.dropdown.addEventListener("transitionend", function(event) {Util.moveFocus(nav.dropdownItems[0]);}, {once: true});
+        placeDropdown(nav);
+      } else {
+        nav.moreBtn.setAttribute('aria-expanded', 'false');
+        if(moveFocus) Util.moveFocus(nav.moreBtn.getElementsByTagName('button')[0]);
+        nav.dropdown.style.right = '';
+      }
+    };
+  
+    function placeDropdown(nav) { // make sure dropdown is visible the viewport
+      var dropdownLeft = nav.dropdown.getBoundingClientRect().left;
+      if(dropdownLeft < 0) nav.dropdown.style.right = (dropdownLeft - 4)+'px';
+    };
+  
+    function navigateItems(nav, event, direction) { // navigate through dropdown items
+      event.preventDefault();
+      var index = Util.getIndexInArray(nav.dropdownItems, event.target),
+        nextIndex = direction == 'next' ? index + 1 : index - 1;
+      if(nextIndex < 0) nextIndex = nav.dropdownItems.length - 1;
+      if(nextIndex > nav.dropdownItems.length - 1) nextIndex = 0;
+      Util.moveFocus(nav.dropdownItems[nextIndex]);
+    };
+    
+    function modifyClone(clone) { // assign new classes to cloned elements inside the dropdown
+      Util.addClass(clone, 'adapt-nav__dropdown-item');
+      Util.removeClass(clone, 'js-adapt-nav__item is-hidden adapt-nav__item--hidden adapt-nav__item');
+      var link = clone.getElementsByClassName('adapt-nav__link');
+      if(link.length > 0) {
+        Util.addClass(link[0], 'adapt-nav__dropdown-link js-tab-focus');
+        link[0].style.outline = 'none';
+        Util.removeClass(link[0], 'adapt-nav__link');
+      }
+      return clone.outerHTML;
+    };
+  
+    //initialize the AdaptNav objects
+    var adaptNavs = document.getElementsByClassName('js-adapt-nav'),
+      flexSupported = Util.cssSupports('align-items', 'stretch');
+    if( adaptNavs.length > 0) {
+      for( var i = 0; i < adaptNavs.length; i++) {(function(i){
+        if(flexSupported) new AdaptNav(adaptNavs[i]);
+        else Util.addClass(adaptNavs[i], 'adapt-nav--is-visible');
+      })(i);}
+    }
+  }());
 // File#: _1_alert
 // Usage: codyhouse.co/license
 (function() {
@@ -322,22 +500,22 @@ function initAlertEvent(element) {
 (function() {
 	var menuBtns = document.getElementsByClassName('js-anim-menu-btn');
 	if( menuBtns.length > 0 ) {
-		for(var i = 0; i < menuBtns.length; i++) {(function(i){
-			initMenuBtn(menuBtns[i]);
-		})(i);}
-
-		function initMenuBtn(btn) {
-			btn.addEventListener('click', function(event){	
-				event.preventDefault();
-				var status = !Util.hasClass(btn, 'anim-menu-btn--state-b');
-				Util.toggleClass(btn, 'anim-menu-btn--state-b', status);
-				// emit custom event
-				var event = new CustomEvent('anim-menu-btn-clicked', {detail: status});
-				btn.dispatchEvent(event);
-			});
-		};
+	  for(var i = 0; i < menuBtns.length; i++) {(function(i){
+		initMenuBtn(menuBtns[i]);
+	  })(i);}
+  
+	  function initMenuBtn(btn) {
+		btn.addEventListener('click', function(event){	
+		  event.preventDefault();
+		  var status = !Util.hasClass(btn, 'anim-menu-btn--state-b');
+		  Util.toggleClass(btn, 'anim-menu-btn--state-b', status);
+		  // emit custom event
+		  var event = new CustomEvent('anim-menu-btn-clicked', {detail: status});
+		  btn.dispatchEvent(event);
+		});
+	  };
 	}
-}());
+  }());
 // File#: _1_custom-select
 // Usage: codyhouse.co/license
 (function() {
@@ -861,6 +1039,160 @@ function initAlertEvent(element) {
 }());
 
 
+// File#: _1_drawer
+// Usage: codyhouse.co/license
+(function() {
+    var Drawer = function(element) {
+      this.element = element;
+      this.content = document.getElementsByClassName('js-drawer__body')[0];
+      this.triggers = document.querySelectorAll('[aria-controls="'+this.element.getAttribute('id')+'"]');
+      this.firstFocusable = null;
+      this.lastFocusable = null;
+      this.selectedTrigger = null;
+      this.isModal = Util.hasClass(this.element, 'js-drawer--modal');
+      this.showClass = "drawer--is-visible";
+      this.initDrawer();
+    };
+  
+    Drawer.prototype.initDrawer = function() {
+      var self = this;
+      //open drawer when clicking on trigger buttons
+      if ( this.triggers ) {
+        for(var i = 0; i < this.triggers.length; i++) {
+          this.triggers[i].addEventListener('click', function(event) {
+            event.preventDefault();
+            if(Util.hasClass(self.element, self.showClass)) {
+              self.closeDrawer(event.target);
+              return;
+            }
+            self.selectedTrigger = event.target;
+            self.showDrawer();
+            self.initDrawerEvents();
+          });
+        }
+      }
+  
+      // if drawer is already open -> we should initialize the drawer events
+      if(Util.hasClass(this.element, this.showClass)) this.initDrawerEvents();
+    };
+  
+    Drawer.prototype.showDrawer = function() {
+      var self = this;
+      this.content.scrollTop = 0;
+      Util.addClass(this.element, this.showClass);
+      this.getFocusableElements();
+      Util.moveFocus(this.element);
+      // wait for the end of transitions before moving focus
+      this.element.addEventListener("transitionend", function cb(event) {
+        Util.moveFocus(self.element);
+        self.element.removeEventListener("transitionend", cb);
+      });
+      this.emitDrawerEvents('drawerIsOpen', this.selectedTrigger);
+    };
+  
+    Drawer.prototype.closeDrawer = function(target) {
+      Util.removeClass(this.element, this.showClass);
+      this.firstFocusable = null;
+      this.lastFocusable = null;
+      if(this.selectedTrigger) this.selectedTrigger.focus();
+      //remove listeners
+      this.cancelDrawerEvents();
+      this.emitDrawerEvents('drawerIsClose', target);
+    };
+  
+    Drawer.prototype.initDrawerEvents = function() {
+      //add event listeners
+      this.element.addEventListener('keydown', this);
+      this.element.addEventListener('click', this);
+    };
+  
+    Drawer.prototype.cancelDrawerEvents = function() {
+      //remove event listeners
+      this.element.removeEventListener('keydown', this);
+      this.element.removeEventListener('click', this);
+    };
+  
+    Drawer.prototype.handleEvent = function (event) {
+      switch(event.type) {
+        case 'click': {
+          this.initClick(event);
+        }
+        case 'keydown': {
+          this.initKeyDown(event);
+        }
+      }
+    };
+  
+    Drawer.prototype.initKeyDown = function(event) {
+      if( event.keyCode && event.keyCode == 27 || event.key && event.key == 'Escape' ) {
+        //close drawer window on esc
+        this.closeDrawer(false);
+      } else if( this.isModal && (event.keyCode && event.keyCode == 9 || event.key && event.key == 'Tab' )) {
+        //trap focus inside drawer
+        this.trapFocus(event);
+      }
+    };
+  
+    Drawer.prototype.initClick = function(event) {
+      //close drawer when clicking on close button or drawer bg layer 
+      if( !event.target.closest('.js-drawer__close') && !Util.hasClass(event.target, 'js-drawer') ) return;
+      event.preventDefault();
+      this.closeDrawer(event.target);
+    };
+  
+    Drawer.prototype.trapFocus = function(event) {
+      if( this.firstFocusable == document.activeElement && event.shiftKey) {
+        //on Shift+Tab -> focus last focusable element when focus moves out of drawer
+        event.preventDefault();
+        this.lastFocusable.focus();
+      }
+      if( this.lastFocusable == document.activeElement && !event.shiftKey) {
+        //on Tab -> focus first focusable element when focus moves out of drawer
+        event.preventDefault();
+        this.firstFocusable.focus();
+      }
+    }
+  
+    Drawer.prototype.getFocusableElements = function() {
+      //get all focusable elements inside the drawer
+      var allFocusable = this.element.querySelectorAll('[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable], audio[controls], video[controls], summary');
+      this.getFirstVisible(allFocusable);
+      this.getLastVisible(allFocusable);
+    };
+  
+    Drawer.prototype.getFirstVisible = function(elements) {
+      //get first visible focusable element inside the drawer
+      for(var i = 0; i < elements.length; i++) {
+        if( elements[i].offsetWidth || elements[i].offsetHeight || elements[i].getClientRects().length ) {
+          this.firstFocusable = elements[i];
+          return true;
+        }
+      }
+    };
+  
+    Drawer.prototype.getLastVisible = function(elements) {
+      //get last visible focusable element inside the drawer
+      for(var i = elements.length - 1; i >= 0; i--) {
+        if( elements[i].offsetWidth || elements[i].offsetHeight || elements[i].getClientRects().length ) {
+          this.lastFocusable = elements[i];
+          return true;
+        }
+      }
+    };
+  
+    Drawer.prototype.emitDrawerEvents = function(eventName, target) {
+      var event = new CustomEvent(eventName, {detail: target});
+      this.element.dispatchEvent(event);
+    };
+  
+    //initialize the Drawer objects
+    var drawer = document.getElementsByClassName('js-drawer');
+    if( drawer.length > 0 ) {
+      for( var i = 0; i < drawer.length; i++) {
+        (function(i){new Drawer(drawer[i]);})(i);
+      }
+    }
+  }());
 // File#: _1_expandable-search
 // Usage: codyhouse.co/license
 (function() {
@@ -2261,6 +2593,41 @@ function initAlertEvent(element) {
     };
   }
 }());
+// File#: _2_drawer-navigation
+// Usage: codyhouse.co/license
+(function() {
+    function initDrNavControl(element) {
+      var circle = element.getElementsByTagName('circle');
+      if(circle.length > 0) {
+        // set svg attributes to create fill-in animation on click
+        initCircleAttributes(element, circle[0]);
+      }
+  
+      var drawerId = element.getAttribute('aria-controls'),
+        drawer = document.getElementById(drawerId);
+      if(drawer) {
+        // when the drawer is closed without click (e.g., user presses 'Esc') -> reset trigger status
+        drawer.addEventListener('drawerIsClose', function(event){ 
+          if(!event.detail || (event.detail && !event.detail.closest('.js-dr-nav-control[aria-controls="'+drawerId+'"]')) ) resetTrigger(element);
+        });
+      }
+    };
+  
+    function initCircleAttributes(element, circle) {
+      // set circle stroke-dashoffset/stroke-dasharray values
+      var circumference = (2*Math.PI*circle.getAttribute('r')).toFixed(2);
+      circle.setAttribute('stroke-dashoffset', circumference);
+      circle.setAttribute('stroke-dasharray', circumference);
+      Util.addClass(element, 'dr-nav-control--ready-to-animate');
+    };
+  
+    function resetTrigger(element) {
+      Util.removeClass(element, 'anim-menu-btn--state-b'); 
+    };
+  
+    var drNavControl = document.getElementsByClassName('js-dr-nav-control');
+    if(drNavControl.length > 0) initDrNavControl(drNavControl[0]);
+  }());
 // File#: _2_dropdown
 // Usage: codyhouse.co/license
 (function() {

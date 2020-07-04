@@ -30,3 +30,6 @@ Route::get('/site1',function(){
     return view('site1.index');
   });
 
+  Route::get('/site2',function(){
+    return view('site2.index');
+  });
