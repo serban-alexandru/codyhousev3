@@ -30,6 +30,10 @@ Route::get('/site1',function(){
     return view('site1.index');
   });
 
+  Route::get('/site1/blog',function(){
+    return view('site1.pages.blog');
+  });
+
   Route::get('/site2',function(){
     return view('site2.index');
   });

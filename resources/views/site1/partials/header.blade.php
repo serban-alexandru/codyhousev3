@@ -5,7 +5,7 @@
         <h2 class="logo">Curateship</h2>
       </a>
   
-      @include('site1.header.user-icon-mobile')
+      @include('site1.partials.user-icon-mobile')
       <div class="mega-nav__nav js-mega-nav__nav" id="mega-nav-navigation" role="navigation" aria-label="Main">
         <div class="mega-nav__nav-inner">
           <ul class="mega-nav__items">
@@ -78,7 +78,7 @@
               </li>
           </ul>
   
-          @include('site1.header.dropdown-items')
+          @include('site1.partials.dropdown-items')
         </div>
       </div>
   
