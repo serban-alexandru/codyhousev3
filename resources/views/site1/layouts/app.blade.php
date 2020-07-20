@@ -1,10 +1,4 @@
-  @include('site1.partials.external-fonts')
-  @include('site1.partials.header')
-  @include('site1.partials.signin-modal')
-  @yield('content')
-  <script src="{{ asset('assets/js/scripts.js') }}"></script>
-  @include('site1.partials.signin-js')
-  <!doctype html>
+<!doctype html>
   <html lang="en">
   <head>
     <title>Site 1</title>
@@ -27,3 +21,18 @@
     </noscript>
   
   </head>
+  <body>
+    @include('site1.partials.external-fonts')
+
+    @include('site1.partials.header')
+
+    @include('site1.partials.signin-modal')
+
+    @yield('content')
+
+    <script src="{{ asset('assets/js/scripts.js') }}"></script>
+    
+    @include('site1.partials.signin-js')
+  </body>
+  </html>
+  
