@@ -8,9 +8,9 @@ use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Hash;
 
-use Modules\Users\Entities\User;
-use Modules\Users\Entities\Role;
-// use Modules\Blog\Entities\;
+// use Modules\Users\Entities\User;
+// use Modules\Users\Entities\Role;
+use Modules\Blog\Entities\Blog;
 // use Modules\Blog\Entities\;
 use DB;
 
@@ -25,8 +25,8 @@ class BlogController extends Controller
         $bladeTemplate = $request->ajax() ? 'blog::partials.table' : 'blog::index';
 
         $q         = $request->input('q');
-        $status    = $request->input('status');
-        $isTrashed = $request->input('is_trashed');
+        // $status    = $request->input('status');
+        // $isTrashed = $request->input('is_trashed');
         $role      = $request->input('role');
         $limit     = $request->input('limit') ? $request->input('limit') : 25;
         $sort      = $request->input('sort') ? $request->input('sort') : 'id';
@@ -35,75 +35,73 @@ class BlogController extends Controller
         // work around for status
         $statusOrder = ($order == 'asc') ? 'desc' : 'asc';
 
-        $users = User::
-            select('users.*', 'users.permission as status', 'roles.name as role', 'roles.key as roleKey')
-            ->leftJoin('roles', 'roles.permission', '=', 'users.permission');
+        $blog = Blog::
+            select('blog.*', 'blog.title as title', 'blog.description as description', 'blog.image as image');
 
-        $users = ($sort == 'status')
-                ? $users->orderBy($sort, $statusOrder)
-                : $users->orderBy($sort, $order);
+        // $users = ($sort == 'status')
+        //         ? $users->orderBy($sort, $statusOrder)
+        //         : $users->orderBy($sort, $order);
 
         // check if user is deleted
-        $users = $isTrashed ? $users->where('is_trashed', 1) : $users->where('is_trashed', 0);
+        // $users = $isTrashed ? $users->where('is_trashed', 1) : $users->where('is_trashed', 0);
 
         // if search query is not null
         if ($q != null) {
-            $users = $users->where('users.name', 'LIKE', '%' . $q . '%')
-                ->orWhere ( 'users.username', 'LIKE', '%' . $q . '%' )
-                ->orWhere ( 'users.email', 'LIKE', '%' . $q . '%' );
+            $blog = $blog->where('blog.title', 'LIKE', '%' . $q . '%')
+                ->orWhere ( 'blog.description', 'LIKE', '%' . $q . '%' )
+                ->orWhere ( 'blog.image', 'LIKE', '%' . $q . '%' );
         }
 
         // if status is suspended
-        if ($status === 'suspended') {
-            $users = $users->where('users.permission', '<', 1);
-        }else{
-            $users = $users->where('users.permission', '>', 0);
-        }
+        // if ($status === 'suspended') {
+        //     $users = $users->where('users.permission', '<', 1);
+        // }else{
+        //     $users = $users->where('users.permission', '>', 0);
+        // }
 
         // if role is set
         if ($role) {
-            $users = $users->where('roles.key', $role);
+            $blog = $blog->where('roles.key', $role);
         }
 
 
-        $users = $users->paginate($limit);
+        $blog = $blog->paginate($limit);
 
         $availableLimit = ['25', '50', '100', '150', '200'];
 
         // counters
-        $allUsersCount       = User::where([
-            ['is_trashed', '=', 0],
-            ['permission', '>', 0]
+        $allBlogsCount       = Blog::where([
+            ['id', '>', 0]
         ])->count();
 
-        $suspendedUsersCount = User::where([
-            ['permission', '<', 1],
-            ['is_trashed', '=', 0],
-        ])->count();
+        // $suspendedUsersCount = User::where([
+        //     ['permission', '<', 1],
+        //     ['is_trashed', '=', 0],
+        // ])->count();
 
-        $trashedUsersCount   = User::where('is_trashed', '=', 1)->count();
+        // $trashedUsersCount   = User::where('is_trashed', '=', 1)->count();
 
-        $subscriberPermission = Role::where('key', 'subscriber')->first()->permission;
-        $editorPermission     = Role::where('key', 'editor')->first()->permission;
-        $adminPermission      = Role::where('key', 'admin')->first()->permission;
+        // $subscriberPermission = Role::where('key', 'subscriber')->first()->permission;
+        // $editorPermission     = Role::where('key', 'editor')->first()->permission;
+        // $adminPermission      = Role::where('key', 'admin')->first()->permission;
 
-        $subscriberUsersCount = User::where([
-            ['permission', '=', $subscriberPermission],
-            ['is_trashed', '=', 0],
-        ])->count();
+        // $subscriberUsersCount = User::where([
+        //     ['permission', '=', $subscriberPermission],
+        //     ['is_trashed', '=', 0],
+        // ])->count();
 
-        $editorUsersCount     = User::where([
-            ['permission', '=', $editorPermission],
-            ['is_trashed', '=', 0],
-        ])->count();
+        // $editorUsersCount     = User::where([
+        //     ['permission', '=', $editorPermission],
+        //     ['is_trashed', '=', 0],
+        // ])->count();
 
-        $adminUsersCount      = User::where([
-            ['permission', '=', $adminPermission],
-            ['is_trashed', '=', 0],
-        ])->count();
+        // $adminUsersCount      = User::where([
+        //     ['permission', '=', $adminPermission],
+        //     ['is_trashed', '=', 0],
+        // ])->count();
 
         return view($bladeTemplate,
-            compact('users', 'q', 'limit', 'availableLimit', 'sort', 'order', 'allUsersCount', 'suspendedUsersCount', 'trashedUsersCount', 'subscriberUsersCount', 'editorUsersCount', 'adminUsersCount')
+            compact('blog', 'q', 'limit', 'availableLimit', 'sort', 'order', 'allBlogsCount')
         );
         // return view('blog::index');
     }

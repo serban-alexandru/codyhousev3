@@ -16,57 +16,15 @@
 
           <ul class="sidenav__list site-table-filter">
             <li class="sidenav__item sidenav__item--expanded">
-              <a href="{{ url('/admin/users') }}" class="sidenav__link" aria-current="page">
+              <a href="{{ url('/admin/blog') }}" class="sidenav__link" aria-current="page">
                 <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g><path d="M14,7H2v7c0,0.6,0.4,1,1,1h10c0.6,0,1-0.4,1-1V7z"></path><rect y="1" width="16" height="4"></rect></g></svg>
                 <span class="sidenav__text">All Blogs</span>
-                <span class="sidenav__counter">{{ $allUsersCount }} <i class="sr-only">notifications</i></span>
+                <span class="sidenav__counter">{{ $allBlogsCount }} <i class="sr-only">notifications</i></span>
               </a>
 
               <button class="reset sidenav__sublist-control js-sidenav__sublist-control js-tab-focus" aria-label="Toggle sub navigation">
                 <svg class="icon" viewBox="0 0 12 12"><polygon points="4 3 8 6 4 9 4 3"/></svg>
               </button>
-
-              <ul class="sidenav__list">
-                <li class="sidenav__item">
-                  <a href="{{ url('admin/users?status=suspended') }}" class="sidenav__link" @if(Request::get('status') === 'suspended') aria-current="page" @endif>
-                    <span class="sidenav__text">Suspended</span>
-                    <span class="sidenav__counter">{{ $suspendedUsersCount }} <i class="sr-only">notifications</i></span>
-                  </a>
-                </li>
-                <li class="sidenav__item">
-                  <a href="{{ url('admin/users?is_trashed=1') }}" class="sidenav__link">
-                    <span class="sidenav__text">Trash</span>
-                    <span class="sidenav__counter">{{ $trashedUsersCount }} <i class="sr-only">notifications</i></span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-
-            <li class="sidenav__item">
-              <a href="{{ url('admin/users?role=editor') }}" class="sidenav__link">
-                <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g><path d="M14,6.883V13H2V6.82L0,5.695V14c0,0.553,0.448,1,1,1h14c0.552,0,1-0.447,1-1V5.783L14,6.883z"></path><path d="M15,1H1C0.4,1,0,1.4,0,2v1.4l8,4.5l8-4.4V2C16,1.4,15.6,1,15,1z"></path></g></svg>
-                <span class="sidenav__text">Editors</span>
-
-                <span class="sidenav__counter">{{ $editorUsersCount }} <i class="sr-only">notifications</i></span>
-              </a>
-            </li>
-
-            <li class="sidenav__item">
-              <a href="{{ url('admin/users?role=subscriber') }}" class="sidenav__link">
-                <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g><path d="M14,6.883V13H2V6.82L0,5.695V14c0,0.553,0.448,1,1,1h14c0.552,0,1-0.447,1-1V5.783L14,6.883z"></path><path d="M15,1H1C0.4,1,0,1.4,0,2v1.4l8,4.5l8-4.4V2C16,1.4,15.6,1,15,1z"></path></g></svg>
-                <span class="sidenav__text">Subcribers</span>
-
-                <span class="sidenav__counter">{{ $subscriberUsersCount }} <i class="sr-only">notifications</i></span>
-              </a>
-            </li>
-
-            <li class="sidenav__item">
-              <a href="{{ url('admin/users?role=admin') }}" class="sidenav__link">
-                <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g><path d="M14,6.883V13H2V6.82L0,5.695V14c0,0.553,0.448,1,1,1h14c0.552,0,1-0.447,1-1V5.783L14,6.883z"></path><path d="M15,1H1C0.4,1,0,1.4,0,2v1.4l8,4.5l8-4.4V2C16,1.4,15.6,1,15,1z"></path></g></svg>
-                <span class="sidenav__text">Admin</span>
-
-                <span class="sidenav__counter">{{ $adminUsersCount }} <i class="sr-only">notifications</i></span>
-              </a>
             </li>
           </ul>
 

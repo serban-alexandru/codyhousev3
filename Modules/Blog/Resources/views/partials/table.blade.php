@@ -79,7 +79,7 @@
 
             <th class="int-table__cell int-table__cell--th int-table__cell--sort  js-int-table__cell--sort @if($sort == 'username') int-table__cell--{{$order}} @endif" data-sort="username">
               <div class="flex items-center">
-                <span>Username</span>
+                <span>Title</span>
 
                 <svg class="icon icon--xxs margin-left-xxxs int-table__sort-icon" aria-hidden="true" viewBox="0 0 12 12"><polygon class="arrow-up" points="6 0 10 5 2 5 6 0"/><polygon class="arrow-down" points="6 12 2 7 10 7 6 12"/></svg>
               </div>
@@ -112,7 +112,7 @@
 
             <th class="int-table__cell int-table__cell--th int-table__cell--sort  js-int-table__cell--sort @if($sort == 'email') int-table__cell--{{$order}} @endif" data-sort="email">
               <div class="flex items-center">
-                <span>Email</span>
+                <span>Description</span>
 
                 <svg class="icon icon--xxs margin-left-xxxs int-table__sort-icon" aria-hidden="true" viewBox="0 0 12 12"><polygon class="arrow-up" points="6 0 10 5 2 5 6 0"/><polygon class="arrow-down" points="6 12 2 7 10 7 6 12"/></svg>
               </div>
@@ -178,7 +178,7 @@
 
             <th class="int-table__cell int-table__cell--th int-table__cell--sort  js-int-table__cell--sort @if($sort == 'role') int-table__cell--{{$order}} @endif" data-sort="role">
               <div class="flex items-center">
-                <span>Role</span>
+                <span>Image</span>
 
                 <svg class="icon icon--xxs margin-left-xxxs int-table__sort-icon" aria-hidden="true" viewBox="0 0 12 12"><polygon class="arrow-up" points="6 0 10 5 2 5 6 0"/><polygon class="arrow-down" points="6 12 2 7 10 7 6 12"/></svg>
               </div>
@@ -215,7 +215,7 @@
 
         <tbody class="int-table__body js-int-table__body" id="site-table-body">
           @php
-            foreach($users as $key => $user){
+            foreach($blog as $key => $user){
               if($user->role === null){
                 $user->role = Modules\Users\Entities\Role::where('permission', $user->previous_permission)->first()->name;
               }
@@ -229,7 +229,7 @@
                 <div class="custom-checkbox__control" aria-hidden="true"></div>
               </div>
             </th>
-            <td class="int-table__cell">{{$user->id}}</td>
+            <td class="int-table__cell">{{$blog->id}}</td>
             <td class="int-table__cell">
               <a href="{{url('admin/users/edit/'.$user->id)}}" data-update-url="{{url('admin/users/update/'.$user->id)}}" class="modal-trigger-edit-user" aria-controls="modal-edit-user" role="button">{{$user->username}}</a>
             </td>
@@ -297,7 +297,7 @@
   </div><!-- /.int-table js-int-table -->
 
   <div class="site-table-pagination-ajax">
-    {{ $users->onEachSide(5)->withQueryString()->links('vendor.pagination.codyhouse') }}
+    {{ $blog->onEachSide(5)->withQueryString()->links('vendor.pagination.codyhouse') }}
   </div><!-- /.site-table-pagination -->
 
   <!-- Re-initialized utl and menu component if the request is ajax -->
