@@ -22,7 +22,7 @@ class BlogController extends Controller
      */
     public function index(Request $request)
     {
-        $bladeTemplate = $request->ajax() ? 'users::partials.table' : 'users::index';
+        $bladeTemplate = $request->ajax() ? 'blog::partials.table' : 'blog::index';
 
         $q         = $request->input('q');
         $status    = $request->input('status');
