@@ -8,10 +8,8 @@ use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Hash;
 
-// use Modules\Users\Entities\User;
-// use Modules\Users\Entities\Role;
 use Modules\Blog\Entities\Blog;
-// use Modules\Blog\Entities\;
+use Modules\Users\Entities\User;
 use DB;
 
 class BlogController extends Controller
@@ -25,9 +23,7 @@ class BlogController extends Controller
         $bladeTemplate = $request->ajax() ? 'blog::partials.table' : 'blog::index';
 
         $q         = $request->input('q');
-        // $status    = $request->input('status');
-        // $isTrashed = $request->input('is_trashed');
-        $role      = $request->input('role');
+        $user      = $request->input('user');
         $limit     = $request->input('limit') ? $request->input('limit') : 25;
         $sort      = $request->input('sort') ? $request->input('sort') : 'id';
         $order     = $request->input('order') ? $request->input('order') : 'desc';
@@ -35,37 +31,23 @@ class BlogController extends Controller
         // work around for status
         $statusOrder = ($order == 'asc') ? 'desc' : 'asc';
 
-        $blog = Blog::
-            select('blog.*', 'blog.title as title', 'blog.description as description', 'blog.image as image');
-
-        // $users = ($sort == 'status')
-        //         ? $users->orderBy($sort, $statusOrder)
-        //         : $users->orderBy($sort, $order);
-
-        // check if user is deleted
-        // $users = $isTrashed ? $users->where('is_trashed', 1) : $users->where('is_trashed', 0);
+        $blogs = Blog::
+            select('blogs.*', 'blogs.title as title', 'blogs.description as description', 'blogs.image as image');
 
         // if search query is not null
         if ($q != null) {
-            $blog = $blog->where('blog.title', 'LIKE', '%' . $q . '%')
-                ->orWhere ( 'blog.description', 'LIKE', '%' . $q . '%' )
-                ->orWhere ( 'blog.image', 'LIKE', '%' . $q . '%' );
+            $blogs = $blogs->where('blogs.title', 'LIKE', '%' . $q . '%')
+                ->orWhere ( 'blogs.description', 'LIKE', '%' . $q . '%' )
+                ->orWhere ( 'blogs.image', 'LIKE', '%' . $q . '%' );
         }
-
-        // if status is suspended
-        // if ($status === 'suspended') {
-        //     $users = $users->where('users.permission', '<', 1);
-        // }else{
-        //     $users = $users->where('users.permission', '>', 0);
-        // }
 
         // if role is set
-        if ($role) {
-            $blog = $blog->where('roles.key', $role);
+        if ($user) {
+            $blogs = $blogs->where('users.username', $user);
         }
 
 
-        $blog = $blog->paginate($limit);
+        $blogs = $blogs->paginate($limit);
 
         $availableLimit = ['25', '50', '100', '150', '200'];
 
@@ -74,34 +56,8 @@ class BlogController extends Controller
             ['id', '>', 0]
         ])->count();
 
-        // $suspendedUsersCount = User::where([
-        //     ['permission', '<', 1],
-        //     ['is_trashed', '=', 0],
-        // ])->count();
-
-        // $trashedUsersCount   = User::where('is_trashed', '=', 1)->count();
-
-        // $subscriberPermission = Role::where('key', 'subscriber')->first()->permission;
-        // $editorPermission     = Role::where('key', 'editor')->first()->permission;
-        // $adminPermission      = Role::where('key', 'admin')->first()->permission;
-
-        // $subscriberUsersCount = User::where([
-        //     ['permission', '=', $subscriberPermission],
-        //     ['is_trashed', '=', 0],
-        // ])->count();
-
-        // $editorUsersCount     = User::where([
-        //     ['permission', '=', $editorPermission],
-        //     ['is_trashed', '=', 0],
-        // ])->count();
-
-        // $adminUsersCount      = User::where([
-        //     ['permission', '=', $adminPermission],
-        //     ['is_trashed', '=', 0],
-        // ])->count();
-
         return view($bladeTemplate,
-            compact('blog', 'q', 'limit', 'availableLimit', 'sort', 'order', 'allBlogsCount')
+            compact('blogs', 'q', 'user', 'limit', 'availableLimit', 'sort', 'order', 'allBlogsCount')
         );
         // return view('blog::index');
     }
@@ -112,7 +68,7 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return view('blog::create');
+        return view('blog::forms.add-blog');
     }
 
     /**
@@ -123,6 +79,45 @@ class BlogController extends Controller
     public function store(Request $request)
     {
         //
+        $this->validate($request,[
+            'title'     => ['required', 'string', 'max:255'],
+            'description'    => ['required', 'text', 'max:255'],
+            'image' => ['required', 'string', 'max:255'],
+            'thumbnail' => ['required', 'string', 'max:255'],
+        ]);
+
+        // get inputs
+        $title            = $request->input('title');
+        $description           = $request->input('description');
+        $image        = $request->input('image');
+        $selectedUsername = $request->input('user');
+
+        // save updated user
+        $blog = new Blog;
+        $blog->title     = $title;
+        $blog->description    = $description;
+        $blog->image = $image;
+
+        $selectedUser = User::where('key', $selectedUsername)->first();
+
+        // $user->permission = $permission;
+
+        $saved = $blog->save();
+
+        $response = [
+            'status'  => 'success',
+            'message' => 'Blog has been created.',
+            'clear'   => true,
+        ];
+
+        if (!$saved) {
+            $response = [
+                'status'  => 'error',
+                'message' => 'Failed to add user. Please try again.',
+            ];
+        }
+
+        return response()->json($response);
     }
 
     /**
@@ -142,7 +137,14 @@ class BlogController extends Controller
      */
     public function edit($id)
     {
-        return view('blog::edit');
+        $blog = Blog::find($id);
+        // $roles = DB::table('roles')->orderBy('id', 'desc')->get();
+
+        if (!$blog) {
+            return redirect('admin/blog')->with('responseMessage', 'Blog not found.');
+        }
+
+        return view('blog::forms.edit-blog');
     }
 
     /**

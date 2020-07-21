@@ -17,8 +17,8 @@ class CreateBlogsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->text('description');
+            $table->string('username')->nullable()->default('NULL');
             $table->string('image')->nullable()->default('NULL');
-            $table->string('thumbnail')->nullable()->default('NULL');
             $table->timestamps();
         });
     }
