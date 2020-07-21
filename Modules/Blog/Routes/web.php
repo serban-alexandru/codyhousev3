@@ -17,7 +17,7 @@ Route::middleware('auth', 'role:admin')->group(function(){
 
     Route::prefix('admin')->group(function(){
       Route::get('blog', 'BlogController@index');
-      Route::get('blog/add', 'BlogsController@create');
+      Route::get('blog/add', 'BlogController@create');
       Route::post('blog/store', 'BlogController@store');
       Route::get('blog/edit/{id}', 'BlogController@edit');
       Route::post('blog/update/{id}', 'BlogController@update');

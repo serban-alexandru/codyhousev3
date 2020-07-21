@@ -8,13 +8,13 @@
 </div>
 
 <div>
-    <label class="form-label margin-bottom-xxs" for="name">Title</label>
-    <input class="form-control width-100%" type="text" name="name" id="name">
+    <label class="form-label margin-bottom-xxs" for="title">Title</label>
+    <input class="form-control width-100%" type="text" name="title" id="title">
     <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
 </div>
 <div>
-    <label class="form-label margin-bottom-xxs" for="email">Description</label>
-    <input class="form-control width-100%" type="text" name="email" id="email">
+    <label class="form-label margin-bottom-xxs" for="description">Description</label>
+    <input class="form-control width-100%" type="text" name="description" id="description">
     <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
 </div>
 <div>
@@ -23,8 +23,8 @@
     <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
 </div>
 <div>
-    <label class="form-label margin-bottom-xxs" for="password">Image</label>
-    <input class="form-control width-100%" type="text" name="password" id="password">
+    <label class="form-label margin-bottom-xxs" for="image">Image</label>
+    <input class="form-control width-100%" type="text" name="image" id="image">
     <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
 </div>
 <!-- /.select -->

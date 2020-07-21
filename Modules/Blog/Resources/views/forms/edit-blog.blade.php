@@ -8,22 +8,22 @@
 </div>
 
 <div>
-    <label class="form-label margin-bottom-xxs" for="name">Title</label>
-    <input class="form-control width-100%" type="text" name="name" id="name" value="{{$user->name}}" @error('name') aria-invalid="true" @enderror>
+    <label class="form-label margin-bottom-xxs" for="title">Title</label>
+    <input class="form-control width-100%" type="text" name="title" id="title" value="{{$blog->title}}" @error('title') aria-invalid="true" @enderror>
     <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
 </div>
 <div>
-    <label class="form-label margin-bottom-xxs" for="email">Description</label>
-    <input class="form-control width-100%" type="email" name="email" id="email" value="{{$user->email}}" placeholder="email@myemail.com" @error('email') aria-invalid="true" @enderror>
+    <label class="form-label margin-bottom-xxs" for="description">Description</label>
+    <input class="form-control width-100%" type="description" name="description" id="description" value="{{$blog->description}}" placeholder="email@myemail.com" @error('description') aria-invalid="true" @enderror>
     <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
 </div>
 <div>
     <label class="form-label margin-bottom-xxs" for="username">Username</label>
-    <input class="form-control width-100%" type="text" name="username" id="username" value="{{$user->username}}" @error('username') aria-invalid="true" @enderror>
+    <input class="form-control width-100%" type="text" name="username" id="username" value="{{$blog->username}}" @error('username') aria-invalid="true" @enderror>
     <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
 </div>
 <div>
-    <label class="form-label margin-bottom-xxs" for="username">Image</label>
-    <input class="form-control width-100%" type="text" name="username" id="username" value="{{$user->username}}" @error('username') aria-invalid="true" @enderror>
+    <label class="form-label margin-bottom-xxs" for="image">Image</label>
+    <input class="form-control width-100%" type="text" name="image" id="image" value="{{$user->image}}" @error('image') aria-invalid="true" @enderror>
     <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
 </div>
