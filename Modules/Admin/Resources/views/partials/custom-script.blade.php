@@ -193,14 +193,14 @@
         error: function(response, textStatus) {
           var jsonResponse = response.responseJSON;
           var errors = jsonResponse.errors;
-          console.log(response);
+          // console.log(response);
 
           $.each( errors, function( key, value ) {
             $this.find('[name="'+key+'"]' + ' + .form-error-msg').addClass('form-error-msg--is-visible').html(value[0]);
           });
         },
         always: function(response){
-          console.log(response);
+          // console.log(response);
         },
       });
 
