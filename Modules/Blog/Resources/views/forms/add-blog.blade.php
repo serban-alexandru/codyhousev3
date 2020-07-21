@@ -17,11 +17,23 @@
     <input class="form-control width-100%" type="text" name="description" id="description">
     <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
 </div>
-<div>
-    <label class="form-label margin-bottom-xxs" for="username">Username</label>
-    <input class="form-control width-100%" type="text" name="username" id="username">
-    <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
 </div>
+    <div>
+      <label class="form-label margin-bottom-xxxs" for="role">Username</label>
+      <div class="select">
+        <select class="select__input form-control" name="role" id="role">
+          @php
+            foreach($users as $user){
+          @endphp
+            <option value="{{$user->username}}">{{$user->username}}</option>
+          @php
+            }
+          @endphp
+        </select>
+
+        <svg class="icon select__icon" aria-hidden="true" viewBox="0 0 16 16"><g stroke-width="1" stroke="currentColor"><polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="15.5,4.5 8,12 0.5,4.5 "></polyline></g></svg>
+      </div><!-- /.select -->
+    </div>
 <div>
     <label class="form-label margin-bottom-xxs" for="image">Image</label>
     <input class="form-control width-100%" type="text" name="image" id="image">

@@ -23,16 +23,16 @@ class BlogController extends Controller
         $bladeTemplate = $request->ajax() ? 'blog::partials.table' : 'blog::index';
 
         $q         = $request->input('q');
-        $user      = $request->input('user');
+        $user      = $request->input('username');
         $limit     = $request->input('limit') ? $request->input('limit') : 25;
         $sort      = $request->input('sort') ? $request->input('sort') : 'id';
         $order     = $request->input('order') ? $request->input('order') : 'desc';
 
         // work around for status
-        $statusOrder = ($order == 'asc') ? 'desc' : 'asc';
 
         $blogs = Blog::
-            select('blogs.*', 'blogs.title as title', 'blogs.description as description', 'blogs.image as image');
+            select('blogs.*', 'blogs.title as title', 'blogs.description as description', 'blogs.image as image', 'blogs.username as username')
+            ->leftJoin('users', 'users.username', '=', 'blogs.username');
 
         // if search query is not null
         if ($q != null) {
@@ -68,7 +68,8 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return view('blog::forms.add-blog');
+        $users = DB::table('users')->orderBy('id', 'desc')->get();
+        return view('blog::forms.add-blog', compact('users'));
     }
 
     /**
@@ -82,21 +83,21 @@ class BlogController extends Controller
         $this->validate($request,[
             'title'     => ['required', 'string', 'max:255'],
             'description'    => ['required', 'text', 'max:255'],
+            'username' => ['required', 'string', 'max:255'],
             'image' => ['required', 'string', 'max:255'],
-            'thumbnail' => ['required', 'string', 'max:255'],
         ]);
 
         // get inputs
         $title            = $request->input('title');
-        $description           = $request->input('description');
-        $image        = $request->input('image');
-        $selectedUsername = $request->input('user');
+        $description      = $request->input('description');
+        $image            = $request->input('image');
+        $selectedUsername = $request->input('username');
 
         // save updated user
-        $blog = new Blog;
-        $blog->title     = $title;
-        $blog->description    = $description;
-        $blog->image = $image;
+        $blog               = new Blog;
+        $blog->title        = $title;
+        $blog->description  = $description;
+        $blog->image        = $image;
 
         $selectedUser = User::where('key', $selectedUsername)->first();
 
