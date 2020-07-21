@@ -20,7 +20,7 @@
     $(document).on('input', '.js-int-table__select-all, .js-int-table__select-row', function(){
       var $checkBoxesChecked = $('.js-int-table__select-row:checked');
       var $totalSelected = $('.table-total-selected');
-      console.log($("#selected-id-template").html());
+      // console.log($("#selected-id-template").html());
       var $inputHiddenTemplate = $("#selected-id-template").html().trim();
 
       $('.bulk-selected-ids').html('');
@@ -41,7 +41,7 @@
       var url = $this.attr('href');
 
       $('meta[name="current-url"]').attr('content', url);
-      console.log(url);
+      // console.log(url);
 
       $('.bulk-selected-ids').html(''); // remove hidden inputs on bulk select
       $('.table-total-selected').text('0'); // set counter to 0
@@ -72,7 +72,7 @@
           $('#site-table-with-pagination-container').html(data);
         })
         .fail(function(jqXHR, textStatus) {
-          console.log('Request failed: ' + textStatus);
+          // console.log('Request failed: ' + textStatus);
           alert('Something went wrong. Please reload the page.');
         })
         .always(function() {});
@@ -89,7 +89,7 @@
       $('input[name="sort"]').val(sort);
       $('input[name="order"]').val(order);
 
-      console.log(sort, order);
+      // console.log(sort, order);
     });
 
     $(document).on('click', '.site-table-filter a', function(){
@@ -124,7 +124,7 @@
       var $this = $(this);
       var url = $this.data('href');
 
-      console.log(url);
+      // console.log(url);
 
       var $element = $('#ajax-add-user-form');
       $element.load( url, function(response, status, xhr) {
@@ -150,7 +150,7 @@
       var $this = $(this);
       var url = $this.data('href');
 
-      console.log(url);
+      // console.log(url);
 
       var $element = $('#ajax-add-blog-form');
       $element.load( url, function(response, status, xhr) {
@@ -175,7 +175,7 @@
         dataType: dataType,
         data: data,
         success : function(response) {
-          console.log('Response', response);
+          // console.log('Response', response);
 
           if (response.status == 'success') {
             // remove error messages
