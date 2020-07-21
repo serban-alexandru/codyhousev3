@@ -131,6 +131,32 @@
       });
     });
 
+    $(document).on('click', '.modal-trigger-edit-blog', function(e){
+      e.preventDefault();
+
+      var $this = $(this);
+      var url = $this.attr('href');
+      var updateURL = $this.data('update-url');
+
+      $('#modal-edit-blog-form').attr('action', updateURL);
+      var $element = $('#ajax-edit-blog-form');
+      $element.load( url, function(response, status, xhr) {
+      });
+    });
+
+    $(document).on('click', '.modal-trigger-add-blog', function(e){
+      e.preventDefault();
+
+      var $this = $(this);
+      var url = $this.data('href');
+
+      console.log(url);
+
+      var $element = $('#ajax-add-blog-form');
+      $element.load( url, function(response, status, xhr) {
+      });
+    });
+
     $('.modal-form').on('submit', function(){
       var $this = $(this);
 

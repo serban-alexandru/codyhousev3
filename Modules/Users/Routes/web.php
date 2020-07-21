@@ -42,7 +42,6 @@ Route::middleware('auth', 'role:admin')->group(function(){
     Route::get('users/activate/{id}', 'UsersController@activate');
     Route::get('users/trash/{id}', 'UsersController@trash');
     Route::get('users/delete/{id}', 'UsersController@destroy');
-    Route::get('users/delete/{id}', 'UsersController@destroy');
     Route::get('users/empty-trash', 'UsersController@emptyTrash');
     Route::post('users/bulk-suspend', 'UsersController@bulkSuspend');
     Route::post('users/bulk-delete', 'UsersController@bulkDelete');
