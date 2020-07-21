@@ -1,7 +1,8 @@
 @extends('admin::layouts.master')
 @section('content')
-@include('blog::partials.blog-nav')
-<section>
+  @include('blog::partials.blog-nav')
+  @include('blog::partials.modals')
+  <section>
     <div class="container max-width-lg">
       <div class="grid gap-md@md">
         @include('blog::partials.sidebar')

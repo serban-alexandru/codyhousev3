@@ -25,7 +25,7 @@
 
                     <menu class="menu-bar menu-bar--expanded@md js-menu-bar width-100%">
 
-                        <li class="menu-bar__item has-text modal-trigger-add-user" aria-controls="modal-add-user" role="menuitem" data-href="{{ url('admin/users/add') }}">
+                        <li class="menu-bar__item has-text modal-trigger-add-blog" aria-controls="modal-add-blog" role="menuitem" data-href="{{ url('admin/blog/add') }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
                                 <title>pencil</title>
                                 <rect data-element="frame" x="9.600000000000001" y="9.600000000000001"
@@ -75,7 +75,7 @@
                         </li>
 
                         <li class="menu-bar__item" style="margin-left: auto; margin-right: 40px;">
-                            <form action="{{ url('admin/users') }}" method="GET" style="margin-top: -20px;">
+                            <form action="{{ url('admin/blog') }}" method="GET" style="margin-top: -20px;">
                                 <input type="hidden" name="q" value="{{$q}}">
                                 <input type="hidden" name="sort" value="{{$sort}}">
                                 <input type="hidden" name="order" value="{{$order}}">
