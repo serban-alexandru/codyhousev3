@@ -22,8 +22,3 @@
     <input class="form-control width-100%" type="text" name="username" id="username" value="{{$blog->username}}" @error('username') aria-invalid="true" @enderror>
     <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
 </div>
-<div>
-    <label class="form-label margin-bottom-xxs" for="image">Image</label>
-    <input class="form-control width-100%" type="text" name="image" id="image" value="{{$user->image}}" @error('image') aria-invalid="true" @enderror>
-    <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
-</div>
