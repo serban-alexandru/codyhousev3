@@ -2,5 +2,6 @@
     "Admin": true,
     "Users": true,
     "Blog": true,
-    "Comment": true
+    "Comment": true,
+    "Article": true
 }
