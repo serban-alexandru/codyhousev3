@@ -11,7 +11,7 @@ class Blog extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'description', 'image', 'thumbnail'];
+    protected $fillable = ['title', 'description', 'image', 'username'];
 
     /**
      * The attributes that appended to the model
