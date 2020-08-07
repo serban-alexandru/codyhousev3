@@ -516,6 +516,184 @@ function initAlertEvent(element) {
 	  };
 	}
   }());
+// File#: _1_circular-progress-bar
+// Usage: codyhouse.co/license
+(function() {	
+    var CProgressBar = function(element) {
+      this.element = element;
+      this.fill = this.element.getElementsByClassName('c-progress-bar__fill')[0];
+      this.fillLength = getProgressBarFillLength(this);
+      this.label = this.element.getElementsByClassName('js-c-progress-bar__value');
+      this.value = parseFloat(this.element.getAttribute('data-progress'));
+      // before checking if data-animation is set -> check for reduced motion
+      updatedProgressBarForReducedMotion(this);
+      this.animate = this.element.hasAttribute('data-animation') && this.element.getAttribute('data-animation') == 'on';
+      this.animationDuration = this.element.hasAttribute('data-duration') ? this.element.getAttribute('data-duration') : 1000;
+      // animation will run only on browsers supporting IntersectionObserver
+      this.canAnimate = ('IntersectionObserver' in window && 'IntersectionObserverEntry' in window && 'intersectionRatio' in window.IntersectionObserverEntry.prototype);
+      // this element is used to announce the percentage value to SR
+      this.ariaLabel = this.element.getElementsByClassName('js-c-progress-bar__aria-value');
+      // check if we need to update the bar color
+      this.changeColor =  Util.hasClass(this.element, 'c-progress-bar--color-update') && Util.cssSupports('color', 'var(--color-value)');
+      if(this.changeColor) {
+        this.colorThresholds = getProgressBarColorThresholds(this);
+      }
+      initProgressBar(this);
+      // store id to reset animation
+      this.animationId = false;
+    };
+  
+    // public function
+    CProgressBar.prototype.setProgressBarValue = function(value) {
+      setProgressBarValue(this, value);
+    };
+  
+    function getProgressBarFillLength(progressBar) {
+      return parseFloat(2*Math.PI*progressBar.fill.getAttribute('r')).toFixed(2);
+    };
+  
+    function getProgressBarColorThresholds(progressBar) {
+      var thresholds = [];
+      var i = 1;
+      while (!isNaN(parseInt(getComputedStyle(progressBar.element).getPropertyValue('--c-progress-bar-color-'+i)))) {
+        thresholds.push(parseInt(getComputedStyle(progressBar.element).getPropertyValue('--c-progress-bar-color-'+i)));
+        i = i + 1;
+      }
+      return thresholds;
+    };
+  
+    function updatedProgressBarForReducedMotion(progressBar) {
+      // if reduced motion is supported and set to reduced -> remove animations
+      if(osHasReducedMotion) progressBar.element.removeAttribute('data-animation');
+    };
+  
+    function initProgressBar(progressBar) {
+      // set shape initial dashOffset
+      setShapeOffset(progressBar);
+      // set initial bar color
+      if(progressBar.changeColor) updateProgressBarColor(progressBar, progressBar.value);
+      // if data-animation is on -> reset the progress bar and animate when entering the viewport
+      if(progressBar.animate && progressBar.canAnimate) animateProgressBar(progressBar);
+      else setProgressBarValue(progressBar, progressBar.value);
+      // reveal fill and label -> --animate and --color-update variations only
+      setTimeout(function(){Util.addClass(progressBar.element, 'c-progress-bar--init');}, 30);
+  
+      // dynamically update value of progress bar
+      progressBar.element.addEventListener('updateProgress', function(event){
+        // cancel request animation frame if it was animating
+        if(progressBar.animationId) window.cancelAnimationFrame(progressBar.animationId);
+        
+        var final = event.detail.value,
+          duration = (event.detail.duration) ? event.detail.duration : progressBar.animationDuration;
+        var start = getProgressBarValue(progressBar);
+        // trigger update animation
+        updateProgressBar(progressBar, start, final, duration, function(){
+          emitProgressBarEvents(progressBar, 'progressCompleted', progressBar.value+'%');
+          // update value of label for SR
+          if(progressBar.ariaLabel.length > 0) progressBar.ariaLabel[0].textContent = final+'%';
+        });
+      });
+    }; 
+  
+    function setShapeOffset(progressBar) {
+      var center = progressBar.fill.getAttribute('cx');
+      progressBar.fill.setAttribute('transform', "rotate(-90 "+center+" "+center+")");
+      progressBar.fill.setAttribute('stroke-dashoffset', progressBar.fillLength);
+      progressBar.fill.setAttribute('stroke-dasharray', progressBar.fillLength);
+    };
+  
+    function animateProgressBar(progressBar) {
+      // reset inital values
+      setProgressBarValue(progressBar, 0);
+      
+      // listen for the element to enter the viewport -> start animation
+      var observer = new IntersectionObserver(progressBarObserve.bind(progressBar), { threshold: [0, 0.1] });
+      observer.observe(progressBar.element);
+    };
+  
+    function progressBarObserve(entries, observer) { // observe progressBar position -> start animation when inside viewport
+      var self = this;
+      if(entries[0].intersectionRatio.toFixed(1) > 0 && !this.animationTriggered) {
+        updateProgressBar(this, 0, this.value, this.animationDuration, function(){
+          emitProgressBarEvents(self, 'progressCompleted', self.value+'%');
+        });
+      }
+    };
+  
+    function setProgressBarValue(progressBar, value) {
+      var offset = ((100 - value)*progressBar.fillLength/100).toFixed(2);
+      progressBar.fill.setAttribute('stroke-dashoffset', offset);
+      if(progressBar.label.length > 0 ) progressBar.label[0].textContent = value;
+      if(progressBar.changeColor) updateProgressBarColor(progressBar, value);
+    };
+  
+    function updateProgressBar(progressBar, start, to, duration, cb) {
+      var change = to - start,
+        currentTime = null;
+  
+      var animateFill = function(timestamp){  
+        if (!currentTime) currentTime = timestamp;         
+        var progress = timestamp - currentTime;
+        var val = parseInt((progress/duration)*change + start);
+        // make sure value is in correct range
+        if(change > 0 && val > to) val = to;
+        if(change < 0 && val < to) val = to;
+        if(progress >= duration) val = to;
+  
+        setProgressBarValue(progressBar, val);
+        if(progress < duration) {
+          progressBar.animationId = window.requestAnimationFrame(animateFill);
+        } else {
+          progressBar.animationId = false;
+          cb();
+        }
+      };
+      if ( window.requestAnimationFrame && !osHasReducedMotion ) {
+        progressBar.animationId = window.requestAnimationFrame(animateFill);
+      } else {
+        setProgressBarValue(progressBar, to);
+        cb();
+      }
+    };
+  
+    function updateProgressBarColor(progressBar, value) {
+      var className = 'c-progress-bar--fill-color-'+ progressBar.colorThresholds.length;
+      for(var i = progressBar.colorThresholds.length; i > 0; i--) {
+        if( !isNaN(progressBar.colorThresholds[i - 1]) && value <= progressBar.colorThresholds[i - 1]) {
+          className = 'c-progress-bar--fill-color-' + i;
+        } 
+      }
+      
+      removeProgressBarColorClasses(progressBar);
+      Util.addClass(progressBar.element, className);
+    };
+  
+    function removeProgressBarColorClasses(progressBar) {
+      var classes = progressBar.element.className.split(" ").filter(function(c) {
+        return c.lastIndexOf('c-progress-bar--fill-color-', 0) !== 0;
+      });
+      progressBar.element.className = classes.join(" ").trim();
+    };
+  
+    function getProgressBarValue(progressBar) {
+      return (100 - Math.round((parseFloat(progressBar.fill.getAttribute('stroke-dashoffset'))/progressBar.fillLength)*100));
+    };
+  
+    function emitProgressBarEvents(progressBar, eventName, detail) {
+      progressBar.element.dispatchEvent(new CustomEvent(eventName, {detail: detail}));
+    };
+  
+    window.CProgressBar = CProgressBar;
+  
+    //initialize the CProgressBar objects
+    var circularProgressBars = document.getElementsByClassName('js-c-progress-bar');
+    var osHasReducedMotion = Util.osHasReducedMotion();
+    if( circularProgressBars.length > 0 ) {
+      for( var i = 0; i < circularProgressBars.length; i++) {
+        (function(i){new CProgressBar(circularProgressBars[i]);})(i);
+      }
+    }
+  }());
 // File#: _1_custom-select
 // Usage: codyhouse.co/license
 (function() {
@@ -2400,6 +2578,297 @@ function initAlertEvent(element) {
 		}
 	}
 }());
+// File#: _2_drag-drop-file
+// Usage: codyhouse.co/license
+(function() {
+    var Ddf = function(opts) {
+      this.options = Util.extend(Ddf.defaults , opts);
+      this.element = this.options.element;
+      this.area = this.element.getElementsByClassName('js-ddf__area');
+      this.input = this.element.getElementsByClassName('js-ddf__input');
+      this.label = this.element.getElementsByClassName('js-ddf__label');
+      this.labelEnd = this.element.getElementsByClassName('js-ddf__files-counter');
+      this.labelEndMessage = this.labelEnd.length > 0 ? this.labelEnd[0].innerHTML.split('%') : false;
+      this.droppedFiles = [];
+      this.lastDroppedFiles = [];
+      this.options.acceptFile = [];
+      this.progress = false;
+      this.progressObj = [];
+      this.progressCompleteClass = 'ddf__progress--complete';
+      initDndMessageResponse(this);
+      initProgress(this, 0, 1, false);
+      initDdf(this);
+    };
+  
+    function initDndMessageResponse(element) { 
+      // use this function to initilise the response of the Ddf when files are dropped (e.g., show list of files, update label message, show loader)
+      if(element.options.showFiles) {
+        element.filesList = element.element.getElementsByClassName('js-ddf__list');
+        if(element.filesList.length == 0) return;
+        element.fileItems = element.filesList[0].getElementsByClassName('js-ddf__item');
+        if(element.fileItems.length > 0) Util.addClass(element.fileItems[0], 'is-hidden');+
+        // listen for click on remove file action
+        initRemoveFile(element);
+      } else { // do not show list of files
+        if(element.label.length == 0) return;
+        if(element.options.upload) element.progress = element.element.getElementsByClassName('js-ddf__progress');
+      }
+    };
+  
+    function initDdf(element) {
+      if(element.input.length > 0 ) { // store accepted file format
+        var accept = element.input[0].getAttribute('accept');
+        if(accept) element.options.acceptFile = accept.split(',').map(function(element){ return element.trim();})
+      }
+  
+      initDndInput(element);
+      initDndArea(element);
+    };
+  
+    function initDndInput(element) { // listen to changes in the input file element
+      if(element.input.length == 0 ) return;
+      element.input[0].addEventListener('change', function(event){
+        if(element.input[0].value == '') return; 
+        storeDroppedFiles(element, element.input[0].files);
+        element.input[0].value = '';
+        updateDndArea(element);
+      });
+    };
+  
+    function initDndArea(element) { //drag event listeners
+      element.element.addEventListener('dragenter', handleEvent.bind(element));
+      element.element.addEventListener('dragover', handleEvent.bind(element));
+      element.element.addEventListener('dragleave', handleEvent.bind(element));
+      element.element.addEventListener('drop', handleEvent.bind(element));
+    };
+  
+    function handleEvent(event) {
+      switch(event.type) {
+        case 'dragenter': 
+        case 'dragover':
+          preventDefaults(event);
+          Util.addClass(this.area[0], 'ddf__area--file-hover');
+          break;
+        case 'dragleave':
+          preventDefaults(event);
+          Util.removeClass(this.area[0], 'ddf__area--file-hover');
+          break;
+        case 'drop':
+          preventDefaults(event);
+          storeDroppedFiles(this, event.dataTransfer.files);
+          updateDndArea(this);
+          break;
+      }
+    };
+  
+    function storeDroppedFiles(element, fileData) { // check files size/format/number
+      element.lastDroppedFiles = [];
+      if(element.options.replaceFiles) element.droppedFiles = [];
+      Array.prototype.push.apply(element.lastDroppedFiles, fileData);
+      filterUploadedFiles(element); // remove files that do not respect format/size
+      element.droppedFiles = element.droppedFiles.concat(element.lastDroppedFiles);
+      if(element.options.maxFiles) filterMaxFiles(element); // check max number of files
+    };
+  
+    function updateDndArea(element) { // update UI + emit events
+      if(element.options.showFiles) updateDndList(element);
+      else {
+        updateDndAreaMessage(element);
+        Util.addClass(element.area[0], 'ddf__area--file-dropped');
+      }
+      Util.removeClass(element.area[0], 'ddf__area--file-hover');
+      emitCustomEvents(element, 'filesUploaded', false);
+    };
+  
+    function preventDefaults(event) {
+      event.preventDefault();
+      event.stopPropagation();
+    };
+  
+    function filterUploadedFiles(element) {
+      // check max weight
+      if(element.options.maxSize) filterMaxWeight(element);
+      // check file format
+      if(element.options.acceptFile.length > 0) filterAcceptFile(element);
+    };
+  
+    function filterMaxWeight(element) { // filter files by size
+      var rejected = [];
+      for(var i = element.lastDroppedFiles.length - 1; i >= 0; i--) {
+        if(element.lastDroppedFiles[i].size > element.options.maxSize*1000) {
+          var rejectedFile = element.lastDroppedFiles.splice(i, 1);
+          rejected.push(rejectedFile[0].name);
+        }
+      }
+      if(rejected.length > 0) {
+        emitCustomEvents(element, 'rejectedWeight', rejected);
+      }
+    };
+  
+    function filterAcceptFile(element) { // filter files by format
+      var rejected = [];
+      for(var i = element.lastDroppedFiles.length - 1; i >= 0; i--) {
+        if( !formatInList(element, i) ) {
+          var rejectedFile = element.lastDroppedFiles.splice(i, 1);
+          rejected.push(rejectedFile[0].name);
+        }
+      }
+  
+      if(rejected.length > 0) {
+        emitCustomEvents(element, 'rejectedFormat', rejected);
+      }
+    };
+  
+    function formatInList(element, index) {
+      var formatArray = element.lastDroppedFiles[index].type.split('/'),
+        type = formatArray[0]+'/*',
+        extension = formatArray.length > 1 ? formatArray[1]: false;
+  
+      var accepted = false;
+      for(var i = 0; i < element.options.acceptFile.length; i++) {
+        if(element.lastDroppedFiles[index].type == element.options.acceptFile[i] || type == element.options.acceptFile[i] || (extension && extension == element.options.acceptFile[i]) ) {
+          accepted = true;
+          break;
+        }
+  
+        if(extension && extensionInList(extension, element.options.acceptFile[i])) { // extension could be list of format; e.g. for the svg it is svg+xml
+          accepted = true;
+          break;
+        }
+      }
+      return accepted;
+    };
+  
+    function extensionInList(extensionList, extension) {
+      // extension could be .svg, .pdf, ..
+      // extensionList could be png, svg+xml, ...
+      if('.'+extensionList  == extension) return true;
+      var accepted = false;
+      var extensionListArray = extensionList.split('+');
+      for(var i = 0; i < extensionListArray.length; i++) {
+        if('.'+extensionListArray[i] == extension) {
+          accepted = true;
+          break;
+        }
+      }
+      return accepted;
+    }
+  
+    function filterMaxFiles(element) { // check number of uploaded files
+      if(element.options.maxFiles >= element.droppedFiles.length) return; 
+      var rejected = [];
+      while (element.droppedFiles.length > element.options.maxFiles) {
+        var rejectedFile = element.droppedFiles.pop();
+        element.lastDroppedFiles.pop();
+        rejected.push(rejectedFile.name);
+      }
+  
+      if(rejected.length > 0) {
+        emitCustomEvents(element, 'rejectedNumber', rejected);
+      }
+    };
+  
+    function updateDndAreaMessage(element) {
+      if(element.progress && element.progress[0]) { // reset progress bar 
+        element.progressObj[0].setProgressBarValue(0);
+        Util.toggleClass(element.progress[0], 'is-hidden', element.droppedFiles.length == 0);
+        Util.removeClass(element.progress[0], element.progressCompleteClass);
+      }
+  
+      if(element.droppedFiles.length > 0 && element.labelEndMessage) {
+        var finalMessage = element.labelEnd.innerHTML;
+        if(element.labelEndMessage.length > 3) {
+          finalMessage = element.droppedFiles.length > 1 
+            ? element.labelEndMessage[0] + element.labelEndMessage[2] + element.labelEndMessage[3]
+            : element.labelEndMessage[0] + element.labelEndMessage[1] + element.labelEndMessage[3];
+        }
+        element.labelEnd[0].innerHTML = finalMessage.replace('{n}', element.droppedFiles.length);
+      }
+    };
+  
+    function updateDndList(element) {
+      // create new list of files to be appended
+      if(!element.fileItems || element.fileItems.length == 0) return
+      var clone = element.fileItems[0].cloneNode(true),
+        string = '';
+      Util.removeClass(clone, 'is-hidden');
+      for(var i = 0; i < element.lastDroppedFiles.length; i++) {
+        clone.getElementsByClassName('js-ddf__file-name')[0].textContent = element.lastDroppedFiles[i].name;
+        string = clone.outerHTML + string;
+      }
+  
+      if(element.options.replaceFiles) { // replace all files in list with new files
+        string = element.fileItems[0].outerHTML + string;
+        element.filesList[0].innerHTML = string;
+      } else {
+        element.fileItems[0].insertAdjacentHTML('afterend', string);
+      }
+  
+      if(element.options.upload) storeMultipleProgress(element);
+  
+      Util.toggleClass(element.filesList[0], 'is-hidden', element.droppedFiles.length == 0);
+    };
+  
+    function initRemoveFile(element) { // if list of files is visible - option to remove file from list
+      element.filesList[0].addEventListener('click', function(event){
+        if(!event.target.closest('.js-ddf__remove-btn')) return;
+        event.preventDefault();
+        var item = event.target.closest('.js-ddf__item'),
+          index = Util.getIndexInArray(element.filesList[0].getElementsByClassName('js-ddf__item'), item);
+        
+        var removedFile = element.droppedFiles.splice(element.droppedFiles.length - index, 1);
+        if(element.progress && element.progress.length > element.droppedFiles.length - index) {
+          element.progress.splice();
+        }
+        // check if we need to remove items form the lastDroppedFiles array
+        var lastDroppedIndex = element.lastDroppedFiles.length - index;
+        if(lastDroppedIndex >= 0 && lastDroppedIndex < element.lastDroppedFiles.length - 1) {
+          element.lastDroppedFiles.splice(element.lastDroppedFiles.length - index, 1);
+        }
+        item.remove();
+        emitCustomEvents(element, 'fileRemoved', removedFile);
+      });
+  
+    };
+  
+    function storeMultipleProgress(element) { // handle progress bar elements
+      element.progress = [];
+      var delta = element.droppedFiles.length - element.lastDroppedFiles.length;
+      for(var i = 0; i < element.lastDroppedFiles.length; i++) {
+        element.progress[i] = element.fileItems[element.droppedFiles.length - delta - i].getElementsByClassName('js-ddf__progress')[0];
+      }
+      initProgress(element, 0, element.lastDroppedFiles.length, true);
+    };
+  
+    function initProgress(element, start, end, bool) {
+      element.progressObj = [];
+      if(!element.progress || element.progress.length == 0) return;
+      for(var i = start; i < end; i++) {(function(i){
+        element.progressObj.push(new CProgressBar(element.progress[i]));
+        if(bool) Util.removeClass(element.progress[i], 'is-hidden');
+        // listen for 100% progress
+        element.progress[i].addEventListener('updateProgress', function(event){
+          if(event.detail.value == 100 ) Util.addClass(element.progress[i], element.progressCompleteClass);
+        });
+      })(i);}
+    };
+  
+    function emitCustomEvents(element, eventName, detail) {
+      var event = new CustomEvent(eventName, {detail: detail});
+      element.element.dispatchEvent(event);
+    };
+    
+    Ddf.defaults = {
+      element : '',
+      maxFiles: false, // max number of files
+      maxSize: false, // max weight - set in kb
+      showFiles: false, // show list of selected files
+      replaceFiles: true, // when new files are loaded -> they replace the old ones
+      upload: false // show progress bar for the upload process
+    };
+  
+    window.Ddf = Ddf;
+  }());
 // File#: _2_draggable-img-gallery
 // Usage: codyhouse.co/license
 (function() {
@@ -3478,6 +3947,80 @@ function initAlertEvent(element) {
       });
     }
   }());
+// File#: _3_dashboard-navigation
+// Usage: codyhouse.co/license
+(function() {
+    var appUi = document.getElementsByClassName('js-app-ui');
+    if(appUi.length > 0) {
+      var appMenuBtn = appUi[0].getElementsByClassName('js-app-ui__menu-btn');
+      if(appMenuBtn.length < 1) return;
+      var appExpandedClass = 'app-ui--nav-expanded';
+      var firstFocusableElement = false,
+        // we'll use these to store the node that needs to receive focus when the mobile menu is closed 
+        focusMenu = false;
+  
+      // toggle navigation on mobile
+      appMenuBtn[0].addEventListener('click', function(event) {
+        var openMenu = !Util.hasClass(appUi[0], appExpandedClass);
+        Util.toggleClass(appUi[0], appExpandedClass, openMenu);
+        appMenuBtn[0].setAttribute('aria-expanded', openMenu);
+        if(openMenu) {
+          firstFocusableElement = getMenuFirstFocusable();
+          if(firstFocusableElement) firstFocusableElement.focus(); // move focus to first focusable element
+        } else if(focusMenu) {
+          focusMenu.focus();
+          focusMenu = false;
+        }
+      });
+  
+      // listen for key events
+      window.addEventListener('keyup', function(event){
+        // listen for esc key
+        if( (event.keyCode && event.keyCode == 27) || (event.key && event.key.toLowerCase() == 'escape' )) {
+          // close navigation on mobile if open
+          if(appMenuBtn[0].getAttribute('aria-expanded') == 'true' && isVisible(appMenuBtn[0])) {
+            focusMenu = appMenuBtn[0]; // move focus to menu trigger when menu is close
+            appMenuBtn[0].click();
+          }
+        }
+        // listen for tab key
+        if( (event.keyCode && event.keyCode == 9) || (event.key && event.key.toLowerCase() == 'tab' )) {
+          // close navigation on mobile if open when nav loses focus
+          if(appMenuBtn[0].getAttribute('aria-expanded') == 'true' && isVisible(appMenuBtn[0]) && !document.activeElement.closest('.js-app-ui__nav')) appMenuBtn[0].click();
+        }
+      });
+      
+      // listen for resize
+      var resizingId = false;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizingId);
+        resizingId = setTimeout(doneResizing, 500);
+      });
+  
+      function doneResizing() {
+        if( !isVisible(appMenuBtn[0]) && Util.hasClass(appUi[0], appExpandedClass)) appMenuBtn[0].click();
+      };
+  
+      function getMenuFirstFocusable() {
+        var mobileNav = appUi[0].getElementsByClassName('js-app-ui__nav');
+        if(mobileNav.length < 1) return false;
+        var focusableEle = mobileNav[0].querySelectorAll('[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex]:not([tabindex="-1"]), [controls], summary'),
+          firstFocusable = false;
+        for(var i = 0; i < focusableEle.length; i++) {
+          if( focusableEle[i].offsetWidth || focusableEle[i].offsetHeight || focusableEle[i].getClientRects().length ) {
+            firstFocusable = focusableEle[i];
+            break;
+          }
+        }
+        
+        return firstFocusable;
+      };
+      
+      function isVisible(element) {
+        return (element.offsetWidth || element.offsetHeight || element.getClientRects().length);
+      };
+    }
+  }());
 // File#: _2_hiding-nav
 // Usage: codyhouse.co/license
 (function() {
@@ -3594,6 +4137,203 @@ function initAlertEvent(element) {
     if(Util.hasClass(mainNav[0], 'hide-nav--fixed')) Util.addClass(mainNav[0], 'hide-nav--has-bg');
   }
 }());
+// File#: _3_interactive-table
+// Usage: codyhouse.co/license
+(function() {
+    var IntTable = function(element) {
+      this.element = element;
+      this.header = this.element.getElementsByClassName('js-int-table__header')[0];
+      this.headerCols = this.header.getElementsByTagName('tr')[0].children;
+      this.body = this.element.getElementsByClassName('js-int-table__body')[0];
+      this.sortingRows = this.element.getElementsByClassName('js-int-table__sort-row');
+      initIntTable(this);
+    };
+  
+    function initIntTable(table) {
+      // check if table has actions
+      initIntTableActions(table);
+      // check if there are checkboxes to select/deselect a row/all rows
+      var selectAll = table.element.getElementsByClassName('js-int-table__select-all');
+      if(selectAll.length > 0) initIntTableSelection(table, selectAll);
+      // check if there are sortable columns
+      table.sortableCols = table.element.getElementsByClassName('js-int-table__cell--sort');
+      if(table.sortableCols.length > 0) {
+        // add a data-order attribute to all rows so that we can reset the order
+        setDataRowOrder(table);
+        // listen to the click event on a sortable column
+        table.header.addEventListener('click', function(event){
+          var selectedCol = event.target.closest('.js-int-table__cell--sort');
+          if(!selectedCol || event.target.tagName.toLowerCase() == 'input') return;
+          sortColumns(table, selectedCol);
+        });
+        table.header.addEventListener('change', function(event){ // detect change in selected checkbox (SR only)
+          var selectedCol = event.target.closest('.js-int-table__cell--sort');
+          if(!selectedCol) return;
+          sortColumns(table, selectedCol, event.target.value);
+        });
+        table.header.addEventListener('keydown', function(event){ // keyboard navigation - change sorting on enter
+          if( event.keyCode && event.keyCode == 13 || event.key && event.key.toLowerCase() == 'enter') {
+            var selectedCol = event.target.closest('.js-int-table__cell--sort');
+            if(!selectedCol) return;
+            sortColumns(table, selectedCol);
+          }
+        });
+  
+        // change cell style when in focus
+        table.header.addEventListener('focusin', function(event){
+          var closestCell = document.activeElement.closest('.js-int-table__cell--sort');
+          if(closestCell) Util.addClass(closestCell, 'int-table__cell--focus');
+        });
+        table.header.addEventListener('focusout', function(event){
+          for(var i = 0; i < table.sortableCols.length; i++) {
+            Util.removeClass(table.sortableCols[i], 'int-table__cell--focus');
+          }
+        });
+      }
+    };
+  
+    function initIntTableActions(table) {
+      // check if table has actions and store them
+      var tableId = table.element.getAttribute('id');
+      if(!tableId) return;
+      var tableActions = document.querySelector('[data-table-controls="'+tableId+'"]');
+      if(!tableActions) return;
+      table.actionsSelection = tableActions.getElementsByClassName('js-int-table-actions__items-selected');
+      table.actionsNoSelection = tableActions.getElementsByClassName('js-int-table-actions__no-items-selected');
+    };
+  
+    function initIntTableSelection(table, select) { // checkboxes for rows selection
+      table.selectAll = select[0];
+      table.selectRow = table.element.getElementsByClassName('js-int-table__select-row');
+      // select/deselect all rows
+      table.selectAll.addEventListener('click', function(event){ // we cannot use the 'change' event as on IE/Edge the change from "indeterminate" to either "checked" or "unchecked"  does not trigger that event
+        toggleRowSelection(table);
+      });
+      // select/deselect single row - reset all row selector 
+      table.body.addEventListener('change', function(event){
+        if(!event.target.closest('.js-int-table__select-row')) return;
+        toggleAllSelection(table);
+      });
+      // toggle actions
+      toggleActions(table, table.element.getElementsByClassName('int-table__row--checked').length > 0);
+    };
+  
+    function toggleRowSelection(table) { // 'Select All Rows' checkbox has been selected/deselected
+      var status = table.selectAll.checked;
+      for(var i = 0; i < table.selectRow.length; i++) {
+        table.selectRow[i].checked = status;
+        Util.toggleClass(table.selectRow[i].closest('.int-table__row'), 'int-table__row--checked', status);
+      }
+      toggleActions(table, status);
+    };
+  
+    function toggleAllSelection(table) { // Single row has been selected/deselected
+      var allChecked = true,
+        oneChecked = false;
+      for(var i = 0; i < table.selectRow.length; i++) {
+        if(!table.selectRow[i].checked) {allChecked = false;}
+        else {oneChecked = true;}
+        Util.toggleClass(table.selectRow[i].closest('.int-table__row'), 'int-table__row--checked', table.selectRow[i].checked);
+      }
+      table.selectAll.checked = oneChecked;
+      // if status if false but one input is checked -> set an indeterminate state for the 'Select All' checkbox
+      if(!allChecked) table.selectAll.indeterminate = oneChecked;
+      toggleActions(table, oneChecked);
+    };
+  
+    function setDataRowOrder(table) { // add a data-order to rows element - will be used when resetting the sorting 
+      var rowsArray = table.body.getElementsByTagName('tr');
+      for(var i = 0; i < rowsArray.length; i++) {
+        rowsArray[i].setAttribute('data-order', i);
+      }
+    };
+  
+    function sortColumns(table, selectedCol, customOrder) {
+      // determine sorting order (asc/desc/reset)
+      var order = customOrder || getSortingOrder(selectedCol),
+        colIndex = Util.getIndexInArray(table.headerCols, selectedCol);
+      // sort table
+      sortTableContent(table, order, colIndex, selectedCol);
+      
+      // reset appearance of the th column that was previously sorted (if any) 
+      for(var i = 0; i < table.headerCols.length; i++) {
+        Util.removeClass(table.headerCols[i], 'int-table__cell--asc int-table__cell--desc');
+      }
+      // reset appearance for the selected th column
+      if(order == 'asc') Util.addClass(selectedCol, 'int-table__cell--asc');
+      if(order == 'desc') Util.addClass(selectedCol, 'int-table__cell--desc');
+      // reset checkbox selection
+      if(!customOrder) selectedCol.querySelector('input[value="'+order+'"]').checked = true;
+    };
+  
+    function getSortingOrder(selectedCol) { // determine sorting order
+      if( Util.hasClass(selectedCol, 'int-table__cell--asc') ) return 'desc';
+      if( Util.hasClass(selectedCol, 'int-table__cell--desc') ) return 'none';
+      return 'asc';
+    };
+  
+    function sortTableContent(table, order, index, selctedCol) { // determine the new order of the rows
+      var rowsArray = table.body.getElementsByTagName('tr'),
+        switching = true,
+        i = 0,
+        shouldSwitch;
+      while (switching) {
+        switching = false;
+        for (i = 0; i < rowsArray.length - 1; i++) {
+          var contentOne = (order == 'none') ? rowsArray[i].getAttribute('data-order') : rowsArray[i].children[index].textContent.trim(),
+            contentTwo = (order == 'none') ? rowsArray[i+1].getAttribute('data-order') : rowsArray[i+1].children[index].textContent.trim();
+  
+          shouldSwitch = compareValues(contentOne, contentTwo, order, selctedCol);
+          if(shouldSwitch) {
+            table.body.insertBefore(rowsArray[i+1], rowsArray[i]);
+            switching = true;
+            break;
+          }
+        }
+      }
+    };
+  
+    function compareValues(val1, val2, order, selctedCol) {
+      var compare,
+        dateComparison = selctedCol.getAttribute('data-date-format');
+      if( dateComparison && order != 'none') { // comparing dates
+        compare =  (order == 'asc' || order == 'none') ? parseCustomDate(val1, dateComparison) > parseCustomDate(val2, dateComparison) : parseCustomDate(val2, dateComparison) > parseCustomDate(val1, dateComparison);
+      } else if( !isNaN(val1) && !isNaN(val2) ) { // comparing numbers
+        compare =  (order == 'asc' || order == 'none') ? Number(val1) > Number(val2) : Number(val2) > Number(val1);
+      } else { // comparing strings
+        compare =  (order == 'asc' || order == 'none') 
+          ? val2.toString().localeCompare(val1) < 0
+          : val1.toString().localeCompare(val2) < 0;
+      }
+      return compare;
+    };
+  
+    function parseCustomDate(date, format) {
+      var parts = date.match(/(\d+)/g), 
+        i = 0, fmt = {};
+      // extract date-part indexes from the format
+      format.replace(/(yyyy|dd|mm)/g, function(part) { fmt[part] = i++; });
+  
+      return new Date(parts[fmt['yyyy']], parts[fmt['mm']]-1, parts[fmt['dd']]);
+    };
+  
+    function toggleActions(table, selection) {
+      if(table.actionsSelection && table.actionsSelection.length > 0) {
+        Util.toggleClass(table.actionsSelection[0], 'is-hidden', !selection);
+      }
+      if(table.actionsNoSelection && table.actionsNoSelection.length > 0) {
+        Util.toggleClass(table.actionsNoSelection[0], 'is-hidden', selection);
+      }
+    };
+  
+    //initialize the IntTable objects
+    var intTable = document.getElementsByClassName('js-int-table');
+    if( intTable.length > 0 ) {
+      for( var i = 0; i < intTable.length; i++) {
+        (function(i){new IntTable(intTable[i]);})(i);
+      }
+    }
+  }());
 // File#: _3_mega-site-navigation
 // Usage: codyhouse.co/license
 (function() {

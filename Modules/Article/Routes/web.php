@@ -11,6 +11,6 @@
 |
 */
 
-Route::prefix('article')->group(function() {
-    Route::get('/', 'ArticleController@index');
+Route::prefix('admin')->group(function() {
+    Route::get('article', 'ArticleController@index');
 });

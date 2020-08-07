@@ -4,7 +4,7 @@
         <li class="drag-gallery__item">
           <div class="card">
             <figure class="card__img">
-              <a href="#0" draggable="false" ondragstart="return false;">
+              <a href="http://127.0.0.1:8000/site1/blog" draggable="false" ondragstart="return false;">
                 <img src="{{ asset('assets/img/team-img-12.jpg') }}" alt="Card preview img">
               </a>
             </figure>

@@ -106,6 +106,9 @@
           <li class="mega-nav__item">
               <a href="http://127.0.0.1:8000/admin/blog" class="mega-nav__control">Blogs</a>
             </li>
+          <li class="mega-nav__item">
+              <a href="http://127.0.0.1:8000/admin/article" class="mega-nav__control">Articles</a>
+          </li>
         </ul>
 
         <ul class="mega-nav__items js-main-nav custom-mega-nav__items-mobile">
