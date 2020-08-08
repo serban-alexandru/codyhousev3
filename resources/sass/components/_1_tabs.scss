@@ -26,7 +26,8 @@ Usage: codyhouse.co/license
   }
 
   &:hover {
-    color: var(--color-primary);
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--color-contrast-low);
   }
 }
 
