@@ -21,12 +21,12 @@ Usage: codyhouse.co/license
 
   &:focus {
     outline: 0px solid alpha(var(--color-primary), 0.2);
-    outline-offset: 20px;
+    outline-offset: 10px;
     text-decoration: none;
   }
 
   &:hover {
-    color: var(--color-contrast-high);
+    color: var(--color-primary);
   }
 }
 
