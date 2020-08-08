@@ -84,7 +84,7 @@ x sigin/signup popup
 
 @media only screen and (min-width: 600px) {
     .cd-signin-modal__container {
-        margin: 4em auto;
+        margin: 1em auto;
     }
     .cd-signin-modal__switcher a {
         height: 70px;
@@ -156,7 +156,7 @@ x sigin/signup popup
 }
 
 .cd-signin-modal__input.cd-signin-modal__input--has-padding {
-    padding: 12px 20px 12px 50px;
+    padding: 11px 20px 11px 50px;
 }
 
 .cd-signin-modal__input.cd-signin-modal__input--has-border {
@@ -254,10 +254,10 @@ x sigin/signup popup
 
 @media only screen and (min-width: 600px) {
     .cd-signin-modal__form {
-        padding: 2em;
+        padding: 1.5em;
     }
     .cd-signin-modal__fieldset {
-        margin: 2em 0;
+        margin: 1.5em 0;
     }
     .cd-signin-modal__fieldset:first-child {
         margin-top: 0;

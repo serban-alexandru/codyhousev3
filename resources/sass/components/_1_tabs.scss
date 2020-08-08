@@ -27,7 +27,7 @@ Usage: codyhouse.co/license
 
   &:hover {
     padding-bottom: 20px;
-    border-bottom: 2px solid var(--color-contrast-low);
+    border-bottom: 3px solid var(--color-contrast-low);
   }
 }
 
@@ -35,6 +35,6 @@ Usage: codyhouse.co/license
   .tabs__control[aria-selected="true"] {
     color: var(--color-contrast-high);
     padding-bottom: 20px;
-    border-bottom: 2px solid var(--color-primary);
+    border-bottom: 3px solid var(--color-primary);
   }
 }
