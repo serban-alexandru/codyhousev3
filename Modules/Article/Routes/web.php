@@ -14,3 +14,5 @@
 Route::prefix('admin')->group(function() {
     Route::get('article', 'ArticleController@index');
 });
+
+Route::resource('articles', 'ArticleController');
