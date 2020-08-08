@@ -1,3 +1,4 @@
+
 <div class="bg radius-md padding-md shadow-sm">
     <div class="margin-bottom-xl">
       <div class="flex flex-wrap gap-sm items-center justify-between">
@@ -6,17 +7,16 @@
 
             <li class="menu-bar__item" aria-controls="modal-add-article">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>ic_add_48px</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f9f9f9"></rect>
-                    <g transform="translate(4.799999999999999 4.799999999999999) scale(0.8)" fill="#3296fa">
+                    <g transform="translate(12 12) scale(0.5)" fill="#00a8db">
                         <path d="M38 26H26v12h-4V26H10v-4h12V10h4v12h12v4z"></path>
                     </g>
                 </svg>
-              </svg>
                 <span class="menu-bar__label">Add Article</span>
               </li>
   
               <li class="menu-bar__item" aria-controls="modal-search">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>ic_search_48px</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f9f9f9"></rect>
-                    <g transform="translate(4.799999999999999 4.799999999999999) scale(0.8)" fill="#666666">
+                    <g transform="translate(12 12) scale(0.5)" fill="#666666">
                         <path d="M31 28h-1.59l-.55-.55C30.82 25.18 32 22.23 32 19c0-7.18-5.82-13-13-13S6 11.82 6 19s5.82 13 13 13c3.23 0 6.18-1.18 8.45-3.13l.55.55V31l10 9.98L40.98 38 31 28zm-12 0c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9z"></path>
                     </g>
                 </svg>
@@ -62,7 +62,7 @@
                   </li>
                   <li class="menu-bar__item " role="menuitem">
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>ic_refresh_48px</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f9f9f9"></rect>
-                        <g transform="translate(4.799999999999999 4.799999999999999) scale(0.8)" fill="#7f7f7f">
+                        <g transform="translate(12 12) scale(0.5)" fill="#666666">
                             <path d="M35.3 12.7C32.41 9.8 28.42 8 24 8 15.16 8 8.02 15.16 8.02 24S15.16 40 24 40c7.45 0 13.69-5.1 15.46-12H35.3c-1.65 4.66-6.07 8-11.3 8-6.63 0-12-5.37-12-12s5.37-12 12-12c3.31 0 6.28 1.38 8.45 3.55L26 22h14V8l-4.7 4.7z"></path>
                         </g>
                     </svg>

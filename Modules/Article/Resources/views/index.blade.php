@@ -14,3 +14,4 @@
   </div><!-- /.container -->
 </section>
 @endsection
+<script src="js/medium-editor.js"></script>

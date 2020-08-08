@@ -7,15 +7,22 @@ Usage: codyhouse.co/license
 
 -------------------------------- */
 
-.tabs {}
+:root {
+  --s-tabs-border-bottom-width: 1px;
+  --s-tabs-selected-item-border-bottom-width: 1px;
+}
+
+.tabs {
+}
 
 .tabs__control {
+  color: inherit;
   text-decoration: none;
-  color: var(--color-contrast-medium);
 
   &:focus {
-    outline: 2px solid alpha(var(--color-primary), 0.2);
-    outline-offset: 2px;
+    outline: 0px solid alpha(var(--color-primary), 0.2);
+    outline-offset: 20px;
+    text-decoration: none;
   }
 
   &:hover {
@@ -26,6 +33,7 @@ Usage: codyhouse.co/license
 .js {
   .tabs__control[aria-selected="true"] {
     color: var(--color-contrast-high);
-    text-decoration: underline;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--color-primary);
   }
 }
