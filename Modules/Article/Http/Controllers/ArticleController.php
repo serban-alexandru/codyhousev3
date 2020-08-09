@@ -5,7 +5,7 @@ namespace Modules\Article\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Modules\Article\Entities\Article;
+use Modules\Article\Entities;
 class ArticleController extends Controller
 {
     /**

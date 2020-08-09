@@ -1,7 +1,7 @@
 @extends('admin::layouts.master')
+@section('content')
 @include('article::partials.modals')
 @include('article::partials.alert-modal')
-@section('content')
   <div class="container max-width-lg">
     <div class="grid gap-md@md">
       @include('article::partials.sidebar')
@@ -14,4 +14,3 @@
   </div><!-- /.container -->
 </section>
 @endsection
-<script src="js/medium-editor.js"></script>

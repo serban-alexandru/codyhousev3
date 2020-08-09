@@ -132,7 +132,11 @@
               </div>
             </th>
             <td class="int-table__cell">1</td>
-            <td class="int-table__cell" aria-controls="modal-add-article"><a href="#0">Bryony Mcmillan Bryony Mcmillan Bryony Mcmillan</a></td>
+            <td class="int-table__cell" aria-controls="modal-add-article">
+              <a 
+              href="#0">Bryony Mcmillan Bryony Mcmillan Bryony Mcmillan
+              </a>
+            </td>
             <td class="int-table__cell">r.email@email.com</td>
             <td class="int-table__cell">01/01/2021</td>
             <td class="int-table__cell"><img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Author picture" width="40" height="40"></td>
