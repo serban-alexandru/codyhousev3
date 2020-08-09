@@ -77,12 +77,7 @@
                       <circle cx="14.5" cy="7.5" r="1.5" /></svg>
                   </li>
                   <li class="menu-bar__item " role="menuitem">
-                    <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
-                      <g>
-                        <path d="M2,6v8c0,1.1,0.9,2,2,2h8c1.1,0,2-0.9,2-2V6H2z"></path>
-                        <path d="M12,3V1c0-0.6-0.4-1-1-1H5C4.4,0,4,0.4,4,1v2H0v2h16V3H12z M10,3H6V2h4V3z"></path>
-                      </g>
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>trash-simple</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f9f9f9"></rect><g transform="translate(12 12) scale(0.5)" fill="#666666"><path fill="#666666" d="M7,13v32c0,1.105,0.895,2,2,2h30c1.105,0,2-0.895,2-2V13H7z M17,38c0,0.552-0.447,1-1,1s-1-0.448-1-1V22 c0-0.552,0.447-1,1-1s1,0.448,1,1V38z M25,38c0,0.552-0.447,1-1,1s-1-0.448-1-1V22c0-0.552,0.447-1,1-1s1,0.448,1,1V38z M33,38 c0,0.552-0.447,1-1,1s-1-0.448-1-1V22c0-0.552,0.447-1,1-1s1,0.448,1,1V38z"></path> <path d="M46,9H33V2c0-0.552-0.447-1-1-1H16c-0.553,0-1,0.448-1,1v7H2c-0.553,0-1,0.448-1,1 s0.447,1,1,1h44c0.553,0,1-0.448,1-1S46.553,9,46,9z M31,9H17V3h14V9z"></path></g></svg>
                     <span class="menu-bar__label">Delete</span>
                     <span class="counter counter--critical counter--docked">1 <i class="sr-only">Notifications</i></span>
                   </li>
@@ -92,10 +87,7 @@
         </div>
           
           <li class="menu-bar__item hide@md no-js:is-hidden" aria-controls="sidebar">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>preferences</title><g fill="#828282"><path fill="#828282" d="M23,3H11v2h12c0.552,0,1-0.448,1-1S23.552,3,23,3z"></path> <path fill="#828282" d="M1,5h2v2c0,0.552,0.448,1,1,1h4c0.552,0,1-0.448,1-1V1c0-0.552-0.448-1-1-1H4C3.448,0,3,0.448,3,1v2H1 C0.448,3,0,3.448,0,4S0.448,5,1,5z"></path> <path d="M23,11h-2v2h2c0.552,0,1-0.448,1-1S23.552,11,23,11z"></path> <path d="M1,13h12v2c0,0.552,0.448,1,1,1h4c0.552,0,1-0.448,1-1V9c0-0.552-0.448-1-1-1h-4 c-0.552,0-1,0.448-1,1v2H1c-0.552,0-1,0.448-1,1S0.448,13,1,13z"></path> <path fill="#828282" d="M23,19H11v2h12c0.552,0,1-0.448,1-1S23.552,19,23,19z"></path> <path fill="#828282" d="M8,16H4c-0.552,0-1,0.448-1,1v2H1c-0.552,0-1,0.448-1,1s0.448,1,1,1h2v2c0,0.552,0.448,1,1,1h4 c0.552,0,1-0.448,1-1v-6C9,16.448,8.552,16,8,16z"></path></g></svg>
-            <span class="menu-bar__label">Sidebar</span>
-            </g>
-            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>preferences</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f9f9f9"></rect><g transform="translate(12 12) scale(0.5)" fill="#666666"><path fill="#666666" d="M46,7H21c-0.552,0-1,0.448-1,1s0.448,1,1,1h25c0.552,0,1-0.448,1-1S46.552,7,46,7z"></path> <path fill="#666666" d="M16,1H8C7.448,1,7,1.448,7,2v5H2C1.448,7,1,7.448,1,8s0.448,1,1,1h5v5c0,0.552,0.448,1,1,1h8 c0.552,0,1-0.448,1-1V2C17,1.448,16.552,1,16,1z"></path> <path d="M2,23h25c0.552,0,1,0.448,1,1s-0.448,1-1,1H2c-0.552,0-1-0.448-1-1S1.448,23,2,23z"></path> <path d="M32,17h8c0.552,0,1,0.448,1,1v5h5c0.552,0,1,0.448,1,1s-0.448,1-1,1h-5v5 c0,0.552-0.448,1-1,1h-8c-0.552,0-1-0.448-1-1V18C31,17.448,31.448,17,32,17z"></path> <path fill="#666666" d="M46,39H21c-0.552,0-1,0.448-1,1s0.448,1,1,1h25c0.552,0,1-0.448,1-1S46.552,39,46,39z"></path> <path fill="#666666" d="M16,33H8c-0.552,0-1,0.448-1,1v5H2c-0.552,0-1,0.448-1,1s0.448,1,1,1h5v5c0,0.552,0.448,1,1,1h8 c0.552,0,1-0.448,1-1V34C17,33.448,16.552,33,16,33z"></path></g></svg>
         </li>
   
       </div>
