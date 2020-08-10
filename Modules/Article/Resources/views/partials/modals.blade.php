@@ -34,7 +34,7 @@
                 <input class="form-control width-100%" type="text" name="input-name" id="input-name" required>
               <div>
 
-              <div id="">Body Text Using https://github.com/yabwe/medium-editor</div><!-- /#ajax-add-blog-form -->
+              <div id="">Body Text Using editor.js</div><!-- /#ajax-add-blog-form -->
             </div>
           </section>
 

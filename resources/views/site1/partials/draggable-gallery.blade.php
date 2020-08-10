@@ -105,7 +105,7 @@
             <div class="card__content">
               <div class="text-component">
                 <h4 class="author__content">
-                  <a href="#0" draggable="false" ondragstart="return false;">Title of the Card</a>
+                  <a href="#0" draggable="false" ondragstart="return false;">How I Changed My Muscle Structure in 6 Months</a>
                 </h4>
                 <p class="text-sm color-contrast-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa, suscipit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa, suscipit.</p>
               </div>
@@ -136,7 +136,7 @@
             <div class="card__content">
               <div class="text-component">
                 <h4 class="author__content">
-                  <a href="#0" draggable="false" ondragstart="return false;">Title of the Card</a>
+                  <a href="#0" draggable="false" ondragstart="return false;">How I Changed My Muscle Structure in 6 Months</a>
                 </h4>
                 <p class="text-sm color-contrast-medium">Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa, suscipit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa, suscipit.</p>
               </div>
