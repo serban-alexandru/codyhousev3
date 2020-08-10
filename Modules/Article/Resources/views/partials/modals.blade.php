@@ -113,6 +113,7 @@
         <div class="flex justify-end gap-xs">
           <button type="button" class="btn btn--subtle js-modal__close">Cancel</button>
           <button type="submit" class="btn btn--primary">Save</button>
+          <button type="submit" class="btn btn--primary">Publish</button>
         </div>
       </footer>
     </form>

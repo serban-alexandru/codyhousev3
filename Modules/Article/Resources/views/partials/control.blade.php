@@ -5,22 +5,24 @@
         <div>
           <div class="flex flex-wrap gap-xs">
 
-            <li class="menu-bar__item" aria-controls="modal-add-article">
+            <li class="menu-bar__item js-menu-bar has-text" aria-controls="modal-add-article">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>ic_add_48px</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f9f9f9"></rect>
                     <g transform="translate(12 12) scale(0.5)" fill="#00a8db">
                         <path d="M38 26H26v12h-4V26H10v-4h12V10h4v12h12v4z"></path>
                     </g>
                 </svg>
+                <span class="display@md padding-xxxs">Add Article</span>
                 <span class="menu-bar__label">Add Article</span>
               </li>
   
-              <li class="menu-bar__item" aria-controls="modal-search">
+              <li class="menu-bar__item js-menu-bar has-text" aria-controls="modal-search">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>ic_search_48px</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f9f9f9"></rect>
                     <g transform="translate(12 12) scale(0.5)" fill="#666666">
                         <path d="M31 28h-1.59l-.55-.55C30.82 25.18 32 22.23 32 19c0-7.18-5.82-13-13-13S6 11.82 6 19s5.82 13 13 13c3.23 0 6.18-1.18 8.45-3.13l.55.55V31l10 9.98L40.98 38 31 28zm-12 0c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9z"></path>
                     </g>
                 </svg>
               </svg>
+              <span class="display@md padding-xxxs">Search Article</span>
                 <span class="menu-bar__label">Search Articles</span>
               </li>
 

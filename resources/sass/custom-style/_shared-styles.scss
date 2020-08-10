@@ -47,12 +47,13 @@
 // admin sub navigation
 .menu-bar__item.has-text {
     width: auto;
+    background-color: #fafafa;
+    border-radius: 50px;
 }
 
 @media (min-width: 64rem) {
     .menu-bar .menu-bar__item.has-text:not(.icon-top) {
         border: 1px solid #dbd9d9;
-        background-color: white;
         padding-right: 10px;
         border-radius: 10px;
         margin-top: 0.5rem;
