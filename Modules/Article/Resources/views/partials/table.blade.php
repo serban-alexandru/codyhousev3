@@ -13,36 +13,11 @@
               </div>
             </td>
 
-            <th class="int-table__cell int-table__cell--th int-table__cell--sort js-int-table__cell--sort">
-              <div class="flex items-center">
-                <span>ID</span>
-
-                <svg class="icon icon--xxs margin-left-xxxs int-table__sort-icon" aria-hidden="true" viewBox="0 0 12 12">
-                  <polygon class="arrow-up" points="6 0 10 5 2 5 6 0" />
-                  <polygon class="arrow-down" points="6 12 2 7 10 7 6 12" /></svg>
-              </div>
-
-              <ul class="sr-only js-int-table__sort-list">
-                <li>
-                  <input type="radio" name="sortingId" id="sortingIdNone" value="none" checked>
-                  <label for="sortingIdNone">No sorting</label>
-                </li>
-
-                <li>
-                  <input type="radio" name="sortingId" id="sortingIdAsc" value="asc">
-                  <label for="sortingIdAsc">Sort in ascending order</label>
-                </li>
-
-                <li>
-                  <input type="radio" name="sortingId" id="sortingIdDes" value="desc">
-                  <label for="sortingIdDes">Sort in descending order</label>
-                </li>
-              </ul>
-            </th>
+            
 
             <th class="int-table__cell int-table__cell--th int-table__cell--sort js-int-table__cell--sort">
               <div class="flex items-center">
-                <span>Name</span>
+                <span>Article Title</span>
 
                 <svg class="icon icon--xxs margin-left-xxxs int-table__sort-icon" aria-hidden="true" viewBox="0 0 12 12">
                   <polygon class="arrow-up" points="6 0 10 5 2 5 6 0" />
@@ -69,7 +44,7 @@
 
             <th class="int-table__cell int-table__cell--th int-table__cell--sort js-int-table__cell--sort">
               <div class="flex items-center">
-                <span>Email</span>
+                <span>Username</span>
 
                 <svg class="icon icon--xxs margin-left-xxxs int-table__sort-icon" aria-hidden="true" viewBox="0 0 12 12">
                   <polygon class="arrow-up" points="6 0 10 5 2 5 6 0" />
@@ -121,8 +96,8 @@
               </ul>
             </th>
 
-            <th class="int-table__cell int-table__cell--th text-center">Location</th>
-            <th class="int-table__cell int-table__cell--th text-left">Action</th>
+            <th class="int-table__cell int-table__cell--th text-center">Image</th>
+            <th class="int-table__cell int-table__cell--th text-left">Delete</th>
           </tr>
         </thead>
 
@@ -135,7 +110,6 @@
                 <div class="custom-checkbox__control" aria-hidden="true"></div>
               </div>
             </th>
-            <td class="int-table__cell">1</td>
             <td class="int-table__cell" aria-controls="modal-add-article">
               <a 
               href="#0">Bryony Mcmillan Bryony Mcmillan Bryony Mcmillan
@@ -159,7 +133,6 @@
                 <div class="custom-checkbox__control" aria-hidden="true"></div>
               </div>
             </th>
-            <td class="int-table__cell">1</td>
             <td class="int-table__cell" aria-controls="modal-add-article">
               <a 
               href="#0">Bryony Mcmillan Bryony Mcmillan Bryony Mcmillan
