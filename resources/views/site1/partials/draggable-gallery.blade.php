@@ -18,7 +18,7 @@
               </div>
   
               <div class="author author--meta margin-top-md">
-                <a href="#0" class="author__img-wrapper" draggable="false" ondragstart="return false;">
+                <a href="http://127.0.0.1:8000/site1/profile" class="author__img-wrapper" draggable="false" ondragstart="return false;">
                   <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Author picture">
                 </a>
   

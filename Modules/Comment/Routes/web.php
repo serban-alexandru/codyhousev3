@@ -11,6 +11,6 @@
 |
 */
 
-Route::prefix('comment')->group(function() {
-    Route::get('/', 'CommentController@index');
+Route::prefix('admin')->group(function() {
+    Route::get('comment', 'CommentController@index');
 });

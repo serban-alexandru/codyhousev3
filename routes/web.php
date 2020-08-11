@@ -34,6 +34,14 @@ Route::get('/site1',function(){
     return view('site1.pages.blog');
   });
 
+  Route::get('/site1/profile',function(){
+    return view('site1.pages.profile');
+  });
+
+  Route::get('/site1/home',function(){
+    return view('site1.home');
+  });
+
   Route::get('/site2',function(){
     return view('site2.index');
   });
