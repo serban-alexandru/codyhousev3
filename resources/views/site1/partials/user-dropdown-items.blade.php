@@ -30,7 +30,7 @@
   
           <ul class="dropdown__menu" aria-label="submenu">
             <li><a href="{{ url('profile') }}" class="dropdown__item">Profile</a></li>
-            <li><a href="upload.html" class="dropdown__item">Upload</a></li>
+            <li><a href="http://127.0.0.1:8000/site1/editprofile" class="dropdown__item">Edit Profile</a></li>
             <li><a href="#0" class="dropdown__item">Scrape</a></li>
             <li class="dropdown__separator" role="separator"></li>
             <li><a href="#0" class="dropdown__item">Account Settings</a></li>
