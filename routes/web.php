@@ -31,8 +31,8 @@ Route::get('/site1',function(){
     return view('site1.pages.profile');
   });
 
-  Route::get('/site1/editprofile',function(){
-    return view('site1.pages.editprofile');
+  Route::get('/site1/user-controlpanel',function(){
+    return view('site1.pages.user-controlpanel');
   });
 
   Route::get('/site1/home',function(){
