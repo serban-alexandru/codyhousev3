@@ -1,6 +1,5 @@
 
-
-
+@if(count($articles) > 0)
   <div id="table-1" class="int-table text-sm js-int-table">
     <div class="int-table__inner">
       <table class="int-table__table" aria-label="Interactive table example">
@@ -13,7 +12,7 @@
               </div>
             </td>
 
-            
+
 
             <th class="int-table__cell int-table__cell--th int-table__cell--sort js-int-table__cell--sort">
               <div class="flex items-center">
@@ -103,6 +102,7 @@
 
         <tbody class="int-table__body js-int-table__body">
 
+          @foreach($articles as $article)
           <tr class="int-table__row">
             <th class="int-table__cell" scope="row">
               <div class="custom-checkbox int-table__checkbox">
@@ -111,8 +111,8 @@
               </div>
             </th>
             <td class="int-table__cell" aria-controls="modal-add-article">
-              <a 
-              href="#0">An introduction video that doesn't explain how you get
+              <a
+              href="#0">{{$article->title}}
               </a>
             </td>
             <td class="int-table__cell">r.email@email.com</td>
@@ -124,32 +124,10 @@
               </li>
             </td>
           </tr>
-
-          <tr class="int-table__row">
-            <th class="int-table__cell" scope="row">
-              <div class="custom-checkbox int-table__checkbox">
-                <input class="custom-checkbox__input js-int-table__select-row" type="checkbox" aria-label="Select this row" />
-                <div class="custom-checkbox__control" aria-hidden="true"></div>
-              </div>
-            </th>
-            <td class="int-table__cell" aria-controls="modal-add-article">
-              <a 
-              href="#0">Bryony Mcmillan Bryony Mcmillan Bryony Mcmillan
-
-              </a>
-            </td>
-            <td class="int-table__cell">r.email@email.com</td>
-            <td class="int-table__cell">01/01/2021</td>
-            <td class="int-table__cell text-center"><img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Author picture" width="40" height="40"></td>
-            <td class="int-table__cell text-center">
-              <li class="menu-bar__item text-center" role="menuitem" aria-controls="modal-name-1">
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>trash-simple</title><g stroke-linecap="square" stroke-linejoin="miter" stroke-width="1" transform="translate(0.5 0.5)" fill="#828282" stroke="#828282"><polyline fill="none" stroke="#828282" stroke-miterlimit="10" points="20,9 20,23 4,23 4,9 "></polyline> <line fill="none" stroke="#828282" stroke-miterlimit="10" x1="1" y1="5" x2="23" y2="5"></line> <line fill="none" stroke-miterlimit="10" x1="12" y1="12" x2="12" y2="18"></line> <line fill="none" stroke-miterlimit="10" x1="8" y1="12" x2="8" y2="18"></line> <line fill="none" stroke-miterlimit="10" x1="16" y1="12" x2="16" y2="18"></line> <polyline fill="none" stroke="#828282" stroke-miterlimit="10" points="8,5 8,1 16,1 16,5 "></polyline></g></svg>
-              </li>
-            </td>
-          </tr>
+          @endforeach
 
         </tbody>
-        
+
       </table>
     </div>
   </div>
@@ -220,3 +198,7 @@
         </li>
       </ul>
     </nav>
+
+@else
+  <p> No post found </p>
+@endif

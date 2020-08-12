@@ -5,7 +5,9 @@ namespace Modules\Article\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Modules\Article\Entities;
+
+use Modules\Article\Entities\Article;
+
 class ArticleController extends Controller
 {
     /**
@@ -14,7 +16,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        return view('article::index');
+        $articles = Article::all();
+
+        return view('article::index')->with('articles', $articles);
     }
 
     /**
