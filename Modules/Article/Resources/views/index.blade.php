@@ -23,6 +23,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
 
 <script>
   (function(){
@@ -39,6 +40,10 @@
       quote: Quote,
       checklist: {
         class: Checklist,
+        inlineToolbar: true,
+      },
+      list: {
+        class: List,
         inlineToolbar: true,
       }
     }
