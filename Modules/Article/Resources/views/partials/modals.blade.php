@@ -27,7 +27,7 @@
       <div class="padding-y-sm padding-x-md flex-grow overflow-auto">
         <div class="js-tabs__panels">
           <section id="tab1Panel1" class="padding-top-md js-tabs__panel">
-            <div class="text-component">
+            <div>
 
               <div class="grid gap-sm">
                 <label class="form-label margin-bottom-xxs" for="input-name">Enter Your Title</label>
