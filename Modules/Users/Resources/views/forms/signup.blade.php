@@ -66,7 +66,7 @@
     <span class="cd-signin-modal__error">Error message here!</span>
     <a
       href="#0"
-      class="cd-signin-modal__hide-password js-hide-password"
+      class="cd-signin-modal__hide-password js-hide-password" tabindex="-1"
       >Hide</a
     >
     <span class="cd-signin-modal__error">Error message here!</span>
@@ -88,7 +88,7 @@
     <span class="cd-signin-modal__error">Error message here!</span>
     <a
       href="#0"
-      class="cd-signin-modal__hide-password js-hide-password"
+      class="cd-signin-modal__hide-password js-hide-password" tabindex="-1"
       >Hide</a
     >
     <span class="cd-signin-modal__error">Error message here!</span>
@@ -102,7 +102,7 @@
       class="cd-signin-modal__input"
     />
     <label for="terms"
-      >I agree to the <a href="#0">Terms</a></label
+      >I agree to the <a href="#0" tabindex="-1">Terms</a></label
     >
   </p>
 
