@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
+
 class RegisterController extends Controller
 {
     /*
@@ -85,10 +87,15 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
         $user = $this->create($request->all());
+
+        Auth::loginUsingId($user->id);
+
         return response()->json([
             'status'  => 'success',
             'message' => 'Registration successful.',
-            'data'    => null
+            'data'    => [
+                'redirect_to' => url('site1/home')
+            ]
         ]);
     }
 
