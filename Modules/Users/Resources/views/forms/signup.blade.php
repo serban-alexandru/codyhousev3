@@ -147,7 +147,10 @@
             // reset
             $this[0].reset();
             $('.cd-signin-modal__error').removeClass('cd-signin-modal__error--is-visible');
-          $('input').removeClass('cd-signin-modal__input--has-error');
+            $('input').removeClass('cd-signin-modal__input--has-error');
+
+            // redirect
+            window.location.href = response.data.redirect_to;
           }
         },
         error: function(response){
