@@ -1,5 +1,5 @@
 @extends('admin::layouts.master')
-@include('admin::partials.custom-script')
+
 @section('content')
   @include('users::partials.users-nav')
   @include('users::partials.modals')
@@ -11,10 +11,14 @@
           <div id="site-table-with-pagination-container">
             @include('users::partials.control')
             @include('users::partials.table')
-            @include('admin::partials.custom-script')
           </div><!-- /#site-table-with-pagination-container -->
         </main>
       </div><!-- /.grid -->
     </div><!-- /.container -->
   </section>
 @endsection
+
+<!-- MODULE'S CUSTOM SCRIPT -->
+@push('module-scripts')
+  @include('users::partials.script-js')
+@endpush
