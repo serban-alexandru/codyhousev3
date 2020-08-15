@@ -3,6 +3,11 @@
     --radius: 0.25em; // border radius base size
 }
 
+// body styles
+body {
+    overflow-x: hidden;
+}
+
 // custom ajax content loader
 .custom-ajax-frame-loader {
     text-align: center;
