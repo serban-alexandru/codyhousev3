@@ -20,7 +20,7 @@
   <noscript>
     <link rel="stylesheet" href="{{ asset('assets/css/style-fallback.css') }}">
   </noscript>
-  
+
   <title>Title</title>
 
   @include('admin::partials.external-fonts')
@@ -31,8 +31,14 @@
   @include('admin::partials.header')
   @yield('content')
   @include('admin::partials.footer')
+
+  <!-- CODYHOUSE, LIBRARIES -->
   <script src="{{ asset('assets/js/scripts.js') }}"></script>
+
+  <!-- COMMON SCRIPTS -->
   @include('admin::partials.custom-script')
 
+  <!-- MODULE SCRIPTS -->
+  @stack('module-scripts')
 </body>
 </html>
