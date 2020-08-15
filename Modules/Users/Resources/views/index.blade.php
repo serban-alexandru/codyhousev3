@@ -18,7 +18,7 @@
   </section>
 @endsection
 
-<!-- MODULE'S CUSTOM SCRIPT -->
 @push('module-scripts')
+<!-- MODULE'S CUSTOM SCRIPT -->
   @include('users::partials.script-js')
 @endpush
