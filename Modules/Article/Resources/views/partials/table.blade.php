@@ -129,8 +129,8 @@
         </tbody>
 
       </table>
-    </div>
-  </div>
+    </div><!-- /.int-table__inner -->
+  </div><!-- /.int-table text-sm js-int-table -->
 
   <menu id="menu-example" class="menu js-menu">
     <li role="menuitem">
@@ -198,7 +198,7 @@
         </li>
       </ul>
     </nav>
-
+  </div><!-- /.flex items-center justify-between padding-top-sm -->
 @else
   <p> No post found </p>
 @endif
