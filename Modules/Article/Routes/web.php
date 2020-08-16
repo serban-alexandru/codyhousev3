@@ -13,6 +13,7 @@
 
 Route::prefix('admin')->group(function() {
     Route::get('article', 'ArticleController@index');
+    Route::get('article/create', 'ArticleController@create');
 });
 
 Route::resource('articles', 'ArticleController');
