@@ -19,15 +19,28 @@
       </a>
       @endguest
       @auth
-      <a href="#0" class="mega-nav__icon-btn">
-        <svg class="icon" viewBox="0 0 24 24">
-          <title>Go to account settings</title>
-          <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
-            <circle cx="12" cy="6" r="4" />
-            <path d="M12 13a8 8 0 00-8 8h16a8 8 0 00-8-8z" />
-          </g>
-        </svg>
-      </a>
+      <div class="dropdown js-dropdown">
+        <div class="mega-nav__icon-btn dropdown__wrapper inline-block">
+          <a href="#0" class="color-inherit dropdown__trigger">
+            <svg class="icon" viewBox="0 0 24 24">
+              <title>Go to account settings</title>
+              <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
+                <circle cx="12" cy="6" r="4" />
+                <path d="M12 13a8 8 0 00-8 8h16a8 8 0 00-8-8z" />
+              </g>
+            </svg>
+          </a>
+
+          <ul class="dropdown__menu" aria-label="submenu">
+            <li><a href="{{ url('profile') }}" class="dropdown__item">Profile</a></li>
+            <li><a href="upload.html" class="dropdown__item">Upload</a></li>
+            <li><a href="#0" class="dropdown__item">Scrape</a></li>
+            <li class="dropdown__separator" role="separator"></li>
+            <li><a href="#0" class="dropdown__item">Account Settings</a></li>
+            <li><a href="{{ url('/logout') }}" class="dropdown__item">Log out</a></li>
+          </ul>
+        </div><!-- /.mega-nav__icon-btn dropdown__wrapper inline-block -->
+      </div><!-- /.dropdown js-dropdown -->
       @endauth
 
       <button class="reset mega-nav__icon-btn mega-nav__icon-btn--search js-tab-focus" aria-label="Toggle search" aria-controls="mega-nav-search">
@@ -152,8 +165,8 @@
                   <li><a href="#0" class="dropdown__item">Account Settings</a></li>
                   <li><a href="{{ url('/logout') }}" class="dropdown__item">Log out</a></li>
                 </ul>
-              </div>
-            </div>
+              </div><!-- /.mega-nav__icon-btn dropdown__wrapper inline-block -->
+            </div><!-- /.dropdown js-dropdown -->
             @endauth
 
             <button class="reset mega-nav__icon-btn mega-nav__icon-btn--search js-tab-focus" aria-label="Toggle search" aria-controls="mega-nav-search">
