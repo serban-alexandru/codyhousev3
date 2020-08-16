@@ -1,73 +1,59 @@
 @auth
+
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/@editorjs/link@latest"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/raw@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
+
+<script>
+  (function(){
+    const editor = new EditorJS({
+      /**
+      * Id of Element that should contain Editor instance
+      */
+      holder: 'editorjs',
+      tools: {
+        header: Header,
+        raw: RawTool,
+        image: SimpleImage,
+        embed: Embed,
+        quote: Quote,
+        checklist: {
+          class: Checklist,
+          inlineToolbar: true,
+        },
+        list: {
+          class: List,
+          inlineToolbar: true,
+        }
+      }
+    });
+  })();
+</script>
+
 <script>
   (function(){
 
-    // Interactive table checkbox toggle
-    $(document).on('input', '.js-int-table__select-all, .js-int-table__select-row', function(){
-      var $checkBoxesChecked = $('.js-int-table__select-row:checked');
-      var $totalSelected = $('.table-total-selected');
-      var $inputHiddenTemplate = $("#selected-id-template").html().trim();
-
-      $('.bulk-selected-ids').html('');
-
-      $checkBoxesChecked.each(function(){
-        var $this = $(this);
-        var $selectedID = $inputHiddenTemplate.replace(/@{{value}}/gi, $this.val());
-        $('.bulk-selected-ids').append($selectedID);
-      });
-
-      $totalSelected.text($checkBoxesChecked.length);
-    });
-
-    // watch for change on the results limit dropdown
-    $(document).on('change', '#site-table-limit', function() {
-      var $this = $(this);
-      var $submitForm = $this.closest('form');
-      /* $submitForm.submit();
-      return; */
-      var url = $submitForm.attr('action');
-      var method = $submitForm.attr('method');
-      var dataType = 'HTML';
-      var data = $submitForm.serialize();
-
-      $.ajax({
-        url: url,
-        method: method,
-        dataType: dataType,
-        data: data
-      })
-        .done(function(data) {
-          $('#site-table-with-pagination-container').html(data);
-        })
-        .fail(function(jqXHR, textStatus) {
-          console.log('Request failed: ' + textStatus);
-          alert('Something went wrong. Please reload the page.');
-        })
-        .always(function() {});
-
-    });
-
-    // when pagination links are clicked, only load the table
-    $(document).on('click', '.site-table-pagination-ajax a', function(e){
+    // load content when user clicked on sidebar links
+    $(document).on('click', '.site-load-content a', function (e) {
       e.preventDefault();
       var $this = $(this);
       var url = $this.attr('href');
 
+      $('meta[name="current-url"]').attr('content', url);
+      console.log(url);
+
+      // loads page content inside this element
       $('#site-table-with-pagination-container').load(url);
     });
 
-    // change sort and order whenever a table header column is toggled
-    $(document).on('click', '.js-int-table__cell--sort', function(){
-      var $this = $(this);
-      var sort = $this.data('sort')
-      var $checkedOrder = $this.find('input[type="radio"]:checked');
-      var order = (order == 'none') ? 'desc' : $checkedOrder.val();
-
-      $('input[name="sort"]').val(sort);
-      $('input[name="order"]').val(order);
-
-      console.log(sort, order);
-    });
+    console.log('loaded ???');
   })();
 </script>
 @endauth
