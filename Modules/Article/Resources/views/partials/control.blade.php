@@ -14,7 +14,7 @@
                 <span class="display@md padding-xxxs">Add Article</span>
                 <span class="menu-bar__label">Add Article</span>
               </li>
-  
+
               <li class="menu-bar__item" aria-controls="modal-search">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>ic_search_48px</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f9f9f9"></rect>
                     <g transform="translate(12 12) scale(0.5)" fill="#666666">
@@ -25,34 +25,6 @@
                 <span class="menu-bar__label">Search Articles</span>
               </li>
 
-              <div class="modal modal--search modal--animate-fade flex flex-center padding-md js-modal" id="modal-search">
-                <div class="modal__content width-100% max-width-sm" role="alertdialog" aria-labelledby="modal-search-title" aria-describedby="">
-                  <form class="full-screen-search">
-                    <label for="search-input-x" id="modal-search-title" class="sr-only">Search</label>
-                    <input class="reset full-screen-search__input" type="search" name="search-input-x" id="search-input-x" placeholder="Search...">
-                    <button class="reset full-screen-search__btn">
-                      <svg class="icon" viewBox="0 0 24 24">
-                        <title>Search</title>
-                        <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" stroke="currentColor" fill="none" stroke-miterlimit="10">
-                          <line x1="22" y1="22" x2="15.656" y2="15.656"></line>
-                          <circle cx="10" cy="10" r="8"></circle>
-                        </g>
-                      </svg>
-                    </button>
-                  </form>
-                </div>
-              
-                <button class="reset modal__close-btn modal__close-btn--outer  js-modal__close js-tab-focus">
-                  <svg class="icon icon--sm" viewBox="0 0 24 24">
-                    <title>Close modal window</title>
-                    <g fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2">
-                      <line x1="3" y1="3" x2="21" y2="21" />
-                      <line x1="21" y1="3" x2="3" y2="21" />
-                    </g>
-                  </svg>
-                </button>
-              </div>
-            
             <div class="int-table-actions" data-table-controls="table-1">
                 <menu class="menu-bar js-int-table-actions__no-items-selected js-menu-bar">
                   <li class="menu-bar__item menu-bar__item--trigger js-menu-bar__trigger" role="menuitem" aria-label="More options">
@@ -86,12 +58,11 @@
               </div>
           </div>
         </div>
-          
+
           <li class="menu-bar__item hide@md no-js:is-hidden" aria-controls="sidebar">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>preferences</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f9f9f9"></rect><g transform="translate(12 12) scale(0.5)" fill="#666666"><path fill="#666666" d="M46,7H21c-0.552,0-1,0.448-1,1s0.448,1,1,1h25c0.552,0,1-0.448,1-1S46.552,7,46,7z"></path> <path fill="#666666" d="M16,1H8C7.448,1,7,1.448,7,2v5H2C1.448,7,1,7.448,1,8s0.448,1,1,1h5v5c0,0.552,0.448,1,1,1h8 c0.552,0,1-0.448,1-1V2C17,1.448,16.552,1,16,1z"></path> <path d="M2,23h25c0.552,0,1,0.448,1,1s-0.448,1-1,1H2c-0.552,0-1-0.448-1-1S1.448,23,2,23z"></path> <path d="M32,17h8c0.552,0,1,0.448,1,1v5h5c0.552,0,1,0.448,1,1s-0.448,1-1,1h-5v5 c0,0.552-0.448,1-1,1h-8c-0.552,0-1-0.448-1-1V18C31,17.448,31.448,17,32,17z"></path> <path fill="#666666" d="M46,39H21c-0.552,0-1,0.448-1,1s0.448,1,1,1h25c0.552,0,1-0.448,1-1S46.552,39,46,39z"></path> <path fill="#666666" d="M16,33H8c-0.552,0-1,0.448-1,1v5H2c-0.552,0-1,0.448-1,1s0.448,1,1,1h5v5c0,0.552,0.448,1,1,1h8 c0.552,0,1-0.448,1-1V34C17,33.448,16.552,33,16,33z"></path></g></svg>
         </li>
-  
+
       </div>
     </div>
-  
-    
+
