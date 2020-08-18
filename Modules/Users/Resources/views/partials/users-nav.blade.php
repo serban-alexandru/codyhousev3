@@ -53,7 +53,7 @@
                                 </g>
                             </svg>
                             <span class="counter counter--critical counter--docked"><span class="table-total-selected">0</span><!-- /.table-total-selected --> <i
-                                    class="sr-only">Notifications</i></span>
+                                    class="sr-only">Suspend</i></span>
                             <span class="menu-bar__label">Suspend</span>
                         </li>
 
