@@ -79,7 +79,7 @@
       </li><!-- /.int-table-actions -->
     </ul><!-- /.flex flex-wrap gap-xs -->
     <ul class="flex flex-wrap gap-xs">
-      <li class="menu-bar__item" style="margin-left: auto; margin-right: 50px;">
+      <li class="menu-bar__item" style="margin-left: auto; margin-right: 50px; background-color: transparent;">
         <form action="{{ url('admin/users') }}" method="GET" style="margin-top: -20px;">
           <input type="hidden" name="q" value="{{$q}}">
           <input type="hidden" name="sort" value="{{$sort}}">
