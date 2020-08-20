@@ -1,4 +1,4 @@
-<aside class="sidebar sidebar--static@md col-3@md js-sidebar sidebar--right-on-mobile" data-static-class="sidebar--sticky-on-desktop z-index-1 bg-contrast-lowest" id="sidebar" aria-labelledby="sidebarTitle">
+<aside class="sidebar sidebar--static@md col-3@md js-sidebar sidebar--right-on-mobile" id="sidebar" aria-labelledby="sidebarTitle">
   <div class="sidebar__panel">
     <header class="sidebar__header z-index-2">
       <h1 class="text-md text-truncate" id="sidebarTitle">Sidebar title</h1>
