@@ -51,4 +51,5 @@ Route::middleware('auth', 'role:admin')->group(function(){
 
 Route::middleware('auth')->group(function(){
   Route::get('users/settings', 'UsersController@settings');
+  Route::post('users/settings/save', 'UsersController@saveSettings');
 });

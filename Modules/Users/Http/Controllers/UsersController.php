@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Support\Facades\Auth;
@@ -535,5 +536,51 @@ class UsersController extends Controller
         $user = Auth::user();
 
         return view('users::settings', compact('user'));
+    }
+
+    public function saveSettings(Request $request)
+    {
+        $alert = [
+            'message' => 'Your settings have been saved.',
+            'class'   => '',
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'name'  => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email,' . Auth::id()]
+        ]);
+
+        if ($validator->fails()) {
+            $errors = '';
+
+            foreach ($validator->messages()->getMessages() as $fieldName => $messages) {
+                foreach ($messages as $message) {
+                    $errors .= '<p>'.$message.'</p>';
+                }
+            }
+
+            $alert = [
+                'message' => $errors,
+                'class'   => 'alert--error',
+            ];
+
+            return redirect()->back()->with('alert', $alert);
+        }
+
+        $user           = Auth::user();
+        $user->name     = $request->input('name');
+        $user->email    = $request->input('email');
+        $user->password = $request->input('password') ? Hash::make($request->input('password')) : $user->password;
+
+        if (!$user->save()) {
+            $alert = [
+                'message' => 'Failed to save. Please try again.',
+                'class'   => 'alert--error',
+            ];
+
+            return redirect()->back()->with('alert', $alert);
+        }
+
+        return redirect()->back()->with('alert', $alert);
     }
 }
