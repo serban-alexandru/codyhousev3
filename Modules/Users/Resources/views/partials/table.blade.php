@@ -31,7 +31,7 @@
       <div class="bulk-selected-ids"></div><!-- /.bulk-selected-ids -->
 </form>
 
-<div class="int-table js-int-table" id="table-1">
+<div class="int-table js-int-table text-sm" id="table-1">
 
     <div class="int-table__inner" id="site-table-container">
       <table class="int-table__table" aria-label="Interactive table example">

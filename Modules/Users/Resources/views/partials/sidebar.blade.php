@@ -11,7 +11,7 @@
     <div class="position-relative z-index-1">
       <!-- start sidebar content -->
       <aside class="bg" style="width: 241px; height: 80vh;">
-        <nav class="sidenav js-sidenav">
+        <nav class="sidenav js-sidenav text-sm@md">
           <div class="sidenav__label">Main</div>
 
           <ul class="sidenav__list site-table-filter">
