@@ -36,7 +36,7 @@
             <li><a href="upload.html" class="dropdown__item">Upload</a></li>
             <li><a href="#0" class="dropdown__item">Scrape</a></li>
             <li class="dropdown__separator" role="separator"></li>
-            <li><a href="#0" class="dropdown__item">Account Settings</a></li>
+            <li><a href="{{ url('users/settings') }}" class="dropdown__item">Account Settings</a></li>
             <li><a href="{{ url('/logout') }}" class="dropdown__item">Log out</a></li>
           </ul>
         </div><!-- /.mega-nav__icon-btn dropdown__wrapper inline-block -->
@@ -162,7 +162,7 @@
                   <li><a href="upload.html" class="dropdown__item">Upload</a></li>
                   <li><a href="#0" class="dropdown__item">Scrape</a></li>
                   <li class="dropdown__separator" role="separator"></li>
-                  <li><a href="#0" class="dropdown__item">Account Settings</a></li>
+                  <li><a href="{{ url('users/settings') }}" class="dropdown__item">Account Settings</a></li>
                   <li><a href="{{ url('/logout') }}" class="dropdown__item">Log out</a></li>
                 </ul>
               </div><!-- /.mega-nav__icon-btn dropdown__wrapper inline-block -->
