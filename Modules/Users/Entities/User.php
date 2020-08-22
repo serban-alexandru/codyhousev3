@@ -6,9 +6,14 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\Models\Media;
+
+class User extends Authenticatable implements HasMedia
 {
     use Notifiable;
+    use HasMediaTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -46,5 +51,12 @@ class User extends Authenticatable
     public function getStatusAttribute()
     {
         return ($this->permission < 1) ? 'Inactive' : 'Active';
+    }
+
+    public function registerMediaConversions(Media $media = null)
+    {
+        $this->addMediaConversion('thumb')
+            ->width(24)
+            ->height(24);
     }
 }
