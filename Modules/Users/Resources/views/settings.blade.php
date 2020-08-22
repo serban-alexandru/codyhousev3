@@ -24,19 +24,19 @@
           @endif
           <form action="{{ url('users/settings/save') }}" method="post">@csrf
             <div class="author margin-bottom-md">
-              <a href="#0" class="author__img-wrapper">
-                <img src="{{ asset('assets/img/placeholder.jpg') }}" alt="Author picture">
+              <a href="#0" class="author__img-wrapper bg-primary-dark">
+                <img src="{{ asset('assets/img/placeholder.jpg') }}" alt="Author picture" id="settings-avatar" style="display: none;">
               </a>
               <div class="author__content text-component padding-top-sm padding-left-xs">
                 <div class="flex flex-wrap gap-sm">
                   <div class="file-upload inline-block">
                     <label for="avatar" class="file-upload__label btn btn--subtle">
-                      <span class="file-upload__text file-upload__text--has-max-width">Upload a file</span>
+                      <span class="file-upload__text file-upload__text--has-max-width" data-default-text="Upload a file">Upload a file</span>
                     </label>
 
-                    <input type="file" class="file-upload__input" name="avatar" id="avatar" accept="image/*">
+                    <input type="file" class="file-upload__input" data-custom-image-file-preview="#settings-avatar" data-custom-image-file-resetter="#settings-avatar-delete" name="avatar" id="avatar" accept="image/*">
                   </div><!-- /.file-upload inline-block -->
-                  <button type="button" class="btn btn--subtle btn--disabled" disabled>Delete</button><!-- /.btn btn--subtle -->
+                  <button type="button" class="btn btn--subtle btn--disabled" id="settings-avatar-delete" data-custom-image-file-reset-file="#avatar" disabled>Delete</button><!-- /.btn btn--subtle -->
                 </div><!-- /.flex flex-wrap -->
               </div><!-- /.author__content -->
             </div><!-- /.author -->
@@ -76,3 +76,8 @@
     </div><!-- /.container max-width-lg -->
   </section><!-- /.padding-y-md -->
 @endsection
+
+@push('module-scripts')
+<!-- MODULE'S CUSTOM SCRIPT -->
+  @include('users::partials.script-js')
+@endpush
