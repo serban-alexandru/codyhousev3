@@ -572,15 +572,35 @@ class UsersController extends Controller
         $user->email    = $request->input('email');
         $user->password = $request->input('password') ? Hash::make($request->input('password')) : $user->password;
 
+        // get last used avatar
+        $lastUsedAvatar = Auth::user()->getMedia('avatars')->last();
+
+        // if user want to delete currently used avatar
+        if ($request->input('delete_avatar')) {
+            $lastUsedAvatar->delete();
+        }
+
+        // if user uploads avatar
+        if ($request->file('avatar') !== null) {
+
+            // check if there is currently set and then delete
+            if ($lastUsedAvatar) {
+                $lastUsedAvatar->delete();
+            }
+
+            // set avatar
+            $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
+        }
+
         if (!$user->save()) {
             $alert = [
                 'message' => 'Failed to save. Please try again.',
                 'class'   => 'alert--error',
             ];
 
-            return redirect()->back()->with('alert', $alert);
+            return back()->with('alert', $alert);
         }
 
-        return redirect()->back()->with('alert', $alert);
+        return back()->with('alert', $alert);
     }
 }

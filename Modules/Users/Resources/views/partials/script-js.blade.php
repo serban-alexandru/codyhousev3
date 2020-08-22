@@ -96,6 +96,8 @@
 
       $this.prop('disabled', true).addClass('btn--disabled');
 
+      $this.closest('form').find('[name="delete_avatar"]').val(true);
+
     });
 
     function readURL(input) {
@@ -110,6 +112,7 @@
         reader.onload = function(e) {
           $(target).attr('src', e.target.result).show();
           $(resetter).prop('disabled', false).removeClass('btn--disabled');
+          $this.closest('form').find('[name="delete_avatar"]').val('');
         }
 
         reader.readAsDataURL(input.files[0]); // convert to base64 string

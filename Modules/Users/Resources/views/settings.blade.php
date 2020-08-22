@@ -22,10 +22,15 @@
               </div>
             </div><!-- /.alert -->
           @endif
-          <form action="{{ url('users/settings/save') }}" method="post">@csrf
+          <form action="{{ url('users/settings/save') }}" method="post" enctype="multipart/form-data">@csrf
+            <input type="hidden" name="delete_avatar" />
             <div class="author margin-bottom-md">
               <a href="#0" class="author__img-wrapper bg-primary-dark">
-                <img src="{{ asset('assets/img/placeholder.jpg') }}" alt="Author picture" id="settings-avatar" style="display: none;">
+                @if(Auth::user()->getMedia('avatars')->last())
+                  <img src="{{ Auth::user()->getMedia('avatars')->last()->getFullUrl() }}" alt="Author picture" id="settings-avatar">
+                @else
+                  <img alt="Author picture" id="settings-avatar" style="display: none;">
+                @endif
               </a>
               <div class="author__content text-component padding-top-sm padding-left-xs">
                 <div class="flex flex-wrap gap-sm">
@@ -36,7 +41,16 @@
 
                     <input type="file" class="file-upload__input" data-custom-image-file-preview="#settings-avatar" data-custom-image-file-resetter="#settings-avatar-delete" name="avatar" id="avatar" accept="image/*">
                   </div><!-- /.file-upload inline-block -->
-                  <button type="button" class="btn btn--subtle btn--disabled" id="settings-avatar-delete" data-custom-image-file-reset-file="#avatar" disabled>Delete</button><!-- /.btn btn--subtle -->
+                  <button type="button"
+                    id="settings-avatar-delete"
+                    data-custom-image-file-reset-file="#avatar"
+                    @if(Auth::user()->getMedia('avatars')->last())
+                      class="btn btn--subtle"
+                    @else
+                      class="btn btn--subtle btn--disabled"
+                      disabled
+                    @endif
+                  >Delete</button><!-- /.btn btn--subtle -->
                 </div><!-- /.flex flex-wrap -->
               </div><!-- /.author__content -->
             </div><!-- /.author -->
