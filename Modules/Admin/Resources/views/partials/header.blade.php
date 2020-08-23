@@ -210,7 +210,7 @@
     <!-- 👇 search -->
     <div class="mega-nav__search js-mega-nav__search" id="mega-nav-search">
       <div class="mega-nav__search-inner">
-        @include('admin::partials.search-form')
+        @include('users::partials.search-form')
         <div class="margin-top-lg">
           <p class="mega-nav__label">Quick Links</p>
           <ul>
