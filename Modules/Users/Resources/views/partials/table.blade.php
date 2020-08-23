@@ -305,7 +305,6 @@
     <script src="{{ asset('assets/js/util.js') }}"></script>
     <script src="{{ asset('assets/js/components/_1_menu.js') }}"></script>
     <script src="{{ asset('assets/js/components/_2_interactive-table.js') }}"></script>
-    <script src="{{ asset('assets/js/components/_1_modal-window.js') }}"></script>
     <script>
       (function() {
         // event that watches interactive table checkboxes
