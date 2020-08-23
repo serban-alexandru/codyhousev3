@@ -121,9 +121,12 @@
 <!-- Search users modal -->
 <div class="modal modal--search modal--animate-fade flex flex-center padding-md js-modal" id="modal-search">
   <div class="modal__content width-100% max-width-sm" role="alertdialog" aria-labelledby="modal-search-title" aria-describedby="">
-    <form class="full-screen-search">
+    <form class="full-screen-search" action="{{ url('admin/users') }}" method="GET">
+      <input type="hidden" name="limit" value="{{$limit ?? ''}}">
+      <input type="hidden" name="sort" value="{{$sort ?? ''}}">
+      <input type="hidden" name="order" value="{{$order ?? ''}}">
       <label for="search-input-x" id="modal-search-title" class="sr-only">Search</label>
-      <input class="reset full-screen-search__input" type="search" name="search-input-x" id="search-input-x" placeholder="Search...">
+      <input class="reset full-screen-search__input" type="search" name="q" value="{{ $q ?? '' }}" id="search-input-x" placeholder="Search...">
       <button class="reset full-screen-search__btn">
         <svg class="icon" viewBox="0 0 24 24">
           <title>Search</title>
