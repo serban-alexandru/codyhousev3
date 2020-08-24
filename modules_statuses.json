@@ -3,5 +3,6 @@
     "Users": true,
     "Blog": true,
     "Comment": true,
-    "Article": true
+    "Article": true,
+    "Post": true
 }
