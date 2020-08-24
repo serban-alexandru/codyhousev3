@@ -118,6 +118,9 @@
           <li class="mega-nav__item">
             <a href="#" class="mega-nav__control">About us</a>
           </li>
+          <li class="mega-nav__item">
+            <a href="{{ url('admin') }}" class="mega-nav__control">Admin</a>
+          </li>
         </ul>
 
         <ul class="mega-nav__items js-main-nav custom-mega-nav__items-mobile">

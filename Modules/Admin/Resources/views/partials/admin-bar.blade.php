@@ -22,8 +22,7 @@
             <ul class="subnav__list">
               <li class="subnav__item"><a href="{{ url('admin/') }}" class="subnav__link" aria-current=page>Dashboard</a></li>
               <li class="subnav__item"><a href="{{ url('admin/users') }}" class="subnav__link">Users</a></li>
-              <li class="subnav__item"><a href="{{ url('admin/posts') }}" class="subnav__link">Posts</a></li>
-              <li class="subnav__item"><a href="{{ url('admin/comments') }}" class="subnav__link">Comments</a></li>
+              <li class="subnav__item"><a href="{{ url('admin/article') }}" class="subnav__link">Articles</a></li>
             </ul>
           </nav>
         </div>
