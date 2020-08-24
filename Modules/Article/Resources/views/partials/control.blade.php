@@ -1,5 +1,4 @@
-
-<div class="bg radius-md padding-md shadow-sm">
+<div class="margin-bottom-md">
     <div class="margin-bottom-xl">
       <div class="flex flex-wrap gap-sm items-center justify-between">
         <div>
@@ -64,5 +63,5 @@
         </li>
 
       </div>
-    </div>
+  </div>
 

@@ -1,5 +1,5 @@
 <div class="margin-bottom-md">
-  <div class="flex flex-wrap gap-sm items-center justify-between">
+  <div class="flex flex-wrap items-center justify-between">
     <ul class="flex flex-wrap gap-xs">
       <li class="menu-bar__item js-menu-bar has-text modal-trigger-add-user" aria-controls="modal-add-user" role="menuitem" data-href="{{ url('admin/users/add') }}">
         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
@@ -87,7 +87,7 @@
 
           <label class="form-label" for="site-table-limit"></label>
 
-          <div class="select inline-block js-select" data-trigger-class="btn btn--subtle padding-sm@md padding-xs">
+          <div class="select inline-block js-select" data-trigger-class="btn btn--subtle padding-sm@md padding-sm">
           <select name="limit" id="site-table-limit">
               <optgroup label="Amount to show">
               @foreach($availableLimit as $amount)

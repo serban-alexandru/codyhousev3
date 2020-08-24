@@ -29,6 +29,7 @@
 <body>
 
   @include('admin::partials.header')
+  @include('admin::partials.admin-bar')
   @yield('content')
   @include('admin::partials.footer')
 

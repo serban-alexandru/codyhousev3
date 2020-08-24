@@ -3,7 +3,7 @@
 @section('content')
   @include('users::partials.modals')
   <section>
-    <div class="container max-width-lg">
+    <div class="container max-width-lg margin-top-xs">
       <div class="grid gap-md@md">
         @include('users::partials.sidebar')
         <main class="position-relative padding-top-md z-index-1 col-12@md">
