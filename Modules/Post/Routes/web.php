@@ -11,6 +11,6 @@
 |
 */
 
-Route::prefix('post')->group(function() {
-    Route::get('/', 'PostController@index');
+Route::prefix('admin')->group(function() {
+    Route::get('posts', 'PostController@index');
 });
