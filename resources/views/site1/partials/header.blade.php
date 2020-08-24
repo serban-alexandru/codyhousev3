@@ -2,7 +2,7 @@
   <div class="mega-nav__container">
     <!-- 👇 logo -->
     <a href="http://127.0.0.1:8000/admin" class="mega-nav__logo">
-      <h2 class="logo">Admin</h2>
+      <h2 class="logo">Curateship</h2>
     </a>
 
     <!-- 👇 icon buttons --mobile -->

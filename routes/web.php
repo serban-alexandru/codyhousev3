@@ -31,6 +31,10 @@ Route::get('/site1',function(){
     return view('site1.pages.profile');
   });
 
+  Route::get('/site1/post',function(){
+    return view('site1.pages.post');
+  });
+
   Route::get('/site1/user-controlpanel',function(){
     return view('site1.pages.user-controlpanel');
   });

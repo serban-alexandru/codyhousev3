@@ -30,6 +30,8 @@
 
     @yield('content')
 
+    @include('site1.partials.footer')
+
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
     
     @include('site1.partials.signin-js')
