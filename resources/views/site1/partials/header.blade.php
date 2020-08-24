@@ -1,7 +1,7 @@
 <header class="mega-nav mega-nav--mobile mega-nav--desktop@md position-relative js-mega-nav hide-nav js-hide-nav js-hide-nav--main">
   <div class="mega-nav__container">
     <!-- 👇 logo -->
-    <a href="http://127.0.0.1:8000/admin" class="mega-nav__logo">
+    <a href="{{ url('/') }}" class="mega-nav__logo">
       <h2 class="logo">Curateship</h2>
     </a>
 
@@ -37,8 +37,6 @@
 
           <ul class="dropdown__menu" aria-label="submenu">
             <li><a href="{{ url('profile') }}" class="dropdown__item">Profile</a></li>
-            <li><a href="upload.html" class="dropdown__item">Upload</a></li>
-            <li><a href="#0" class="dropdown__item">Scrape</a></li>
             <li class="dropdown__separator" role="separator"></li>
             <li><a href="{{ url('users/settings') }}" class="dropdown__item">Account Settings</a></li>
             <li><a href="{{ url('/logout') }}" class="dropdown__item">Log out</a></li>
@@ -74,7 +72,7 @@
           <!-- 👇 layout 2 -> multiple lists -->
           <li class="mega-nav__item js-mega-nav__item">
             <button class="reset mega-nav__control js-mega-nav__control js-tab-focus">
-              Themes
+              Browse
               <i class="mega-nav__arrow-icon" aria-hidden="true">
                 <svg class="icon" viewBox="0 0 16 16">
                   <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
@@ -118,17 +116,8 @@
           </li>
           <!-- 👇 link -->
           <li class="mega-nav__item">
-            <a href="http://127.0.0.1:8000/admin/users" class="mega-nav__control">Users</a>
+            <a href="#" class="mega-nav__control">About us</a>
           </li>
-          <li class="mega-nav__item">
-              <a href="http://127.0.0.1:8000/admin/blog" class="mega-nav__control">Blogs</a>
-            </li>
-          <li class="mega-nav__item">
-              <a href="http://127.0.0.1:8000/admin/article" class="mega-nav__control">Articles</a>
-          </li>
-          <li class="mega-nav__item">
-            <a href="http://127.0.0.1:8000/admin/comment" class="mega-nav__control">Comments</a>
-        </li>
         </ul>
 
         <ul class="mega-nav__items js-main-nav custom-mega-nav__items-mobile">
@@ -166,9 +155,7 @@
                 </a>
 
                 <ul class="dropdown__menu" aria-label="submenu">
-                  <li><a href="{{ url('profile') }}" class="dropdown__item">Profile</a></li>
-                  <li><a href="upload.html" class="dropdown__item">Upload</a></li>
-                  <li><a href="#0" class="dropdown__item">Scrape</a></li>
+                  <li><a href="{{ url('site1/profile') }}" class="dropdown__item">Profile</a></li>
                   <li class="dropdown__separator" role="separator"></li>
                   <li><a href="{{ url('users/settings') }}" class="dropdown__item">Account Settings</a></li>
                   <li><a href="{{ url('/logout') }}" class="dropdown__item">Log out</a></li>

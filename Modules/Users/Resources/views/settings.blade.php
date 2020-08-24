@@ -1,4 +1,4 @@
-@extends('admin::layouts.master')
+@extends('site1.layouts.app')
 
 @section('content')
   <section class="padding-y-md">
