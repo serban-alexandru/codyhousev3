@@ -1,4 +1,4 @@
-<div class="bg radius-md padding-md shadow-sm">
+
   <h1>Sample form</h1>
   <br>
 
@@ -21,4 +21,3 @@
     </div><!-- /.margin-bottom-md -->
 
   </form><!-- /form -->
-</div><!-- /.bg radius-md padding-md shadow-sm -->

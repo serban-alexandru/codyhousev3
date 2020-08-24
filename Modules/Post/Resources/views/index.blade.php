@@ -1,6 +1,5 @@
-@extends('site1.layouts.app')
+@extends('admin::layouts.master')
 @section('content')
-@include('admin::partials.admin-bar')
   @include('post::partials.modals')
   <section>
     <div class="container max-width-lg margin-top-xs">
