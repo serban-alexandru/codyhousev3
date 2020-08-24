@@ -17,8 +17,9 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Article::all();
-
+        $articles = Article::orderBy('title','asc')->get();
         return view('article::index')->with('articles', $articles);
+    
     }
 
     /**

@@ -112,11 +112,11 @@
             </th>
             <td class="int-table__cell" aria-controls="modal-add-article">
               <a
-              href="#0">{{$article->title}}
+              href="#0">{{ Str::limit($article->title, 30, '...') }}
               </a>
             </td>
-            <td class="int-table__cell">r.email@email.com</td>
-            <td class="int-table__cell">01/01/2021</td>
+            <td class="int-table__cell">username</td>
+            <td class="int-table__cell">{{$article->created_at}}</td>
             <td class="int-table__cell text-center"><img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Author picture" width="40" height="40"></td>
             <td class="int-table__cell text-center">
               <li class="menu-bar__item" role="menuitem" aria-controls="modal-name-1">

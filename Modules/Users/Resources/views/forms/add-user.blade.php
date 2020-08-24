@@ -1,6 +1,4 @@
 
-
-
     <div class="alert js-alert margin-bottom-lg" role="alert"> <!-- /.alert--is-visible -->
       <div class="flex items-center justify-between">
         <div class="flex items-center">
