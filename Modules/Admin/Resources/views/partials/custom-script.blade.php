@@ -48,7 +48,11 @@
 
       $('#site-table-limit-dropdown').find('[data-index="0"]').click(); // reset dropdown
 
-      $('#site-table-with-pagination-container').load(url);
+      $('#site-table-with-pagination-container').load(url, function(){
+        var $this = $(this);
+        // Reload content for modal component issue
+        $this.load(url);
+      });
     });
 
     // watch for change on the results limit dropdown
