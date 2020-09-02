@@ -8,7 +8,6 @@
       </a>
     
       <div class="author__content text-component">
-        <h2>Hi! I'm Olivia Gribben</h2>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum, accusantium consequatur. Perspiciatis!</p>
       </div>
 
@@ -34,54 +33,5 @@
     </div>
   </div>
 </section>
-
-<!-- 👇 Profile tabs -->
-<div class="tabs js-tabs container max-width-lg">
-    <ul class="flex flex-wrap gap-sm js-tabs__controls margin-bottom-lg margin-top-xxl" aria-label="Tabs Interface">
-      <li><a href="#tab1Panel1" class="tabs__control" aria-selected="true">Tab 1</a></li>
-      <li><a href="#tab1Panel2" class="tabs__control">Tab 2</a></li>
-      <li><a href="#tab1Panel3" class="tabs__control">Tab 3</a></li>
-      <li><a href="#tab1Panel4" class="tabs__control">Tab 4</a></li>
-      <li><a href="#tab1Panel5" class="tabs__control">Tab 5</a></li>
-    </ul>
-
-<div class="js-tabs__panels">
-      <section id="tab1Panel1" class="padding-top-md js-tabs__panel">
-        <div class="text-component">
-          <h1 class="text-lg">Panel 1</h1>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt reprehenderit voluptatibus expedita. Laboriosam maxime aut dolorem eum qui nemo! Ea!</p>
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati natus totam assumenda cumque numquam culpa officia, harum vel quibusdam recusandae, blanditiis non quae pariatur? Laborum, animi dolor tempora laboriosam minus nulla sit, hic molestias velit delectus sint aspernatur possimus soluta?</p>
-        </div>
-      </section>
-  
-      <section id="tab1Panel2" class="padding-top-md js-tabs__panel">
-        <div class="text-component">
-          <h1 class="text-lg">Panel 2</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, nobis! Vitae quis minus accusantium qui atque? Officiis sunt exercitationem natus, minus sapiente debitis eum animi porro. Ut cupiditate amet expedita!</p>
-        </div>
-      </section>
-  
-      <section id="tab1Panel3" class="padding-top-md js-tabs__panel">
-        <div class="text-component">
-          <h1 class="text-lg">Panel 3</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis, veritatis.</p>
-        </div>
-      </section>
-  
-      <section id="tab1Panel4" class="padding-top-md js-tabs__panel">
-        <div class="text-component">
-          <h1 class="text-lg">Panel 4</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos, ipsa. Maiores sit totam dignissimos perferendis recusandae quis eligendi quos expedita consequatur, natus debitis, deserunt placeat tenetur odit voluptates, ad nihil cum ipsa quae est facere, voluptate sapiente tempora a officiis. Ipsa perspiciatis aut commodi enim expedita. Saepe at cupiditate quaerat explicabo distinctio quae enim, ab impedit! Sunt, omnis, sit magnam id exercitationem mollitia alias pariatur doloremque nulla. Totam quis, animi minus error molestias sit. Quidem, dolor, aspernatur. Voluptates, magni, provident?</p>
-        </div>
-      </section>
-  
-      <section id="tab1Panel5" class="padding-top-md js-tabs__panel">
-        <div class="text-component">
-          <h1 class="text-lg">Panel 5</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam modi nesciunt eum, dolores corrupti labore assumenda vel? Cupiditate fugit nihil, sunt nulla nisi blanditiis quidem, eos nesciunt. Quidem dolorem laudantium, ex fuga natus nisi error architecto saepe sapiente dolores assumenda.</p>
-        </div>
-      </section>
-    </div>
-  </div>
 
 @endsection

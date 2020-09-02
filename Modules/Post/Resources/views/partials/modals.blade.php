@@ -97,8 +97,6 @@
                     <input class="form-control width-100%" type="text" name="input-name" id="input-name" required>
                   <div>
 
-                    <label class="form-label margin-bottom-xxs" for="textarea">SEO Discription Meta</label>
-                    <textarea class="form-control width-100%" name="textarea" id="textarea"></textarea>
                   </div>
                 </div>
               </fieldset>
