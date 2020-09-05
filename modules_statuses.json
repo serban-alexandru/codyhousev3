@@ -4,5 +4,6 @@
     "Blog": true,
     "Comment": true,
     "Article": true,
-    "Post": true
+    "Post": true,
+    "Tag": true
 }
