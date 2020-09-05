@@ -1,6 +1,10 @@
 # Curateship
 
-## Users module migration
+## 1. Migrate all tables
+
+php artisan migrate
+
+## 2. Users module migration
 
 ```
 php artisan module:migrate Users
@@ -8,7 +12,7 @@ php artisan module:migrate Users
 
 This will create all db tables.
 
-## Users module seeder
+## 3. Users module seeder
 
 ```
 php artisan module:seed Users
@@ -16,7 +20,7 @@ php artisan module:seed Users
 
 This will seed all called classes at `Modules/Users/Database/Seeders/UsersDatabaseSeeder.php`.
 
-## Seed dummy users from factory
+## 4. Seed dummy users from factory
 
 ```
 php artisan db:seed --class=Modules\\Users\\Database\\Seeders\\TestUsersSeeder
