@@ -27,3 +27,7 @@ php artisan db:seed --class=Modules\\Users\\Database\\Seeders\\TestUsersSeeder
 ```
 
 This will create dummy users specified on `Modules/Users/Database/Seeders/TestUsersSeeder.php`
+
+## 4. Login Using
+admin@mailinator.com
+helloworld
