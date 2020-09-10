@@ -4,7 +4,7 @@
         <div>
           <div class="flex flex-wrap gap-xs">
 
-            <li class="menu-bar__item js-menu-bar has-text" aria-controls="modal-add-article">
+            <li class="menu-bar__item js-menu-bar has-text" aria-controls="modal-add-tag">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>ic_add_48px</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f9f9f9"></rect>
                     <g transform="translate(12 12) scale(0.5)" fill="#00a8db">
                         <path d="M38 26H26v12h-4V26H10v-4h12V10h4v12h12v4z"></path>

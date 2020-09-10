@@ -2,14 +2,15 @@
 <div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll" id="modal-setting">
   <div class="modal__content height-100% tabs js-tabs width-100% max-width-sm bg radius-md shadow-md flex flex-column">
       <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
+        
         <!-- 👇 Tabs -->
         <nav class="tabs">
           <ul class="flex flex-wrap gap-xl js-tabs__controls" aria-label="Tabs Interface">
             <li><a href="#tab1Panel1" class="tabs__control" aria-selected="true">Edit Setting</a></li>
           </ul>
         </nav>
-        <!-- End Tabs -->
 
+        <!-- End Tabs -->
         <button class="reset modal__close-btn modal__close-btn--inner js-modal__close js-tab-focus">
           <svg class="icon" viewBox="0 0 20 20">
             <title>Close modal window</title>
@@ -60,17 +61,5 @@
       </footer>
     </form>
   </div><!-- /.modal__content -->
-
-</div><!-- /.modal -->
 <!-- Full Screen Modal End -->
-
-  <button class="reset modal__close-btn modal__close-btn--outer  js-modal__close js-tab-focus">
-    <svg class="icon icon--sm" viewBox="0 0 24 24">
-      <title>Close modal window</title>
-      <g fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2">
-        <line x1="3" y1="3" x2="21" y2="21" />
-        <line x1="21" y1="3" x2="3" y2="21" />
-      </g>
-    </svg>
-  </button>
 </div><!-- /.modal -->

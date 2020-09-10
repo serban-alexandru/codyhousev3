@@ -106,7 +106,7 @@
                 <div class="custom-checkbox__control" aria-hidden="true"></div>
               </div>
             </th>
-            <td class="int-table__cell" aria-controls="modal-add-article">
+            <td class="int-table__cell" aria-controls="modal-add-tag">
               <a href="#0">Tag Title</a>
             </td>
             <td class="int-table__cell">12324</td>
