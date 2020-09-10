@@ -22,11 +22,10 @@ Usage: codyhouse.co/license
   }
   
   .notif-popover-control {
-    height: 2.6em;
-    width: 2.6em;
+    height: 2em;
+    width: 2em;
     border-radius: 50%;
     display: inline-flex;
-    background-color: var(--color-contrast-lower);
     transition: .3s;
   
     .icon {
@@ -41,7 +40,7 @@ Usage: codyhouse.co/license
   
     &:hover {
       cursor: pointer;
-      background-color: lightness(var(--color-contrast-lower), 0.95);
+      background-color: lightness(var(--color-contrast-low), 0.95);
     }
   
     &.popover-control--active { // popover is visible

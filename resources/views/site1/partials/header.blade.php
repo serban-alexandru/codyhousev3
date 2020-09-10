@@ -122,7 +122,7 @@
             <a href="{{ url('admin') }}" class="mega-nav__control">Admin</a>
           </li>
         </ul>
-
+        
         <ul class="mega-nav__items js-main-nav custom-mega-nav__items-mobile">
           <!-- 👇 icon buttons --desktop -->
           <li class="mega-nav__icon-btns mega-nav__icon-btns--desktop">
@@ -176,6 +176,7 @@
               </svg>
             </button>
           </li>
+          
           @guest
           <!-- 👇 button -->
           <li class="mega-nav__item js-signin-modal-trigger custom-mega-nav__item-column">
@@ -185,6 +186,7 @@
             <a href="#0" class="btn btn--subtle mega-nav__btn" data-signin="login">Login</a>
           </li>
           @endguest
+
           @auth
           <li class="mega-nav__item">
             <a href="{{ url('/logout') }}" class="btn btn--subtle mega-nav__btn">Log out</a>
@@ -193,7 +195,7 @@
         </ul>
       </div>
     </div>
-
+    @include('site1.partials.notification')
     <!-- 👇 search -->
     <div class="mega-nav__search js-mega-nav__search" id="mega-nav-search">
       <div class="mega-nav__search-inner">
