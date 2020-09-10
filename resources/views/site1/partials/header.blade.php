@@ -4,7 +4,7 @@
     <a href="{{ url('/') }}" class="mega-nav__logo">
       <h2 class="logo">Curateship</h2>
     </a>
-
+    
     <!-- 👇 icon buttons --mobile -->
     <div class="mega-nav__icon-btns mega-nav__icon-btns--mobile">
       @guest
@@ -156,7 +156,6 @@
                     </svg>
                   @endif
                 </a>
-
                 <ul class="dropdown__menu" aria-label="submenu">
                   <li><a href="{{ url('site1/profile') }}" class="dropdown__item">Profile</a></li>
                   <li class="dropdown__separator" role="separator"></li>
@@ -177,7 +176,6 @@
               </svg>
             </button>
           </li>
-
           @guest
           <!-- 👇 button -->
           <li class="mega-nav__item js-signin-modal-trigger custom-mega-nav__item-column">
@@ -187,7 +185,6 @@
             <a href="#0" class="btn btn--subtle mega-nav__btn" data-signin="login">Login</a>
           </li>
           @endguest
-
           @auth
           <li class="mega-nav__item">
             <a href="{{ url('/logout') }}" class="btn btn--subtle mega-nav__btn">Log out</a>
