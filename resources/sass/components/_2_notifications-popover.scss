@@ -27,6 +27,7 @@ Usage: codyhouse.co/license
     border-radius: 50%;
     display: inline-flex;
     transition: .3s;
+    color: var(--color-contrast-low); // icon color;
   
     .icon {
       margin: auto;
@@ -40,7 +41,8 @@ Usage: codyhouse.co/license
   
     &:hover {
       cursor: pointer;
-      background-color: lightness(var(--color-contrast-low), 0.95);
+      color: var(--color-primary); // icon color
+      background-color: lightness(var(--color-contrast-higher), 0.95);
     }
   
     &.popover-control--active { // popover is visible
