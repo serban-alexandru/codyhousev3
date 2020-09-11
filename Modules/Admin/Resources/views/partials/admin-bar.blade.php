@@ -24,6 +24,7 @@
               <li class="subnav__item"><a href="{{ url('admin/users') }}" class="subnav__link">Users</a></li>
               <li class="subnav__item"><a href="{{ url('admin/tag') }}" class="subnav__link">Tags</a></li>
               <li class="subnav__item"><a href="{{ url('admin/posts') }}" class="subnav__link">Post</a></li>
+              <li class="subnav__item"><a href="{{ url('admin/videos') }}" class="subnav__link">Videos</a></li>
             </ul>
           </nav>
         </div>

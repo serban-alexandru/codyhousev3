@@ -142,10 +142,10 @@
 
             @auth
             <div class="dropdown js-dropdown">
-              <div class="mega-nav__icon-btn dropdown__wrapper inline-block">
+              <div class="mega-nav__icon-btn dropdown__wrapper inline-block author author__img-wrapper">
                 <a href="#0" class="color-inherit flex height-100% width-100% flex-center dropdown__trigger">
                   @if(Auth::user()->getMedia('avatars')->last())
-                    <img src="{{ Auth::user()->getMedia('avatars')->last()->getFullUrl('thumb') }}" style="width: 32px; height: 32px; border-radius: 50%;" alt="Logged in user avatar,">
+                    <img src="{{ Auth::user()->getMedia('avatars')->last()->getFullUrl('thumb') }}">
                   @else
                     <svg class="icon" viewBox="0 0 24 24">
                       <title>Go to account settings</title>
@@ -189,13 +189,13 @@
 
           @auth
           <li class="mega-nav__item">
+            @include('site1.partials.notification')
             <a href="{{ url('/logout') }}" class="btn btn--subtle mega-nav__btn">Log out</a>
           </li>
           @endauth
         </ul>
       </div>
     </div>
-    @include('site1.partials.notification')
     <!-- 👇 search -->
     <div class="mega-nav__search js-mega-nav__search" id="mega-nav-search">
       <div class="mega-nav__search-inner">

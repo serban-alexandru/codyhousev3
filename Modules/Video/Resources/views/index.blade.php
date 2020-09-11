@@ -1,15 +1,15 @@
 @extends('admin::layouts.master')
 @section('content')
-  @include('post::partials.modals')
+  @include('video::partials.modals')
   <section>
     <div class="container max-width-lg margin-top-xs">
       <div class="grid gap-md@md">
-        @include('post::partials.sidebar')
+        @include('video::partials.sidebar')
         <main class="position-relative padding-top-md z-index-1 col-12@md">
-          @include('post::partials.control')
+          @include('video::partials.control')
           <div class="bg radius-md padding-md shadow-sm">
             <div id="site-table-with-pagination-container">
-              @include('post::partials.table')
+              @include('video::partials.table')
             </div><!-- /#site-table-with-pagination-container -->
           </div><!-- /.bg radius-md padding-md shadow-sm -->
         </main>
@@ -20,5 +20,5 @@
 
 @push('module-scripts')
 <!-- MODULE'S CUSTOM SCRIPT -->
-  @include('post::partials.script-js')
+  @include('video::partials.script-js')
 @endpush

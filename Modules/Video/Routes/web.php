@@ -11,6 +11,6 @@
 |
 */
 
-Route::prefix('video')->group(function() {
-    Route::get('/', 'VideoController@index');
+Route::prefix('admin')->group(function() {
+    Route::get('videos', 'VideoController@index');
 });

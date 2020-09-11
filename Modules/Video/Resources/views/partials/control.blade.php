@@ -10,8 +10,8 @@
                         <path d="M38 26H26v12h-4V26H10v-4h12V10h4v12h12v4z"></path>
                     </g>
                 </svg>
-                <span class="display@md padding-xxxs">Add Post</span>
-                <span class="menu-bar__label">Add Post</span>
+                <span class="display@md padding-xxxs">Add Video</span>
+                <span class="menu-bar__label">Add Video</span>
               </li>
 
               <li class="menu-bar__item" aria-controls="modal-search">
@@ -21,7 +21,7 @@
                     </g>
                 </svg>
               </svg>
-                <span class="menu-bar__label">Search Articles</span>
+                <span class="menu-bar__label">Search Videos</span>
               </li>
 
             <div class="int-table-actions" data-table-controls="table-1">
