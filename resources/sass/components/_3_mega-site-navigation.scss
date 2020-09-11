@@ -61,7 +61,7 @@ Usage: codyhouse.co/license
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 40px;
+    width: 35px;
     height: 40px;
     font-size: 24px; // icon size
     color: var(--color-contrast-low); // icon color
@@ -207,6 +207,7 @@ Usage: codyhouse.co/license
 
 .mega-nav--mobile {
     box-shadow: inset 0px -1px 0px alpha(var(--color-contrast-medium), 0.1); // border bottom
+    
     .mega-nav__icon-btns--desktop {
         display: none; // hide --desktop icon buttons
     }

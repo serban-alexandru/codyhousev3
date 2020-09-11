@@ -55,6 +55,12 @@
         </svg>
       </button>
 
+      @auth
+      <div class="mega-nav__icon-btn">
+        @include('site1.partials.notification')
+      </div>
+      @endauth
+
       <button class="reset mega-nav__icon-btn mega-nav__icon-btn--menu js-tab-focus" aria-label="Toggle menu" aria-controls="mega-nav-navigation">
         <svg class="icon" viewBox="0 0 24 24">
           <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
@@ -189,7 +195,9 @@
 
           @auth
           <li class="mega-nav__item">
-            @include('site1.partials.notification')
+            <div class="mega-nav__icon-btns mega-nav__icon-btns--desktop">
+              @include('site1.partials.notification')
+            </div>
             <a href="{{ url('/logout') }}" class="btn btn--subtle mega-nav__btn">Log out</a>
           </li>
           @endauth
