@@ -20,18 +20,22 @@
       @endguest
       @auth
       <div class="dropdown js-dropdown">
-        <div class="mega-nav__icon-btn dropdown__wrapper inline-block">
+        <div class="dropdown__wrapper inline-block">
           <a href="#0" class="color-inherit dropdown__trigger">
             @if(Auth::user()->getMedia('avatars')->last())
-              <img src="{{ Auth::user()->getMedia('avatars')->last()->getFullUrl('thumb') }}" style="width: 28px; height: 28px; border-radius: 50%; vertical-align: middle;" alt="Logged in user avatar,">
+              <div class="author author__img-wrapper">
+                <img src="{{ Auth::user()->getMedia('avatars')->last()->getFullUrl('thumb') }}" alt="Author picture">
+              </div>
             @else
-              <svg class="icon" viewBox="0 0 24 24">
-                <title>Go to account settings</title>
-                <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
-                  <circle cx="12" cy="6" r="4" />
-                  <path d="M12 13a8 8 0 00-8 8h16a8 8 0 00-8-8z" />
-                </g>
-              </svg>
+              <div class="mega-nav__icon-btn">
+                <svg class="icon" viewBox="0 0 24 24">
+                  <title>Go to account settings</title>
+                  <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
+                    <circle cx="12" cy="6" r="4" />
+                    <path d="M12 13a8 8 0 00-8 8h16a8 8 0 00-8-8z" />
+                  </g>
+                </svg>
+              </div>
             @endif
           </a>
 
@@ -54,6 +58,12 @@
           </g>
         </svg>
       </button>
+
+      @auth
+      <div class="mega-nav__icon-btn">
+        @include('site1.partials.notification')
+      </div>
+      @endauth
 
       <button class="reset mega-nav__icon-btn mega-nav__icon-btn--menu js-tab-focus" aria-label="Toggle menu" aria-controls="mega-nav-navigation">
         <svg class="icon" viewBox="0 0 24 24">
@@ -142,13 +152,14 @@
 
             @auth
             <div class="dropdown js-dropdown">
-              <div class="mega-nav__icon-btn dropdown__wrapper inline-block">
+              <div class="dropdown__wrapper inline-block">
+                <a href="#0" class="color-inherit flex height-100% width-100% flex-center dropdown__trigger">
                   @if(Auth::user()->getMedia('avatars')->last())
-                  <div class="author author--minimal dropdown__trigger">
-                    <a href="#0" class="author__img-wrapper">
+                    <div class="author author__img-wrapper">
                       <img src="{{ Auth::user()->getMedia('avatars')->last()->getFullUrl('thumb') }}" alt="Author picture">
-                  </div>
+                    </div>
                   @else
+                  <div class="mega-nav__icon-btn">
                     <svg class="icon" viewBox="0 0 24 24">
                       <title>Go to account settings</title>
                       <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
@@ -156,6 +167,7 @@
                         <path d="M12 13a8 8 0 00-8 8h16a8 8 0 00-8-8z" />
                       </g>
                     </svg>
+                  </div>
                   @endif
                 </a>
                 <ul class="dropdown__menu" aria-label="submenu">
@@ -191,7 +203,9 @@
 
           @auth
           <li class="mega-nav__item">
-            @include('site1.partials.notification')
+            <div class="mega-nav__icon-btns mega-nav__icon-btns--desktop">
+              @include('site1.partials.notification')
+            </div>
             <a href="{{ url('/logout') }}" class="btn btn--subtle mega-nav__btn">Log out</a>
           </li>
           @endauth
