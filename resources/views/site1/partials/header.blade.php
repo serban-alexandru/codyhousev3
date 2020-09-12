@@ -24,7 +24,7 @@
           <a href="#0" class="color-inherit dropdown__trigger">
             @if(Auth::user()->getMedia('avatars')->last())
               <div class="author author__img-wrapper">
-                <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Author picture">
+                <img src="{{ Auth::user()->getMedia('avatars')->last()->getFullUrl('thumb') }}" alt="Author picture">
               </div>
             @else
               <div class="mega-nav__icon-btn">
@@ -156,7 +156,7 @@
                 <a href="#0" class="color-inherit flex height-100% width-100% flex-center dropdown__trigger">
                   @if(Auth::user()->getMedia('avatars')->last())
                     <div class="author author__img-wrapper">
-                      <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Author picture">
+                      <img src="{{ Auth::user()->getMedia('avatars')->last()->getFullUrl('thumb') }}" alt="Author picture">
                     </div>
                   @else
                   <div class="mega-nav__icon-btn">
