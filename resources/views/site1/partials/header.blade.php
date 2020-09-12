@@ -60,7 +60,7 @@
       </button>
 
       @auth
-      <div class="mega-nav__icon-btn">
+      <div class="mega-nav__icon-btns">
         @include('site1.partials.notification')
       </div>
       @endauth

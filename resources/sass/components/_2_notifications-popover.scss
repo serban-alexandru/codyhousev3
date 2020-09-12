@@ -8,14 +8,13 @@ Usage: codyhouse.co/license
 -------------------------------- */
 
 .notif-popover {
-    --popover-width: 280px;
-    right: 50px;
+    --popover-width: 280px;;
   
     .notif {
       --notif-figure-size: 40px;
     }
   }
-  
+
   @include breakpoint(md) {
     .notif-popover {
       --popover-width: 360px;
@@ -50,4 +49,16 @@ Usage: codyhouse.co/license
       background-color: alpha(var(--color-primary), 0.2);
       color: var(--color-primary); // icon color
     } 
+  }
+
+  @media only screen and (max-width: 600px) {
+    .notif-popover {
+      --popover-width: 90%;
+      left: 5% !important;
+      align-self: center;
+    
+      .notif {
+        --notif-figure-size: 40px;
+      }
+    }
   }
