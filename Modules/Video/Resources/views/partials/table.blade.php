@@ -14,7 +14,7 @@
 
             <th class="int-table__cell int-table__cell--th int-table__cell--sort js-int-table__cell--sort">
               <div class="flex items-center">
-                <span>Post Title</span>
+                <span>Video Title</span>
 
                 <svg class="icon icon--xxs margin-left-xxxs int-table__sort-icon" aria-hidden="true" viewBox="0 0 12 12">
                   <polygon class="arrow-up" points="6 0 10 5 2 5 6 0" />
@@ -41,7 +41,7 @@
 
             <th class="int-table__cell int-table__cell--th int-table__cell--sort js-int-table__cell--sort">
               <div class="flex items-center">
-                <span>Username</span>
+                <span>By</span>
 
                 <svg class="icon icon--xxs margin-left-xxxs int-table__sort-icon" aria-hidden="true" viewBox="0 0 12 12">
                   <polygon class="arrow-up" points="6 0 10 5 2 5 6 0" />
