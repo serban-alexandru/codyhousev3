@@ -13,7 +13,7 @@
     $('.custom-modal-hide-body-scroll').on('modalIsOpen', function(){
       $('body').css('overflow', 'hidden');
     }).on('modalIsClose', function(){
-      $('body').css('overflow', 'inherit');
+      $('body').css('overflow', 'hidden');
     });
 
     // Interactive table checkbox toggle
