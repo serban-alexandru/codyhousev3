@@ -6,7 +6,7 @@
         <nav class="tabs">
           <ul class="flex flex-wrap gap-xl js-tabs__controls" aria-label="Tabs Interface">
             <li><a href="#tab1Panel1" class="tabs__control" aria-selected="true">Add</a></li>
-            <li><a href="#tab1Panel2" class="tabs__control">Images</a></li>
+            <li><a href="#tab1Panel2" class="tabs__control">Video</a></li>
             <li><a href="#tab1Panel3" class="tabs__control">Settings</a></li>
           </ul>
         </nav>
@@ -30,10 +30,10 @@
             <div>
 
               <div class="grid gap-sm">
-                <label class="form-label margin-bottom-xxs" for="input-name">Enter Your Title</label>
+                <label class="form-label margin-bottom-xxs" for="input-name">Enter Your Video Title</label>
                 <input class="form-control width-100%" type="text" name="input-name" id="input-name" required>
               <div>
-
+                <label class="form-label margin-bottom-xxs" for="input-name">Enter Your Video Discription</label>
               <div id="editorjs" class="form-control"></div><!-- /#ajax-add-blog-form -->
             </div>
           </section>
