@@ -16,12 +16,6 @@
       $('body').css('overflow', 'inherit');
     });
 
-    $('.custom-modal-hide-body-scroll-video').on('modalIsOpen', function(){
-      $('body').css('overflow', 'hidden');
-    }).on('modalIsClose', function(){
-      $('body').css('overflow', 'hidden');
-    });
-
     // Interactive table checkbox toggle
     $(document).on('input', '.js-int-table__select-all, .js-int-table__select-row', function(){
       var $checkBoxesChecked = $('.js-int-table__select-row:checked');
