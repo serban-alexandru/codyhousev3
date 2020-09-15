@@ -13,6 +13,12 @@
     $('.custom-modal-hide-body-scroll').on('modalIsOpen', function(){
       $('body').css('overflow', 'hidden');
     }).on('modalIsClose', function(){
+      $('body').css('overflow', 'inherit');
+    });
+
+    $('.custom-modal-hide-body-scroll-video').on('modalIsOpen', function(){
+      $('body').css('overflow', 'hidden');
+    }).on('modalIsClose', function(){
       $('body').css('overflow', 'hidden');
     });
 
