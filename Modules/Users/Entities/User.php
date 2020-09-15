@@ -2,13 +2,12 @@
 
 namespace Modules\Users\Entities;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\Models\Media;
+use Illuminate\Notifications\Notifiable;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements HasMedia
 {
@@ -20,9 +19,7 @@ class User extends Authenticatable implements HasMedia
      *
      * @var array
      */
-    protected $fillable = [
-        'username', 'name', 'email', 'password', 'permission',
-    ];
+    protected $guarded = ['id'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -58,5 +55,14 @@ class User extends Authenticatable implements HasMedia
         $this->addMediaConversion('thumb')
             ->width(48)
             ->height(48);
+    }
+
+    public function getCoverPhoto()
+    {
+        if(is_null($this->cover_photo)){
+            return asset('assets/img/black.jpg');
+        }
+
+        return asset('storage/users-images/images') . '/' . $this->cover_photo;
     }
 }
