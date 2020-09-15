@@ -2,18 +2,17 @@
 
 namespace Modules\Users\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use DB;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash;
-
 use Illuminate\Support\Facades\Auth;
-
-use Modules\Users\Entities\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Modules\Users\Entities\CoverPhotoUploader;
 use Modules\Users\Entities\Role;
-use DB;
+use Modules\Users\Entities\User;
 
 class UsersController extends Controller
 {
@@ -602,5 +601,21 @@ class UsersController extends Controller
         }
 
         return back()->with('alert', $alert);
+    }
+
+    public function postAjaxUpdateCoverPhoto()
+    {
+        $this->validate(request(), ['base64Image' => 'required']);
+        
+        $cover_photo = (new CoverPhotoUploader)->uploadBase64Photo(request('base64Image'), 'storage/app/public/users-images/images');
+        
+        auth()->user()->update([
+            'cover_photo' => $cover_photo->file_name
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Cover photo has been updated!'
+        ]);
     }
 }
