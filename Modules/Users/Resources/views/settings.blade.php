@@ -1,5 +1,10 @@
 @extends('site1.layouts.app')
 
+@section('in-head')
+  <link rel="stylesheet" href="{{ asset('assets/js/croppie/croppie.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('modules/users/css/cover-photo.css') }}">
+@stop
+
 @section('content')
   <section class="padding-y-md">
     <div class="container max-width-lg">
@@ -22,7 +27,12 @@
               </div>
             </div><!-- /.alert -->
           @endif
-          <form action="{{ url('users/settings/save') }}" method="post" enctype="multipart/form-data">@csrf
+
+          {{-- COVER PHOTO --}}
+          @include('users::partials.cover-photo-component')
+
+          <form action="{{ url('users/settings/save') }}" method="post" enctype="multipart/form-data">
+            @csrf
             <input type="hidden" name="delete_avatar" />
             <div class="author margin-bottom-md">
               <a href="#0" class="author__img-wrapper bg-primary-dark">
@@ -51,6 +61,8 @@
                       disabled
                     @endif
                   >Delete</button><!-- /.btn btn--subtle -->
+
+                  <label for="uploadImage" class="btn" id="btnEditCoverPhoto">Edit Cover Photo</label>
                 </div><!-- /.flex flex-wrap -->
               </div><!-- /.author__content -->
             </div><!-- /.author -->
@@ -95,3 +107,103 @@
 <!-- MODULE'S CUSTOM SCRIPT -->
   @include('users::partials.script-js')
 @endpush
+
+@section('before-end')
+  <script src="{{ asset('assets/js/croppie/croppie.min.js') }}"></script>
+  <script>
+    $(function(){
+        let $options = {
+            enableExif: true,
+            showZoomer: false,
+            viewport: {
+              width:600,
+              height:280,
+              type:'square' //circle
+            },
+            boundary:{
+              width: 600,
+              height: 280
+            }
+        };
+          
+        let hasCoverPhoto = "{{ (!is_null(auth()->user()->cover_photo)) ? true : false }}";
+        if(!hasCoverPhoto){
+          $options['url'] = "{{ asset('assets/img/black.jpg') }}";      
+        } else {
+          $options['url'] = "{{ asset('users-images/images') . '/' . auth()->user()->cover_photo }}";
+        }
+
+        $('.croppie-container').on('mouseover', function(){
+          alert('ok');
+        });
+
+        $image_crop = $('#imageDemo').croppie($options);
+
+        $('#uploadImage').on('change', function(){
+          readFile(this);
+
+          $('.alert-cover-photo').removeClass('hidden');
+          
+          var reader = new FileReader();
+          reader.onload = function (event) {
+            $image_crop.croppie('bind', {
+              url: event.target.result
+            }).then(function(){
+              // After selecting image
+            });
+          }
+          reader.readAsDataURL(this.files[0]);
+          //$('#uploadimageModal').modal('show');
+        });
+
+        $('#btnUploadCoverPhoto').on('click', function (event) {
+          $('.alert-cover-photo').empty();
+          $('.alert-cover-photo').html('Loading...');
+          $image_crop.croppie('result', {
+            type: 'base64',
+            format: 'jpeg',
+            size: 'viewport'
+            //size: {width: 150, height: 200}
+          }).then(function (response) {
+            $('#base64Image').val('');
+            $('#base64Image').val(response);
+              $.ajax({
+                url: "{{ route('cover-photo.update.ajax') }}",
+                dataType: 'json',
+                type: 'post',
+                data: {
+                  _token: $('input[name=_token]').val(),
+                  base64Image: response
+                },
+                success: function(response){
+                  if(response.status){
+                    window.location.href = window.location.href;
+                  }
+                }
+              });
+          });
+        });
+
+        function readFile(input) {
+            if (input.files && input.files[0]) {
+              var reader = new FileReader();
+              
+              reader.onload = function (e) {
+                result = e.target.result;
+                arrTarget = result.split(';');
+                tipo = arrTarget[0];
+                validFormats = ['data:image/jpeg', 'data:image/png'];
+                if (validFormats.indexOf(tipo) == -1){
+                  alert('Accept only .jpg o .png image types');
+                  $('#uploadImage').val('');
+                  return false;
+                }
+              }
+              
+              reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+    });
+  </script>
+@stop

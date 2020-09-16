@@ -8,6 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
   
     <script>document.getElementsByTagName("html")[0].className += " js";</script>
+    @yield('in-head')
     <script>
       if('CSS' in window && CSS.supports('color', 'var(--color-var)')) {
         document.write('<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">');
@@ -35,6 +36,8 @@
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
     
     @include('site1.partials.signin-js')
+
+    @yield('before-end')
   </body>
   </html>
   
