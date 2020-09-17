@@ -50,6 +50,30 @@ class User extends Authenticatable implements HasMedia
         return ($this->permission < 1) ? 'Inactive' : 'Active';
     }
 
+    public function account_setting()
+    {
+        return $this->hasOne(AccountSetting::class);
+    }
+
+    public function hasSocialMedia()
+    {
+        $social_media_links = [
+            $this->account_setting->twitter_link,
+            $this->account_setting->facebook_link,
+            $this->account_setting->instagram_link
+        ];
+
+        $has = false;
+
+        foreach($social_media_links as $social_media_link){
+            if(!is_null($social_media_link)){
+                $has = true;
+            }
+        }
+
+        return $has;
+    }
+
     public function registerMediaConversions(Media $media = null)
     {
         $this->addMediaConversion('thumb')
