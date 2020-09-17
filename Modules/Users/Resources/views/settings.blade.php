@@ -126,16 +126,7 @@
             }
         };
           
-        let hasCoverPhoto = "{{ (!is_null(auth()->user()->cover_photo)) ? true : false }}";
-        if(!hasCoverPhoto){
-          $options['url'] = "{{ asset('assets/img/black.jpg') }}";      
-        } else {
-          $options['url'] = "{{ asset('users-images/images') . '/' . auth()->user()->cover_photo }}";
-        }
-
-        $('.croppie-container').on('mouseover', function(){
-          alert('ok');
-        });
+        $options['url'] = "{{ auth()->user()->getCoverPhoto() }}";
 
         $image_crop = $('#imageDemo').croppie($options);
 
