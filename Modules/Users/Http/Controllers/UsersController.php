@@ -587,9 +587,9 @@ class UsersController extends Controller
 
         $user->account_setting->update([
             'bio' => request('bio') ? request('bio') : $user->account_setting->bio,
-            'twitter_link' => request('twitter_link') ? request('twitter_link') : $user->account_setting->twitter_link,
-            'facebook_link' => request('facebook_link') ? request('facebook_link') : $user->account_setting->facebook_link,
-            'instagram_link' => request('instagram_link') ? request('instagram_link') : $user->account_setting->instagram_link,
+            'twitter_link' => request('twitter_link'),
+            'facebook_link' => request('facebook_link'),
+            'instagram_link' => request('instagram_link')
         ]);
 
 
