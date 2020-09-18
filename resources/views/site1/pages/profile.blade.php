@@ -1,24 +1,10 @@
 @extends('site1.layouts.app')
 
-@section('in-head')
-  <style>
-    #coverPhoto{
-      position: relative;
-      background: url('{{ auth()->user()->getCoverPhoto() }}') no-repeat;
-      background-size: cover;
-      background-position: center;
-      height: 380px;
-    }
-
-    #userProfile .author__img-wrapper{ margin-top: -100px; z-index: 1;}
-  </style>
-@stop
-
 @section('content')
 <section>
   <div class="container max-width-adaptive-sm margin-top-lg" id="userProfile">
-    <div id="coverPhoto"></div>
     <div class="author author--featured">
+      <img src="{{ auth()->user()->getCoverPhoto() }}" alt="{{ auth()->user()->name }}'s Cover Photo">
       <a href="#" class="author__img-wrapper border border-4 border-white">
         <img src="{{ auth()->user()->getMedia('avatars')->last()->getFullUrl() }}" alt="Author picture">
       </a>
