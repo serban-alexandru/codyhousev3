@@ -23,6 +23,11 @@ class CoverPhotoUploader extends Model
 		$tmp_file_name = "{$key}.{$extension}"; // et7e98r7t9e79rt9e098g9e0.jpg
 		$tmp_file_path = base_path() . "/" . $server_path . '/'. $tmp_file_name; // Server path
 		
+		$image->resize(800, 800, function($constraint){
+			$constraint->aspectRatio();
+			$constraint->upsize();
+		});
+
 		// Upload image to filesystem
 		$image->save($tmp_file_path);
 
