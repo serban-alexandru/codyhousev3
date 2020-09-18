@@ -7,7 +7,7 @@
       background: url('{{ auth()->user()->getCoverPhoto() }}') no-repeat;
       background-size: cover;
       background-position: center;
-      height: 280px;
+      height: 380px;
     }
 
     #userProfile .author__img-wrapper{ margin-top: -100px; z-index: 1;}
