@@ -2,17 +2,18 @@
 
 namespace Modules\Users\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use DB;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Modules\Users\Entities\Role;
+use Modules\Users\Entities\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Modules\Users\Entities\AccountSetting;
 use Modules\Users\Entities\CoverPhotoUploader;
-use Modules\Users\Entities\Role;
-use Modules\Users\Entities\User;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class UsersController extends Controller
 {
@@ -534,6 +535,14 @@ class UsersController extends Controller
     {
         $user = Auth::user();
 
+        if(!$user->account_setting){
+            $account_setting = AccountSetting::create([
+                'user_id' => $user->id
+            ]);
+        }
+
+        $user->refresh();
+
         return view('users::settings', compact('user'));
     }
 
@@ -546,7 +555,11 @@ class UsersController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name'  => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email,' . Auth::id()]
+            'email' => ['required', 'email', 'max:255', 'unique:users,email,' . Auth::id()],
+            'bio' => ['max:191'],
+            'twitter_link' => ['max:191'],
+            'facebook_link' => ['max:191'],
+            'instagram_link' => ['max:191']
         ]);
 
         if ($validator->fails()) {
@@ -570,6 +583,15 @@ class UsersController extends Controller
         $user->name     = $request->input('name');
         $user->email    = $request->input('email');
         $user->password = $request->input('password') ? Hash::make($request->input('password')) : $user->password;
+        
+
+        $user->account_setting->update([
+            'bio' => request('bio') ? request('bio') : $user->account_setting->bio,
+            'twitter_link' => request('twitter_link'),
+            'facebook_link' => request('facebook_link'),
+            'instagram_link' => request('instagram_link')
+        ]);
+
 
         // get last used avatar
         $lastUsedAvatar = Auth::user()->getMedia('avatars')->last();

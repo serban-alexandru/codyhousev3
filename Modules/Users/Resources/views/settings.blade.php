@@ -93,6 +93,29 @@
                 </button>
               </div>
             </div><!-- /.margin-bottom-sm -->
+
+            <div class="margin-bottom-sm">
+              <div class="grid gap-sm">
+                <div class="col@md">
+                  <label for="bio" class="form-label">Bio <small>(Optional)</small></label><!-- /.form-label -->
+                  <input type="text" class="form-control width-100%" id="bio" name="bio" value="{{ $user->account_setting->bio ?: old('bio') }}">
+                </div>
+              </div>
+            </div>
+
+            @foreach(['twitter_link', 'facebook_link', 'instagram_link'] as $social_media)
+              <div class="margin-bottom-sm">
+                <div class="grid gap-sm">
+                  <div class="col@md">
+                    <label for="{{ $social_media }}" class="form-label">
+                      {{ ucfirst(Str::replaceArray('_', [' '], $social_media)) }} <small>(Optional)</small>
+                    </label><!-- /.form-label -->
+                    <input type="text" class="form-control width-100%" id="{{ $social_media }}" name="{{ $social_media }}" value="{{ $user->account_setting->$social_media ?: old($social_media) }}">
+                  </div>
+                </div>
+              </div>
+            @endforeach
+
             <div class="margin-bottom-sm text-right">
               <button type="submit" class="btn btn--primary">Save</button><!-- /.btn btn--primary -->
             </div><!-- /.margin-bottom-sm -->
@@ -132,15 +155,14 @@
 
         $('#uploadImage').on('change', function(){
           readFile(this);
-
-          $('.alert-cover-photo').removeClass('hidden');
+          validateSize(this);
           
           var reader = new FileReader();
           reader.onload = function (event) {
             $image_crop.croppie('bind', {
               url: event.target.result
             }).then(function(){
-              // After selecting image
+              $('.alert-cover-photo').removeClass('hidden');
             });
           }
           reader.readAsDataURL(this.files[0]);
@@ -152,9 +174,8 @@
           $('.alert-cover-photo').html('Loading...');
           $image_crop.croppie('result', {
             type: 'base64',
-            format: 'jpeg',
-            size: 'viewport'
-            //size: {width: 150, height: 200}
+            format: 'png',
+            size: 'original'  
           }).then(function (response) {
             $('#base64Image').val('');
             $('#base64Image').val(response);
@@ -168,7 +189,7 @@
                 },
                 success: function(response){
                   if(response.status){
-                    window.location.href = window.location.href;
+                    window.location = "{{ url('users/settings') }}";
                   }
                 }
               });
@@ -186,12 +207,23 @@
                 validFormats = ['data:image/jpeg', 'data:image/png'];
                 if (validFormats.indexOf(tipo) == -1){
                   alert('Accept only .jpg o .png image types');
+                  $('.alert-cover-photo').addClass('hidden');
                   $('#uploadImage').val('');
                   return false;
                 }
               }
               
               reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function validateSize(file) {
+            var FileSize = file.files[0].size / 1024 / 1024; // in MB
+            if (FileSize > 2) {
+                alert('File size exceeds 2 MB');
+               $(file).val('');
+            } else {
+
             }
         }
 
