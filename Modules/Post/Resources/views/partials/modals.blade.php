@@ -34,6 +34,11 @@
                 <input class="form-control width-100%" type="text" name="input-name" id="input-name" required>
               <div>
 
+                <div class="grid gap-sm">
+                  <label class="form-label margin-bottom-xxs" for="input-name">Add Tags</label>
+                  <input class="form-control width-100%" type="text" name="input-name" id="input-name" required>
+                <div>
+                <label class="form-label margin-bottom-xxs" for="input-name">Add Discription</label>
               <div id="editorjs" class="form-control"></div><!-- /#ajax-add-blog-form -->
             </div>
           </section>
