@@ -2,7 +2,7 @@
 
 @section('content')
 <section>
-  <div class="container max-width-adaptive-sm margin-top-lg" id="userProfile">
+  <div class="container max-width-adaptive-lg" id="userProfile">
     <div class="author author--featured">
       <img src="{{ auth()->user()->getCoverPhoto() }}" alt="{{ auth()->user()->name }}'s Cover Photo">
       <a href="#" class="author__img-wrapper border border-4 border-white">
