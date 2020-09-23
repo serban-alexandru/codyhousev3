@@ -46,7 +46,7 @@
                 <div class="flex flex-wrap gap-sm">
                   <div class="file-upload inline-block">
                     <label for="avatar" class="file-upload__label btn btn--subtle">
-                      <span class="file-upload__text file-upload__text--has-max-width" data-default-text="Upload a file">Upload a file</span>
+                      <span class="file-upload__text file-upload__text--has-max-width" data-default-text="Upload a file">Upload Avatar</span>
                     </label>
 
                     <input type="file" class="file-upload__input" data-custom-image-file-preview="#settings-avatar" data-custom-image-file-resetter="#settings-avatar-delete" name="avatar" id="avatar" accept="image/*">
@@ -60,7 +60,7 @@
                       class="btn btn--subtle btn--disabled"
                       disabled
                     @endif
-                  >Delete</button><!-- /.btn btn--subtle -->
+                  >Delete Avatar</button><!-- /.btn btn--subtle -->
 
                   <label for="uploadImage" class="btn" id="btnEditCoverPhoto">Edit Cover Photo</label>
                 </div><!-- /.flex flex-wrap -->
