@@ -111,7 +111,7 @@
               href="#0">This is the title for post
               </a>
             </td>
-            <td class="int-table__cell">r.email@email.com</td>
+            <td class="int-table__cell">jamesronan</td>
             <td class="int-table__cell">01/01/2021</td>
             <td class="int-table__cell text-center"><img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Author picture" width="40" height="40"></td>
             <td class="int-table__cell text-center">
