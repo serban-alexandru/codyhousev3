@@ -106,7 +106,7 @@
                 <div class="custom-checkbox__control" aria-hidden="true"></div>
               </div>
             </th>
-            <td class="int-table__cell" aria-controls="modal-add-article">
+            <td class="int-table__cell" aria-controls="modal-edit-post">
               <a
               href="#0">This is the title for post
               </a>
