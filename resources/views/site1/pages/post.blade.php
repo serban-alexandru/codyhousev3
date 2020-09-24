@@ -11,6 +11,14 @@
         </figure>
       </div>
 
+      <div class="margin-bottom-mdn">
+        <div class="flex flex-wrap gap-xxs">
+          <span class="btn btn--subtle">Tag 1</span>
+          <span class="btn btn--subtle">Tag 2</span>
+          <span class="btn btn--subtle">Tag 3</span>
+        </div>
+      </div>
+
   </article>
   @endsection
   
