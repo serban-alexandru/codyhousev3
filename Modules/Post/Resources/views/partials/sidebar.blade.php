@@ -39,13 +39,9 @@
 
     <div class="sidenav__divider margin-y-xs" role="presentation"></div>
 
-    <div class="sidenav__label margin-bottom-xxxs">
-      <span class="text-sm color-contrast-medium">Other</span>
-    </div>
-
-    <ul class="sidenav__list site-load-content">
+    <ul class="sidenav__list">
       <li class="sidenav__item">
-        <a href="#0" class="sidenav__link">
+        <a href="{{ url('admin/posts/settings/') }}" class="sidenav__link">
           <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g><circle cx="6" cy="8" r="2"></circle><path d="M10,2H6C2.7,2,0,4.7,0,8s2.7,6,6,6h4c3.3,0,6-2.7,6-6S13.3,2,10,2z M10,12H6c-2.2,0-4-1.8-4-4s1.8-4,4-4h4 c2.2,0,4,1.8,4,4S12.2,12,10,12z"></path></g></svg>
           <span class="sidenav__text">Settings</span>
         </a>

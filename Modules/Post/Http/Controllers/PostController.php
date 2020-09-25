@@ -17,6 +17,10 @@ class PostController extends Controller
         return view('post::index');
     }
 
+    public function settings()
+    {
+        return view('post::layouts.settings');
+    }
     /**
      * Show the form for creating a new resource.
      * @return Renderable
