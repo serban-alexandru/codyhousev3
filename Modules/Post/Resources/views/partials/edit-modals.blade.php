@@ -41,49 +41,17 @@
 
         <!--Tab2 Content-->
           <section id="tab1Panel2" class="padding-top-md js-tabs__panel">
-            <div class="ddf">
-              <div class="ddf__area padding-y-xl padding-x-md js-ddf__area">
-                <input class="ddf__input sr-only js-ddf__input" type="file" id="upload-file" multiple name="file[]">
 
-                <label class="ddf__label js-ddf__label" for="upload-file">
-                  <i class="ddf__label-inner">
-                    <svg class="icon icon--xl color-contrast-higher ddf__icon-cloud" viewBox="0 0 64 64" aria-hidden="true"><path fill="currentColor" d="M51,27c-.374,0-.742.025-1.109.056a18,18,0,0,0-35.782,0C13.742,27.025,13.374,27,13,27a13,13,0,0,0,0,26H51a13,13,0,0,0,0-26Z"/><path d="M43.764,41.354l-11-13a1.033,1.033,0,0,0-1.526,0l-11,13A1,1,0,0,0,21,43h7V59h8V43h7a1,1,0,0,0,.764-1.646Z" fill="var(--color-bg)"/></svg>
+            <div class="margin-bottom-md">
+            <img src="{{ asset('assets/img/team-img-13.jpg') }}"</a>
+          </div>
 
-                    <span class="text-md text-bold color-contrast-higher">Drag and drop your files here</span>
-
-                    <span class="color-contrast-medium padding-top-xxxs inline-block">or click to browse your files</span>
-                  </i>
-                </label>
-
-                <span class="ddf__label-end">
-                  <i class="ddf__label-end-inner">
-                    <svg class="icon icon--xl color-contrast-higher ddf__icon-file" viewBox="0 0 64 64" aria-hidden="true"><path fill="currentColor" d="M1.4,16.868,7,15.636,18.972,13A1.783,1.783,0,0,1,21.1,14.359L28.21,46.683a1.783,1.783,0,0,1-1.358,2.124L9.28,52.675a1.784,1.784,0,0,1-2.124-1.358L.042,18.993A1.783,1.783,0,0,1,1.4,16.868Z" opacity="0.69"/><path fill="currentColor" d="M62.6,16.868,57,15.636,45.028,13A1.783,1.783,0,0,0,42.9,14.359L35.79,46.683a1.783,1.783,0,0,0,1.358,2.124L54.72,52.675a1.784,1.784,0,0,0,2.124-1.358l7.114-32.324A1.783,1.783,0,0,0,62.6,16.868Z" opacity="0.69"/><rect fill="currentColor" x="13" y="9" width="38" height="46" rx="2"/><path d="M42.941,41.664l-5-14a1,1,0,0,0-1.624-.4l-15,14A1,1,0,0,0,22,43H42a1,1,0,0,0,.941-1.336Z" fill="#fff"/><circle cx="24" cy="26" r="3" fill="var(--color-bg)"/></svg>
-
-                    <!-- {n} will be replaced by the total number of files -->
-                    <!-- use % symbol for singular/plural - only one will be shown  -->
-                    <span class="js-ddf__files-counter">{n} selected %file%files%</span>
-
-                    <div class="ddf__progress c-progress-bar is-hidden margin-x-auto margin-top-xxs js-ddf__progress" data-progress="0%">
-                      <p class="sr-only" aria-live="polite" aria-atomic="true">Progress value is <span class="js-c-progress-bar__aria-value">0%</span></p>
-
-                      <div class="c-progress-bar__shape" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round">
-                          <g> <!-- check + circle bg -->
-                            <circle class="ddf__progress-circle" cx="12" cy="12" r="11" stroke-width="2"></circle>
-                            <circle class="ddf__progress-circle-mask" cx="12" cy="12" r="11" stroke-width="2"></circle>
-                            <polyline class="ddf__progress-check" points="6 12 10 16 18 8" fill="none" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-                          </g>
-
-                          <g> <!-- progress loader -->
-                            <circle class="c-progress-bar__bg" cx="12" cy="12" r="11" stroke-width="2"></circle>
-                            <circle class="c-progress-bar__fill" cx="12" cy="12" r="11" stroke-width="2"></circle>
-                          </g>
-                        </svg>
-                      </div>
-                    </div>
-                  </i>
-                </span>
-              </div>
+            <div class="file-upload inline-block">
+              <label for="upload1" class="file-upload__label btn btn--subtle">
+                <span class="file-upload__text file-upload__text--has-max-width">Edit Photo</span>
+              </label>
+              
+              <input type="file" class="file-upload__input" name="upload1" id="upload1">
             </div>
           </section>
 
@@ -102,6 +70,30 @@
                     <label class="form-label margin-bottom-xxs" for="input-name">Edit Tags</label>
                     <input class="form-control width-100%" type="text" name="input-name" id="input-name" required>
                 <div>
+
+                  <div class="flex flex-wrap gap-xxs">
+                    <span class="btn btn--basic">Tag 1
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>ic_close_24px</title>
+                        <g fill="#a8a8a8">
+                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
+                        </g>
+                    </svg>
+                    </span>
+                    <span class="btn btn--basic">Tag 2
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>ic_close_24px</title>
+                        <g fill="#a8a8a8">
+                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
+                        </g>
+                    </svg>
+                    </span>
+                    <span class="btn btn--basic">Tag 3
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>ic_close_24px</title>
+                        <g fill="#a8a8a8">
+                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
+                        </g>
+                    </svg>
+                    </span>
+                  </div>
 
                   </div>
                 </div>
