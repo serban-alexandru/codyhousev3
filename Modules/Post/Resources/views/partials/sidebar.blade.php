@@ -2,7 +2,7 @@
   <div class="sidebar__panel">
   <nav class="sidenav padding-y-sm text-sm@md js-sidenav">
     <div class="sidenav__label margin-bottom-xxxs">
-      <span class="text-sm color-contrast-medium">Main</span>
+      <span class="text-sm color-contrast-medium">Posts</span>
     </div>
 
     <ul class="sidenav__list">
