@@ -34,6 +34,7 @@ Route::middleware('auth', 'role:admin')->group(function(){
 
   Route::prefix('admin')->group(function(){
     Route::get('users', 'UsersController@index');
+    Route::get('users/adminsettings', 'UsersController@adminsettings');
     Route::get('users/add', 'UsersController@create');
     Route::post('users/store', 'UsersController@store');
     Route::get('users/edit/{id}', 'UsersController@edit');

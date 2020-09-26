@@ -17,6 +17,11 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class UsersController extends Controller
 {
+
+    public function adminsettings()
+    {
+        return view('users::pages.adminsettings');
+    }
     /**
      * Display a listing of the resource.
      * @return Response
