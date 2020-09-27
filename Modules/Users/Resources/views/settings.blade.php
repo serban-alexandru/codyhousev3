@@ -103,6 +103,13 @@
               </div>
             </div>
 
+            <label for="bio" class="form-label">Bio <small>(Optional)</small></label><!-- /.form-label -->
+            <div class="margin-bottom-sm">
+              <div class="col@md">
+              <textarea class="form-control width-100%" id="bio" name="bio" value="{{ $user->account_setting->bio ?: old('bio') }}"></textarea>
+              </div>
+            </div>
+
             @foreach(['twitter_link', 'facebook_link', 'instagram_link'] as $social_media)
               <div class="margin-bottom-sm">
                 <div class="grid gap-sm">
