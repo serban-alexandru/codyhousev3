@@ -230,9 +230,15 @@
               </div>
             </th>
             <td class="int-table__cell">{{$user->id}}</td>
-            <td class="int-table__cell">
+
+          <td class="int-table__cell">
+           <div class="flex author author--meta">
+              <a href="#0" class="author__img-wrapper">
+                <img src="{{ Auth::user()->getMedia('avatars')->last()->getFullUrl('thumb') }}" alt="Author picture"></a>
               <a href="{{url('admin/users/edit/'.$user->id)}}" data-update-url="{{url('admin/users/update/'.$user->id)}}" class="modal-trigger-edit-user" aria-controls="modal-edit-user" role="button">{{$user->username}}</a>
-            </td>
+          </div>
+          </td>
+
             <td class="int-table__cell">{{$user->email}}</td>
             <td class="int-table__cell">{{ $user->created_at->format('d/m/Y') }}</td>
             <td class="int-table__cell">{{$user->role}}</td>

@@ -6,7 +6,7 @@
     <div class="author author--featured">
       <div class="t-article-v2__cover" aria-hidden="true" style="background-image: url('{{ auth()->user()->getCoverPhoto() }}" alt="{{ auth()->user()->name }}'s Cover Photo');"></div>
       <a href="#" class="author__img-wrapper border border-4 border-white">
-        <img src="{{ auth()->user()->getMedia('avatars')->last()->getFullUrl() }}" alt="Author picture">
+        <img src="{{ Auth::user()->getMedia('avatars')->last()->getFullUrl('thumb') }}" alt="Author picture">
       </a>
 
       @if(auth()->user()->account_setting)
