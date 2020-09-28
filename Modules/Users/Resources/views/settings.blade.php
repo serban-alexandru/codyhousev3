@@ -37,7 +37,7 @@
             <div class="author margin-bottom-md">
               <a href="#0" class="author__img-wrapper bg-primary-dark">
                 @if(Auth::user()->getMedia('avatars')->last())
-                  <img src="{{ Auth::user()->getMedia('avatars')->last()->getFullUrl() }}" alt="Author picture" id="settings-avatar">
+                  <img src="{{ Auth::user()->getMedia('avatars')->last()->getFullUrl('thumb') }}" alt="Author picture">
                 @else
                   <img alt="Author picture" id="settings-avatar" style="display: none;">
                 @endif
@@ -63,6 +63,7 @@
                   >Delete Avatar</button><!-- /.btn btn--subtle -->
 
                   <label for="uploadImage" class="btn" id="btnEditCoverPhoto">Edit Cover Photo</label>
+                  <label class="btn" id="btnEditCoverPhoto">Delete Cover Photo</label>
                 </div><!-- /.flex flex-wrap -->
               </div><!-- /.author__content -->
             </div><!-- /.author -->
