@@ -35,7 +35,7 @@
             @csrf
             <input type="hidden" name="delete_avatar" />
             <div class="author margin-bottom-md">
-              <a href="#0" class="author__img-wrapper bg-primary-dark">
+              <a href="#0" class="author__img-wrapper bg-black bg-opacity-50%">
                 @if(Auth::user()->getMedia('avatars')->last())
                   <img src="{{ Auth::user()->getMedia('avatars')->last()->getFullUrl('thumb') }}" alt="Author picture">
                 @else
@@ -51,9 +51,9 @@
 
                     <input type="file" class="file-upload__input" data-custom-image-file-preview="#settings-avatar" data-custom-image-file-resetter="#settings-avatar-delete" name="avatar" id="avatar" accept="image/*">
                   </div><!-- /.file-upload inline-block -->
-                  <button type="button"
-                    id="settings-avatar-delete"
-                    data-custom-image-file-reset-file="#avatar"
+                  <button
+                    type="button" 
+                    id="btnDeleteAvatar"
                     @if(Auth::user()->getMedia('avatars')->last())
                       class="btn btn--subtle"
                     @else
@@ -63,7 +63,16 @@
                   >Delete Avatar</button><!-- /.btn btn--subtle -->
 
                   <label for="uploadImage" class="btn" id="btnEditCoverPhoto">Edit Cover Photo</label>
-                  <label class="btn" id="btnEditCoverPhoto">Delete Cover Photo</label>
+                  <button type="button" id="btnDeleteCoverPhoto" 
+                    @if(auth()->user()->hasCoverPhoto())
+                      class="btn btn--subtle"
+                    @else
+                      class="btn btn--subtle btn--disabled"
+                      disabled
+                    @endif
+                  >
+                    Delete Cover Photo
+                  </button>
                 </div><!-- /.flex flex-wrap -->
               </div><!-- /.author__content -->
             </div><!-- /.author -->
@@ -234,6 +243,48 @@
 
             }
         }
+
+        $('#btnDeleteAvatar').on('click', function(){
+          if(confirm('Are you sure you want to delete your avatar?')){
+            $.ajax({
+              url: "{{ route('avatar.delete.ajax') }}",
+              dataType: 'json',
+              type: 'post',
+              data: {
+                _token: $('input[name=_token]').val(),
+              },
+              success: function(response){
+                if(response.status){
+                  window.location = "{{ url('users/settings') }}";
+                } else {
+                  console.log(response);
+                }
+              }
+            });
+          }
+        });
+
+        $('#btnDeleteCoverPhoto').on('click', function(){
+          
+          if(confirm('Are you sure you want to delete your cover photo?')){
+            $.ajax({
+              url: "{{ route('cover-photo.delete.ajax') }}",
+              dataType: 'json',
+              type: 'post',
+              data: {
+                _token: $('input[name=_token]').val(),
+              },
+              success: function(response){
+                if(response.status){
+                  window.location = "{{ url('users/settings') }}";
+                } else {
+                  console.log(response);
+                }
+              }
+            });
+          }
+
+        });
 
     });
   </script>

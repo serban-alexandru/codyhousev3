@@ -3,6 +3,7 @@
 namespace Modules\Users\Http\Controllers;
 
 use DB;
+use File;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Users\Entities\Role;
@@ -633,16 +634,63 @@ class UsersController extends Controller
     public function postAjaxUpdateCoverPhoto()
     {
         $this->validate(request(), ['base64Image' => 'required']);
+
+        $user = auth()->user();
+
+        // Get and set old cover photo
+        if($user->hasCoverPhoto()){
+            $old_cover_photo = storage_path() . '/app/public/users-images/images/' . $user->cover_photo;
+        }
         
         $cover_photo = (new CoverPhotoUploader)->uploadBase64Photo(request('base64Image'), 'storage/app/public/users-images/images');
-        
-        auth()->user()->update([
+
+        $user->update([
             'cover_photo' => $cover_photo->file_name
         ]);
+
+        // Delete file
+        if(File::exists($old_cover_photo)){
+            unlink($old_cover_photo);
+        }
 
         return response()->json([
             'status' => true,
             'message' => 'Cover photo has been updated!'
         ]);
     }
+
+    public function postAjaxDeleteAvatar()
+    {
+        $user = auth()->user();
+
+        if(!$user->getMedia('avatars')){
+            return response()->json([
+                'status' => true,
+                'redirect_url' => url('users/settings')
+            ]);
+        }
+
+        // Delete all avatars associated with this user
+        $user->clearMediaCollection('avatars');
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Avatar has been deleted!',
+            'redirect_url' => url('users/settings')
+        ]);
+    }
+
+    public function postAjaxDeleteCoverPhoto()
+    {
+        $user = auth()->user();
+
+        $user->update(['cover_photo' => NULL]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Cover photo has been deleted!',
+            'redirect_url' => url('users/settings')
+        ]);
+    }
+
 }

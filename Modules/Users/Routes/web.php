@@ -57,4 +57,12 @@ Route::middleware('auth')->group(function(){
     'as' => 'cover-photo.update.ajax',
     'uses' => 'UsersController@postAjaxUpdateCoverPhoto'
   ]);
+  Route::post('users/settings/avatar/delete/ajax', [
+    'as' => 'avatar.delete.ajax',
+    'uses' => 'UsersController@postAjaxDeleteAvatar'
+  ]);
+  Route::post('users/settings/cover-photo/delete/ajax', [
+    'as' => 'cover-photo.delete.ajax',
+    'uses' => 'UsersController@postAjaxDeleteCoverPhoto'
+  ]);
 });
