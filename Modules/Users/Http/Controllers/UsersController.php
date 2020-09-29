@@ -684,7 +684,16 @@ class UsersController extends Controller
     {
         $user = auth()->user();
 
-        $user->update(['cover_photo' => NULL]);
+        if($user->hasCoverPhoto()){
+            $old_cover_photo = storage_path() . '/app/public/users-images/images/' . $user->cover_photo;
+            
+            if(File::exists($old_cover_photo)){
+                unlink($old_cover_photo);
+            }
+
+            $user->update(['cover_photo' => NULL]);
+        }
+
 
         return response()->json([
             'status' => true,
