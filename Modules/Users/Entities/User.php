@@ -87,7 +87,7 @@ class User extends Authenticatable implements HasMedia
             return asset('assets/img/gray.jpg');
         }
 
-        return asset('storage/users-images/images') . '/' . $this->cover_photo;
+        return asset('storage/users-images/cover') . '/' . $this->cover_photo;
     }
 
     public function hasCoverPhoto()
