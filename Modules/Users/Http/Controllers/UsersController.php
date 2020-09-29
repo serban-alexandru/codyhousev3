@@ -639,19 +639,18 @@ class UsersController extends Controller
 
         // Get and set old cover photo
         if($user->hasCoverPhoto()){
-            $old_cover_photo = storage_path() . '/app/public/users-images/images/' . $user->cover_photo;
+            $old_cover_photo = storage_path() . '/app/public/users-images/cover/' . $user->cover_photo;
+
+            if(File::exists($old_cover_photo)){
+                unlink($old_cover_photo);
+            }
         }
         
-        $cover_photo = (new CoverPhotoUploader)->uploadBase64Photo(request('base64Image'), 'storage/app/public/users-images/images');
+        $cover_photo = (new CoverPhotoUploader)->uploadBase64Photo(request('base64Image'), 'storage/app/public/users-images/cover');
 
         $user->update([
             'cover_photo' => $cover_photo->file_name
         ]);
-
-        // Delete file
-        if(File::exists($old_cover_photo)){
-            unlink($old_cover_photo);
-        }
 
         return response()->json([
             'status' => true,
@@ -684,7 +683,16 @@ class UsersController extends Controller
     {
         $user = auth()->user();
 
-        $user->update(['cover_photo' => NULL]);
+        if($user->hasCoverPhoto()){
+            $old_cover_photo = storage_path() . '/app/public/users-images/cover/' . $user->cover_photo;
+
+            if(File::exists($old_cover_photo)){
+                unlink($old_cover_photo);
+            }
+
+            $user->update(['cover_photo' => NULL]);
+        }
+
 
         return response()->json([
             'status' => true,
