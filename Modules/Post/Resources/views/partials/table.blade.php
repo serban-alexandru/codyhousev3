@@ -5,12 +5,10 @@
           <tr class="int-table__row">
             <td class="int-table__cell">
               <div class="custom-checkbox int-table__checkbox">
-                <input class="custom-checkbox__input js-int-table__select-all" type="checkbox" aria-label="Select all rows" />
+                <input class="custom-checkbox__input js-int-table__select-all" id="checkboxDeleteAll" type="checkbox" aria-label="Select all rows">
                 <div class="custom-checkbox__control" aria-hidden="true"></div>
               </div>
             </td>
-
-
 
             <th class="int-table__cell int-table__cell--th int-table__cell--sort js-int-table__cell--sort">
               <div class="flex items-center">
@@ -99,28 +97,41 @@
         </thead>
 
         <tbody class="int-table__body js-int-table__body">
+          @foreach($posts as $post)
           <tr class="int-table__row">
             <th class="int-table__cell" scope="row">
               <div class="custom-checkbox int-table__checkbox">
-                <input class="custom-checkbox__input js-int-table__select-row" type="checkbox" aria-label="Select this row" />
+                <input value="{{ $post->id }}" class="custom-checkbox__input js-int-table__select-row checkbox-delete" type="checkbox" aria-label="Select this row">
                 <div class="custom-checkbox__control" aria-hidden="true"></div>
               </div>
             </th>
-            <td class="int-table__cell" aria-controls="modal-edit-post">
-              <a
-              href="#0">This is the title for post
+            <td class="int-table__cell" aria-controls="modal-edit-post" data-id="{{ $post->id }}">
+              <a href="#0">
+                {{ $post->title }}
               </a>
             </td>
-            <td class="int-table__cell">jamesronan</td>
-            <td class="int-table__cell">01/01/2021</td>
-            <td class="int-table__cell text-center"><img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Author picture" width="40" height="40"></td>
+            <td class="int-table__cell">{{ $post->name }}</td>
+            <td class="int-table__cell">{{ $post->created_at->format('m/d/Y') }}</td>
             <td class="int-table__cell text-center">
-              <li class="menu-bar__item" role="menuitem" aria-controls="modal-name-1">
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>trash-simple</title><g stroke-linecap="square" stroke-linejoin="miter" stroke-width="1" transform="translate(0.5 0.5)" fill="#828282" stroke="#828282"><polyline fill="none" stroke="#828282" stroke-miterlimit="10" points="20,9 20,23 4,23 4,9 "></polyline> <line fill="none" stroke="#828282" stroke-miterlimit="10" x1="1" y1="5" x2="23" y2="5"></line> <line fill="none" stroke-miterlimit="10" x1="12" y1="12" x2="12" y2="18"></line> <line fill="none" stroke-miterlimit="10" x1="8" y1="12" x2="8" y2="18"></line> <line fill="none" stroke-miterlimit="10" x1="16" y1="12" x2="16" y2="18"></line> <polyline fill="none" stroke="#828282" stroke-miterlimit="10" points="8,5 8,1 16,1 16,5 "></polyline></g></svg>
-              </li>
+              @if(auth()->user()->getMedia('avatars')->last())
+                <img src="{{ auth()->user()->getMedia('avatars')->last()->getFullUrl('thumb') }}" alt="Author picture" width="40" height="40">
+              @else
+                <span class="author__img-wrapper bg-black bg-opacity-50%"></span>
+              @endif
+            </td>
+            <td class="int-table__cell text-center">
+              <form action="{{ route('posts.delete') }}" method="post">
+                @csrf
+                <input type="hidden" name="post_id" value="{{ $post->id }}">
+                <li class="menu-bar__item btn-delete" role="menuitem" aria-controls="modal-name-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                      <title>trash-simple</title>
+                  <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="1" transform="translate(0.5 0.5)" fill="#828282" stroke="#828282"><polyline fill="none" stroke="#828282" stroke-miterlimit="10" points="20,9 20,23 4,23 4,9 "></polyline> <line fill="none" stroke="#828282" stroke-miterlimit="10" x1="1" y1="5" x2="23" y2="5"></line> <line fill="none" stroke-miterlimit="10" x1="12" y1="12" x2="12" y2="18"></line> <line fill="none" stroke-miterlimit="10" x1="8" y1="12" x2="8" y2="18"></line> <line fill="none" stroke-miterlimit="10" x1="16" y1="12" x2="16" y2="18"></line> <polyline fill="none" stroke="#828282" stroke-miterlimit="10" points="8,5 8,1 16,1 16,5 "></polyline></g></svg>
+                </li>
+              </form>
             </td>
           </tr>
-
+          @endforeach
         </tbody>
 
       </table>
@@ -159,7 +170,7 @@
   </menu>
 
   <div class="flex items-center justify-between padding-top-sm">
-    <p class="text-sm">450 results</p>
+    <p class="text-sm">{{ $posts->count() }} results</p>
 
     <nav class="pagination text-sm" aria-label="Pagination">
       <ul class="pagination__list flex flex-wrap gap-xxxs">
