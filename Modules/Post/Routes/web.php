@@ -14,5 +14,41 @@
 Route::prefix('admin')->group(function() {
     Route::get('posts', 'PostController@index');
     Route::get('posts/settings', 'PostController@settings');
-    Route::get('posts/create', 'PostController@create');
+    
+    Route::post('posts/store', [
+    	'as' => 'posts.store',
+    	'uses' => 'PostController@store'
+    ]);
+    
+    Route::get('posts/{id}/fetch-data', [
+    	'as' => 'posts.fetch-data',
+    	'uses' => 'PostController@fetchDataAjax'
+    ]);
+
+    Route::post('posts/update', [
+    	'as' => 'posts.update',
+    	'uses' => 'PostController@ajaxUpdate'
+    ]);
+
+    Route::post('posts/delete', [
+    	'as' => 'posts.delete',
+    	'uses' => 'PostController@delete'
+    ]);
+
+    Route::post('posts/delete/multiple', [
+    	'as' => 'posts.delete.multiple',
+    	'uses' => 'PostController@deleteMultiple'
+    ]);
+
+    Route::post('posts/trash/empty', [
+    	'as' => 'posts.trash.empty',
+    	'uses' => 'PostController@emptyTrash'
+    ]);
+});
+
+Route::group([
+	'prefix' => 'laravel-filemanager',
+	'middleware' => ['web', 'auth']
+], function () {
+	\UniSharp\LaravelFilemanager\Lfm::routes();
 });
