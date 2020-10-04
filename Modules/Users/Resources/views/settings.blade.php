@@ -107,16 +107,9 @@
             <div class="margin-bottom-sm">
               <div class="grid gap-sm">
                 <div class="col@md">
-                  <label for="bio" class="form-label">Bio <small>(Optional)</small></label><!-- /.form-label -->
-                  <input type="text" class="form-control width-100%" id="bio" name="bio" value="{{ $user->account_setting->bio ?: old('bio') }}">
+                  <label for="bio" class="form-label">Bio <small>(Optional)</small></label><br>
+                  <textarea name="bio" id="bio" class="form-control width-100%">{{ $user->account_setting->bio ?: old('bio') }}</textarea>
                 </div>
-              </div>
-            </div>
-
-            <label for="bio" class="form-label">Bio <small>(Optional)</small></label><!-- /.form-label -->
-            <div class="margin-bottom-sm">
-              <div class="col@md">
-              <textarea class="form-control width-100%" id="bio" name="bio" value="{{ $user->account_setting->bio ?: old('bio') }}"></textarea>
               </div>
             </div>
 
