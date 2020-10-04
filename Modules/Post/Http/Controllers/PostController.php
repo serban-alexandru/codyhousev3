@@ -2,9 +2,10 @@
 
 namespace Modules\Post\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
+use Arr;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+use Modules\Post\Entities\Post;
+use App\Http\Controllers\Controller;
 
 class PostController extends Controller
 {
@@ -14,7 +15,33 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('post::index');
+        $posts = $posts = Post::where('is_deleted', 0)
+            ->leftJoin('users', 'posts.user_id', '=', 'users.id')
+            ->select([
+                'posts.id',
+                'title',
+                'posts.created_at as created_at',
+                'thumbnail',
+                'users.name as name'
+            ])->get();
+
+        if(request()->has('postsearch')){
+            $posts = Post::where('is_deleted', 0)
+            ->leftJoin('users', 'posts.user_id', '=', 'users.id')
+            ->select([
+                'posts.id',
+                'title',
+                'posts.created_at as created_at',
+                'thumbnail',
+                'users.name as name'
+            ])
+            ->where('title', 'LIKE', '%' . request('postsearch') . '%')
+            ->orWhere('users.name', 'LIKE', '%' . request('postsearch') . '%')
+            ->get();
+
+        }
+
+        return view('post::index', compact('posts'));
     }
 
     public function settings()
@@ -35,9 +62,117 @@ class PostController extends Controller
      * @param Request $request
      * @return Renderable
      */
-    public function store(Request $request)
+    public function store()
     {
-        //
+
+        $this->validate(request(), [
+            'title' => 'required|max:255',
+        ]);
+
+        if(request()->has('thumbnail')){
+            $path = request()->file('thumbnail')->store('public/posts/images');
+        }
+        
+        Post::create([
+            'user_id' => auth()->user()->id,
+            'title' => request('title'),
+            'description' => htmlentities(request('description')) ?: NULL,
+            'thumbnail' => (request()->has('thumbnail')) ? Arr::last(explode('/', $path)) : NULL,
+            'seo_page_title' => request('page_title') ?: NULL,
+            'tags' => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
+            'is_published' => request('is_published')
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Post has been created!'
+        ]);
+    }
+
+    public function fetchDataAjax($id)
+    {
+        $post = Post::find($id);
+
+        if(!$post){
+            return response()->json([
+                'message' => 'Post does not exists.'
+            ]);
+        }
+
+        $data = [];
+
+        $data['title'] = $post->title;
+        $data['description'] = html_entity_decode($post->description);
+        $data['thumbnail'] = asset("storage/posts/images/{$post->thumbnail}");
+        $data['page_title'] = $post->seo_page_title;
+        $data['tags'] = ($post->tags) ? '<option selected>' . implode('</option><option selected>', explode(',', $post->tags)) . '</option>' : '';
+
+
+        return $data;
+    }
+
+    public function ajaxUpdate()
+    {
+        $post = Post::find(request('id'));
+
+        if(!$post){
+            return response()->json([
+                'message' => 'Post does not exists.'
+            ]);
+        }
+
+        if(request()->has('thumbnail')){
+            $path = request()->file('thumbnail')->store('public/posts/images');
+        }
+
+        $post->update([
+            'title' => request('title'),
+            'description' => htmlentities(request('description')) ?: NULL,
+            'thumbnail' => (request()->has('thumbnail')) ? Arr::last(explode('/', $path)) : $post->thumbnail,
+            'seo_page_title' => request('page_title') ?: NULL,
+            'tags' => (request()->has('tags')) ? implode(',', request('tags')) : NULL
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Post has been updated!'
+        ]);
+    }
+
+    public function delete()
+    {
+        $post = Post::find(request('post_id'));
+
+        if(!$post){
+            return response()->json([
+                'message' => 'Post does not exists.'
+            ]);
+        }
+
+        $post->update(['is_deleted' => 1]);
+
+        return redirect('admin/posts');
+    }
+
+    public function deleteMultiple()
+    {
+        $this->validate(request(), [
+            'post_ids' => 'required|array'
+        ]);
+
+        Post::whereIn('id', request('post_ids'))->update(['is_deleted' => 1]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Posts has been deleted!'
+        ]);
+    }
+
+    public function emptyTrash()
+    {
+        Post::where('is_deleted', 1)->delete();
+
+        return redirect('admin/posts');
     }
 
     /**
