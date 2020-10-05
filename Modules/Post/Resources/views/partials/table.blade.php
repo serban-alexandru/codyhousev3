@@ -1,14 +1,22 @@
+<div class="margin-bottom-md">
+  <form action="{{ route('posts.trash.empty') }}" method="post">
+    @csrf
+    <span class="btn btn--subtle" id="emptyTrash">Empty trash</span>
+  </form>
+</div>
 <div id="table-1" class="int-table text-sm js-int-table">
     <div class="int-table__inner">
       <table class="int-table__table" aria-label="Interactive table example">
         <thead class="int-table__header js-int-table__header">
           <tr class="int-table__row">
-            <td class="int-table__cell">
-              <div class="custom-checkbox int-table__checkbox">
-                <input class="custom-checkbox__input js-int-table__select-all" id="checkboxDeleteAll" type="checkbox" aria-label="Select all rows">
-                <div class="custom-checkbox__control" aria-hidden="true"></div>
-              </div>
-            </td>
+            @if(!request()->has('is_trashed'))
+              <td class="int-table__cell">
+                <div class="custom-checkbox int-table__checkbox">
+                  <input class="custom-checkbox__input js-int-table__select-all" id="checkboxDeleteAll" type="checkbox" aria-label="Select all rows">
+                  <div class="custom-checkbox__control" aria-hidden="true"></div>
+                </div>
+              </td>
+            @endif
 
             <th class="int-table__cell int-table__cell--th int-table__cell--sort js-int-table__cell--sort">
               <div class="flex items-center">
@@ -92,19 +100,23 @@
             </th>
 
             <th class="int-table__cell int-table__cell--th text-center">Image</th>
-            <th class="int-table__cell int-table__cell--th text-left">Delete</th>
+            @if(!request()->has('is_trashed'))
+              <th class="int-table__cell int-table__cell--th text-left">Delete</th>
+            @endif
           </tr>
         </thead>
 
         <tbody class="int-table__body js-int-table__body">
           @foreach($posts as $post)
           <tr class="int-table__row">
-            <th class="int-table__cell" scope="row">
-              <div class="custom-checkbox int-table__checkbox">
-                <input value="{{ $post->id }}" class="custom-checkbox__input js-int-table__select-row checkbox-delete" type="checkbox" aria-label="Select this row">
-                <div class="custom-checkbox__control" aria-hidden="true"></div>
-              </div>
-            </th>
+            @if(!request()->has('is_trashed'))
+              <th class="int-table__cell" scope="row">
+                <div class="custom-checkbox int-table__checkbox">
+                  <input value="{{ $post->id }}" class="custom-checkbox__input js-int-table__select-row checkbox-delete" type="checkbox" aria-label="Select this row">
+                  <div class="custom-checkbox__control" aria-hidden="true"></div>
+                </div>
+              </th>
+            @endif
             <td class="int-table__cell" aria-controls="modal-edit-post" data-id="{{ $post->id }}">
               <a href="#0">
                 {{ $post->title }}
@@ -113,23 +125,25 @@
             <td class="int-table__cell">{{ $post->name }}</td>
             <td class="int-table__cell">{{ $post->created_at->format('m/d/Y') }}</td>
             <td class="int-table__cell text-center">
-              @if(auth()->user()->getMedia('avatars')->last())
-                <img src="{{ auth()->user()->getMedia('avatars')->last()->getFullUrl('thumb') }}" alt="Author picture" width="40" height="40">
-              @else
+              @if(is_null($post->thumbnail))
                 <span class="author__img-wrapper bg-black bg-opacity-50%"></span>
+              @else
+                <img src="{{ asset('storage/posts/images') }}/{{ $post->thumbnail }}" alt="Author picture" width="40" height="40">
               @endif
             </td>
-            <td class="int-table__cell text-center">
-              <form action="{{ route('posts.delete') }}" method="post">
-                @csrf
-                <input type="hidden" name="post_id" value="{{ $post->id }}">
-                <li class="menu-bar__item btn-delete" role="menuitem" aria-controls="modal-name-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                      <title>trash-simple</title>
-                  <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="1" transform="translate(0.5 0.5)" fill="#828282" stroke="#828282"><polyline fill="none" stroke="#828282" stroke-miterlimit="10" points="20,9 20,23 4,23 4,9 "></polyline> <line fill="none" stroke="#828282" stroke-miterlimit="10" x1="1" y1="5" x2="23" y2="5"></line> <line fill="none" stroke-miterlimit="10" x1="12" y1="12" x2="12" y2="18"></line> <line fill="none" stroke-miterlimit="10" x1="8" y1="12" x2="8" y2="18"></line> <line fill="none" stroke-miterlimit="10" x1="16" y1="12" x2="16" y2="18"></line> <polyline fill="none" stroke="#828282" stroke-miterlimit="10" points="8,5 8,1 16,1 16,5 "></polyline></g></svg>
-                </li>
-              </form>
-            </td>
+            @if(!request()->has('is_trashed'))
+              <td class="int-table__cell text-center">
+                <form action="{{ route('posts.delete') }}" method="post">
+                  @csrf
+                  <input type="hidden" name="post_id" value="{{ $post->id }}">
+                  <li class="menu-bar__item btn-delete" role="menuitem" aria-controls="modal-name-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <title>trash-simple</title>
+                    <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="1" transform="translate(0.5 0.5)" fill="#828282" stroke="#828282"><polyline fill="none" stroke="#828282" stroke-miterlimit="10" points="20,9 20,23 4,23 4,9 "></polyline> <line fill="none" stroke="#828282" stroke-miterlimit="10" x1="1" y1="5" x2="23" y2="5"></line> <line fill="none" stroke-miterlimit="10" x1="12" y1="12" x2="12" y2="18"></line> <line fill="none" stroke-miterlimit="10" x1="8" y1="12" x2="8" y2="18"></line> <line fill="none" stroke-miterlimit="10" x1="16" y1="12" x2="16" y2="18"></line> <polyline fill="none" stroke="#828282" stroke-miterlimit="10" points="8,5 8,1 16,1 16,5 "></polyline></g></svg>
+                  </li>
+                </form>
+              </td>
+            @endif
           </tr>
           @endforeach
         </tbody>
