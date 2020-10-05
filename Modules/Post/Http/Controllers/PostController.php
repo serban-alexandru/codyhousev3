@@ -15,33 +15,35 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = $posts = Post::where('is_deleted', 0)
-            ->leftJoin('users', 'posts.user_id', '=', 'users.id')
+        $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
             ->select([
                 'posts.id',
                 'title',
                 'posts.created_at as created_at',
                 'thumbnail',
                 'users.name as name'
-            ])->get();
+            ]);
 
         if(request()->has('postsearch')){
-            $posts = Post::where('is_deleted', 0)
-            ->leftJoin('users', 'posts.user_id', '=', 'users.id')
-            ->select([
-                'posts.id',
-                'title',
-                'posts.created_at as created_at',
-                'thumbnail',
-                'users.name as name'
-            ])
-            ->where('title', 'LIKE', '%' . request('postsearch') . '%')
-            ->orWhere('users.name', 'LIKE', '%' . request('postsearch') . '%')
-            ->get();
-
+            $posts->where('title', 'LIKE', '%' . request('postsearch') . '%')
+            ->orWhere('users.name', 'LIKE', '%' . request('postsearch') . '%');
         }
 
-        return view('post::index', compact('posts'));
+        $posts = (request()->has('is_trashed'))
+            ? $posts->where('is_deleted', 1)
+            : $posts->where('is_deleted', 0);
+
+        if(request()->has('is_draft')){
+            $posts = $posts->where('is_published', 0);
+        }
+
+        $posts = $posts->get();
+
+        $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->count();
+        $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->count();
+        $posts_deleted_count = Post::where('is_deleted', 1)->count();
+
+        return view('post::index', compact('posts', 'posts_published_count', 'posts_draft_count', 'posts_deleted_count'));
     }
 
     public function settings()
