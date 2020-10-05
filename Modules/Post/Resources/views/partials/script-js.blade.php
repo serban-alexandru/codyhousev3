@@ -255,8 +255,8 @@
     });
 
     // Clean trash
-    $('#cleanTrash').on('click', function(){
-      if(confirm('Are you sure you want to clean the trash?')){
+    $('#emptyTrash').on('click', function(){
+      if(confirm('Are you sure you want to empty the trash?')){
         $(this).closest('form').submit();
       }
     });
