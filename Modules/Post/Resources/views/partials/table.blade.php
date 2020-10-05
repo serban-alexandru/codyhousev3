@@ -1,9 +1,11 @@
-<div class="margin-bottom-md">
-  <form action="{{ route('posts.trash.empty') }}" method="post">
-    @csrf
-    <span class="btn btn--subtle" id="emptyTrash">Empty trash</span>
-  </form>
-</div>
+@if(request()->has('is_trashed'))
+  <div class="margin-bottom-md">
+    <form action="{{ route('posts.trash.empty') }}" method="post">
+      @csrf
+      <span class="btn btn--subtle" id="emptyTrash">Empty trash</span>
+    </form>
+  </div>
+@endif
 <div id="table-1" class="int-table text-sm js-int-table">
     <div class="int-table__inner">
       <table class="int-table__table" aria-label="Interactive table example">
