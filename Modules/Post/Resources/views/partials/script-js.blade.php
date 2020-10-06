@@ -1,13 +1,14 @@
 @auth
 
-{{-- <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+{{--
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
-
+ 
 <script>
   (function(){
     const editor = new EditorJS({
@@ -102,6 +103,8 @@
     $(selector).select2({
       tags: true,
       tokenSeparators: [",", " "]
+    }).on('select2:open', function(e){
+      $('.select2-container--open .select2-dropdown--below').css('display','none');
     });
   }
 
@@ -111,16 +114,8 @@
 
     select2ForTags('#tags');
 
-    // Empty the modal form
-    // $('li[aria-controls="modal-add-article"]').on('click', function(){
-    //   var panel = $('#modal-add-article');
-
-    //   $('#formAddPost').get(0).reset();
-    //   $('#tags').val('').trigger('change');
-    // });
-
     $('#btnSave, #btnPublish').on('click', function(){
-        $('#btnSave, #btnPublish').html('Please wait...');
+        $(this).html('Please wait...');
         var isPublished = ($(this).attr('id') != 'btnSave') ? 1 : 0;
         var formData = new FormData($('#formAddPost')[0]);
         formData.append('is_published', isPublished);
@@ -140,7 +135,6 @@
           processData: false,
           data: formData,
           success: function(response){
-            alert("Post has been created!");
             location.reload();
           }
         });
@@ -194,7 +188,6 @@
         processData: false,
         data: formData,
         success: function(response){
-          alert("Post has been updated!");
           location.reload();
         }
       });
@@ -233,7 +226,6 @@
             post_ids: postIds
           },
           success: function(response){
-            alert("Posts has been deleted!");
             location.reload();
           }
         });
@@ -259,6 +251,16 @@
       if(confirm('Are you sure you want to empty the trash?')){
         $(this).closest('form').submit();
       }
+    });
+
+    // var ddf = document.getElementsByClassName('ddf')[0];
+    // if( ddf ) new Ddf({element: ddf});
+
+    $(document).on('change', '#upload-file', function(){
+      var ddfArea = $(this).closest('.ddf__area');
+      
+      ddfArea.addClass('ddf__area--file-dropped');
+      ddfArea.find('.js-ddf__files-counter').html("1 selected file");
     });
 
   });

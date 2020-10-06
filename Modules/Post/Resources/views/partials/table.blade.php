@@ -124,7 +124,7 @@
                 {{ $post->title }}
               </a>
             </td>
-            <td class="int-table__cell">{{ $post->name }}</td>
+            <td class="int-table__cell">{{ $post->username }}</td>
             <td class="int-table__cell">{{ $post->created_at->format('m/d/Y') }}</td>
             <td class="int-table__cell text-center">
               @if(is_null($post->thumbnail))
