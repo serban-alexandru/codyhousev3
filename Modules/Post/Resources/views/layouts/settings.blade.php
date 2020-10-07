@@ -21,32 +21,19 @@
                     </div>
               
                 </fieldset>
-
-                <fieldset class="margin-bottom-md">
-                  <label class="form-label margin-bottom-xxs">Large Size</label>
-                  <div class="grid gap-sm">
-                    <div class="col-6@md">
-                      <input class="form-control width-100%" type="email" name="input-email" id="input-email" placeholder="Enter width">
-                    </div>
-                
-                    <div class="col-6@md">
-                      <input class="form-control width-100%" type="email" name="input-email" id="input-email" placeholder="Enter Height">
-                    </div>
-              
-                </fieldset>
               
                 <fieldset class="margin-top-xxl">
                   <h3 class="margin-bottom-sm">Image Setting</h3>
               
                   <div class="flex flex-wrap gap-md">
                     <div>
-                      <input class="checkbox" type="checkbox" id="checkbox-1">
-                      <label for="checkbox-1">Maintain Aspect Ratio</label>
+                      <input class="radio" type="radio" name="radio-button" id="radio-1" checked>
+                      <label for="radio-1">Maintain Aspect Ratio</label>
                     </div>
               
                     <div>
-                      <input class="checkbox" type="checkbox" id="checkbox-2">
-                      <label for="checkbox-2">Crop</label>
+                      <input class="radio" type="radio" name="radio-button" id="radio-1" checked>
+                      <label for="radio-1">Crop</label>
                     </div>
                   </div>
                 </fieldset>
