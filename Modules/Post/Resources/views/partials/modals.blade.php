@@ -44,6 +44,7 @@
 
           <!--Tab2 Content-->
             <section id="tab1Panel2" class="padding-top-md js-tabs__panel">
+              <input type="file" id="realThumbnail" class="is-hidden">
               <div class="ddf">
                 <div class="ddf__area padding-y-xl padding-x-md js-ddf__area">
                   <input class="ddf__input sr-only js-ddf__input" type="file" id="upload-file" name="thumbnail" accept="image/*">

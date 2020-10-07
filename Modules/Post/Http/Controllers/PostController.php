@@ -9,10 +9,7 @@ use App\Http\Controllers\Controller;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return Renderable
-     */
+
     public function index()
     {
         $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
@@ -21,7 +18,7 @@ class PostController extends Controller
                 'title',
                 'posts.created_at as created_at',
                 'thumbnail',
-                'users.name as name'
+                'users.username as username'
             ]);
 
         if(request()->has('postsearch')){
@@ -33,8 +30,10 @@ class PostController extends Controller
             ? $posts->where('is_deleted', 1)
             : $posts->where('is_deleted', 0);
 
-        if(request()->has('is_draft')){
-            $posts = $posts->where('is_published', 0);
+        if(!request()->has('is_trashed')){
+            $posts = (request()->has('is_draft'))
+                ? $posts->where('is_published', 0)
+                : $posts->where('is_published', 1);
         }
 
         $posts = $posts->get();
@@ -48,7 +47,11 @@ class PostController extends Controller
 
     public function settings()
     {
-        return view('post::layouts.settings');
+        $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->count();
+        $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->count();
+        $posts_deleted_count = Post::where('is_deleted', 1)->count();
+
+        return view('post::layouts.settings', compact('posts_published_count', 'posts_draft_count', 'posts_deleted_count'));
     }
     /**
      * Show the form for creating a new resource.
