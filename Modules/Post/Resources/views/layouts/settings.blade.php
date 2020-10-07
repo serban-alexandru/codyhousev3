@@ -32,8 +32,8 @@
                     </div>
               
                     <div>
-                      <input class="radio" type="radio" name="radio-button" id="radio-1" checked>
-                      <label for="radio-1">Crop</label>
+                      <input class="radio" type="radio" name="radio-button" id="radio-2">
+                      <label for="radio-2">Crop</label>
                     </div>
                   </div>
                 </fieldset>
