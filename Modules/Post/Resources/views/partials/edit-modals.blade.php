@@ -15,7 +15,7 @@
           </nav>
           <!-- End Tabs -->
 
-          <button class="reset modal__close-btn modal__close-btn--inner js-modal__close js-tab-focus">
+          <button type="button" class="reset modal__close-btn modal__close-btn--inner js-modal__close js-tab-focus" id="closeEditModal">
             <svg class="icon" viewBox="0 0 20 20">
               <title>Close modal window</title>
               <g fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2">
@@ -44,7 +44,7 @@
           <!--Tab2 Content-->
             <section id="tab1Panel2" class="padding-top-md js-tabs__panel">
               <div class="margin-bottom-md">
-                <img src="#" id="thumbnailPreview">
+                <img src="#" id="thumbnailPreview" class="width-40%">
               </div>
 
               <div class="file-upload inline-block">

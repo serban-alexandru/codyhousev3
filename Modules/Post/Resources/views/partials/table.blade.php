@@ -7,7 +7,7 @@
   </div>
 @endif
 <div id="table-1" class="int-table text-sm js-int-table">
-    <div class="int-table__inner">
+    <div class="int-table__inner"  id="site-table-container">
       <table class="int-table__table" aria-label="Interactive table example">
         <thead class="int-table__header js-int-table__header">
           <tr class="int-table__row">
@@ -119,7 +119,7 @@
                 </div>
               </th>
             @endif
-            <td class="int-table__cell" aria-controls="modal-edit-post" data-id="{{ $post->id }}">
+            <td class="int-table__cell cursor-pointer" aria-controls="modal-edit-post" data-id="{{ $post->id }}">
               <a href="#0">
                 {{ $post->title }}
               </a>
@@ -130,7 +130,7 @@
               @if(is_null($post->thumbnail))
                 <span class="author__img-wrapper bg-black bg-opacity-50%"></span>
               @else
-                <img src="{{ asset('storage/posts/images') }}/{{ $post->thumbnail }}" alt="Author picture" width="40" height="40">
+                <img src="{{ asset('storage/posts/images') }}/{{ $post->thumbnail }}" style="width: {{ $image_width }}px; height: {{ $image_height }}px; object-fit: cover; object-position: center;">
               @endif
             </td>
             @if(!request()->has('is_trashed'))
@@ -221,3 +221,5 @@
       </ul>
     </nav>
   </div><!-- /.flex items-center justify-between padding-top-sm -->
+
+
