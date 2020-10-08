@@ -6,12 +6,15 @@ use Arr;
 use Illuminate\Http\Request;
 use Modules\Post\Entities\Post;
 use App\Http\Controllers\Controller;
+use Modules\Post\Entities\PostSetting;
 
 class PostController extends Controller
 {
 
     public function index()
     {
+        $view = request()->ajax() ? 'post::partials.table' : 'post::index';
+
         $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
             ->select([
                 'posts.id',
@@ -36,13 +39,29 @@ class PostController extends Controller
                 : $posts->where('is_published', 1);
         }
 
-        $posts = $posts->get();
+        $limit = request('limit') ? request('limit') : 25;
+
+        $posts = $posts->paginate($limit);
 
         $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->count();
         $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->count();
         $posts_deleted_count = Post::where('is_deleted', 1)->count();
 
-        return view('post::index', compact('posts', 'posts_published_count', 'posts_draft_count', 'posts_deleted_count'));
+        $availableLimit = ['25', '50', '100', '150', '200'];
+
+        $image_width = '40';
+        $image_height = '40';
+        $posts_settings = PostSetting::first();
+        if(!is_null($posts_settings)){
+            $image_width = $posts_settings->medium_width;
+            $image_height = $posts_settings->medium_height;
+        }
+
+        return view($view, compact(
+            'posts', 'posts_published_count', 'posts_draft_count', 'posts_deleted_count',
+            'availableLimit', 'limit', 'image_width', 'image_height'
+            )
+        );
     }
 
     public function settings()
@@ -51,8 +70,54 @@ class PostController extends Controller
         $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->count();
         $posts_deleted_count = Post::where('is_deleted', 1)->count();
 
-        return view('post::layouts.settings', compact('posts_published_count', 'posts_draft_count', 'posts_deleted_count'));
+        $posts_settings = PostSetting::first();
+
+        return view('post::layouts.settings', compact(
+            'posts_published_count', 'posts_draft_count', 'posts_deleted_count', 'posts_settings'
+            )
+        );
     }
+
+    /**
+     * Store the posts settings.
+     * @return view
+     */
+    public function settingsStore()
+    {
+        return $this->createOrUpdateSettings('create', 'created');
+    }
+
+    /**
+     * Update the posts settings.
+     * @return view
+     */
+    public function settingsUpdate()
+    {
+        return $this->createOrUpdateSettings('update', 'updated');
+    }
+
+    /**
+     * Store or update posts settings.
+     * @return view
+     */
+    public function createOrUpdateSettings($method, $message)
+    {
+        $this->validate(request(), [
+            'medium_width' => 'required|max:255',
+            'medium_height' => 'required|max:255',
+            'image_setting' => 'in:maintain,crop'
+        ]);
+
+        if($method == 'create'){
+            PostSetting::create(request()->except(['_token']));
+        } else{
+            $posts_settings = PostSetting::first();
+            $posts_settings->update(request()->except(['_token']));
+        }
+
+        return redirect('/admin/posts/settings')->with("posts-settings-alert", "Settings has been $message!");
+    }
+
     /**
      * Show the form for creating a new resource.
      * @return Renderable
@@ -197,7 +262,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        return view('post::edit');
+        return view('post::forms');
     }
 
     /**
