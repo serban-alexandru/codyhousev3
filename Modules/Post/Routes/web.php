@@ -11,7 +11,10 @@
 |
 */
 
-Route::prefix('admin')->group(function() {
+Route::group([
+    'prefix' => 'admin',
+    'middleware' => 'auth'
+], function() {
     Route::get('posts', 'PostController@index');
     Route::get('posts/settings', 'PostController@settings');
     
@@ -44,6 +47,17 @@ Route::prefix('admin')->group(function() {
     	'as' => 'posts.trash.empty',
     	'uses' => 'PostController@emptyTrash'
     ]);
+
+    Route::post('posts/settings/store', [
+        'as' => 'posts.settings.store',
+        'uses' => 'PostController@settingsStore'
+    ]);
+
+    Route::post('posts/settings/update', [
+        'as' => 'posts.settings.update',
+        'uses' => 'PostController@settingsUpdate'
+    ]);
+
 });
 
 Route::group([

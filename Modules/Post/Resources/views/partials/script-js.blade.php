@@ -8,7 +8,8 @@
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
- 
+
+
 <script>
   (function(){
     const editor = new EditorJS({
@@ -39,16 +40,18 @@
   (function(){
 
     // load content when user clicked on sidebar links
-    $(document).on('click', '.site-load-content a', function (e) {
+    $(document).on('click', '.ajax-link', function (e) {
       e.preventDefault();
       var $this = $(this);
       var url = $this.attr('href');
 
       $('meta[name="current-url"]').attr('content', url);
-      console.log(url);
 
       // loads page content inside this element
       $('#site-table-with-pagination-container').load(url);
+
+      $('.sidenav__item a').removeAttr('aria-current');
+      $(this).attr('aria-current', 'page');
     });
 
   })();
@@ -114,7 +117,7 @@
 
     select2ForTags('#tags');
 
-    $('#btnSave, #btnPublish').on('click', function(){
+    $(document).on('click', '#btnSave, #btnPublish', function(){
         $(this).html('Please wait...');
         var isPublished = ($(this).attr('id') != 'btnSave') ? 1 : 0;
         var formData = new FormData($('#formAddPost')[0]);
@@ -140,7 +143,12 @@
         });
     });
 
+    $(document).on('click', '#closeEditModal', function(){
+      $('#modal-edit-post').removeClass('modal--is-visible');
+    });
+
     $(document).on('click', 'td[aria-controls="modal-edit-post"]', function(){
+
       var postId = $(this).attr('data-id');
       var editUrl = "posts/" + postId + "/fetch-data";
 
@@ -165,6 +173,7 @@
         }
       });
 
+      $('#modal-edit-post').addClass('modal--is-visible');
     });
 
     $(document).on('click', '#btnEditSave', function(){
@@ -247,7 +256,7 @@
     });
 
     // Clean trash
-    $('#emptyTrash').on('click', function(){
+    $(document).on('click', '#emptyTrash', function(){
       if(confirm('Are you sure you want to empty the trash?')){
         $(this).closest('form').submit();
       }
