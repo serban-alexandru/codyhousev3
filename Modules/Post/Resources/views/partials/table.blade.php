@@ -130,7 +130,7 @@
               @if(is_null($post->thumbnail))
                 <span class="author__img-wrapper bg-black bg-opacity-50%"></span>
               @else
-                <img src="{{ asset('storage/posts/images') }}/{{ $post->thumbnail }}" style="width: {{ $image_width }}px; height: {{ $image_height }}px; object-fit: cover; object-position: center;">
+                <img src="{{ asset('storage/posts/images') }}/{{ $post->thumbnail_medium }}" width="40" height="40" style="object-fit: cover; object-position: center;">
               @endif
             </td>
             @if(!request()->has('is_trashed'))

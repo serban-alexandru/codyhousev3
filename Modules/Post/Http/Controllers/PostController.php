@@ -2,11 +2,10 @@
 
 namespace Modules\Post\Http\Controllers;
 
-use Arr;
+use Arr, Str, Image;
 use Illuminate\Http\Request;
-use Modules\Post\Entities\Post;
 use App\Http\Controllers\Controller;
-use Modules\Post\Entities\PostSetting;
+use Modules\Post\Entities\{ PostSetting, Post };
 
 class PostController extends Controller
 {
@@ -21,6 +20,7 @@ class PostController extends Controller
                 'title',
                 'posts.created_at as created_at',
                 'thumbnail',
+                'thumbnail_medium',
                 'users.username as username'
             ]);
 
@@ -140,14 +140,31 @@ class PostController extends Controller
         ]);
 
         if(request()->has('thumbnail')){
-            $path = request()->file('thumbnail')->store('public/posts/images');
+            $settings_width = 40;
+            $settings_height = 40;
+
+            if(!is_null($posts_settings = PostSetting::first())){
+                $settings_width = $posts_settings->medium_width;
+                $settings_height = $posts_settings->medium_height;
+            }
+
+            $thumbnail = request()->file('thumbnail')->store('public/posts/images');
+            $thumbnail_name = Arr::last(explode('/', $thumbnail));
+
+            $thumbnail_medium = Image::make(request()->file('thumbnail'));
+            $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
+                $constraint->aspectRatio();
+            });
+            $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
+            $thumbnail_medium->save(base_path() . '/storage/app/public/posts/images/' . $thumbnail_medium_name);
         }
         
         Post::create([
             'user_id' => auth()->user()->id,
             'title' => request('title'),
             'description' => htmlentities(request('description')) ?: NULL,
-            'thumbnail' => (request()->has('thumbnail')) ? Arr::last(explode('/', $path)) : NULL,
+            'thumbnail' => (request()->has('thumbnail')) ? $thumbnail_name : NULL,
+            'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : NULL,
             'seo_page_title' => request('page_title') ?: NULL,
             'tags' => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
             'is_published' => request('is_published')
@@ -192,13 +209,30 @@ class PostController extends Controller
         }
 
         if(request()->has('thumbnail')){
-            $path = request()->file('thumbnail')->store('public/posts/images');
+            $settings_width = 40;
+            $settings_height = 40;
+
+            if(!is_null($posts_settings = PostSetting::first())){
+                $settings_width = $posts_settings->medium_width;
+                $settings_height = $posts_settings->medium_height;
+            }
+
+            $thumbnail = request()->file('thumbnail')->store('public/posts/images');
+            $thumbnail_name = Arr::last(explode('/', $thumbnail));
+
+            $thumbnail_medium = Image::make(request()->file('thumbnail'));
+            $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
+                $constraint->aspectRatio();
+            });
+            $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
+            $thumbnail_medium->save(base_path() . '/storage/app/public/posts/images/' . $thumbnail_medium_name);
         }
 
         $post->update([
             'title' => request('title'),
             'description' => htmlentities(request('description')) ?: NULL,
-            'thumbnail' => (request()->has('thumbnail')) ? Arr::last(explode('/', $path)) : $post->thumbnail,
+            'thumbnail' => (request()->has('thumbnail')) ? $thumbnail_name : $post->thumbnail,
+            'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : $post->thumbnail_medium,
             'seo_page_title' => request('page_title') ?: NULL,
             'tags' => (request()->has('tags')) ? implode(',', request('tags')) : NULL
         ]);
