@@ -1,38 +1,23 @@
 <div class="container-justified-gal">
-    <div class="flexbin flexbin-margin">
-      <a href="http://127.0.0.1:8000/site1/post">
-        <img src="../../assets/img/team-img-1.jpg" class="card-v2"/>
-      </a>
-      <a href="#">
-        <img src="../../assets/img/team-img-2.jpg" class="card-v2"/>
-      </a>
-      <a href="#">
-        <img src="../../assets/img/team-img-3.jpg" class="card-v2"/>
-      </a>
-      <a href="#">
-        <img src="../../assets/img/team-img-4.jpg" class="card-v2"/>
-      </a>
-      <a href="#">
-        <img src="../../assets/img/team-img-5.jpg" class="card-v2"/>
-      </a>
-      <a href="#">
-        <img src="../../assets/img/team-img-6.jpg" class="card-v2"/>
-      </a>
-      <a href="#">
-        <img src="../../assets/img/team-img-7.jpg" class="card-v2"/>
-      </a>
-      <a href="#">
-        <img src="../../assets/img/team-img-8.jpg" class="card-v2"/>
-      </a>
-      <a href="#">
-        <img src="../../assets/img/team-img-9.jpg" class="card-v2"/>
-      </a>
-      <a href="#">
-        <img src="../../assets/img/team-img-10.jpg" class="card-v2"/>
-      </a>
-      <a href="#">
-        <img src="../../assets/img/team-img-11.jpg" class="card-v2"/>
-      </a>
+  @if(count($posts) > 0)
+    <div class="flexbin flexbin-margin infinite-scroll">
+      @foreach($posts as $post)
+        <?php
+          $slug = (is_null($post->seo_page_title)) ? $post->title : $post->seo_page_title;
+          $slug = Str::slug($slug);
+        ?>
+        <a class="post-link" href="{{ route('post.show', ['slug' => $slug, 'id' => $post->id]) }}">
+          <img src="{{ asset('storage/posts/images') }}/{{ $post->thumbnail_medium }}" class="card-v2" style="object-fit: cover;">
+        </a>
+      @endforeach
+
+      
     </div>
-  </div>
-  <footer class="footer-v4 padding-y-lg">
+  @else
+    <div class="text-center margin-top-xxxxl color-black color-opacity-40% text-sm">
+      No post available.
+    </div>
+  @endif
+
+</div>
+<footer class="footer-v4 padding-y-lg">
