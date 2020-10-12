@@ -9,10 +9,8 @@
       </p>
      
       <div class="text-component__block text-component__block--outset">
-          <figure class="media-wrapper">
-            <img src="{{ asset('storage/posts/images') }}/{{ $post->thumbnail }}" alt="Post's Image">
-          </figure>
-        </div>
+        <img src="{{ asset('storage/posts/images') }}/{{ $post->thumbnail }}" alt="Post's Image">
+      </div>
 
           <div class="flex flex-wrap gap-xxs">
             @if(!is_null($post->tags))
