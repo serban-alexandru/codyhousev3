@@ -2,7 +2,7 @@
 
 @section('content')
   <article class="container max-width-adaptive-sm margin-top-lg article text-component">
-      <h1>{{ $post->title }}</h1>
+      <h1>{{ ($post->seo_page_title) ? $post->seo_page_title : $post->title }}</h1>
     
       <p>
         {!! html_entity_decode($post->description) !!}
