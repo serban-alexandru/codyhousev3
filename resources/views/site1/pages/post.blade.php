@@ -26,4 +26,10 @@
 
     </article>
   @endsection
-  
+
+@section('before-end')
+  <script>
+      var documentTitle = "{{ ($post->seo_page_title) ? $post->seo_page_title : $post->title }}";
+      $('title').html(documentTitle);
+  </script>
+@endsection
