@@ -105,6 +105,10 @@
             @if(!request()->has('is_trashed'))
               <th class="int-table__cell int-table__cell--th text-left">Delete</th>
             @endif
+
+            @if(!request()->has('is_trashed') && !request()->has('is_draft'))
+              <th class="int-table__cell int-table__cell--th text-left">Draft</th>
+            @endif
           </tr>
         </thead>
 
@@ -133,7 +137,8 @@
                 <img src="{{ asset('storage/posts/images') }}/{{ $post->thumbnail_medium }}" width="40" height="40" style="object-fit: cover; object-position: center;">
               @endif
             </td>
-            @if(!request()->has('is_trashed'))
+            
+            @if(!$post->is_deleted)
               <td class="int-table__cell text-center">
                 <form action="{{ route('posts.delete') }}" method="post">
                   @csrf
@@ -144,6 +149,12 @@
                     <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="1" transform="translate(0.5 0.5)" fill="#828282" stroke="#828282"><polyline fill="none" stroke="#828282" stroke-miterlimit="10" points="20,9 20,23 4,23 4,9 "></polyline> <line fill="none" stroke="#828282" stroke-miterlimit="10" x1="1" y1="5" x2="23" y2="5"></line> <line fill="none" stroke-miterlimit="10" x1="12" y1="12" x2="12" y2="18"></line> <line fill="none" stroke-miterlimit="10" x1="8" y1="12" x2="8" y2="18"></line> <line fill="none" stroke-miterlimit="10" x1="16" y1="12" x2="16" y2="18"></line> <polyline fill="none" stroke="#828282" stroke-miterlimit="10" points="8,5 8,1 16,1 16,5 "></polyline></g></svg>
                   </li>
                 </form>
+              </td>
+            @endif
+            
+            @if($post->is_published)
+              <td>
+                <a href="{{ route('posts.make-draft', ['id' => $post->id]) }}" class="btn">Draft</a>
               </td>
             @endif
           </tr>

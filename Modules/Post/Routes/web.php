@@ -58,6 +58,11 @@ Route::group([
         'uses' => 'PostController@settingsUpdate'
     ]);
 
+    Route::get('posts/{id}/make-draft', [
+        'as' => 'posts.make-draft',
+        'uses' => 'PostController@makePostDraft'
+    ]);
+
 });
 
 Route::group([

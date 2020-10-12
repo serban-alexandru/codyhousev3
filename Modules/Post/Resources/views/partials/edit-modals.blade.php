@@ -83,6 +83,7 @@
         <footer class="padding-y-sm padding-x-md bg shadow-md flex-shrink-0">
           <div class="flex justify-end gap-xs">
             <button type="button" class="btn btn--subtle js-modal__close">Cancel</button>
+            <a href="#" type="button" class="btn btn--primary is-hidden draft-post-link">Draft</a>
             <button type="button" class="btn btn--primary" id="btnEditSave">Save</button>
           </div>
         </footer>
