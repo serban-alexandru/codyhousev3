@@ -15,9 +15,13 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/',function(){
-  return view('site1.index');
-});
+Route::get('/', 'PagesController@home');
+
+// Show post
+Route::get('post/{slug}/{id}', [
+  'as' => 'post.show',
+  'uses' => 'PagesController@showPost'
+]);
 
 Route::get('/site1',function(){
     return view('site1.index');
