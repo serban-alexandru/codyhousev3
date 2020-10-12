@@ -10,8 +10,12 @@
 		$(function(){
 			$('ul.pagination').hide();
 			$(window).bind('scroll', function(){
-				if($(window).scrollTop() + $(window).height() == $(document).height()){
+				var scrollHeight = $(document).height();
+				var scrollPosition = $(window).height() + $(window).scrollTop();
 
+				var isAtBottom = (scrollHeight - scrollPosition == 0 || scrollHeight - scrollPosition == 0.5) ? true : false;
+
+				if(isAtBottom){
 					$.ajax({
 						type: 'GET',
 						url: "{{ url()->current() }}?page=" + pageNumber,
