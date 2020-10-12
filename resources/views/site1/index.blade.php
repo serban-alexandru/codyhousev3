@@ -13,7 +13,7 @@
 				var scrollHeight = $(document).height();
 				var scrollPosition = $(window).height() + $(window).scrollTop();
 
-				var isAtBottom = (scrollHeight - scrollPosition == 0 || scrollHeight - scrollPosition == 0.5) ? true : false;
+				var isAtBottom = (scrollHeight - scrollPosition == 0 || scrollHeight - scrollPosition == 0.5 || scrollHeight - scrollPosition < 0.5) ? true : false;
 
 				if(isAtBottom){
 					$.ajax({
