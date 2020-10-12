@@ -22,7 +22,7 @@ class PostController extends Controller
                 'thumbnail',
                 'thumbnail_medium',
                 'users.username as username'
-            ]);
+            ])->orderBy('created_at', 'desc');
 
         if(request()->has('postsearch')){
             $posts->where('title', 'LIKE', '%' . request('postsearch') . '%')
