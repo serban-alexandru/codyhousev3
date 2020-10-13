@@ -109,6 +109,10 @@
             @if(!request()->has('is_trashed') && !request()->has('is_draft'))
               <th class="int-table__cell int-table__cell--th text-left">Draft</th>
             @endif
+
+            @if(!request()->has('is_trashed') && request()->has('is_draft'))
+              <th class="int-table__cell int-table__cell--th text-left">Publish</th>
+            @endif
           </tr>
         </thead>
 
@@ -152,9 +156,13 @@
               </td>
             @endif
             
-            @if($post->is_published)
+            @if($post->is_published && !$post->is_deleted)
               <td>
                 <a href="{{ route('posts.make-draft', ['id' => $post->id]) }}" class="btn">Draft</a>
+              </td>
+            @elseif(!$post->is_published && !$post->is_deleted)
+              <td>
+                <a href="{{ route('posts.publish', ['id' => $post->id]) }}" class="btn">Publish</a>
               </td>
             @endif
           </tr>

@@ -311,6 +311,13 @@ class PostController extends Controller
         return redirect('/admin/posts');
     }
 
+    public function makePostPublish($id)
+    {
+        $this->updateIsPublished($id, 1);
+
+        return redirect('/admin/posts');
+    }
+
     public function updateIsPublished($id, $value)
     {
         $post = Post::find($id);

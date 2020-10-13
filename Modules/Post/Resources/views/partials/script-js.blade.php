@@ -169,9 +169,23 @@
           $('#editTags').html(response.tags);
           $('#postId').val(postId);
 
-          if(response.is_published){
-            $('.draft-post-link').attr('href', '/admin/posts/' + response.id + '/make-draft')
-            $('.draft-post-link').removeClass('is-hidden');
+          if(response.is_published == 1 && response.is_deleted != 1){
+            $(document).find('.publish-post-link').addClass('is-hidden');
+
+            $(document).find('.draft-post-link').attr('href', '/admin/posts/' + response.id + '/make-draft');
+            $(document).find('.draft-post-link').removeClass('is-hidden');
+          }
+
+          if(response.is_published != 1 && response.is_deleted != 1){
+            $(document).find('.draft-post-link').addClass('is-hidden');
+
+            $(document).find('.publish-post-link').attr('href', '/admin/posts/' + response.id + '/publish');
+            $(document).find('.publish-post-link').removeClass('is-hidden');
+          }
+
+          if(response.is_deleted == 1){
+            $(document).find('.draft-post-link').addClass('is-hidden');
+            $(document).find('.publish-post-link').addClass('is-hidden');
           }
 
           select2ForTags('#editTags');
@@ -249,7 +263,7 @@
     });
 
     // Trash icon badge update
-    $(document).on('click', '.checkbox-delete, #checkboxDeleteAll', function(){
+    $(document).on('click', '.checkbox-delete', function(){
       var checkPostCount = 0;
 
       $('.checkbox-delete').each(function(){
@@ -258,7 +272,44 @@
         }
       });
 
+      if($('.checkbox-delete:checked').length){
+        $(document).find('#btnRefreshTable').addClass('is-hidden');
+        $(document).find('#btnDeleteMultiple').removeClass('is-hidden');
+      } else {
+        $(document).find('#btnRefreshTable').removeClass('is-hidden');
+        $(document).find('#btnDeleteMultiple').addClass('is-hidden');
+      }
+
       $('#deleteBadge').html(checkPostCount);
+    });
+
+    // Check all boxes when the checkall box checkbox is checked
+    $(document).on('click', '#checkboxDeleteAll', function(){
+      
+      if($(this).is(':checked')){
+        $('.checkbox-delete').prop('checked', true);
+      } else {
+        $('.checkbox-delete').prop('checked', false);
+      }
+
+      var checkPostCount = 0;
+
+      $('.checkbox-delete').each(function(){
+        if($(this).is(':checked')){
+          checkPostCount++
+        }
+      });
+      
+      $('#deleteBadge').html(checkPostCount);
+
+      if($('.checkbox-delete:checked').length){
+        $(document).find('#btnRefreshTable').addClass('is-hidden');
+        $(document).find('#btnDeleteMultiple').removeClass('is-hidden');
+      } else {
+        $(document).find('#btnRefreshTable').removeClass('is-hidden');
+        $(document).find('#btnDeleteMultiple').addClass('is-hidden');
+      }
+
     });
 
     // Clean trash
