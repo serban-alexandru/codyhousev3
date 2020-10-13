@@ -168,6 +168,12 @@
           $('#editPageTitle').val(response.page_title);
           $('#editTags').html(response.tags);
           $('#postId').val(postId);
+
+          if(response.is_published){
+            $('.draft-post-link').attr('href', '/admin/posts/' + response.id + '/make-draft')
+            $('.draft-post-link').removeClass('is-hidden');
+          }
+
           select2ForTags('#editTags');
           getTiny('{{ URL::to('/') }}', '#editDescription');
         }

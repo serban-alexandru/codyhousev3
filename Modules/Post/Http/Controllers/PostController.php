@@ -21,6 +21,8 @@ class PostController extends Controller
                 'posts.created_at as created_at',
                 'thumbnail',
                 'thumbnail_medium',
+                'is_deleted',
+                'is_published',
                 'users.username as username'
             ])->orderBy('created_at', 'desc');
 
@@ -188,10 +190,13 @@ class PostController extends Controller
 
         $data = [];
 
+        $data['id'] = $post->id;
         $data['title'] = $post->title;
         $data['description'] = html_entity_decode($post->description);
         $data['thumbnail'] = asset("storage/posts/images/{$post->thumbnail}");
         $data['page_title'] = $post->seo_page_title;
+        $data['is_published'] = $post->is_published;
+        $data['is_deleted'] = $post->is_deleted;
         $data['tags'] = ($post->tags) ? '<option selected>' . implode('</option><option selected>', explode(',', $post->tags)) . '</option>' : '';
 
 
@@ -299,24 +304,21 @@ class PostController extends Controller
         return view('post::forms');
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
-    public function update(Request $request, $id)
+    public function makePostDraft($id)
     {
-        //
+        $this->updateIsPublished($id, 0);
+
+        return redirect('/admin/posts');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
+    public function updateIsPublished($id, $value)
     {
-        //
+        $post = Post::find($id);
+
+        if(!$post){
+            throw new Exception("Post does not exists.");
+        }
+
+        $post->update(['is_published' => $value]);
     }
 }
