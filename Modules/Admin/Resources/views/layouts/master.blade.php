@@ -23,15 +23,15 @@
 
   <title>Title</title>
 
-  @include('admin::partials.external-fonts')
+  @include('fonts.external-fonts-v1')
 
 </head>
 <body>
 
-  @include('site1.partials.header')
+  @include('partials.headers.header-v1')
   @include('admin::partials.admin-bar')
   @yield('content')
-  @include('site1.partials.footer')
+  @include('partials.footers.footer-v1')
 
   <!-- CODYHOUSE, LIBRARIES -->
   <script src="{{ asset('assets/js/scripts.js') }}"></script>
