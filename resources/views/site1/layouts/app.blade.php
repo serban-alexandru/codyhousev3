@@ -23,19 +23,19 @@
   
   </head>
   <body>
-    @include('site1.partials.external-fonts')
+    @include('fonts.external-fonts-v1')
 
-    @include('site1.partials.header')
+    @include('partials.headers.header-v1')
 
-    @include('site1.partials.signin-modal')
+    @include('forms.signin-modal')
 
     @yield('content')
 
-    @include('site1.partials.footer')
+    @include('partials.footers.footer-v1')
 
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
     
-    @include('site1.partials.signin-js')
+    @include('custom-scripts.signin-js')
 
     @yield('before-end')
   </body>
