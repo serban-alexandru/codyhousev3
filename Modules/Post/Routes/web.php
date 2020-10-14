@@ -63,6 +63,11 @@ Route::group([
         'uses' => 'PostController@makePostDraft'
     ]);
 
+    Route::get('posts/{id}/publish', [
+        'as' => 'posts.publish',
+        'uses' => 'PostController@makePostPublish'
+    ]);
+
 });
 
 Route::group([
