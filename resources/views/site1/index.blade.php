@@ -1,6 +1,7 @@
 @extends('site1.layouts.app')
 
 @section('content')
+	@include('partials.posts.draggable-gallery')
 	@include('partials.posts.justified-grid')
 @endsection
 
