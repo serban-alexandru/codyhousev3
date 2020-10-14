@@ -28,7 +28,7 @@
 </head>
 <body>
 
-  @include('partials.headers.header-v1')
+  @include('partials.headers.header-v2')
   @include('admin::partials.admin-bar')
   @yield('content')
   @include('partials.footers.footer-v1')
