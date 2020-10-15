@@ -14,3 +14,6 @@
     margin-right: -20px;
         }
   }
+
+  // Pull profile picture upper so it will cross with user banner
+#userProfile .author__img-wrapper{ margin-top: -100px;}

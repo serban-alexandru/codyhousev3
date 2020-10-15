@@ -1,6 +1,9 @@
 <!doctype html>
   <html lang="en">
   <head>
+    <!-- favicon 👇 -->
+    <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+    
     <title>@yield('title-tag')</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">

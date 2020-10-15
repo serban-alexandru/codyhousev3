@@ -30,7 +30,7 @@
     </a>
 
  <!-- 👇 Logo Text -->
-    <a href="{{ url('/') }}" class="mega-nav__logo padding-xxxs">
+    <a href="{{ url('/') }}" class="mega-nav__logo padding-xxs">
       <h2 class="logo">SaigonFinest</h2>
     </a>
 </div>
