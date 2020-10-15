@@ -8,14 +8,14 @@ Usage: codyhouse.co/license
 -------------------------------- */
 
 .t-article-v2__cover {
-  height: 200px;
+  height: 400px;
   background-color: var(--color-contrast-low);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
 
   @include breakpoint(md) {
-    height: 400px;
+    height: 500px;
   }
 }
 
