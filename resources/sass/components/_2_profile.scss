@@ -1,0 +1,16 @@
+.profile__cover {
+    height: 300px;
+    background-color: var(--color-contrast-low);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  
+    @include breakpoint(md) {
+      height: 400px;
+    }
+
+    @media (max-width: 80rem) {
+    margin-left: -20px;
+    margin-right: -20px;
+        }
+  }
