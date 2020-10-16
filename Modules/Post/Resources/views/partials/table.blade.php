@@ -113,6 +113,11 @@
             @if(!request()->has('is_trashed') && request()->has('is_draft'))
               <th class="int-table__cell int-table__cell--th text-left">Publish</th>
             @endif
+
+            @if(request()->has('is_trashed'))
+              <th class="int-table__cell int-table__cell--th text-left">Restore</th>
+            @endif
+
           </tr>
         </thead>
 
@@ -163,6 +168,10 @@
             @elseif(!$post->is_published && !$post->is_deleted)
               <td>
                 <a href="{{ route('posts.publish', ['id' => $post->id]) }}" class="btn">Publish</a>
+              </td>
+            @elseif($post->is_deleted)
+              <td>
+                <a href="{{ route('posts.restore', ['id' => $post->id]) }}" class="btn">Restore</a>
               </td>
             @endif
           </tr>
