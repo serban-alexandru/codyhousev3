@@ -68,6 +68,11 @@ Route::group([
         'uses' => 'PostController@makePostPublish'
     ]);
 
+    Route::get('posts/{id}/restore', [
+        'as' => 'posts.restore',
+        'uses' => 'PostController@restore'
+    ]);
+
 });
 
 Route::group([

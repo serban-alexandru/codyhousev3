@@ -284,6 +284,21 @@ class PostController extends Controller
         return redirect('admin/posts');
     }
 
+    public function restore($id)
+    {
+        $post = Post::find($id);
+
+        if(!$post){
+            return response()->json([
+                'message' => 'Post does not exists.'
+            ]);
+        }
+
+        $post->update(['is_deleted' => 0]);
+
+        return redirect('admin/posts');
+    }
+
     /**
      * Show the specified resource.
      * @param int $id

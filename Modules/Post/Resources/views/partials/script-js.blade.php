@@ -171,6 +171,7 @@
 
           if(response.is_published == 1 && response.is_deleted != 1){
             $(document).find('.publish-post-link').addClass('is-hidden');
+            $(document).find('.restore-post-link').addClass('is-hidden');
 
             $(document).find('.draft-post-link').attr('href', '/admin/posts/' + response.id + '/make-draft');
             $(document).find('.draft-post-link').removeClass('is-hidden');
@@ -178,14 +179,20 @@
 
           if(response.is_published != 1 && response.is_deleted != 1){
             $(document).find('.draft-post-link').addClass('is-hidden');
+            $(document).find('.restore-post-link').addClass('is-hidden');
 
             $(document).find('.publish-post-link').attr('href', '/admin/posts/' + response.id + '/publish');
             $(document).find('.publish-post-link').removeClass('is-hidden');
           }
 
           if(response.is_deleted == 1){
+            // Hide the Draft and Publish button
             $(document).find('.draft-post-link').addClass('is-hidden');
             $(document).find('.publish-post-link').addClass('is-hidden');
+
+            // Show restore button
+            $(document).find('.restore-post-link').attr('href', '/admin/posts/' + response.id + '/restore');
+            $(document).find('.restore-post-link').removeClass('is-hidden');
           }
 
           select2ForTags('#editTags');

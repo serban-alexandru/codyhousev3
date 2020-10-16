@@ -85,6 +85,7 @@
             <button type="button" class="btn btn--subtle js-modal__close">Cancel</button>
             <a href="#" type="button" class="btn btn--primary is-hidden draft-post-link">Draft</a>
             <a href="#" type="button" class="btn btn--primary is-hidden publish-post-link">Publish</a>
+            <a href="#" type="button" class="btn btn--primary is-hidden restore-post-link">Restore</a>
             <button type="button" class="btn btn--primary" id="btnEditSave">Save</button>
           </div>
         </footer>
