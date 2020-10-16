@@ -6,9 +6,13 @@ Route::get('post/{slug}/{id}', [
   'uses' => 'PagesController@showPost'
 ]);
 
-Route::get('/', 'PagesController@home');
 
-Route::get('/site1', 'PagesController@home');
+
+Route::get('/site1', 'PagesController@index');
+
+Route::get('/',function(){
+  return view('/index');
+});
 
 Route::get('/site1/blog',function(){
   return view('site1.pages.blog');

@@ -11,7 +11,7 @@ class PagesController extends Controller
 
 	protected $post_per_load = 20;
 
-	public function home()
+	public function index()
 	{
 		$posts = DB::table('posts')
 			->select(['id', 'title', 'seo_page_title', 'thumbnail', 'thumbnail_medium'])
