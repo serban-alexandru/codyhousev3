@@ -7,8 +7,8 @@
               <img src="{{ asset('assets/img/team-img-12.jpg') }}" alt="Image description">
             </figure>
         </a>
-          <h1 class="featured__headline-main line-height-xxxl text-xxl@md feature-v12__offset-item text-left">
-            <a href="#0">The Mandalorian Season 3 to Begin Filming Before the End of 2020</a>
+          <h1 class="featured__headline-main line-height-xxxl feature-v12__offset-item text-left">
+            <a href="#0">The Mandalorian Season 3 to Begin Filming</a>
           </h1>
       </div>
   

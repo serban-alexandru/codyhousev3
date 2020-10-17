@@ -157,10 +157,6 @@
                         <title>trash-simple</title>
                     <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="1" transform="translate(0.5 0.5)" fill="#828282" stroke="#828282"><polyline fill="none" stroke="#828282" stroke-miterlimit="10" points="20,9 20,23 4,23 4,9 "></polyline> <line fill="none" stroke="#828282" stroke-miterlimit="10" x1="1" y1="5" x2="23" y2="5"></line> <line fill="none" stroke-miterlimit="10" x1="12" y1="12" x2="12" y2="18"></line> <line fill="none" stroke-miterlimit="10" x1="8" y1="12" x2="8" y2="18"></line> <line fill="none" stroke-miterlimit="10" x1="16" y1="12" x2="16" y2="18"></line> <polyline fill="none" stroke="#828282" stroke-miterlimit="10" points="8,5 8,1 16,1 16,5 "></polyline></g></svg>
                   </li>
-
-                  <li class="menu-bar__item btn-delete" role="menuitem" aria-controls="modal-name-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>archive-paper</title><g stroke-linecap="round" stroke-linejoin="round" stroke-width="1" transform="translate(0.5 0.5)" fill="#a8a8a8" stroke="#a8a8a8"><polyline fill="none" stroke="#a8a8a8" stroke-miterlimit="10" points="19,5 23,5 23,23 1,23 1,5 5,5 "></polyline> <polyline fill="none" stroke="#a8a8a8" stroke-miterlimit="10" points="1,15 8,15 8,18 16,18 16,15 23,15 "></polyline> <polyline fill="none" stroke="#a8a8a8" stroke-miterlimit="10" points="5,15 5,1 19,1 19,15 "></polyline> <line fill="none" stroke-miterlimit="10" x1="9" y1="6" x2="15" y2="6"></line> <line fill="none" stroke-miterlimit="10" x1="9" y1="10" x2="15" y2="10"></line></g></svg>
-                  </li>
                 </form>
               </td>
             @endif
