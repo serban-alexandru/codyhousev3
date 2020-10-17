@@ -71,43 +71,11 @@ Usage: codyhouse.co/license
             }
   }
   
-  .stories__text {
-    margin-top: var(--space-xxxs);
-  }
   
-  .stories__headline {
-    font-size: var(--text-md);
-  }
-  
-  .stories__metadata {
-    color: var(--color-contrast-low);
-    font-size: var(--text-sm);
-  }
-  
-  .stories__headline a,
-  .stories__metadata a {
-    color: var(--color-contrast-higher);
-    text-decoration: none;
-  
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-  
-  .stories__separator {
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    vertical-align: middle;
-    background-color: var(--color-contrast-low);
-    border-radius: 50%;
-    margin: 0 var(--space-xxxs);
-  }
 
+// Featured on Index
 
-// Stories
-
-.stories {
+.featured {
     border-radius: var(--radius-md);
   
     @include breakpoint(md) {
@@ -115,7 +83,7 @@ Usage: codyhouse.co/license
     }
   
   
-  .stories__story {
+  .featured__story {
     display: flex;
   
     &:not(:last-child) {
@@ -124,7 +92,7 @@ Usage: codyhouse.co/license
     }
   }
   
-  .stories__img-wrapper {
+  .featured__img-wrapper {
     display: block;
     width: 10em;
     height: 7em;
@@ -149,21 +117,13 @@ Usage: codyhouse.co/license
     }
   }
   
-  .stories__text {
-    margin-top: var(--space-xxxs);
-  }
-  
-  .stories__headline {
-    font-size: var(--text-md);
-  }
-  
-  .stories__metadata {
+  .featured__metadata {
     color: var(--color-contrast-medium);
     font-size: var(--text-sm);
   }
   
-  .stories__headline a,
-  .stories__metadata a {
+  .featured__headline a,
+  .featured__metadata a {
     color: var(--color-contrast-higher);
     text-decoration: none;
   
@@ -172,7 +132,7 @@ Usage: codyhouse.co/license
     }
   }
   
-  .stories__separator {
+  .featured__separator {
     display: inline-block;
     width: 6px;
     height: 6px;
