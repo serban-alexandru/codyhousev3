@@ -3,6 +3,14 @@
     --radius: 0.25em; // border radius base size
 }
 
+// default is 12
+$grid-columns: 15 !default;
+
+// all text links
+a, .link {
+    text-decoration: none;
+  }
+
 // body styles
 body {
     overflow-x: hidden;
@@ -80,6 +88,7 @@ body {
     }
 }
 
+// divider title on index page
 .divider-title {
     margin-right : auto;
     background-image: linear-gradient(120deg, #008aeb 0%, #ffffff 100%);

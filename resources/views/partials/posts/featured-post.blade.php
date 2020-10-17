@@ -1,13 +1,13 @@
-<section class="feature-bottom container max-width-adaptive-lg margin-top-xl margin-bottom-xl">
-    <div class="grid gap-xl">
-      <div class="col-9@md featured-post margin-bottom-xxxl">
+<section class="feature-bottom container max-width-adaptive-lg margin-top-md margin-bottom-xl">
+    <div class="grid gap-md">
+      <div class="col-9@md featured-post margin-bottom-lg">
 
         <a href="#0" class="featured__img-wrapper">
             <figure>
               <img src="{{ asset('assets/img/team-img-12.jpg') }}" alt="Image description">
             </figure>
         </a>
-          <h1 class="featured__headline-main line-height-xxxl text-xxxl@md feature-v12__offset-item text-left">
+          <h1 class="featured__headline-main text-xxl@md feature-v12__offset-item text-left">
             <a href="#0">The Mandalorian Season 3 to Begin Filming Before the End of 2020</a>
           </h1>
       </div>
