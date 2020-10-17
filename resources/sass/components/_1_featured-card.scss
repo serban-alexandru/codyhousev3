@@ -71,11 +71,43 @@ Usage: codyhouse.co/license
             }
   }
   
+  .stories__text {
+    margin-top: var(--space-xxxs);
+  }
   
+  .stories__headline {
+    font-size: var(--text-md);
+  }
+  
+  .stories__metadata {
+    color: var(--color-contrast-low);
+    font-size: var(--text-sm);
+  }
+  
+  .stories__headline a,
+  .stories__metadata a {
+    color: var(--color-contrast-higher);
+    text-decoration: none;
+  
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  
+  .stories__separator {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    vertical-align: middle;
+    background-color: var(--color-contrast-low);
+    border-radius: 50%;
+    margin: 0 var(--space-xxxs);
+  }
 
-// Featured on Index
 
-.featured {
+// Stories
+
+.stories {
     border-radius: var(--radius-md);
   
     @include breakpoint(md) {
@@ -83,7 +115,7 @@ Usage: codyhouse.co/license
     }
   
   
-  .featured__story {
+  .stories__story {
     display: flex;
   
     &:not(:last-child) {
@@ -92,7 +124,7 @@ Usage: codyhouse.co/license
     }
   }
   
-  .featured__img-wrapper {
+  .stories__img-wrapper {
     display: block;
     width: 10em;
     height: 7em;
@@ -117,13 +149,21 @@ Usage: codyhouse.co/license
     }
   }
   
-  .featured__metadata {
+  .stories__text {
+    margin-top: var(--space-xxxs);
+  }
+  
+  .stories__headline {
+    font-size: var(--text-md);
+  }
+  
+  .stories__metadata {
     color: var(--color-contrast-medium);
     font-size: var(--text-sm);
   }
   
-  .featured__headline a,
-  .featured__metadata a {
+  .stories__headline a,
+  .stories__metadata a {
     color: var(--color-contrast-higher);
     text-decoration: none;
   
@@ -132,7 +172,7 @@ Usage: codyhouse.co/license
     }
   }
   
-  .featured__separator {
+  .stories__separator {
     display: inline-block;
     width: 6px;
     height: 6px;
