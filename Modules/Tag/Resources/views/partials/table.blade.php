@@ -68,7 +68,7 @@
 
             <th class="int-table__cell int-table__cell--th int-table__cell--sort js-int-table__cell--sort" data-date-format="dd-mm-yyyy">
               <div class="flex items-center">
-                <span>Date</span>
+                <span>Category</span>
 
                 <svg class="icon icon--xxs margin-left-xxxs int-table__sort-icon" aria-hidden="true" viewBox="0 0 12 12">
                   <polygon class="arrow-up" points="6 0 10 5 2 5 6 0" />
@@ -110,7 +110,7 @@
               <a href="#0">Tag Title</a>
             </td>
             <td class="int-table__cell">12324</td>
-            <td class="int-table__cell">01/01/2021</td>
+            <td class="int-table__cell">Origin</td>
             <td class="int-table__cell text-center"><img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Author picture" width="40" height="40"></td>
             <td class="int-table__cell text-left">
 

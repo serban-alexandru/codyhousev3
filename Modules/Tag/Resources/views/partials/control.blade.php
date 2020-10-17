@@ -1,5 +1,5 @@
 <div class="margin-bottom-md">
-    <div class="margin-bottom-xl">
+    <div class="margin-bottom-md">
       <div class="flex flex-wrap gap-sm items-center justify-between">
         <div>
           <div class="flex flex-wrap gap-xs">
