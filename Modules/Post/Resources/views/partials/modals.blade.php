@@ -12,7 +12,15 @@
               <li><a href="#tab1Panel3" class="tabs__control">Settings</a></li>
             </ul>
           </nav>
+
           <!-- End Tabs -->
+          <div class="reset">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>ic_crop_3_2_48px</title>
+              <g fill="#a8a8a8">
+                <path d="M38 8H10c-2.21 0-4 1.79-4 4v24c0 2.21 1.79 4 4 4h28c2.21 0 4-1.79 4-4V12c0-2.21-1.79-4-4-4zm0 28H10V12h28v24z"></path>
+              </g>
+            </svg>
+          </div>
 
           <button class="reset modal__close-btn modal__close-btn--inner js-modal__close js-tab-focus">
             <svg class="icon" viewBox="0 0 20 20">
