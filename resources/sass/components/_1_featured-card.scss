@@ -19,11 +19,10 @@ Usage: codyhouse.co/license
 
 .featured__headline {
         a {
-          color: var(--color-contrast-higher);
+          color: var(--color-contrast-high);
           background-repeat: no-repeat;
           background-image: linear-gradient(transparent 50%, alpha(var(--color-primary), 0.2) 50%);
           background-size: 0% 100%;
-          background-color: white;
           will-change: background-size;
           transition: background-size .3s var(--ease-in-out);
           &:hover {
