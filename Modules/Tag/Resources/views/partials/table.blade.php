@@ -110,7 +110,7 @@
               <a href="#0">Tag Title</a>
             </td>
             <td class="int-table__cell">12324</td>
-            <td class="int-table__cell">Origin</td>
+            <td class="int-table__cell">Category 1</td>
             <td class="int-table__cell text-center"><img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Author picture" width="40" height="40"></td>
             <td class="int-table__cell text-left">
 

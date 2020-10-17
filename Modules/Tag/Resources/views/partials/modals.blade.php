@@ -32,20 +32,24 @@
               <div class="grid gap-sm">
                 <label class="form-label margin-bottom-xxs" for="input-name">Enter Your Tag</label>
                 <input class="form-control width-100%" type="text" name="input-name" id="input-name" required>
+
+                <div class="flex items-start">
+                  <div class="select inline-block js-select" data-trigger-class="btn btn--subtle">
+                    <select name="selectThis" id="selectThis">
+                      <optgroup label="Group 1">
+                        <option value="0" selected>Tags (Default)</option>
+                        <option value="1">Category 1</option>
+                        <option value="2">Category 2</option>
+                        <option value="1">Category 3</option>
+                      </optgroup>
+                    </select>
+                    
+                    <svg class="icon icon--xs margin-left-xxxs" aria-hidden="true" viewBox="0 0 16 16"><polygon points="3,5 8,11 13,5 "></polygon></svg>
+                  </div>
+                </div>
               <div>
 
-                <label class="form-label margin-bottom-xxxs" for="selectThis">Select Tag category</label>
-                <div class="select">
-                  <select class="select__input form-control" name="selectThis" id="selectThis">
-                      <option value="0">Select</option>
-                      <option value="1">Origins</option>
-                      <option value="1">Artists</option>
-                      <option value="2">Characters</option>
-                      <option value="2">Tags</option>
-                      <option value="2">MISC</option>
-                  </select>
-                  <svg class="icon select__icon" aria-hidden="true" viewBox="0 0 16 16"><g stroke-width="1" stroke="currentColor"><polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="15.5,4.5 8,12 0.5,4.5 "></polyline></g></svg>
-                </div>
+
 
                 <label class="form-label margin-bottom-xxs margin-top-md" for="input-name">Enter Your Tag Discription</label>
               <div id="editorjs" class="form-control"></div><!-- /#ajax-add-blog-form -->
