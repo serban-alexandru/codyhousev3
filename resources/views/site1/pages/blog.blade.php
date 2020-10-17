@@ -16,8 +16,7 @@
   </div>
 
   <div class="container max-width-adaptive-sm margin-bottom-xl">
-    <div class="text-component line-height-lg v-space-md">
-      <p class="drop-cap">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius, temporibus, aut officia minus sequi quae <a href="#0">molestias beatae</a>, qui ipsa mollitia alias accusamus voluptate ratione provident numquam iure quia aliquam tempore possimus consequatur vel. Iure atque enim in? Magnam quis cupiditate quia labore quaerat, eligendi nobis, ab similique harum nostrum nulla aliquam dolore adipisci ut. Eaque doloremque iure veniam nobis asperiores!</p>
+    <div class="line-height-lg v-space-md">
     
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis architecto doloribus perspiciatis.</p>
     
