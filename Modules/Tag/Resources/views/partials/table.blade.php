@@ -94,7 +94,7 @@
             </th>
 
             <th class="int-table__cell int-table__cell--th text-center">Image</th>
-            <th class="int-table__cell int-table__cell--th text-left">Delete</th>
+            <th class="int-table__cell int-table__cell--th text-left">Action</th>
           </tr>
         </thead>
 
@@ -112,10 +112,33 @@
             <td class="int-table__cell">12324</td>
             <td class="int-table__cell">01/01/2021</td>
             <td class="int-table__cell text-center"><img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Author picture" width="40" height="40"></td>
-            <td class="int-table__cell text-center">
-              <li class="menu-bar__item" role="menuitem" aria-controls="modal-name-1">
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>trash-simple</title><g stroke-linecap="square" stroke-linejoin="miter" stroke-width="1" transform="translate(0.5 0.5)" fill="#828282" stroke="#828282"><polyline fill="none" stroke="#828282" stroke-miterlimit="10" points="20,9 20,23 4,23 4,9 "></polyline> <line fill="none" stroke="#828282" stroke-miterlimit="10" x1="1" y1="5" x2="23" y2="5"></line> <line fill="none" stroke-miterlimit="10" x1="12" y1="12" x2="12" y2="18"></line> <line fill="none" stroke-miterlimit="10" x1="8" y1="12" x2="8" y2="18"></line> <line fill="none" stroke-miterlimit="10" x1="16" y1="12" x2="16" y2="18"></line> <polyline fill="none" stroke="#828282" stroke-miterlimit="10" points="8,5 8,1 16,1 16,5 "></polyline></g></svg>
-              </li>
+            <td class="int-table__cell text-left">
+
+              <menu class="menu-bar menu-bar--expanded@md js-menu-bar">
+                <li class="menu-bar__item menu-bar__item--trigger js-menu-bar__trigger align-left" role="menuitem" aria-label="More options">
+                  <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
+                    <circle cx="8" cy="7.5" r="1.5" />
+                    <circle cx="1.5" cy="7.5" r="1.5" />
+                    <circle cx="14.5" cy="7.5" r="1.5" /></svg>
+                </li>
+              
+                <li class="menu-bar__item menu-bar__item--hide" role="menuitem">
+                  <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 12 12">
+                    <path d="M10.121.293a1,1,0,0,0-1.414,0L1,8,0,12l4-1,7.707-7.707a1,1,0,0,0,0-1.414Z"></path>
+                  </svg>
+                  <span class="menu-bar__label">Draft</span>
+                </li>
+              
+                <li class="menu-bar__item menu-bar__item--hide" role="menuitem">
+                  <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
+                    <path d="M2,6v8c0,1.1,0.9,2,2,2h8c1.1,0,2-0.9,2-2V6H2z"></path>
+                    <path d="M12,3V1c0-0.6-0.4-1-1-1H5C4.4,0,4,0.4,4,1v2H0v2h16V3H12z M10,3H6V2h4V3z"></path>
+                  </svg>
+                  <span class="menu-bar__label">Delete</span>
+                </li>
+              
+              </menu>
+
             </td>
           </tr>
 
