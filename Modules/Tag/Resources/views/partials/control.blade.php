@@ -4,13 +4,12 @@
         <div>
           <div class="flex flex-wrap gap-xs">
 
-            <li class="menu-bar__item js-menu-bar has-text" aria-controls="modal-add-tag">
+            <li class="menu-bar__item js-menu-bar" aria-controls="modal-add-tag">
                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>ic_add_48px</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f9f9f9"></rect>
                     <g transform="translate(12 12) scale(0.5)" fill="#00a8db">
                         <path d="M38 26H26v12h-4V26H10v-4h12V10h4v12h12v4z"></path>
                     </g>
                 </svg>
-                <span class="display@md padding-xxxs">Add Tag</span>
                 <span class="menu-bar__label">Add Tag</span>
               </li>
 
@@ -25,6 +24,7 @@
               </li>
 
             <div class="int-table-actions" data-table-controls="table-1">
+
                 <menu class="menu-bar js-int-table-actions__no-items-selected js-menu-bar">
                   <li class="menu-bar__item menu-bar__item--trigger js-menu-bar__trigger" role="menuitem" aria-label="More options">
                     <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
@@ -32,6 +32,7 @@
                       <circle cx="1.5" cy="7.5" r="1.5" />
                       <circle cx="14.5" cy="7.5" r="1.5" /></svg>
                   </li>
+
                   <li class="menu-bar__item " role="menuitem">
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>ic_refresh_48px</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f9f9f9"></rect>
                         <g transform="translate(12 12) scale(0.5)" fill="#666666">
@@ -40,6 +41,12 @@
                     </svg>
                     <span class="menu-bar__label">Refresh</span>
                   </li>
+
+                  <li class="menu-bar__item hide@md no-js:is-hidden margin-left-xs" role="menuitem" aria-controls="sidebar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>preferences</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f9f9f9"></rect><g transform="translate(12 12) scale(0.5)" fill="#666666"><path fill="#666666" d="M46,7H21c-0.552,0-1,0.448-1,1s0.448,1,1,1h25c0.552,0,1-0.448,1-1S46.552,7,46,7z"></path> <path fill="#666666" d="M16,1H8C7.448,1,7,1.448,7,2v5H2C1.448,7,1,7.448,1,8s0.448,1,1,1h5v5c0,0.552,0.448,1,1,1h8 c0.552,0,1-0.448,1-1V2C17,1.448,16.552,1,16,1z"></path> <path d="M2,23h25c0.552,0,1,0.448,1,1s-0.448,1-1,1H2c-0.552,0-1-0.448-1-1S1.448,23,2,23z"></path> <path d="M32,17h8c0.552,0,1,0.448,1,1v5h5c0.552,0,1,0.448,1,1s-0.448,1-1,1h-5v5 c0,0.552-0.448,1-1,1h-8c-0.552,0-1-0.448-1-1V18C31,17.448,31.448,17,32,17z"></path> <path fill="#666666" d="M46,39H21c-0.552,0-1,0.448-1,1s0.448,1,1,1h25c0.552,0,1-0.448,1-1S46.552,39,46,39z"></path> <path fill="#666666" d="M16,33H8c-0.552,0-1,0.448-1,1v5H2c-0.552,0-1,0.448-1,1s0.448,1,1,1h5v5c0,0.552,0.448,1,1,1h8 c0.552,0,1-0.448,1-1V34C17,33.448,16.552,33,16,33z"></path></g></svg>
+                    <span class="menu-bar__label">Sidebar</span>
+                  </li>
+
                 </menu>
                 <menu class="menu-bar is-hidden js-int-table-actions__items-selected js-menu-bar">
                   <li class="menu-bar__item menu-bar__item--trigger js-menu-bar__trigger" role="menuitem" aria-label="More options">
@@ -58,9 +65,38 @@
           </div>
         </div>
 
-          <li class="menu-bar__item hide@md no-js:is-hidden" aria-controls="sidebar">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>preferences</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f9f9f9"></rect><g transform="translate(12 12) scale(0.5)" fill="#666666"><path fill="#666666" d="M46,7H21c-0.552,0-1,0.448-1,1s0.448,1,1,1h25c0.552,0,1-0.448,1-1S46.552,7,46,7z"></path> <path fill="#666666" d="M16,1H8C7.448,1,7,1.448,7,2v5H2C1.448,7,1,7.448,1,8s0.448,1,1,1h5v5c0,0.552,0.448,1,1,1h8 c0.552,0,1-0.448,1-1V2C17,1.448,16.552,1,16,1z"></path> <path d="M2,23h25c0.552,0,1,0.448,1,1s-0.448,1-1,1H2c-0.552,0-1-0.448-1-1S1.448,23,2,23z"></path> <path d="M32,17h8c0.552,0,1,0.448,1,1v5h5c0.552,0,1,0.448,1,1s-0.448,1-1,1h-5v5 c0,0.552-0.448,1-1,1h-8c-0.552,0-1-0.448-1-1V18C31,17.448,31.448,17,32,17z"></path> <path fill="#666666" d="M46,39H21c-0.552,0-1,0.448-1,1s0.448,1,1,1h25c0.552,0,1-0.448,1-1S46.552,39,46,39z"></path> <path fill="#666666" d="M16,33H8c-0.552,0-1,0.448-1,1v5H2c-0.552,0-1,0.448-1,1s0.448,1,1,1h5v5c0,0.552,0.448,1,1,1h8 c0.552,0,1-0.448,1-1V34C17,33.448,16.552,33,16,33z"></path></g></svg>
-        </li>
+        <nav class="pagination text-sm" aria-label="Pagination">
+          <ul class="pagination__list flex flex-wrap gap-xxxs">
+            <li>
+              <a href="#0" class="pagination__item">
+                <svg class="icon" viewBox="0 0 16 16">
+                  <title>Go to previous page</title>
+                  <g stroke-width="1.5" stroke="currentColor">
+                    <polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="9.5,3.5 5,8 9.5,12.5 "></polyline>
+                  </g>
+                </svg>
+              </a>
+            </li>
+    
+            <li>
+              <span class="pagination__jumper flex items-center">
+                <input aria-label="Page number" class="form-control" type="text" id="pageNumber" name="pageNumber" value="1">
+                <em>of 50</em>
+              </span>
+            </li>
+    
+            <li>
+              <a href="#0" class="pagination__item">
+                <svg class="icon" viewBox="0 0 16 16">
+                  <title>Go to next page</title>
+                  <g stroke-width="1.5" stroke="currentColor">
+                    <polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="6.5,3.5 11,8 6.5,12.5 "></polyline>
+                  </g>
+                </svg>
+              </a>
+            </li>
+          </ul>
+        </nav>
 
       </div>
   </div>
