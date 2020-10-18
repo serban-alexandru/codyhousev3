@@ -28,7 +28,7 @@
   <body>
     @include('fonts.external-fonts-v1')
 
-    @include('partials.headers.header-v2')
+    @include('site1.partials.header')
 
     @include('forms.signin-modal')
 
