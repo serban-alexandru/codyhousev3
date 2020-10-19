@@ -4,8 +4,14 @@ namespace Modules\Tag\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tag extends Model
+use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+
+class Tag extends Model implements HasMedia
 {
+    use HasMediaTrait;
+
     protected $guarded = ['id'];
 
     /**
