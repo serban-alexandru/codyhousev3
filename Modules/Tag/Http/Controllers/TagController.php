@@ -6,15 +6,48 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
+use Modules\Tag\Entities\Tag;
+use DB;
+
 class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('tag::index');
+        // Get search query
+        $q = $request->input('q');
+
+        $tags = DB::table('tags')
+            ->select(
+                'tags.*',
+                'tags.id',
+                'tags.created_at',
+                'tags.updated_at',
+                'tag_categories.id as category_id',
+                'tag_categories.name as category_name',
+            )
+            ->join('tag_categories', 'tag_categories.id', '=', 'tags.tag_category_id')
+        ;
+
+        // If search query is not null then apply where clauses
+        if ($q != null) {
+            $tags = $tags
+                    ->where('tags.name', 'LIKE', '%' . $q . '%')
+                    ->orWhere( 'tags.description', 'LIKE', '%' . $q . '%' )
+                    ->orWhere( 'tags.seo_title', 'LIKE', '%' . $q . '%' )
+            ;
+        }
+
+        $tags = $tags->get();
+
+        // Prepare data to view
+        $data['q']    = $q; // Return back query to be used on search input
+        $data['tags'] = $tags;
+
+        return view('tag::index', $data);
     }
 
     /**
