@@ -16,6 +16,6 @@ class TagDatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // $this->call("OthersTableSeeder");
+        $this->call(TagCategoriesTableSeeder::class);
     }
 }
