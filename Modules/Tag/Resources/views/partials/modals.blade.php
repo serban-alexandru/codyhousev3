@@ -43,7 +43,7 @@
                         <option value="1">Category 3</option>
                       </optgroup>
                     </select>
-                    
+
                     <svg class="icon icon--xs margin-left-xxxs" aria-hidden="true" viewBox="0 0 16 16"><polygon points="3,5 8,11 13,5 "></polygon></svg>
                   </div>
                 </div>
@@ -140,9 +140,9 @@
 
 <div class="modal modal--search modal--animate-fade flex flex-center padding-md js-modal" id="modal-search">
   <div class="modal__content width-100% max-width-sm" role="alertdialog" aria-labelledby="modal-search-title" aria-describedby="">
-    <form class="full-screen-search">
+    <form action="{{ route('tag.index') }}" class="full-screen-search">
       <label for="search-input-x" id="modal-search-title" class="sr-only">Search</label>
-      <input class="reset full-screen-search__input" type="search" name="search-input-x" id="search-input-x" placeholder="Search...">
+      <input class="reset full-screen-search__input" type="search" value="{{ $q }}" name="q" id="search-input-tag" placeholder="Search...">
       <button class="reset full-screen-search__btn">
         <svg class="icon" viewBox="0 0 24 24">
           <title>Search</title>
