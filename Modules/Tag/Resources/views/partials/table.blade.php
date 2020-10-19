@@ -1,6 +1,7 @@
 <div id="table-1" class="int-table text-sm js-int-table">
     <div class="int-table__inner">
       <table class="int-table__table" aria-label="Interactive table example">
+        @if($tags->count() > 0)
         <thead class="int-table__header js-int-table__header">
           <tr class="int-table__row">
             <td class="int-table__cell">
@@ -97,8 +98,10 @@
             <th class="int-table__cell int-table__cell--th text-left">Action</th>
           </tr>
         </thead>
+        @endif
 
         <tbody class="int-table__body js-int-table__body">
+        @foreach($tags as $key => $tag)
           <tr class="int-table__row">
             <th class="int-table__cell" scope="row">
               <div class="custom-checkbox int-table__checkbox">
@@ -107,10 +110,10 @@
               </div>
             </th>
             <td class="int-table__cell" aria-controls="modal-add-tag">
-              <a href="#0">Tag Title</a>
+              <a href="#0">{{ $tag->name }}</a>
             </td>
-            <td class="int-table__cell">12324</td>
-            <td class="int-table__cell">Category 1</td>
+            <td class="int-table__cell">0</td>
+            <td class="int-table__cell">{{ $tag->category_name }}</td>
             <td class="int-table__cell text-center"><img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Author picture" width="40" height="40"></td>
             <td class="int-table__cell text-left">
 
@@ -121,14 +124,14 @@
                     <circle cx="1.5" cy="7.5" r="1.5" />
                     <circle cx="14.5" cy="7.5" r="1.5" /></svg>
                 </li>
-              
+
                 <li class="menu-bar__item menu-bar__item--hide" role="menuitem">
                   <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 12 12">
                     <path d="M10.121.293a1,1,0,0,0-1.414,0L1,8,0,12l4-1,7.707-7.707a1,1,0,0,0,0-1.414Z"></path>
                   </svg>
                   <span class="menu-bar__label">Draft</span>
                 </li>
-              
+
                 <li class="menu-bar__item menu-bar__item--hide" role="menuitem">
                   <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
                     <path d="M2,6v8c0,1.1,0.9,2,2,2h8c1.1,0,2-0.9,2-2V6H2z"></path>
@@ -136,12 +139,12 @@
                   </svg>
                   <span class="menu-bar__label">Delete</span>
                 </li>
-              
+
               </menu>
 
             </td>
           </tr>
-
+        @endforeach
         </tbody>
 
       </table>
@@ -180,8 +183,12 @@
   </menu>
 
   <div class="flex items-center justify-between padding-top-sm">
-    <p class="text-sm">450 results</p>
+    <p class="text-sm">
+      {{ $tags->count() }}
+      {{ ($tags->count() < 2) ? 'result' : 'results' }}
+    </p>
 
+    @if($tags->count() > 0)
     <nav class="pagination text-sm" aria-label="Pagination">
       <ul class="pagination__list flex flex-wrap gap-xxxs">
         <li>
@@ -202,6 +209,7 @@
           </span>
         </li>
 
+
         <li>
           <a href="#0" class="pagination__item">
             <svg class="icon" viewBox="0 0 16 16">
@@ -214,4 +222,5 @@
         </li>
       </ul>
     </nav>
+    @endif
   </div><!-- /.flex items-center justify-between padding-top-sm -->
