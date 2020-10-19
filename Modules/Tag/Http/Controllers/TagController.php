@@ -17,9 +17,13 @@ class TagController extends Controller
      */
     public function index(Request $request)
     {
-        // Get search query
-        $q = $request->input('q');
+        // Get query strings
+        $q     = $request->input('q');
+        $limit = $request->input('limit') ? $request->input('limit') : 25;
+        $sort  = $request->input('sort') ? $request->input('sort') : 'id';
+        $order = $request->input('order') ? $request->input('order') : 'desc';
 
+        // Get tags from db
         $tags = DB::table('tags')
             ->select(
                 'tags.*',
@@ -32,6 +36,9 @@ class TagController extends Controller
             ->join('tag_categories', 'tag_categories.id', '=', 'tags.tag_category_id')
         ;
 
+        // Set sorting and order
+        $tags = $tags->orderBy($sort, $order);
+
         // If search query is not null then apply where clauses
         if ($q != null) {
             $tags = $tags
@@ -41,7 +48,8 @@ class TagController extends Controller
             ;
         }
 
-        $tags = $tags->get();
+        // Paginate
+        $tags = $tags->paginate($limit);
 
         // Prepare data to view
         $data['q']    = $q; // Return back query to be used on search input
