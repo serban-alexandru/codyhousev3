@@ -65,6 +65,7 @@
           </div>
         </div>
 
+        @if($tags->count() > 0)
         <nav class="pagination text-sm" aria-label="Pagination">
           <ul class="pagination__list flex flex-wrap gap-xxxs">
             <li>
@@ -77,14 +78,14 @@
                 </svg>
               </a>
             </li>
-    
+
             <li>
               <span class="pagination__jumper flex items-center">
                 <input aria-label="Page number" class="form-control" type="text" id="pageNumber" name="pageNumber" value="1">
                 <em>of 50</em>
               </span>
             </li>
-    
+
             <li>
               <a href="#0" class="pagination__item">
                 <svg class="icon" viewBox="0 0 16 16">
@@ -97,6 +98,7 @@
             </li>
           </ul>
         </nav>
+        @endif
 
       </div>
   </div>
