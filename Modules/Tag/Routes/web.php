@@ -12,6 +12,6 @@
 */
 
 Route::prefix('admin')->group(function() {
-    Route::get('tag', 'TagController@index');
+    Route::get('tag', 'TagController@index')->name('tag.index');
     Route::get('tag/create', 'TagController@create');
 });
