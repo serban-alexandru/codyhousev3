@@ -34,6 +34,23 @@
         }
       }
     });
+
+    $('.site-editor').on('input', function(){
+      var $this = $(this);
+
+      if($this.data('target-input')){
+        var $targetInput = $($this.data('target-input'));
+
+        editor.save().then((outputData) => {
+          // Save data as string
+          $targetInput.val(JSON.stringify(outputData));
+        }).catch((error) => {
+          console.log('Saving failed: ', error);
+        });
+      }
+
+    });
+
   })();
 </script>
 
