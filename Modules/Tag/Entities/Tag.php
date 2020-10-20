@@ -4,7 +4,6 @@ namespace Modules\Tag\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
