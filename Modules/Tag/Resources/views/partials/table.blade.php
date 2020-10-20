@@ -114,7 +114,13 @@
             </td>
             <td class="int-table__cell">0</td>
             <td class="int-table__cell">{{ $tag->category_name }}</td>
-            <td class="int-table__cell text-center"><img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Author picture" width="40" height="40"></td>
+            <td class="int-table__cell text-center">
+              @if(method_exists($tag, 'getMedia'))
+                <img src="{{ $tag->getMedia('image')->last()->getFullUrl() }}" alt="Image of {{ $tag->name }}, " />
+              @else
+                None
+              @endif
+            </td>
             <td class="int-table__cell text-left">
 
               <menu class="menu-bar menu-bar--expanded@md js-menu-bar">
