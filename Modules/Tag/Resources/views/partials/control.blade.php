@@ -86,7 +86,9 @@
 
             <li>
               <span class="pagination__jumper flex items-center">
-                <input aria-label="Page number" class="form-control" type="text" id="pageNumber" name="pageNumber" value="{{ $tags->currentPage() }}">
+                <form action="{{ url()->current() }}" class="inline" method="get">
+                  <input aria-label="Page number" class="form-control" type="number" name="page" min="1" max="{{ $tags->lastPage() }}" value="{{ $tags->currentPage() }}">
+                </form>
                 <em>of {{ $tags->lastPage() }}</em>
               </span>
             </li>
