@@ -69,7 +69,7 @@
         <nav class="pagination text-sm" aria-label="Pagination">
           <ul class="pagination__list flex flex-wrap gap-xxxs">
             <li>
-              <a href="#0" class="pagination__item">
+              <a href="{{ $tags->withQueryString()->previousPageUrl() }}" class="pagination__item">
                 <svg class="icon" viewBox="0 0 16 16">
                   <title>Go to previous page</title>
                   <g stroke-width="1.5" stroke="currentColor">
@@ -81,13 +81,13 @@
 
             <li>
               <span class="pagination__jumper flex items-center">
-                <input aria-label="Page number" class="form-control" type="text" id="pageNumber" name="pageNumber" value="1">
-                <em>of 50</em>
+                <input aria-label="Page number" class="form-control" type="text" id="pageNumber" name="pageNumber" value="{{ $tags->currentPage() }}">
+                <em>of {{ $tags->lastPage() }}</em>
               </span>
             </li>
 
             <li>
-              <a href="#0" class="pagination__item">
+              <a href="{{ $tags->withQueryString()->nextPageUrl() }}" class="pagination__item">
                 <svg class="icon" viewBox="0 0 16 16">
                   <title>Go to next page</title>
                   <g stroke-width="1.5" stroke="currentColor">
