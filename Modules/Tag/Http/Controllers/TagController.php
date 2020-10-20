@@ -4,12 +4,13 @@ namespace Modules\Tag\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+use App\Http\Controllers\Controller;
 
 use DB;
 
 use Modules\Tag\Entities\Tag;
 use Modules\Tag\Entities\TagCategory;
+use Modules\Users\Entities\User;
 
 class TagController extends Controller
 {
@@ -21,7 +22,7 @@ class TagController extends Controller
     {
         // Get query strings
         $q     = $request->input('q');
-        $limit = $request->input('limit') ? $request->input('limit') : 25;
+        $limit = $request->input('limit') ? $request->input('limit') : 1;
         $sort  = $request->input('sort') ? $request->input('sort') : 'id';
         $order = $request->input('order') ? $request->input('order') : 'desc';
 
@@ -29,8 +30,7 @@ class TagController extends Controller
         $tag_categories = TagCategory::all();
 
         // Get tags from db
-        $tags = DB::table('tags')
-            ->select(
+        $tags = Tag::select(
                 'tags.*',
                 'tags.id',
                 'tags.created_at',
@@ -80,7 +80,48 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        // Set default response
+        $response = [
+            'status'  => 'error',
+            'message' => 'Failed to save tag. Please try again.',
+        ];
+
+        // validate data
+        $this->validate($request,[
+            'tag_name'        => ['required', 'alpha_num', 'max:255'],
+            'tag_category_id' => ['required', 'exists:tag_categories,id'],
+        ]);
+
+        // Insert tag to db table
+        $tag                  = new Tag;
+        $tag->name            = $request->input('tag_name');
+        $tag->description     = $request->input('tag_description');
+        $tag->tag_category_id = $request->input('tag_category_id');
+        $tag->seo_title       = $request->input('tag_seo_title');
+        $tag->published       = $request->boolean('tag_publish');
+
+        $saved = $tag->save();
+
+        if ($saved) {
+            $response = [
+                'status'      => 'success',
+                'message'     => 'Tag has been saved.',
+                'data'        => $tag,
+                'tag_publish' => $request->boolean('tag_publish')
+            ];
+        }
+
+        // if user uploads avatar
+        if ($request->file('tag_image') !== null) {
+
+            // set tag image
+            $tag->addMediaFromRequest('tag_image')->toMediaCollection('images');
+        }
+
+        return response()->json($response);
+
+        // dd($request->all());
     }
 
     /**
