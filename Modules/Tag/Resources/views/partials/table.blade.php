@@ -115,8 +115,8 @@
             <td class="int-table__cell">0</td>
             <td class="int-table__cell">{{ $tag->category_name }}</td>
             <td class="int-table__cell text-center">
-              @if(method_exists($tag, 'getMedia'))
-                <img src="{{ $tag->getMedia('image')->last()->getFullUrl() }}" alt="Image of {{ $tag->name }}, " style="max-width: 50px; height: auto;" />
+              @if($tag->getMedia('images'))
+                <img src="{{ $tag->getFirstMediaUrl('images') }}" alt="Image of {{ $tag->name }}, " style="max-width: 50px; height: auto;" />
               @else
                 None
               @endif
