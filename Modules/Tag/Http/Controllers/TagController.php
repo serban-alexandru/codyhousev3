@@ -6,8 +6,10 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-use Modules\Tag\Entities\Tag;
 use DB;
+
+use Modules\Tag\Entities\Tag;
+use Modules\Tag\Entities\TagCategory;
 
 class TagController extends Controller
 {
@@ -22,6 +24,9 @@ class TagController extends Controller
         $limit = $request->input('limit') ? $request->input('limit') : 25;
         $sort  = $request->input('sort') ? $request->input('sort') : 'id';
         $order = $request->input('order') ? $request->input('order') : 'desc';
+
+        // Get tag categories from db
+        $tag_categories = TagCategory::all();
 
         // Get tags from db
         $tags = DB::table('tags')
@@ -52,8 +57,9 @@ class TagController extends Controller
         $tags = $tags->paginate($limit);
 
         // Prepare data to view
-        $data['q']    = $q; // Return back query to be used on search input
-        $data['tags'] = $tags;
+        $data['q']              = $q;   // Return back query to be used on search input
+        $data['tags']           = $tags;
+        $data['tag_categories'] = $tag_categories;
 
         return view('tag::index', $data);
     }
