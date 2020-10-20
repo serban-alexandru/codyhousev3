@@ -192,7 +192,12 @@
     <nav class="pagination text-sm" aria-label="Pagination">
       <ul class="pagination__list flex flex-wrap gap-xxxs">
         <li>
-          <a href="{{ $tags->withQueryString()->previousPageUrl() }}" class="pagination__item">
+          <a
+            href="{{ $tags->withQueryString()->previousPageUrl() }}"
+            class="pagination__item
+              {{ ($tags->currentPage() == 1) ? 'pagination__item--disabled' : '' }}
+            "
+          >
             <svg class="icon" viewBox="0 0 16 16">
               <title>Go to previous page</title>
               <g stroke-width="1.5" stroke="currentColor">
@@ -211,7 +216,12 @@
 
 
         <li>
-          <a href="{{ $tags->withQueryString()->nextPageUrl() }}" class="pagination__item">
+          <a
+            href="{{ $tags->withQueryString()->nextPageUrl() }}"
+            class="pagination__item
+              {{ !$tags->hasMorePages() ? 'pagination__item--disabled' : '' }}
+            "
+          >
             <svg class="icon" viewBox="0 0 16 16">
               <title>Go to next page</title>
               <g stroke-width="1.5" stroke="currentColor">
