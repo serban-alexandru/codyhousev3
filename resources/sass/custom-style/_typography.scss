@@ -6,7 +6,8 @@
 
 :root {
   // font family
-  --font-primary: Inter, system-ui, sans-serif;
+  --font-primary: 'Roboto Slab', serif;
+  --font-secondary: inter, serif;
 
   // font size
   --text-base-size: 1em; // body font-size
@@ -18,6 +19,7 @@
   
   // capital letters - used in combo with the lhCrop mixin
   --font-primary-capital-letter: 1;
+  --font-secondary-capital-letter: 1;
 
   // unit - don't modify unless you want to change the typography unit (e.g., from Em to Rem units)
   --text-unit: 1em; // if not Em units → --text-unit: var(--text-base-size);
@@ -45,7 +47,7 @@
 }
 
 body {
-  font-family: var(--font-primary);
+  font-family: var(--font-secondary);
 }
 
 h1, h2, h3, h4 {
@@ -55,3 +57,4 @@ h1, h2, h3, h4 {
 
 // font family
 .font-primary { font-family: var(--font-primary); }
+.font-secondary { font-family: var(--font-secondary); }

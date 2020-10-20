@@ -3,6 +3,14 @@
     --radius: 0.25em; // border radius base size
 }
 
+// logo
+
+.logo {
+    font-family: 'Sansita Swashed', cursive;
+    font-size: 27px;
+    color: alpha(var(--color-contrast-lower), var(--color-o, 1));
+}
+
 // default is 12
 $grid-columns: 15 !default;
 
