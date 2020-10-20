@@ -17,7 +17,7 @@ class CreateTagsTable extends Migration
             $table->id();
             $table->foreignId('tag_category_id')->constrained('tag_categories');
             $table->string('name');
-            $table->text('description')->nullable();
+            $table->longText('description')->nullable();
             $table->string('seo_title')->nullable();
             $table->timestamps();
         });
