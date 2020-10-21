@@ -163,4 +163,31 @@ class TagController extends Controller
     {
         //
     }
+
+    /**
+     * Update is_trashed to 1 from tag table.
+     * @param int $id
+     * @return Response
+     */
+    public function trash($id)
+    {
+        $tag = Tag::find($id);
+        $responseMessage = 'Something went wrong. Please try again.';
+
+        // If tag not found
+        if (!$tag) {
+            return back()->with('responseMessage', 'Tag not found.');
+        }
+
+        $tag->is_trashed = true;
+        $deleted         = $tag->save();
+
+        if ($deleted) {
+            $responseMessage = 'Tag "'. $tag->name . '" has been moved to trash.';
+        }else{
+            $responseMessage = 'Failed to move tag "'. $tag->name . '" to trash. Please try again.';
+        }
+
+        return back()->with('responseMessage', $responseMessage);
+    }
 }
