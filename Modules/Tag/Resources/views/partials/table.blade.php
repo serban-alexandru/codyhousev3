@@ -260,7 +260,19 @@
 
         <li>
           <span class="pagination__jumper flex items-center">
-            <form action="{{ url()->current() }}" class="inline" method="get">
+            <form action="{{ url()->full() }}" class="inline" method="get">
+              @if($request->has('is_trashed'))
+                <input type="hidden" name="is_trashed" value="{{ $is_trashed }}">
+              @endif
+
+              @if($request->has('published'))
+                <input type="hidden" name="published" value="{{ $published }}">
+              @endif
+
+              @if($request->has('tag_category_id'))
+                <input type="hidden" name="tag_category_id" value="{{ $tag_category_id }}">
+              @endif
+
               <input aria-label="Page number" class="form-control" type="number" name="page" min="1" max="{{ $tags->lastPage() }}" value="{{ $tags->currentPage() }}">
             </form>
             <em>of {{ $tags->lastPage() }}</em>
