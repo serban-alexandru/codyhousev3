@@ -18,4 +18,5 @@ Route::prefix('admin')->group(function() {
     Route::get('tag/trash/{id}', 'TagController@trash')->name('tag.trash');
     Route::get('tag/empty-trash', 'TagController@emptyTrash')->name('tag.empty-trash');
     Route::post('tag/bulk-trash', 'TagController@bulkTrash')->name('tag.bulk-trash');
+    Route::post('tag/bulk-delete', 'TagController@bulkDelete')->name('tag.bulk-delete');
 });

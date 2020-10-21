@@ -24,7 +24,13 @@
 <template id="selected-id-template">
   <input type="hidden" name="selectedIDs[]" value="@{{value}}">
 </template><!-- /#selected-id-template -->
-<form action="{{ route('tag.bulk-trash') }}" method="POST" id="form-bulk-delete"> @csrf
+<form
+  action="
+    {{
+      ($is_trashed) ? route('tag.bulk-delete') : route('tag.bulk-trash')
+    }}
+  "
+  method="POST" id="form-bulk-delete"> @csrf
   <div class="bulk-selected-ids"></div><!-- /.bulk-selected-ids -->
 </form>
 

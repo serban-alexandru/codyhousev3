@@ -252,5 +252,42 @@ class TagController extends Controller
 
     }
 
+    public function bulkDelete(Request $request)
+    {
+        $selectedIDs     = $request->input('selectedIDs');
+        $responseMessage = '';
+
+        // if nothing is selected just return
+        if ($selectedIDs == null) {
+            return back();
+        }
+
+        foreach ($selectedIDs as $key => $id) {
+            $tag = Tag::find($id);
+
+            if ($tag) {
+                $tag_name    = $tag->name;
+                $media_items = $tag->getMedia('images');
+
+                // Loop through each images collection
+                foreach ($media_items as $key => $media_item) {
+                    $media_item->delete(); // Delete image
+                }
+
+                $tag->delete();
+
+                $responseMessage .= 'Tag "' . $tag_name . '" has been deleted.';
+                $responseMessage .= '</br>';
+
+            }else{
+                $responseMessage .= 'Tag with ID: '. $id . 'is not found.';
+                $responseMessage .= '</br>';
+            }
+        }
+
+        return back()->with('responseMessage', $responseMessage);
+
+    }
+
 
 }
