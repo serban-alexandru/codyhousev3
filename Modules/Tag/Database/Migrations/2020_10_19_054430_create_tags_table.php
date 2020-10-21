@@ -20,6 +20,7 @@ class CreateTagsTable extends Migration
             $table->longText('description')->nullable();
             $table->string('seo_title')->nullable();
             $table->boolean('published')->default(false);
+            $table->boolean('is_trashed')->default(false);
             $table->timestamps();
         });
 
