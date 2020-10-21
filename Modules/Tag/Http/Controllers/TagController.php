@@ -21,11 +21,13 @@ class TagController extends Controller
     public function index(Request $request)
     {
         // Get query strings
-        $q          = $request->input('q');
-        $is_trashed = $request->boolean('is_trashed');
-        $limit      = $request->input('limit') ? $request->input('limit') : 25;
-        $sort       = $request->input('sort') ? $request->input('sort') : 'id';
-        $order      = $request->input('order') ? $request->input('order') : 'desc';
+        $q               = $request->input('q');
+        $is_trashed      = $request->boolean('is_trashed');
+        $published       = $request->boolean('published');
+        $tag_category_id = $request->input('tag_category_id');
+        $limit           = $request->input('limit') ? $request->input('limit') : 1;
+        $sort            = $request->input('sort') ? $request->input('sort') : 'id';
+        $order           = $request->input('order') ? $request->input('order') : 'desc';
 
         // Get tag categories from db
         $tag_categories = TagCategory::all();
@@ -45,8 +47,19 @@ class TagController extends Controller
         // Set sorting and order
         $tags = $tags->orderBy($sort, $order);
 
-        // Check if tag is deleted
-        $tags = $is_trashed ? $tags->where('is_trashed', true) : $tags->where('is_trashed', false);
+        // Check tag category id
+        if ($tag_category_id) {
+            $tags = $tags->where('tag_categories.id', $tag_category_id);
+        }
+
+        // Check if tag is published
+        $tags = ($request->has('published'))
+                ? $tags->where('published', $published)
+                : $tags->where('published', true);
+        ;
+
+        // Check if tag is trashed
+        $tags = $tags->where('is_trashed', $is_trashed);
 
         // If search query is not null then apply where clauses
         if ($q != null) {
@@ -61,10 +74,13 @@ class TagController extends Controller
         $tags = $tags->paginate($limit);
 
         // Prepare data to view
-        $data['q']              = $q;   // Return back query to be used on search input
-        $data['tags']           = $tags;
-        $data['tag_categories'] = $tag_categories;
-        $data['is_trashed']     = $is_trashed;
+        $data['q']               = $q;  // Return back query to be used on search input
+        $data['tags']            = $tags;
+        $data['tag_categories']  = $tag_categories;
+        $data['is_trashed']      = $is_trashed;
+        $data['published']       = $published;
+        $data['tag_category_id'] = $tag_category_id;
+        $data['request']         = $request;
 
         return view('tag::index', $data);
     }
