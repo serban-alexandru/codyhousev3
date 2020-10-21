@@ -22,7 +22,7 @@ class TagController extends Controller
     {
         // Get query strings
         $q     = $request->input('q');
-        $limit = $request->input('limit') ? $request->input('limit') : 1;
+        $limit = $request->input('limit') ? $request->input('limit') : 25;
         $sort  = $request->input('sort') ? $request->input('sort') : 'id';
         $order = $request->input('order') ? $request->input('order') : 'desc';
 
