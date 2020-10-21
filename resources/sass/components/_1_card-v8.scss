@@ -12,10 +12,12 @@ Usage: codyhouse.co/license
     overflow: hidden;
     text-decoration: none;
     transition: .2s;
+    box-shadow: var(--shadow-xs);
   
     img {
       display: block;
       width: 100%;
+      box-shadow: var(--shadow-sm);
     }
   
     &:hover {
