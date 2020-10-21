@@ -147,6 +147,14 @@
 </div><!-- /.modal -->
 <!-- Full Screen Modal End -->
 
+<!-- 👇 Full Screen Modal -->
+<div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll" id="modal-edit-tag">
+  <div class="modal__content height-100% width-100% max-width-sm bg radius-md shadow-md flex flex-column"><!-- /.tabs js-tabs -->
+
+  </div>
+</div><!-- /.modal -->
+<!-- Full Screen Modal End -->
+
 <div class="modal modal--search modal--animate-fade flex flex-center padding-md js-modal" id="modal-search">
   <div class="modal__content width-100% max-width-sm" role="alertdialog" aria-labelledby="modal-search-title" aria-describedby="">
     <form action="{{ route('tag.index') }}" class="full-screen-search">
