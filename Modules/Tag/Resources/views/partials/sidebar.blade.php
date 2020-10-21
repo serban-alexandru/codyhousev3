@@ -6,12 +6,18 @@
     </div>
 
     <ul class="sidenav__list">
-      <li class="sidenav__item">
-        <a href="#0" class="sidenav__link">
+      <li class="sidenav__item
+          {{
+            ($request->has('is_trashed') || $request->has('published')) ?
+            'sidenav__item--expanded' : ''
+          }}
+        "
+      >
+        <a href="{{ route('tag.index') }}" class="sidenav__link">
           <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g><path d="M6,0H1C0.4,0,0,0.4,0,1v5c0,0.6,0.4,1,1,1h5c0.6,0,1-0.4,1-1V1C7,0.4,6.6,0,6,0z M5,5H2V2h3V5z"></path><path d="M15,0h-5C9.4,0,9,0.4,9,1v5c0,0.6,0.4,1,1,1h5c0.6,0,1-0.4,1-1V1C16,0.4,15.6,0,15,0z M14,5h-3V2h3V5z"></path><path d="M6,9H1c-0.6,0-1,0.4-1,1v5c0,0.6,0.4,1,1,1h5c0.6,0,1-0.4,1-1v-5C7,9.4,6.6,9,6,9z M5,14H2v-3h3V14z"></path><path d="M15,9h-5c-0.6,0-1,0.4-1,1v5c0,0.6,0.4,1,1,1h5c0.6,0,1-0.4,1-1v-5C16,9.4,15.6,9,15,9z M14,14h-3v-3h3V14z"></path></g></svg>
           <span class="sidenav__text">All Categories</span>
 
-          <span class="sidenav__counter">12 <i class="sr-only">notifications</i></span>
+          <span class="sidenav__counter">0 <i class="sr-only">count</i></span>
         </a>
 
         <button class="reset sidenav__sublist-control js-sidenav__sublist-control js-tab-focus" aria-label="Toggle sub navigation">
@@ -20,13 +26,21 @@
 
         <ul class="sidenav__list">
           <li class="sidenav__item">
-            <a href="#0" class="sidenav__link">
+            <a href="{{ route('tag.index', ['published' => false]) }}" class="sidenav__link"
+              @if($request->has('published'))
+                aria-current="page"
+              @endif
+            >
               <span class="sidenav__text">Draft</span>
             </a>
           </li>
 
           <li class="sidenav__item">
-            <a href="#0" class="sidenav__link">
+            <a href="{{ route('tag.index', ['is_trashed' => true]) }}" class="sidenav__link"
+              @if($request->has('is_trashed'))
+                aria-current="page"
+              @endif
+            >
               <span class="sidenav__text">Trash</span>
             </a>
           </li>
@@ -34,34 +48,17 @@
 
       </li>
 
-      
 
-      <li class="sidenav__item">
-        <a href="#0" class="sidenav__link">
-          <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g><path d="M14,6.883V13H2V6.82L0,5.695V14c0,0.553,0.448,1,1,1h14c0.552,0,1-0.447,1-1V5.783L14,6.883z"></path><path d="M15,1H1C0.4,1,0,1.4,0,2v1.4l8,4.5l8-4.4V2C16,1.4,15.6,1,15,1z"></path></g></svg>
-          <span class="sidenav__text">Category 1</span>
+      @foreach($tag_categories as $key => $tag_category)
+        <li class="sidenav__item">
+          <a href="{{ route('tag.index', ['tag_category_id' => $tag_category->id]) }}" class="sidenav__link">
+            <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g><path d="M14,6.883V13H2V6.82L0,5.695V14c0,0.553,0.448,1,1,1h14c0.552,0,1-0.447,1-1V5.783L14,6.883z"></path><path d="M15,1H1C0.4,1,0,1.4,0,2v1.4l8,4.5l8-4.4V2C16,1.4,15.6,1,15,1z"></path></g></svg>
+            <span class="sidenav__text">{{ $tag_category->name }}</span>
 
-          <span class="sidenav__counter">18 <i class="sr-only">notifications</i></span>
-        </a>
-      </li>
-
-      <li class="sidenav__item">
-        <a href="#0" class="sidenav__link">
-          <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g><path d="M14,6.883V13H2V6.82L0,5.695V14c0,0.553,0.448,1,1,1h14c0.552,0,1-0.447,1-1V5.783L14,6.883z"></path><path d="M15,1H1C0.4,1,0,1.4,0,2v1.4l8,4.5l8-4.4V2C16,1.4,15.6,1,15,1z"></path></g></svg>
-          <span class="sidenav__text">Category 2</span>
-
-          <span class="sidenav__counter">18 <i class="sr-only">notifications</i></span>
-        </a>
-      </li>
-
-      <li class="sidenav__item">
-        <a href="#0" class="sidenav__link">
-          <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g><path d="M14,6.883V13H2V6.82L0,5.695V14c0,0.553,0.448,1,1,1h14c0.552,0,1-0.447,1-1V5.783L14,6.883z"></path><path d="M15,1H1C0.4,1,0,1.4,0,2v1.4l8,4.5l8-4.4V2C16,1.4,15.6,1,15,1z"></path></g></svg>
-          <span class="sidenav__text">Category 3</span>
-
-          <span class="sidenav__counter">18 <i class="sr-only">notifications</i></span>
-        </a>
-      </li>
+            <span class="sidenav__counter">0 <i class="sr-only">count</i></span>
+          </a>
+        </li>
+      @endforeach
 
     </ul>
 
@@ -80,7 +77,7 @@
       </li>
 
       <li class="sidenav__item">
-        <a href="{{ url('admin/article/create') }}" class="sidenav__link">
+        <a href="javascript:alert('No form')" class="sidenav__link">
           <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g><path d="M12.25,8.231C11.163,9.323,9.659,10,8,10S4.837,9.323,3.75,8.231C1.5,9.646,0,12.145,0,15v1h16 v-1C16,12.145,14.5,9.646,12.25,8.231z"></path><circle cx="8" cy="4" r="4"></circle></g></svg>
           <span class="sidenav__text">Add category</span>
         </a>
