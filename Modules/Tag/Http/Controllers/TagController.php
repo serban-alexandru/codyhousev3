@@ -121,7 +121,6 @@ class TagController extends Controller
 
         return response()->json($response);
 
-        // dd($request->all());
     }
 
     /**
