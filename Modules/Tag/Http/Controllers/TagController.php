@@ -22,7 +22,7 @@ class TagController extends Controller
     {
         // Get query strings
         $q          = $request->input('q');
-        $is_trashed = $request->input('is_trashed');
+        $is_trashed = $request->boolean('is_trashed');
         $limit      = $request->input('limit') ? $request->input('limit') : 25;
         $sort       = $request->input('sort') ? $request->input('sort') : 'id';
         $order      = $request->input('order') ? $request->input('order') : 'desc';
@@ -64,6 +64,7 @@ class TagController extends Controller
         $data['q']              = $q;   // Return back query to be used on search input
         $data['tags']           = $tags;
         $data['tag_categories'] = $tag_categories;
+        $data['is_trashed']     = $is_trashed;
 
         return view('tag::index', $data);
     }
@@ -191,6 +192,32 @@ class TagController extends Controller
         }else{
             $responseMessage = 'Failed to move tag "'. $tag->name . '" to trash. Please try again.';
         }
+
+        return back()->with('responseMessage', $responseMessage);
+    }
+
+    /**
+     * Empty trash
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function emptyTrash()
+    {
+        $tags = Tag::where('is_trashed', true);
+
+        // Loop through each tags
+        foreach ($tags->get() as $key => $tag) {
+            $media_items = $tag->getMedia('images');
+
+            // Loop through each images collection
+            foreach ($media_items as $key => $media_item) {
+                $media_item->delete(); // Delete image
+            }
+        }
+
+        $deleted = $tags->delete();
+
+        $responseMessage = 'Trash has been empty.';
 
         return back()->with('responseMessage', $responseMessage);
     }

@@ -16,4 +16,5 @@ Route::prefix('admin')->group(function() {
     Route::get('tag/create', 'TagController@create');
     Route::post('tag/store', 'TagController@store')->name('tag.store');
     Route::get('tag/trash/{id}', 'TagController@trash')->name('tag.trash');
+    Route::get('tag/empty-trash', 'TagController@emptyTrash')->name('tag.empty-trash');
 });

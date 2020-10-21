@@ -15,6 +15,12 @@
 </div>
 @endif
 
+@if($is_trashed)
+  <div class="margin-bottom-md">
+    <a href="{{ route('tag.empty-trash') }}" class="btn btn--subtle">Empty trash</a>
+  </div>
+@endif
+
 <div id="table-1" class="int-table text-sm js-int-table">
     <div class="int-table__inner">
       <table class="int-table__table" aria-label="Interactive table example">
