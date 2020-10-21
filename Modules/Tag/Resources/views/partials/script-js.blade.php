@@ -51,14 +51,24 @@
 
     });
 
-    // login form
+    // Set tag_publish defaults to false
+    $('[name="tag_publish"]').val(false);
+
+    // Toggle tag_publish to true
+    $(document).on('click', '[name="tag_publish"]', function(){
+      $(this).val(true);
+    });
+
+    // Add tag form
     $(document).on('submit', '#add-tag-form', function(e){
       e.preventDefault();
 
       var $this = $(this);
       var $submitButtons = $this.find('button[type="submit"]');
+      var toPublish = $this.find('[name="tag_publish"]').val();
 
       var formData = new FormData($this[0]);
+      formData.append('tag_publish', toPublish);
 
       var url = $this.attr('action');
       var method = $this.attr('method');
@@ -77,6 +87,9 @@
         processData: false,
         contentType: false,
         async: true,
+        complete: function(){
+          $('[name="tag_publish"]').val(false);
+        },
         success:function(response){
           console.log(formData, response);
 
