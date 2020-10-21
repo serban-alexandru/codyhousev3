@@ -19,13 +19,13 @@
     <div class="line-height-sm v-space-sm">
       <div class="sticky-banner bg shadow-sm js-sticky-banner" data-target-in="#sticky-banner-target">
         <section class="socials text-right">
-          <div class="container max-width-md">
-            <div class="padding-md">
+          <div class="container max-width-sm">
+            <div class="padding-sm margin-xxxxs">
         
             <ul class="socials__btns flex flex-center gap-sm flex-wrap">
 
               <li>
-Share Lorem ipsum dolor sit amet
+                It was going to be a lonely trip back to the real world Share:
               </li>
 
               <li>

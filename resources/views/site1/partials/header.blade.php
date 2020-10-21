@@ -1,7 +1,7 @@
 <header class="mega-nav mega-nav--mobile mega-nav--desktop@md position-relative js-mega-nav hide-nav js-hide-nav js-hide-nav--main">
   <div class="mega-nav__container">
     <!-- 👇 logo -->
-    <div class="flex">
+    <div class="flex padding-top-xxxs">
         <a href="{{ url('/') }}" class="margin-top-xxs">
           <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
           width="25.000000pt" height="25.000000pt" viewBox="0 0 200.000000 200.000000"
@@ -31,7 +31,7 @@
 
  <!-- 👇 Logo Text -->
     <a href="{{ url('/') }}" class="mega-nav__logo padding-xxs">
-      <h2 class="logo">SaigonFinest</h2>
+      <h2 class="logo padding-bottom-xxxs">SaigonFinest</h2>
     </a>
 </div>
 
