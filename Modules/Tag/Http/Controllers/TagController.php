@@ -166,7 +166,30 @@ class TagController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $tag = Tag::find($id);
+        $responseMessage = 'Something went wrong. Please try again.';
+
+        // If tag not found
+        if (!$tag) {
+            return back()->with('responseMessage', 'Tag not found.');
+        }
+
+        $media_items = $tag->getMedia('images');
+
+        // Loop through each images collection
+        foreach ($media_items as $key => $media_item) {
+            $media_item->delete(); // Delete image
+        }
+
+        $deleted = $tag->delete();
+
+        if ($deleted) {
+            $responseMessage = 'Tag "'. $tag->name . '" has been deleted.';
+        }else{
+            $responseMessage = 'Failed to delete tag "'. $tag->name . '". Please try again.';
+        }
+
+        return back()->with('responseMessage', $responseMessage);
     }
 
     /**
