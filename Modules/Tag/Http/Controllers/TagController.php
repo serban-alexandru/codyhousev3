@@ -221,4 +221,36 @@ class TagController extends Controller
 
         return back()->with('responseMessage', $responseMessage);
     }
+
+    public function bulkTrash(Request $request)
+    {
+        $selectedIDs     = $request->input('selectedIDs');
+        $responseMessage = '';
+
+        // if nothing is selected just return
+        if ($selectedIDs == null) {
+            return back();
+        }
+
+        foreach ($selectedIDs as $key => $id) {
+            $tag = Tag::find($id);
+
+            if ($tag) {
+                $tag->is_trashed = 1;
+                $tag->save();
+
+                $responseMessage .= 'Tag "' . $tag->name . '" has been moved to trash.';
+                $responseMessage .= '</br>';
+
+            }else{
+                $responseMessage .= 'Tag with ID: '. $id . 'is not found.';
+                $responseMessage .= '</br>';
+            }
+        }
+
+        return back()->with('responseMessage', $responseMessage);
+
+    }
+
+
 }

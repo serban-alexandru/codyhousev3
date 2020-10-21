@@ -21,6 +21,13 @@
   </div>
 @endif
 
+<template id="selected-id-template">
+  <input type="hidden" name="selectedIDs[]" value="@{{value}}">
+</template><!-- /#selected-id-template -->
+<form action="{{ route('tag.bulk-trash') }}" method="POST" id="form-bulk-delete"> @csrf
+  <div class="bulk-selected-ids"></div><!-- /.bulk-selected-ids -->
+</form>
+
 <div id="table-1" class="int-table text-sm js-int-table">
     <div class="int-table__inner">
       <table class="int-table__table" aria-label="Interactive table example">
@@ -128,7 +135,7 @@
           <tr class="int-table__row">
             <th class="int-table__cell" scope="row">
               <div class="custom-checkbox int-table__checkbox">
-                <input class="custom-checkbox__input js-int-table__select-row" type="checkbox" aria-label="Select this row" />
+                <input class="custom-checkbox__input js-int-table__select-row" type="checkbox" value="{{ $tag->id }}" aria-label="Select this row" />
                 <div class="custom-checkbox__control" aria-hidden="true"></div>
               </div>
             </th>
