@@ -25,7 +25,7 @@ class TagController extends Controller
         $is_trashed      = $request->boolean('is_trashed');
         $published       = $request->boolean('published');
         $tag_category_id = $request->input('tag_category_id');
-        $limit           = $request->input('limit') ? $request->input('limit') : 1;
+        $limit           = $request->input('limit') ? $request->input('limit') : 25;
         $sort            = $request->input('sort') ? $request->input('sort') : 'id';
         $order           = $request->input('order') ? $request->input('order') : 'desc';
 
