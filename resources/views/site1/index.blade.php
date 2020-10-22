@@ -2,6 +2,7 @@
 
 @section('content')
 	@include('partials.posts.featured-post')
+	<div class="margin-bottom-lg"></div>
 	@include('partials.posts.draggable-gallery')
 
 	<div class="margin-top-md container max-width-lg">

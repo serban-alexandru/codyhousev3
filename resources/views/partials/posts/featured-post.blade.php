@@ -8,7 +8,7 @@
             </figure>
         </a>
           <h1 class="featured__headline-main line-height-xxxl feature-v12__offset-item text-left padding-left-sm">
-            <a href="#0">The Mandalorian Season 3 to to Begin Filming</a>
+            <a href="#0">Mẹ đã dạy tôi trở thành một người đàn ông như thế nào?</a>
           </h1>
       </div>
   

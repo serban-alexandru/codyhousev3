@@ -2,7 +2,7 @@
   <div class="mega-nav__container">
     <!-- 👇 logo -->
     <div class="flex padding-top-xxxs">
-        <a href="{{ url('/') }}" class="margin-top-xxs">
+        <a href="{{ url('/') }}" class="margin-top-xs">
           <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
           width="25.000000pt" height="25.000000pt" viewBox="0 0 200.000000 200.000000"
           preserveAspectRatio="xMidYMid meet">
@@ -31,7 +31,7 @@
 
  <!-- 👇 Logo Text -->
     <a href="{{ url('/') }}" class="mega-nav__logo padding-xxs">
-      <h2 class="logo padding-bottom-xxxs">SaigonFinest</h2>
+      <h2 class="logo padding-bottom-xxs">SaigonFinest</h2>
     </a>
 </div>
 
@@ -68,7 +68,7 @@
           </a>
 
           <ul class="dropdown__menu" aria-label="submenu">
-            <li><a href="{{ url('profile') }}" class="dropdown__item">Profile</a></li>
+            <li><a href="{{ url('site1/profile') }}" class="dropdown__item">Profile</a></li>
             <li class="dropdown__separator" role="separator"></li>
             <li><a href="{{ url('users/settings') }}" class="dropdown__item">Account Settings</a></li>
             <li><a href="{{ url('/logout') }}" class="dropdown__item">Log out</a></li>
