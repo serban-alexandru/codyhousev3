@@ -51,10 +51,10 @@
       @auth
       <div class="dropdown js-dropdown">
         <div class="mega-nav__icon-btn dropdown__wrapper inline-block">
-            @if(Auth::user()->getMedia('avatars')->last())
+            @if(auth()->user()->avatar)
             <div class="author author--minimal-mobile dropdown__trigger">
               <a href="#0" class="author__img-wrapper">
-                <img src="{{ Auth::user()->getMedia('avatars')->last()->getFullUrl('thumb') }}" alt="Author picture">
+                <img src="{{ auth()->user()->getAvatar() }}" alt="Author picture">
             </div>
             @else
               <svg class="icon" viewBox="0 0 24 24">
@@ -68,7 +68,7 @@
           </a>
 
           <ul class="dropdown__menu" aria-label="submenu">
-            <li><a href="{{ url('profile') }}" class="dropdown__item">Profile</a></li>
+            <li><a href="{{ url('site1/profile') }}" class="dropdown__item">Profile</a></li>
             <li class="dropdown__separator" role="separator"></li>
             <li><a href="{{ url('users/settings') }}" class="dropdown__item">Account Settings</a></li>
             <li><a href="{{ url('/logout') }}" class="dropdown__item">Log out</a></li>

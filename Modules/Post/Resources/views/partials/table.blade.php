@@ -106,10 +106,6 @@
               <th class="int-table__cell int-table__cell--th text-left">Action</th>
             @endif
 
-            @if(!request()->has('is_trashed') && !request()->has('is_draft'))
-              <th class="int-table__cell int-table__cell--th text-left">Draft</th>
-            @endif
-
             @if(!request()->has('is_trashed') && request()->has('is_draft'))
               <th class="int-table__cell int-table__cell--th text-left">Publish</th>
             @endif
@@ -134,38 +130,49 @@
             @endif
             <td class="int-table__cell cursor-pointer" aria-controls="modal-edit-post" data-id="{{ $post->id }}">
               <a href="#0">
-                {{ $post->title }}
+                {{ Str::limit($post->title, 47) }}
               </a>
             </td>
             <td class="int-table__cell">{{ $post->username }}</td>
             <td class="int-table__cell">{{ $post->created_at->format('m/d/Y') }}</td>
             <td class="int-table__cell text-center">
-              @if(is_null($post->thumbnail))
+              @if(is_null($post->thumbnail_medium))
                 <span class="author__img-wrapper bg-black bg-opacity-50%"></span>
               @else
-                <img src="{{ asset('storage/posts/images') }}/{{ $post->thumbnail_medium }}" width="40" height="40" style="object-fit: cover; object-position: center;">
+                <img src="{{ $post->showThumbnail('medium') }}" width="40" height="40" style="object-fit: cover; object-position: center;">
               @endif
             </td>
             
-            @if(!$post->is_deleted)
-              <td class="int-table__cell text-center">
-                <form action="{{ route('posts.delete') }}" method="post">
-                  @csrf
-                  <input type="hidden" name="post_id" value="{{ $post->id }}">
-                  <li class="menu-bar__item btn-delete" role="menuitem" aria-controls="modal-name-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <title>trash-simple</title>
-                    <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="1" transform="translate(0.5 0.5)" fill="#828282" stroke="#828282"><polyline fill="none" stroke="#828282" stroke-miterlimit="10" points="20,9 20,23 4,23 4,9 "></polyline> <line fill="none" stroke="#828282" stroke-miterlimit="10" x1="1" y1="5" x2="23" y2="5"></line> <line fill="none" stroke-miterlimit="10" x1="12" y1="12" x2="12" y2="18"></line> <line fill="none" stroke-miterlimit="10" x1="8" y1="12" x2="8" y2="18"></line> <line fill="none" stroke-miterlimit="10" x1="16" y1="12" x2="16" y2="18"></line> <polyline fill="none" stroke="#828282" stroke-miterlimit="10" points="8,5 8,1 16,1 16,5 "></polyline></g></svg>
-                  </li>
-                </form>
+            @if(!$post->is_deleted || ($post->is_published && !$post->is_deleted))
+              <td class="int-table__cell text-center flex">
+                @if(!$post->is_deleted)
+                  <form action="{{ route('posts.delete') }}" method="post">
+                    @csrf
+                    <input type="hidden" name="post_id" value="{{ $post->id }}">
+                    <li class="menu-bar__item btn-delete" role="menuitem" aria-controls="modal-name-1">
+                      <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
+                        <path d="M2,6v8c0,1.1,0.9,2,2,2h8c1.1,0,2-0.9,2-2V6H2z"></path>
+                        <path d="M12,3V1c0-0.6-0.4-1-1-1H5C4.4,0,4,0.4,4,1v2H0v2h16V3H12z M10,3H6V2h4V3z"></path>
+                      </svg>
+                      <span class="menu-bar__label">Delete</span>
+                    </li>
+                  </form>
+                @endif
+
+                @if($post->is_published && !$post->is_deleted)
+                  <a href="{{ route('posts.make-draft', ['id' => $post->id]) }}">
+                    <li class="menu-bar__item menu-bar__item--hide" role="menuitem">
+                      <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 12 12">
+                        <path d="M10.121.293a1,1,0,0,0-1.414,0L1,8,0,12l4-1,7.707-7.707a1,1,0,0,0,0-1.414Z"></path>
+                      </svg>
+                      <span class="menu-bar__label">Draft</span>
+                    </li>
+                  </a>
+                @endif
               </td>
             @endif
             
-            @if($post->is_published && !$post->is_deleted)
-              <td>
-                <a href="{{ route('posts.make-draft', ['id' => $post->id]) }}" class="btn">Draft</a>
-              </td>
-            @elseif(!$post->is_published && !$post->is_deleted)
+            @if(!$post->is_published && !$post->is_deleted)
               <td>
                 <a href="{{ route('posts.publish', ['id' => $post->id]) }}" class="btn">Publish</a>
               </td>

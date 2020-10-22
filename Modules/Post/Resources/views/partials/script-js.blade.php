@@ -336,6 +336,19 @@
       ddfArea.find('.js-ddf__files-counter').html("1 selected file");
     });
 
+    $(document).on('click', '.btn-full-screen', function(){
+      $(this).closest('.modal__content').toggleClass('max-width-sm');
+
+      var hasClass = $(this).closest('.max-width-sm').length;
+
+      if(hasClass){
+        $(this).html('Full Screen');
+      } else {
+        $(this).html('Shrink Screen');
+      }
+
+    });
+
   });
 </script>
 @endauth

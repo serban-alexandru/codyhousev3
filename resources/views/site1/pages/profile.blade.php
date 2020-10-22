@@ -6,8 +6,10 @@
     <div class="author author--featured">
       <div class="profile__cover" aria-hidden="true" style="background-image: url('{{ auth()->user()->getCoverPhoto() }}" alt="{{ auth()->user()->name }}'s Cover Photo');"></div>
       <a href="#" class="author__img-wrapper border border-4 border-white">
-        <img src="{{ Auth::user()->getMedia('avatars')->last()->getFullUrl('thumb') }}" alt="Author picture">
+        <img src="{{ auth()->user()->getAvatar() }}" alt="Author picture">
       </a>
+
+      <h3>Jonjie Viduya</h3>
 
       @if(auth()->user()->account_setting)
         <div class="author__content text-component">

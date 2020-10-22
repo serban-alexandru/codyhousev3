@@ -233,8 +233,10 @@
 
           <td class="int-table__cell">
            <div class="flex author author--meta">
-              <a href="#0" class="author__img-wrapper">
-                <img src="{{ Auth::user()->getMedia('avatars')->last()->getFullUrl('thumb') }}" alt="Author picture"></a>
+              <a href="#0" class="author__img-wrapper bg-black bg-opacity-50%">
+                @if($user->avatar)
+                  <img src="{{ $user->getAvatar() }}" alt="Author picture"></a>
+                @endif
               <a href="{{url('admin/users/edit/'.$user->id)}}" data-update-url="{{url('admin/users/update/'.$user->id)}}" class="modal-trigger-edit-user" aria-controls="modal-edit-user" role="button">{{$user->username}}</a>
           </div>
           </td>

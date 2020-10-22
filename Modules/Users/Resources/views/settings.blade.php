@@ -36,8 +36,8 @@
             <input type="hidden" name="delete_avatar" />
             <div class="author margin-bottom-md">
               <a href="#0" class="author__img-wrapper bg-black bg-opacity-50%">
-                @if(Auth::user()->getMedia('avatars')->last())
-                  <img src="{{ Auth::user()->getMedia('avatars')->last()->getFullUrl('thumb') }}" alt="Author picture">
+                @if(auth()->user()->avatar)
+                  <img src="{{ auth()->user()->getAvatar() }}" alt="Author picture">
                 @else
                   <img alt="Author picture" id="settings-avatar" style="display: none;">
                 @endif
