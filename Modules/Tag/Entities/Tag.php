@@ -20,6 +20,6 @@ class Tag extends Model implements HasMedia
      */
     public function tagCategory()
     {
-        return $this->hasOne('Modules\Tag\Entities\TagCategory');
+        return $this->hasOne('Modules\Tag\Entities\TagCategory', 'id');
     }
 }
