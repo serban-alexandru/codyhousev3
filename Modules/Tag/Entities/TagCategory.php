@@ -11,4 +11,14 @@ class TagCategory extends Model
     public static $DEFAULT = [
         'name' => 'Tags'
     ];
+
+    /**
+     * Get the tag from tag cateogry
+     *
+     * @return void
+     */
+    public function tag()
+    {
+        return $this->hasOne('Modules\Tag\Entities\Tag');
+    }
 }

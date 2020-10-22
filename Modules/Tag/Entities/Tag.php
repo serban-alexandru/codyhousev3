@@ -18,7 +18,7 @@ class Tag extends Model implements HasMedia
      *
      * @return void
      */
-    public function tag()
+    public function tagCategory()
     {
         return $this->hasOne('Modules\Tag\Entities\TagCategory');
     }
