@@ -61,7 +61,7 @@
     });
 
     // Add tag form
-    $(document).on('submit', '#add-tag-formx', function(e){
+    $(document).on('submit', '#add-tag-form', function(e){
       e.preventDefault();
 
       var $this = $(this);
