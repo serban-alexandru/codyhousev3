@@ -147,9 +147,9 @@ class TagController extends Controller
         $tag->seo_title       = $request->input('tag_seo_title');
         $tag->published       = $updating ? true : $request->boolean('tag_publish');
 
-        // dd($request->all(), $tag);
 
         $saved = $tag->save();
+        // dd($request->all(), $saved);
 
         if ($saved) {
             $response = [
