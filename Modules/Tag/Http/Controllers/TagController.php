@@ -20,7 +20,7 @@ class TagController extends Controller
      */
     public function index(Request $request)
     {
-        $bladeTemplate = $request->ajax() ? 'tag::partials.table' : 'tag::index';
+        $bladeTemplate = 'tag::index';
 
         // Get query strings
         $q               = $request->input('q');
@@ -93,7 +93,10 @@ class TagController extends Controller
 
 
         // Prepare data to view
-        $data['q']               = $q;  // Return back query to be used on search input
+        $data['q']               = $q;
+        $data['limit']           = $limit;
+        $data['order']           = $order;
+        $data['sort']            = $sort;
         $data['tags']            = $tags;
         $data['tag_categories']  = $tag_categories;
         $data['is_trashed']      = $is_trashed;
