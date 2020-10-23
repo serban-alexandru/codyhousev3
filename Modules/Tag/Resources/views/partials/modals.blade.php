@@ -1,6 +1,6 @@
 <!-- 👇 Full Screen Modal -->
 <div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll" id="modal-add-tag">
-  <form action="{{ route('tag.store') }}" method="post" enctype="multipart/form-data" class="modal__content height-100% tabs js-tabs width-100% max-width-sm bg radius-md shadow-md flex flex-column" id="add-tag-form" novalidate> @csrf
+  <form action="{{ route('tag.store') }}" data-action="{{ route('tag.store') }}" method="post" enctype="multipart/form-data" class="modal__content height-100% tabs js-tabs width-100% max-width-sm bg radius-md shadow-md flex flex-column" id="add-tag-form" novalidate> @csrf
     <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
       <!-- 👇 Tabs -->
       <nav class="tabs">
@@ -138,20 +138,13 @@
 
     <footer class="padding-y-sm padding-x-md bg shadow-md flex-shrink-0">
       <div class="flex justify-end gap-xs">
+        <input type="hidden" name="tag_id" value="0">
         <button type="button" class="btn btn--subtle js-modal__close">Cancel</button>
         <button type="submit" class="btn btn--primary">Save</button>
         <button type="submit" name="tag_publish" value="true" class="btn btn--primary">Publish</button>
       </div>
     </footer>
   </form><!-- /.modal__content -->
-</div><!-- /.modal -->
-<!-- Full Screen Modal End -->
-
-<!-- 👇 Full Screen Modal -->
-<div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll" id="modal-edit-tag">
-  <div class="modal__content height-100% width-100% max-width-sm bg radius-md shadow-md flex flex-column"><!-- /.tabs js-tabs -->
-
-  </div>
 </div><!-- /.modal -->
 <!-- Full Screen Modal End -->
 
