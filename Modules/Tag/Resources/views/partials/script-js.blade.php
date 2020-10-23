@@ -13,7 +13,8 @@
 
 <script>
   (function(){
-    const editor = new EditorJS({
+
+    var editor = new EditorJS({
       /**
       * Id of Element that should contain Editor instance
       */
@@ -60,7 +61,7 @@
     });
 
     // Add tag form
-    $(document).on('submit', '#add-tag-form', function(e){
+    $(document).on('submit', '#add-tag-formx', function(e){
       e.preventDefault();
 
       var $this = $(this);
@@ -108,7 +109,7 @@
           }
         },
         error: function(response){
-          console.log(response.responseText);
+          console.log(response);
           var jsonResponse = response.responseJSON;
           var errors = jsonResponse.errors;
           var errorsHTML = '';
@@ -135,6 +136,57 @@
         });
     });
 
+    $(document).on('click', '[aria-controls="modal-add-tag"]', function(){
+      var $modalForm = $('#add-tag-form');
+
+      editor.clear();
+
+      $('[name="tag_publish"]').show();
+      $('[name="tag_id"]').val(0);
+      $modalForm[0].reset();
+      $modalForm.attr('action', $modalForm.data('action'));
+    });
+
+    $(document).on('click', '.site-load-modal-edit-form', function(e){
+      var $this = $(this);
+      var $target = $($this.data('target'));
+      var url = $this.data('url');
+      var method = $this.data('method');
+
+      var $modalForm = $('#add-tag-form');
+      $modalForm.find(':input').prop('disabled', true);
+
+      $('[name="tag_publish"]').hide();
+
+      $.ajax({
+        url: url,
+        method: method,
+        dataType: 'JSON'
+      })
+        .done(function(response) {
+          var data = response.data;
+          $('[name="tag_id"]').val(data.id);
+          $('[name="tag_name"]').val(data.name);
+          $('[name="tag_seo_title"]').val(data.seo_title);
+          $modalForm.attr('action', data.submit_url);
+
+          $modalForm.find(':input').prop('disabled', false);
+
+          var editorData = JSON.parse(response.data.description);
+
+          console.log(editorData);
+
+          if (editorData) {
+            editor.render(editorData);
+          }
+
+        })
+        .fail(function(response, textStatus) {
+          console.log(response);
+        })
+        .always(function() {});
+    });
+
   })();
 </script>
 
@@ -154,7 +206,6 @@
       $('#site-table-with-pagination-container').load(url);
     });
 
-    console.log('loaded ???');
   })();
 </script>
 @endauth
