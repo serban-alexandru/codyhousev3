@@ -163,8 +163,8 @@
                 <div class="custom-checkbox__control" aria-hidden="true"></div>
               </div>
             </th>
-            <td class="int-table__cell" aria-controls="modal-add-tag">
-              <a href="#0">{{ $tag->name }}</a>
+            <td class="int-table__cell">
+              <a href="{{ route('tag.edit', [$tag->id]) }}" data-url="{{ route('tag.edit', [$tag->id]) }}" data-method="get" aria-controls="modal-add-tag" class="site-load-modal-edit-form">{{ $tag->name }}</a>
             </td>
             <td class="int-table__cell">0</td>
             <td class="int-table__cell">{{ $tag->category_name }}</td>
@@ -186,10 +186,12 @@
                 </li>
 
                 <li class="menu-bar__item menu-bar__item--hide" role="menuitem">
+                  <a href="{{ route('tag.edit', [$tag->id]) }}" data-url="{{ route('tag.edit', [$tag->id]) }}" data-method="get" aria-controls="modal-add-tag" class="site-load-modal-edit-form">
                   <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 12 12">
                     <path d="M10.121.293a1,1,0,0,0-1.414,0L1,8,0,12l4-1,7.707-7.707a1,1,0,0,0,0-1.414Z"></path>
                   </svg>
-                  <span class="menu-bar__label">Draft</span>
+                  <span class="menu-bar__label">Edit</span>
+                  </a>
                 </li>
 
                 <li class="menu-bar__item menu-bar__item--hide" role="menuitem">
