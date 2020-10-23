@@ -136,13 +136,18 @@ class TagController extends Controller
             'tag_category_id' => ['required', 'exists:tag_categories,id'],
         ]);
 
-        // Insert tag to db table
-        $tag                  = new Tag;
+        $id       = $request->input('tag_id');
+        $updating = ($id > 0);
+
+        // Insert or update tag to db table
+        $tag                  = $updating ? Tag::find($id) : new Tag;
         $tag->name            = $request->input('tag_name');
         $tag->description     = $request->input('tag_description');
         $tag->tag_category_id = $request->input('tag_category_id');
         $tag->seo_title       = $request->input('tag_seo_title');
-        $tag->published       = $request->boolean('tag_publish');
+        $tag->published       = $updating ? true : $request->boolean('tag_publish');
+
+        // dd($request->all(), $tag);
 
         $saved = $tag->save();
 
@@ -183,7 +188,17 @@ class TagController extends Controller
      */
     public function edit($id)
     {
-        return view('tag::edit');
+        $tag = Tag::find($id);
+
+        $tag['submit_url'] = route('tag.store');
+
+        $response = [
+            'status'  => 'success',
+            'message' => 'Data successfully fetched',
+            'data'    => $tag,
+        ];
+
+        return response()->json($response);
     }
 
     /**
