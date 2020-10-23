@@ -49,83 +49,101 @@
 
 
 
-            <th class="int-table__cell int-table__cell--th int-table__cell--sort js-int-table__cell--sort">
+            <th class="int-table__cell int-table__cell--th int-table__cell--sort  js-int-table__cell--sort @if($sort == 'name') int-table__cell--{{$order}} @endif" data-sort="name">
               <div class="flex items-center">
-                <span>Tag Name</span>
+                <span>Tag name</span>
 
-                <svg class="icon icon--xxs margin-left-xxxs int-table__sort-icon" aria-hidden="true" viewBox="0 0 12 12">
-                  <polygon class="arrow-up" points="6 0 10 5 2 5 6 0" />
-                  <polygon class="arrow-down" points="6 12 2 7 10 7 6 12" /></svg>
+                <svg class="icon icon--xxs margin-left-xxxs int-table__sort-icon" aria-hidden="true" viewBox="0 0 12 12"><polygon class="arrow-up" points="6 0 10 5 2 5 6 0"/><polygon class="arrow-down" points="6 12 2 7 10 7 6 12"/></svg>
               </div>
 
               <ul class="sr-only js-int-table__sort-list">
                 <li>
-                  <input type="radio" name="sortingName" id="sortingNameNone" value="none" checked>
+                  <input type="radio" name="sortingName" id="sortingNameNone" value="none">
                   <label for="sortingNameNone">No sorting</label>
                 </li>
 
                 <li>
-                  <input type="radio" name="sortingName" id="sortingNameAsc" value="asc">
+                  <input type="radio" name="sortingName" id="sortingNameAsc" value="asc"
+                    @if($sort == "name" && $order == 'asc')
+                      checked
+                    @endif
+                  >
                   <label for="sortingNameAsc">Sort in ascending order</label>
                 </li>
 
                 <li>
-                  <input type="radio" name="sortingName" id="sortingNameDes" value="desc">
+                  <input type="radio" name="sortingName" id="sortingNameDes" value="desc"
+                    @if($sort == "name" && $order == 'desc')
+                      checked
+                    @endif
+                  >
                   <label for="sortingNameDes">Sort in descending order</label>
                 </li>
               </ul>
             </th>
 
-            <th class="int-table__cell int-table__cell--th int-table__cell--sort js-int-table__cell--sort">
+            <th class="int-table__cell int-table__cell--th int-table__cell--sort  js-int-table__cell--sort @if($sort == 'tag_count') int-table__cell--{{$order}} @endif" data-sort="tag_count">
               <div class="flex items-center">
-                <span>Tag Count</span>
+                <span>Tag count</span>
 
-                <svg class="icon icon--xxs margin-left-xxxs int-table__sort-icon" aria-hidden="true" viewBox="0 0 12 12">
-                  <polygon class="arrow-up" points="6 0 10 5 2 5 6 0" />
-                  <polygon class="arrow-down" points="6 12 2 7 10 7 6 12" /></svg>
+                <svg class="icon icon--xxs margin-left-xxxs int-table__sort-icon" aria-hidden="true" viewBox="0 0 12 12"><polygon class="arrow-up" points="6 0 10 5 2 5 6 0"/><polygon class="arrow-down" points="6 12 2 7 10 7 6 12"/></svg>
               </div>
 
               <ul class="sr-only js-int-table__sort-list">
                 <li>
-                  <input type="radio" name="sortingEmail" id="sortingEmailNone" value="none" checked>
-                  <label for="sortingEmailNone">No sorting</label>
+                  <input type="radio" name="sortingTagCount" id="sortingTagCountNone" value="none">
+                  <label for="sortingTagCountNone">No sorting</label>
                 </li>
 
                 <li>
-                  <input type="radio" name="sortingEmail" id="sortingEmailAsc" value="asc">
-                  <label for="sortingEmailAsc">Sort in ascending order</label>
+                  <input type="radio" name="sortingTagCount" id="sortingTagCountAsc" value="asc"
+                    @if($sort == "name" && $order == 'asc')
+                      checked
+                    @endif
+                  >
+                  <label for="sortingTagCountAsc">Sort in ascending order</label>
                 </li>
 
                 <li>
-                  <input type="radio" name="sortingEmail" id="sortingEmailDes" value="desc">
-                  <label for="sortingEmailDes">Sort in descending order</label>
+                  <input type="radio" name="sortingTagCount" id="sortingTagCountDes" value="desc"
+                    @if($sort == "name" && $order == 'desc')
+                      checked
+                    @endif
+                  >
+                  <label for="sortingTagCountDes">Sort in descending order</label>
                 </li>
               </ul>
             </th>
 
-            <th class="int-table__cell int-table__cell--th int-table__cell--sort js-int-table__cell--sort" data-date-format="dd-mm-yyyy">
+            <th class="int-table__cell int-table__cell--th int-table__cell--sort  js-int-table__cell--sort @if($sort == 'category_name') int-table__cell--{{$order}} @endif" data-sort="category_name">
               <div class="flex items-center">
                 <span>Category</span>
 
-                <svg class="icon icon--xxs margin-left-xxxs int-table__sort-icon" aria-hidden="true" viewBox="0 0 12 12">
-                  <polygon class="arrow-up" points="6 0 10 5 2 5 6 0" />
-                  <polygon class="arrow-down" points="6 12 2 7 10 7 6 12" /></svg>
+                <svg class="icon icon--xxs margin-left-xxxs int-table__sort-icon" aria-hidden="true" viewBox="0 0 12 12"><polygon class="arrow-up" points="6 0 10 5 2 5 6 0"/><polygon class="arrow-down" points="6 12 2 7 10 7 6 12"/></svg>
               </div>
 
               <ul class="sr-only js-int-table__sort-list">
                 <li>
-                  <input type="radio" name="sortingDate" id="sortingDateNone" value="none" checked>
-                  <label for="sortingDateNone">No sorting</label>
+                  <input type="radio" name="sortingCategoryName" id="sortingCategoryNameNone" value="none">
+                  <label for="sortingCategoryNameNone">No sorting</label>
                 </li>
 
                 <li>
-                  <input type="radio" name="sortingDate" id="sortingDateAsc" value="asc">
-                  <label for="sortingDateAsc">Sort in ascending order</label>
+                  <input type="radio" name="sortingCategoryName" id="sortingCategoryNameAsc" value="asc"
+                    @if($sort == "name" && $order == 'asc')
+                      checked
+                    @endif
+                  >
+                  <label for="sortingCategoryNameAsc">Sort in ascending order</label>
                 </li>
 
                 <li>
-                  <input type="radio" name="sortingDate" id="sortingDateDes" value="desc">
-                  <label for="sortingDateDes">Sort in descending order</label>
+                  <input type="radio" name="sortingCategoryName" id="sortingCategoryNameDes" value="desc"
+                    @if($sort == "name" && $order == 'desc')
+                      checked
+                    @endif
+                  >
+                  <label for="sortingCategoryNameDes">Sort in descending order</label>
                 </li>
               </ul>
             </th>
