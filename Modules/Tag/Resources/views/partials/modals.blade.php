@@ -44,14 +44,12 @@
               <div class="flex items-start">
                 <div class="select inline-block js-select" data-trigger-class="btn btn--subtle">
                   <select name="tag_category_id" id="selectThis">
-                    <optgroup label="Group 1">
-                      @foreach($tag_categories as $key => $tag_category)
-                        <option
-                          value="{{ $tag_category->id }}"
-                          {{ $key === 0 ? 'selected' : ''}}
-                        >{{ $tag_category->name }}</option>
-                      @endforeach
-                    </optgroup>
+                    @foreach($tag_categories as $key => $tag_category)
+                      <option
+                        value="{{ $tag_category->id }}"
+                        {{ $key === 0 ? 'selected' : ''}}
+                      >{{ $tag_category->name }}</option>
+                    @endforeach
                   </select>
 
                   <svg class="icon icon--xs margin-left-xxxs" aria-hidden="true" viewBox="0 0 16 16"><polygon points="3,5 8,11 13,5 "></polygon></svg>
