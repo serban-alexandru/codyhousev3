@@ -5,7 +5,7 @@
       <span class="text-sm color-contrast-medium">Tags Categories</span>
     </div>
 
-    <ul class="sidenav__list">
+    <ul class="sidenav__list site-load-content">
       <li class="sidenav__item
           {{
             ($request->has('is_trashed') || $request->has('published')) ?

@@ -20,6 +20,8 @@ class TagController extends Controller
      */
     public function index(Request $request)
     {
+        $bladeTemplate = $request->ajax() ? 'tag::partials.table' : 'tag::index';
+
         // Get query strings
         $q               = $request->input('q');
         $is_trashed      = $request->boolean('is_trashed');
@@ -99,7 +101,7 @@ class TagController extends Controller
         $data['tag_category_id'] = $tag_category_id;
         $data['request']         = $request;
 
-        return view('tag::index', $data);
+        return view($bladeTemplate, $data);
     }
 
     /**

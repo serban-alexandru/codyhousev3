@@ -299,3 +299,30 @@
     </nav>
     @endif
   </div><!-- /.flex items-center justify-between padding-top-sm -->
+
+<!-- Re-initialized utl and menu component if the request is ajax -->
+@if(Request::ajax())
+  <script src="{{ asset('assets/js/util.js') }}"></script>
+  <script src="{{ asset('assets/js/components/_1_menu.js') }}"></script>
+  <script src="{{ asset('assets/js/components/_2_interactive-table.js') }}"></script>
+  <script src="{{ asset('assets/js/components/_1_modal-window.js') }}"></script>
+  <script>
+    (function() {
+      // event that watches interactive table checkboxes
+      $(document).on('click', '.int-table__table .custom-checkbox__input', function(){
+        var checkedCheckboxes = $('.custom-checkbox__input:checked').length;
+
+        if (checkedCheckboxes > 0) {
+          // show menu-bar
+          $('.menu-bar.js-int-table-actions__items-selected').removeClass('is-hidden');
+          $('.menu-bar.js-int-table-actions__no-items-selected').addClass('is-hidden');
+          return;
+        }
+
+        // hide menu-bar
+        $('.menu-bar.js-int-table-actions__items-selected').addClass('is-hidden');
+          $('.menu-bar.js-int-table-actions__no-items-selected').removeClass('is-hidden');
+      });
+    })();
+  </script>
+@endif
