@@ -9,7 +9,7 @@
         <img src="{{ auth()->user()->getAvatar() }}" alt="Author picture">
       </a>
 
-      <h3>Jonjie Viduya</h3>
+      <h3>{{ auth()->user()->name }}</h3>
 
       @if(auth()->user()->account_setting)
         <div class="author__content text-component">
