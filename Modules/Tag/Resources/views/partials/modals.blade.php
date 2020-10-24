@@ -42,14 +42,19 @@
               <div role="alert" class="form-error-msg"></div>
 
               <div class="flex items-start">
+                <label class="form-label" for="tag_category_id"></label>
                 <div class="select inline-block js-select" data-trigger-class="btn btn--subtle">
-                  <select name="tag_category_id" id="selectThis">
+                  <select name="tag_category_id" id="tag_category_id">
+                    <optgroup label="Tag category">
                     @foreach($tag_categories as $key => $tag_category)
                       <option
                         value="{{ $tag_category->id }}"
-                        {{ $key === 0 ? 'selected' : ''}}
+                        @if($key === 0)
+                          selected
+                        @endif
                       >{{ $tag_category->name }}</option>
                     @endforeach
+                    </optgroup>
                   </select>
 
                   <svg class="icon icon--xs margin-left-xxxs" aria-hidden="true" viewBox="0 0 16 16"><polygon points="3,5 8,11 13,5 "></polygon></svg>

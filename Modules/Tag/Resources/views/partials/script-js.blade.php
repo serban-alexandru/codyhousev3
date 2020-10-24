@@ -166,6 +166,14 @@
         .done(function(response) {
           var data = response.data;
           $('[name="tag_id"]').val(data.id);
+
+          $('[name="tag_category_id"]').val(data.tag_category_id);
+
+          // workaround to select js-select
+          setTimeout(() => {
+            $('#tag_category_id-dropdown').find('[data-value="'+data.tag_category_id+'"].select__item--option').click();
+          }, 1);
+
           $('[name="tag_name"]').val(data.name);
           $('[name="tag_seo_title"]').val(data.seo_title);
           $modalForm.attr('action', data.submit_url);
