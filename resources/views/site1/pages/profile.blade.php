@@ -4,7 +4,7 @@
 <section>
   <div class="container max-width-adaptive-lg" id="userProfile">
     <div class="author author--featured">
-      <div class="profile__cover" aria-hidden="true" style="background-image: url('{{ auth()->user()->getCoverPhoto() }}" alt="{{ auth()->user()->name }}'s Cover Photo');"></div>
+      <div class="profile__cover radius-lg radius-top-left-0 radius-top-right-0" aria-hidden="true" style="background-image: url('{{ auth()->user()->getCoverPhoto() }}" alt="{{ auth()->user()->name }}'s Cover Photo');"></div>
       <a href="#" class="author__img-wrapper border border-4 border-white">
         <img src="{{ auth()->user()->getAvatar() }}" alt="Author picture">
       </a>
@@ -47,6 +47,165 @@
 
     </div>
   </div>
+</section>
+
+<div class="text-divider padding-bottom-xs text-lg max-width-adaptive-lg"><span>Olivia Gribben's Content</span></div>
+
+<section class="margin-top-md">
+  <div class="container max-width-adaptive-lg">
+<ul class="grid-auto-md gap-md">
+
+  <li>
+    <a href="#0" class="card-v8 bg radius-lg">
+      <figure>
+        <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Image description">
+      </figure>
+    
+      <footer class="padding-sm">
+        <p class="text-sm color-contrast-medium margin-bottom-sm">Label</p>
+        <div class="text-component">
+          <h4><span class="card-v8__title text-sm">Almost before we knew it, we had left the ground.</span></h4>
+        </div>
+      </footer>
+    </a>
+  </li>
+
+  <li>
+    <a href="#0" class="card-v8 bg radius-lg">
+      <figure>
+        <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Image description">
+      </figure>
+    
+      <footer class="padding-sm">
+        <p class="text-sm color-contrast-medium margin-bottom-sm">Label</p>
+        <div class="text-component">
+          <h4><span class="card-v8__title text-sm">Almost before we knew it, we had left the ground.</span></h4>
+        </div>
+      </footer>
+    </a>
+  </li>
+
+  <li>
+    <a href="#0" class="card-v8 bg radius-lg">
+      <figure>
+        <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Image description">
+      </figure>
+    
+      <footer class="padding-sm">
+        <p class="text-sm color-contrast-medium margin-bottom-sm">Label</p>
+        <div class="text-component">
+          <h4><span class="card-v8__title text-sm">Almost before we knew it, we had left the ground.</span></h4>
+        </div>
+      </footer>
+    </a>
+  </li>
+
+  <li>
+    <a href="#0" class="card-v8 bg radius-lg">
+      <figure>
+        <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Image description">
+      </figure>
+    
+      <footer class="padding-sm">
+        <p class="text-sm color-contrast-medium margin-bottom-sm">Label</p>
+        <div class="text-component">
+          <h4><span class="card-v8__title text-sm">Almost before we knew it, we had left the ground.</span></h4>
+        </div>
+      </footer>
+    </a>
+  </li>
+
+  <li>
+    <a href="#0" class="card-v8 bg radius-lg">
+      <figure>
+        <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Image description">
+      </figure>
+    
+      <footer class="padding-sm">
+        <p class="text-sm color-contrast-medium margin-bottom-sm">Label</p>
+        <div class="text-component">
+          <h4><span class="card-v8__title text-sm">Almost before we knew it, we had left the ground.</span></h4>
+        </div>
+      </footer>
+    </a>
+  </li>
+
+  <li>
+    <a href="#0" class="card-v8 bg radius-lg">
+      <figure>
+        <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Image description">
+      </figure>
+    
+      <footer class="padding-sm">
+        <p class="text-sm color-contrast-medium margin-bottom-sm">Label</p>
+        <div class="text-component">
+          <h4><span class="card-v8__title text-sm">Almost before we knew it, we had left the ground.</span></h4>
+        </div>
+      </footer>
+    </a>
+  </li>
+
+  <li>
+    <a href="#0" class="card-v8 bg radius-lg">
+      <figure>
+        <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Image description">
+      </figure>
+    
+      <footer class="padding-sm">
+        <p class="text-sm color-contrast-medium margin-bottom-sm">Label</p>
+        <div class="text-component">
+          <h4><span class="card-v8__title text-sm">Almost before we knew it, we had left the ground.</span></h4>
+        </div>
+      </footer>
+    </a>
+  </li>
+
+  <li>
+    <a href="#0" class="card-v8 bg radius-lg">
+      <figure>
+        <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Image description">
+      </figure>
+    
+      <footer class="padding-sm">
+        <p class="text-sm color-contrast-medium margin-bottom-sm">Label</p>
+        <div class="text-component">
+          <h4><span class="card-v8__title text-sm">Almost before we knew it, we had left the ground.</span></h4>
+        </div>
+      </footer>
+    </a>
+  </li>
+
+  <li>
+    <a href="#0" class="card-v8 bg radius-lg">
+      <figure>
+        <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Image description">
+      </figure>
+    
+      <footer class="padding-sm">
+        <p class="text-sm color-contrast-medium margin-bottom-sm">Label</p>
+        <div class="text-component">
+          <h4><span class="card-v8__title text-sm">Almost before we knew it, we had left the ground.</span></h4>
+        </div>
+      </footer>
+    </a>
+  </li>
+
+  <li>
+    <a href="#0" class="card-v8 bg radius-lg">
+      <figure>
+        <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Image description">
+      </figure>
+    
+      <footer class="padding-sm">
+        <p class="text-sm color-contrast-medium margin-bottom-sm">Label</p>
+        <div class="text-component">
+          <h4><span class="card-v8__title text-sm">Almost before we knew it, we had left the ground.</span></h4>
+        </div>
+      </footer>
+    </a>
+  </li>
+</ul>
+</div>
 </section>
 
 @endsection

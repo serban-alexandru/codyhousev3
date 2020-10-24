@@ -42,7 +42,7 @@ Usage: codyhouse.co/license
 
   .feature-bottom {
         .feature-v12__offset-item {
-          margin-top: calc(-0.4 * var(--feature-v12-offset, 2em));
+          margin-top: calc(-0.6 * var(--feature-v12-offset, 2em));
         }
       }
   
@@ -62,7 +62,7 @@ Usage: codyhouse.co/license
       object-fit: cover;
     }
 
-    @media (max-width: 80rem) {
+    @media (max-width: 60rem) {
         margin-top: -35px;
         margin-left: -20px;
         margin-right: -20px;
