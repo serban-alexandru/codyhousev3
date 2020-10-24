@@ -149,22 +149,29 @@ class TagController extends Controller
 
 
         $saved = $tag->save();
-        // dd($request->all(), $saved);
-
-        if ($saved) {
-            $response = [
-                'status'      => 'success',
-                'message'     => 'Tag has been saved.',
-                'data'        => $tag,
-                'tag_publish' => $request->boolean('tag_publish')
-            ];
-        }
 
         // if user uploads avatar
         if ($request->file('tag_image') !== null) {
+            // detete previous image
+            $media_items = $tag->getMedia('images');
+
+            // Loop through each images collection
+            foreach ($media_items as $key => $media_item) {
+                $media_item->delete(); // Delete image
+            }
 
             // set tag image
             $tag->addMediaFromRequest('tag_image')->toMediaCollection('images');
+        }
+
+        if ($saved) {
+            $response = [
+                'status'        => 'success',
+                'message'       => 'Tag has been saved.',
+                'data'          => $tag,
+                'tag_publish'   => $request->boolean('tag_publish'),
+                'tag_image_url' => $tag->getFirstMediaUrl('images'),
+            ];
         }
 
         return response()->json($response);
