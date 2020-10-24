@@ -2,11 +2,12 @@
 
 namespace Modules\Users\Entities;
 
+use File;
+use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-use Spatie\MediaLibrary\Models\Media;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
@@ -95,4 +96,50 @@ class User extends Authenticatable implements HasMedia
     {
         return (is_null($this->cover_photo)) ? false : true;
     }
+
+    public function getAvatar()
+    {
+        return (is_null($this->avatar))
+        ? asset('storage/users-images/avatars')
+        : asset('storage/users-images/avatars') . '/' . $this->avatar;
+    }
+
+    public function copyAvatar()
+    {
+        $media = Media::where('model_type', __CLASS__)
+            ->where('model_id', $this->id)
+            ->latest()
+            ->first();
+
+        $old_directory = storage_path() . '/app/public/' . $media->id . '/conversions/' . $media->name . '-thumb.jpg';
+        $new_directory = storage_path() . '/app/public/users-images/avatars';
+
+        // Add directory if does not exists.
+        File::ensureDirectoryExists($new_directory);
+
+        // Create random string
+        $name = md5(uniqid()) . time() . '.jpg';
+
+        File::copy($old_directory, $new_directory . '/' . $name);
+
+        return $name;
+    }
+
+    public function deleteMediaAvatar()
+    {
+        $query = Media::where('model_type', __CLASS__)
+            ->where('model_id', $this->id)
+            ->latest()
+            ->first();
+
+        if($query){
+            $user_avatar_folder_path = storage_path() . '/app/public/' . $query->id;
+            if(is_dir($user_avatar_folder_path)){
+                File::deleteDirectory($user_avatar_folder_path);
+
+                $query->delete();
+            }
+        }
+    }
+
 }

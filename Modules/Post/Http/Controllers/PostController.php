@@ -2,7 +2,7 @@
 
 namespace Modules\Post\Http\Controllers;
 
-use Arr, Str, Image;
+use Arr, Str, Image, File;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Modules\Post\Entities\{ PostSetting, Post };
@@ -150,7 +150,14 @@ class PostController extends Controller
                 $settings_height = $posts_settings->medium_height;
             }
 
-            $thumbnail = request()->file('thumbnail')->store('public/posts/images');
+            $post_image_path = storage_path() . '/app/public/posts';
+
+            // Ensure that original, and thumbnail folder exists
+            File::ensureDirectoryExists($post_image_path . '/original');
+            File::ensureDirectoryExists($post_image_path . '/thumbnail');
+            
+            // Save thumbnail image in file system
+            $thumbnail = request()->file('thumbnail')->store('public/posts/original');
             $thumbnail_name = Arr::last(explode('/', $thumbnail));
 
             $thumbnail_medium = Image::make(request()->file('thumbnail'));
@@ -158,7 +165,7 @@ class PostController extends Controller
                 $constraint->aspectRatio();
             });
             $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
-            $thumbnail_medium->save(base_path() . '/storage/app/public/posts/images/' . $thumbnail_medium_name);
+            $thumbnail_medium->save($post_image_path . '/thumbnail/' . $thumbnail_medium_name);
         }
         
         Post::create([
@@ -193,7 +200,7 @@ class PostController extends Controller
         $data['id'] = $post->id;
         $data['title'] = $post->title;
         $data['description'] = html_entity_decode($post->description);
-        $data['thumbnail'] = asset("storage/posts/images/{$post->thumbnail}");
+        $data['thumbnail'] = asset("storage/posts/original/{$post->thumbnail}");
         $data['page_title'] = $post->seo_page_title;
         $data['is_published'] = $post->is_published;
         $data['is_deleted'] = $post->is_deleted;
@@ -222,15 +229,32 @@ class PostController extends Controller
                 $settings_height = $posts_settings->medium_height;
             }
 
-            $thumbnail = request()->file('thumbnail')->store('public/posts/images');
+            $post_image_path = storage_path() . '/app/public/posts';
+
+            // Ensure that original, and thumbnail folder exists
+            File::ensureDirectoryExists($post_image_path . '/original');
+            File::ensureDirectoryExists($post_image_path . '/thumbnail');
+
+            // Save orignal image to file system
+            $thumbnail = request()->file('thumbnail')->store('public/posts/original');
             $thumbnail_name = Arr::last(explode('/', $thumbnail));
 
+            // Save thumbnail (medium) image to file system
             $thumbnail_medium = Image::make(request()->file('thumbnail'));
             $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
                 $constraint->aspectRatio();
             });
             $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
-            $thumbnail_medium->save(base_path() . '/storage/app/public/posts/images/' . $thumbnail_medium_name);
+            $thumbnail_medium->save($post_image_path . '/thumbnail/' . $thumbnail_medium_name);
+        
+            // Delete thumbnail if exists.
+            if(file_exists($post->getThumbnail())){
+                unlink($post->getThumbnail());
+            }
+
+            if(file_exists($post->getThumbnail('medium'))){
+                unlink($post->getThumbnail('medium'));
+            }
         }
 
         $post->update([

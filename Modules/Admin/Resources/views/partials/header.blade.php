@@ -1,8 +1,40 @@
 <header class="mega-nav mega-nav--mobile mega-nav--desktop@md position-relative js-mega-nav hide-nav js-hide-nav js-hide-nav--main">
   <div class="mega-nav__container">
     <!-- 👇 logo -->
-    <a href="http://127.0.0.1:8000/admin" class="mega-nav__logo">
-      <h2 class="logo">Curateship</h2>
+    <a href="{{ url('/') }}" class="mega-nav__logo padding-xxs">
+      <div class="flex gap-xxs">
+          <div>
+              <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+              width="25.000000pt" height="25.000000pt" viewBox="0 0 200.000000 200.000000"
+              preserveAspectRatio="xMidYMid meet">
+                <g transform="translate(0.000000,200.000000) scale(0.100000,-0.100000)"
+                fill="#ffffff" stroke="no">
+                <path d="M855 1989 c-234 -33 -481 -175 -630 -362 -457 -571 -175 -1417 532
+                -1598 42 -10 88 -19 103 -19 l27 0 12 118 c21 200 17 188 76 228 80 52 126
+                120 146 213 8 40 7 62 -6 113 -9 34 -20 67 -24 71 -5 5 -10 -25 -13 -67 -9
+                -131 -78 -235 -194 -292 -54 -27 -68 -29 -169 -29 -98 0 -116 3 -167 27 -76
+                35 -130 79 -158 130 -22 40 -23 41 -4 55 24 18 115 65 118 61 90 -149 183
+                -183 315 -117 99 49 128 126 78 200 -38 56 -81 79 -222 118 -62 16 -132 68
+                -162 118 -21 36 -27 63 -31 122 -4 68 -1 84 22 134 37 76 101 132 184 157 52
+                16 92 20 216 20 l152 0 12 116 c27 256 60 333 181 426 l35 26 -41 11 c-106 29
+                -269 37 -388 20z"/>
+                <path d="M1410 1819 c-50 -15 -85 -44 -105 -86 -15 -32 -24 -85 -49 -305 l-4
+                -38 124 0 124 0 0 -75 0 -75 -135 0 c-74 0 -135 -2 -135 -5 0 -4 -83 -718
+                -132 -1128 -6 -53 -9 -99 -6 -102 8 -8 160 23 234 49 269 91 503 315 604 579
+                52 132 63 199 64 357 1 221 -45 381 -161 559 -60 93 -198 236 -247 256 -45 19
+                -135 26 -176 14z"/>
+                <path d="M695 1226 c-42 -18 -68 -61 -69 -113 -2 -75 72 -132 244 -188 47 -15
+                91 -32 98 -38 7 -5 14 -8 16 -6 2 2 11 67 20 144 9 77 19 157 22 178 l6 37
+                -154 0 c-104 -1 -163 -5 -183 -14z"/>
+                </g>
+            </svg>
+          </div>
+
+       <!-- 👇 Logo Text -->
+          
+        <h2 class="logo">SaigonFinest</h2>
+          
+      </div>
     </a>
 
     <!-- 👇 icon buttons --mobile -->
@@ -22,8 +54,8 @@
       <div class="dropdown js-dropdown">
         <div class="mega-nav__icon-btn dropdown__wrapper inline-block">
           <a href="#0" class="color-inherit dropdown__trigger">
-            @if(Auth::user()->getMedia('avatars')->last())
-              <img src="{{ Auth::user()->getMedia('avatars')->last()->getFullUrl('thumb') }}" style="width: 32px; height: 32px; border-radius: 50%; vertical-align: middle;" alt="Logged in user avatar,">
+            @if(auth()->user()->avatar)
+              <img src="{{ auth()->user()->getAvatar() }}" style="width: 32px; height: 32px; border-radius: 50%; vertical-align: middle;" alt="Logged in user avatar,">
             @else
               <svg class="icon" viewBox="0 0 24 24">
                 <title>Go to account settings</title>
@@ -37,8 +69,6 @@
 
           <ul class="dropdown__menu" aria-label="submenu">
             <li><a href="{{ url('profile') }}" class="dropdown__item">Profile</a></li>
-            <li><a href="upload.html" class="dropdown__item">Upload</a></li>
-            <li><a href="#0" class="dropdown__item">Scrape</a></li>
             <li class="dropdown__separator" role="separator"></li>
             <li><a href="{{ url('users/settings') }}" class="dropdown__item">Account Settings</a></li>
             <li><a href="{{ url('/logout') }}" class="dropdown__item">Log out</a></li>
@@ -74,7 +104,7 @@
           <!-- 👇 layout 2 -> multiple lists -->
           <li class="mega-nav__item js-mega-nav__item">
             <button class="reset mega-nav__control js-mega-nav__control js-tab-focus">
-              Themes
+              Browse
               <i class="mega-nav__arrow-icon" aria-hidden="true">
                 <svg class="icon" viewBox="0 0 16 16">
                   <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
@@ -118,17 +148,11 @@
           </li>
           <!-- 👇 link -->
           <li class="mega-nav__item">
-            <a href="http://127.0.0.1:8000/admin/users" class="mega-nav__control">Users</a>
+            <a href="#" class="mega-nav__control">About us</a>
           </li>
           <li class="mega-nav__item">
-              <a href="http://127.0.0.1:8000/admin/blog" class="mega-nav__control">Blogs</a>
-            </li>
-          <li class="mega-nav__item">
-              <a href="http://127.0.0.1:8000/admin/article" class="mega-nav__control">Articles</a>
+            <a href="{{ url('admin') }}" class="mega-nav__control">Admin</a>
           </li>
-          <li class="mega-nav__item">
-            <a href="http://127.0.0.1:8000/admin/comment" class="mega-nav__control">Comments</a>
-        </li>
         </ul>
 
         <ul class="mega-nav__items js-main-nav custom-mega-nav__items-mobile">
@@ -152,8 +176,8 @@
             <div class="dropdown js-dropdown">
               <div class="mega-nav__icon-btn dropdown__wrapper inline-block">
                 <a href="#0" class="color-inherit flex height-100% width-100% flex-center dropdown__trigger">
-                  @if(Auth::user()->getMedia('avatars')->last())
-                    <img src="{{ Auth::user()->getMedia('avatars')->last()->getFullUrl('thumb') }}" style="width: 32px; height: 32px; border-radius: 50%;" alt="Logged in user avatar,">
+                  @if(auth()->user()->avatar)
+                    <img src="{{ auth()->user()->getAvatar() }}" style="width: 32px; height: 32px; border-radius: 50%;" alt="Logged in user avatar,">
                   @else
                     <svg class="icon" viewBox="0 0 24 24">
                       <title>Go to account settings</title>
@@ -166,9 +190,7 @@
                 </a>
 
                 <ul class="dropdown__menu" aria-label="submenu">
-                  <li><a href="{{ url('profile') }}" class="dropdown__item">Profile</a></li>
-                  <li><a href="upload.html" class="dropdown__item">Upload</a></li>
-                  <li><a href="#0" class="dropdown__item">Scrape</a></li>
+                  <li><a href="{{ url('site1/profile') }}" class="dropdown__item">Profile</a></li>
                   <li class="dropdown__separator" role="separator"></li>
                   <li><a href="{{ url('users/settings') }}" class="dropdown__item">Account Settings</a></li>
                   <li><a href="{{ url('/logout') }}" class="dropdown__item">Log out</a></li>
