@@ -12,4 +12,26 @@ class Post extends Model
     {
     	return $this->belongsTo(\Modules\Users\Entities\User::class);
     }
+
+    public function getThumbnail($type = 'original')
+    {
+    	if($type == 'original'){
+    		return storage_path() . '/app/public/posts/original/' . $this->thumbnail;
+    	}
+
+    	if($type == 'medium'){
+    		return storage_path() . '/app/public/posts/thumbnail/' . $this->thumbnail_medium;
+    	}
+    }
+
+    public function showThumbnail($type = 'original')
+    {
+    	if($type == 'original'){
+    		return asset('storage/posts/original') . '/' . $this->thumbnail;
+    	}
+
+    	if($type == 'medium'){
+    		return asset('storage/posts/thumbnail') . '/' . $this->thumbnail_medium;
+    	}
+    }
 }

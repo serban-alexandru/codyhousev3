@@ -2,8 +2,7 @@
 
 namespace Modules\Users\Http\Controllers;
 
-use DB;
-use File;
+use DB, File, Storage;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Users\Entities\Role;
@@ -146,6 +145,10 @@ class UsersController extends Controller
         $email           = $request->input('email');
         $username        = $request->input('username');
         $password        = $request->input('password');
+        $bio = $request->input('bio');
+        $twitter_link = $request->input('twitter_link');
+        $facebook_link = $request->input('facebook_link');
+        $instagram_link = $request->input('instagram_link');
         $selectedRoleKey = $request->input('role');
 
         // save updated user
@@ -161,6 +164,14 @@ class UsersController extends Controller
         $user->permission = $permission;
 
         $saved = $user->save();
+
+        AccountSetting::create([
+            'user_id' => $user->id,
+            'bio' => $bio,
+            'twitter_link' => $twitter_link,
+            'facebook_link' => $facebook_link,
+            'instagram_link' => $instagram_link
+        ]);
 
         $response = [
             'status'  => 'success',
@@ -196,7 +207,7 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
+        $user = User::with('account_setting')->find($id);
         $roles = DB::table('roles')->orderBy('id', 'desc')->get();
 
         if (!$user) {
@@ -233,6 +244,10 @@ class UsersController extends Controller
         $name = $request->input('name');
         $email = $request->input('email');
         $username = $request->input('username');
+        $bio = $request->input('bio');
+        $twitter_link = $request->input('twitter_link');
+        $facebook_link = $request->input('facebook_link');
+        $instagram_link = $request->input('instagram_link');
         $selectedRoleKey = $request->input('role');
 
         // save updated user
@@ -269,6 +284,24 @@ class UsersController extends Controller
                 'status'  => 'error',
                 'message' => 'Failed to save details. Please try again.',
             ];
+        }
+
+        // Update or create account setting if user have no account settings yet
+        if($user->account_setting){
+            $user->account_setting->update([
+                'bio' => $bio,
+                'twitter_link' => $twitter_link,
+                'facebook_link' => $facebook_link,
+                'instagram_link' => $instagram_link
+            ]);
+        } else {
+            AccountSetting::create([
+                'user_id' => $user->id,
+                'bio' => $bio,
+                'twitter_link' => $twitter_link,
+                'facebook_link' => $facebook_link,
+                'instagram_link' => $instagram_link
+            ]);
         }
 
         return response()->json($response);
@@ -617,6 +650,24 @@ class UsersController extends Controller
 
             // set avatar
             $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
+
+            // Copy avatar to specific folder
+            $new_avatar = auth()->user()->copyAvatar();
+
+            // Delete old avatar if not null
+            if(!is_null(auth()->user()->avatar)){
+                $user_old_avatar = auth()->user()->avatar;
+                $old_avatar_path = storage_path() . '/app/public/users-images/avatars/' . $user_old_avatar;
+                if(File::exists($old_avatar_path)){
+                    unlink($old_avatar_path);
+                }
+            }
+
+            // Update in users table
+            auth()->user()->update(['avatar' => $new_avatar]);
+
+            // Delete user avatar from the media table, and file system
+            auth()->user()->deleteMediaAvatar();
         }
 
         if (!$user->save()) {

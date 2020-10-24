@@ -51,10 +51,10 @@
       @auth
       <div class="dropdown js-dropdown">
         <div class="mega-nav__icon-btn dropdown__wrapper inline-block">
-            @if(Auth::user()->getMedia('avatars')->last())
+            @if(auth()->user()->avatar)
             <div class="author author--minimal-mobile dropdown__trigger">
               <a href="#0" class="author__img-wrapper">
-                <img src="{{ Auth::user()->getMedia('avatars')->last()->getFullUrl('thumb') }}" alt="Author picture">
+                <img src="{{ auth()->user()->getAvatar() }}" alt="Author picture">
             </div>
             @else
               <svg class="icon" viewBox="0 0 24 24">
