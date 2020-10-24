@@ -178,6 +178,7 @@
 
           if (editorData) {
             editor.render(editorData);
+            $('[name="tag_description"]').val(response.data.description);
           }
 
         })
