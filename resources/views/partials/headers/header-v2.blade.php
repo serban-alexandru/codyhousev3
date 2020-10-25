@@ -52,10 +52,10 @@
       @endguest
       @auth
       <div class="dropdown js-dropdown">
-        <div class="mega-nav__icon-btn dropdown__wrapper inline-block">
-          <a href="#0" class="color-inherit dropdown__trigger">
+        <div class="mega-nav__icon-btn dropdown__wrapper inline-block author author--minimal-mobile ">
+          <a href="#0" class="author__img-wrapper dropdown__trigger">
             @if(auth()->user()->avatar)
-              <img src="{{ auth()->user()->getAvatar() }}" style="width: 32px; height: 32px; border-radius: 50%; vertical-align: middle;" alt="Logged in user avatar,">
+              <img src="{{ auth()->user()->getAvatar() }}" alt="Logged in user avatar,">
             @else
               <svg class="icon" viewBox="0 0 24 24">
                 <title>Go to account settings</title>
@@ -174,8 +174,8 @@
 
             @auth
             <div class="dropdown js-dropdown">
-              <div class="mega-nav__icon-btn dropdown__wrapper inline-block">
-                <a href="#0" class="color-inherit flex height-100% width-100% flex-center dropdown__trigger">
+              <div class="mega-nav__icon-btn dropdown__wrapper inline-block author author--minimal-mobile">
+                <a href="#0" class="author__img-wrapper dropdown__trigger">
                   @if(auth()->user()->avatar)
                     <img src="{{ auth()->user()->getAvatar() }}" style="width: 32px; height: 32px; border-radius: 50%;" alt="Logged in user avatar,">
                   @else
