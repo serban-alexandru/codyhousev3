@@ -5,7 +5,8 @@ namespace Modules\Post\Http\Controllers;
 use Arr, Str, Image, File;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Modules\Post\Entities\{ PostSetting, Post };
+use Modules\Post\Entities\{ PostSetting, Post, PostsTag };
+use Modules\Tag\Entities\Tag;
 
 class PostController extends Controller
 {
@@ -155,7 +156,7 @@ class PostController extends Controller
             // Ensure that original, and thumbnail folder exists
             File::ensureDirectoryExists($post_image_path . '/original');
             File::ensureDirectoryExists($post_image_path . '/thumbnail');
-            
+
             // Save thumbnail image in file system
             $thumbnail = request()->file('thumbnail')->store('public/posts/original');
             $thumbnail_name = Arr::last(explode('/', $thumbnail));
@@ -167,17 +168,40 @@ class PostController extends Controller
             $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
             $thumbnail_medium->save($post_image_path . '/thumbnail/' . $thumbnail_medium_name);
         }
-        
-        Post::create([
-            'user_id' => auth()->user()->id,
-            'title' => request('title'),
-            'description' => htmlentities(request('description')) ?: NULL,
-            'thumbnail' => (request()->has('thumbnail')) ? $thumbnail_name : NULL,
+
+        $post = Post::create([
+            'user_id'          => auth()->user()->id,
+            'title'            => request('title'),
+            'description'      => htmlentities(request('description')) ?: NULL,
+            'thumbnail'        => (request()->has('thumbnail')) ? $thumbnail_name : NULL,
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : NULL,
-            'seo_page_title' => request('page_title') ?: NULL,
-            'tags' => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
-            'is_published' => request('is_published')
+            'seo_page_title'   => request('page_title') ?: NULL,
+            'tags'             => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
+            'is_published'     => request('is_published')
         ]);
+
+        // Insert tags on posts_tags table
+        $tags_input = request('tags');
+
+        foreach ($tags_input as $key => $tag_input) {
+            $tag = Tag::firstWhere('name', $tag_input);
+
+            // If tag doesn't exist yet, create it
+            if (!$tag) {
+                $tag                  = new Tag;
+                $tag->name            = $tag_input;
+                $tag->tag_category_id = 1;  // defaults to 1
+                $tag->save();
+            }
+
+            // Insert posts_tag
+            $posts_tag          = new PostsTag;
+            $posts_tag->post_id = $post->id;
+            $posts_tag->tag_id  = $tag->id;
+
+            $posts_tag->save();
+        }
+
 
         return response()->json([
             'status' => true,
@@ -246,7 +270,7 @@ class PostController extends Controller
             });
             $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
             $thumbnail_medium->save($post_image_path . '/thumbnail/' . $thumbnail_medium_name);
-        
+
             // Delete thumbnail if exists.
             if(file_exists($post->getThumbnail())){
                 unlink($post->getThumbnail());
