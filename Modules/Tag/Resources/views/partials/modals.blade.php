@@ -151,6 +151,62 @@
 </div><!-- /.modal -->
 <!-- Full Screen Modal End -->
 
+<!-- 👇 Full Screen Modal -->
+<div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll" id="modal-add-tag-category">
+  <form action="{{ route('tag-category.store') }}" method="post" class="modal__content height-100% tabs js-tabs width-100% max-width-sm bg radius-md shadow-md flex flex-column" id="add-tag-category-form" novalidate> @csrf
+    <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
+      <!-- 👇 Tabs -->
+      <nav class="tabs">
+        <ul class="flex flex-wrap gap-xl js-tabs__controls" aria-label="Tabs Interface">
+          <li><a href="#addTagCategoryTabPanel1" class="tabs__control" aria-selected="true">Add</a></li>
+        </ul>
+      </nav>
+      <!-- End Tabs -->
+
+      <button class="reset modal__close-btn modal__close-btn--inner js-modal__close js-tab-focus">
+        <svg class="icon" viewBox="0 0 20 20">
+          <title>Close modal window</title>
+          <g fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2">
+            <line x1="3" y1="3" x2="17" y2="17" />
+            <line x1="17" y1="3" x2="3" y2="17" />
+          </g>
+        </svg>
+      </button>
+    </header>
+
+    <!--Tab1 Content-->
+    <div class="padding-y-sm padding-x-md flex-grow overflow-auto">
+      <div class="js-tabs__panels">
+        <div class="alert js-alert form-alert" role="alert"> <!-- /.alert--is-visible alert -->
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              <div class="alert-message"></div><!-- /.alert-message -->
+            </div>
+          </div>
+        </div>
+        <section id="addTagCategoryTabPanel1" class="padding-top-md js-tabs__panel">
+            <div class="grid gap-sm">
+              <label class="form-label margin-bottom-xxs" for="tag_category_name">Enter Tag Category</label>
+              <input class="form-control width-100%" type="text" name="tag_category_name" id="tag_category_name" required>
+
+          </div>
+        </section>
+      </div>
+
+      <!-- 👇 End Tab Panels -->
+    </div><!-- /.padding-y-sm padding-x-md flex-grow overflow-auto -->
+
+    <footer class="padding-y-sm padding-x-md bg shadow-md flex-shrink-0">
+      <div class="flex justify-end gap-xs">
+        <input type="hidden" name="tag_category_id">
+        <button type="button" class="btn btn--subtle js-modal__close">Cancel</button>
+        <button type="submit" class="btn btn--primary">Save</button>
+      </div>
+    </footer>
+  </form><!-- /.modal__content -->
+</div><!-- /.modal -->
+<!-- Full Screen Modal End -->
+
 <div class="modal modal--search modal--animate-fade flex flex-center padding-md js-modal" id="modal-search">
   <div class="modal__content width-100% max-width-sm" role="alertdialog" aria-labelledby="modal-search-title" aria-describedby="">
     <form action="{{ route('tag.index') }}" class="full-screen-search">

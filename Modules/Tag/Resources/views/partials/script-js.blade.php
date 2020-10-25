@@ -196,6 +196,76 @@
         .always(function() {});
     });
 
+    // Add tag category form
+    $(document).on('submit', '#add-tag-category-form', function(e){
+      e.preventDefault();
+
+      var $this = $(this);
+      var $submitButtons = $this.find('button[type="submit"]');
+
+      var formData = $this.serialize();
+
+      var url = $this.attr('action');
+      var method = $this.attr('method');
+
+      var $feedback = $this.find('.form-alert');
+
+      // Disable buttons
+      $submitButtons.prop('disabled', true);
+
+      $.ajax({
+        url: url,
+        type: method,
+        dataType: 'JSON',
+        data: formData,
+        complete: function(){
+          //
+        },
+        success:function(response){
+          console.log(formData, response);
+
+          if (response.status === 'success') {
+            $feedback.removeClass('alert--error').addClass('alert--success alert--is-visible').html('<strong>Success!</strong> ' + response.message);
+
+            // reset
+            $this[0].reset();
+
+            window.location.reload();
+          }else{
+            $feedback.removeClass('alert--success').addClass('alert--error alert--is-visible').html(response.message);
+
+            // Enable buttons
+            $submitButtons.prop('disabled', false);
+          }
+        },
+        error: function(response){
+          console.log(response);
+          var jsonResponse = response.responseJSON;
+          var errors = jsonResponse.errors;
+          var errorsHTML = '';
+
+          console.log('ERROR', response.responseText);
+
+          $.each( errors, function( key, value ) {
+            errorsHTML += value[0];
+
+            if (key < errors.length - 1) {
+              errorsHTML += errorsHTML + '</br>';
+            }
+
+          });
+
+          $feedback.removeClass('alert--success').addClass('alert--error alert--is-visible').html(errorsHTML);
+
+          // Enable buttons
+          $submitButtons.prop('disabled', false);
+
+          console.log('ERRORS', errorsHTML);
+
+        }
+        });
+    });
+
   })();
 </script>
 
