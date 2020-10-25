@@ -713,7 +713,7 @@ class UsersController extends Controller
     {
         $user = auth()->user();
 
-        if(!$user->getMedia('avatars')){
+        if(!$user->avatar){
             return response()->json([
                 'status' => true,
                 'redirect_url' => url('users/settings')
@@ -721,7 +721,8 @@ class UsersController extends Controller
         }
 
         // Delete all avatars associated with this user
-        $user->clearMediaCollection('avatars');
+        $user->deleteAvatarFile();
+        $user->update(['avatar' => NULL]);
 
         return response()->json([
             'status' => true,

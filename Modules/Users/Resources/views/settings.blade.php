@@ -54,7 +54,7 @@
                   <button
                     type="button" 
                     id="btnDeleteAvatar"
-                    @if(Auth::user()->getMedia('avatars')->last())
+                    @if(auth()->user()->avatar)
                       class="btn btn--subtle"
                     @else
                       class="btn btn--subtle btn--disabled"

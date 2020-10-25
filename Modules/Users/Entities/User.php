@@ -141,4 +141,10 @@ class User extends Authenticatable implements HasMedia
         }
     }
 
+    public function deleteAvatarFile()
+    {
+        $path = storage_path() . '/app/public/users-images/avatars/' . $this->avatar;
+        unlink($path);
+    }
+
 }
