@@ -166,7 +166,9 @@
             <td class="int-table__cell">
               <a href="{{ route('tag.edit', [$tag->id]) }}" data-url="{{ route('tag.edit', [$tag->id]) }}" data-method="get" aria-controls="modal-add-tag" class="site-load-modal-edit-form">{{ $tag->name }}</a>
             </td>
-            <td class="int-table__cell">0</td>
+            <td class="int-table__cell">
+              {{ Modules\Post\Entities\PostsTag::where('tag_id', $tag->id)->count() }}
+            </td>
             <td class="int-table__cell">{{ $tag->category_name }}</td>
             <td class="int-table__cell text-center">
               @if($tag->getFirstMediaUrl('images') != '')
