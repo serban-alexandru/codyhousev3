@@ -111,5 +111,32 @@ body {
 }
 .mce-branding-powered-by{ display: none; }
 
+.post-table-image-wrapper { // img link
+    display: inline-block;
+    width: 50px;
+    height: 45px;
+    border-radius: 10%;
+    overflow: hidden;
+    transition: transform .2s var(--bounce);
+  
+    &:hover {
+      transform: scale(1.1);
+    }
+  
+    img {
+      display: block;
+      width: inherit;
+      height: inherit;
+      object-fit: cover;
+    }
+  }
+
+.post-table-image {
+    --author-img-size: 1.7em;
+    align-items: center;
+    grid-gap: var(--space-xs);
+  }
+
 // CSS import for select2 library
 @import "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css";
+

@@ -137,9 +137,11 @@
             <td class="int-table__cell">{{ $post->created_at->format('m/d/Y') }}</td>
             <td class="int-table__cell text-center">
               @if(is_null($post->thumbnail_medium))
-                <span class="author__img-wrapper bg-black bg-opacity-50%"></span>
+                <span class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%"></span>
               @else
-                <img src="{{ $post->showThumbnail('medium') }}" width="40" height="40" style="object-fit: cover; object-position: center;">
+              <span class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%">
+                <img src="{{ $post->showThumbnail('medium') }}">
+              </span>
               @endif
             </td>
             
