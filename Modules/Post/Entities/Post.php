@@ -15,13 +15,15 @@ class Post extends Model
 
     public function getThumbnail($type = 'original')
     {
-    	if($type == 'original'){
+    	if($type == 'original' && $this->thumbnail){
     		return storage_path() . '/app/public/posts/original/' . $this->thumbnail;
     	}
 
-    	if($type == 'medium'){
+    	if($type == 'medium' && $this->thumbnail_medium){
     		return storage_path() . '/app/public/posts/thumbnail/' . $this->thumbnail_medium;
     	}
+
+        return false;
     }
 
     public function showThumbnail($type = 'original')
