@@ -190,7 +190,8 @@ class PostController extends Controller
             if (!$tag) {
                 $tag                  = new Tag;
                 $tag->name            = $tag_input;
-                $tag->tag_category_id = 1;  // defaults to 1
+                $tag->tag_category_id = 1; // defaults to 1
+                $tag->published       = true;
                 $tag->save();
             }
 
