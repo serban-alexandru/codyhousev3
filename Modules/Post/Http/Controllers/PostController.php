@@ -229,7 +229,25 @@ class PostController extends Controller
         $data['page_title'] = $post->seo_page_title;
         $data['is_published'] = $post->is_published;
         $data['is_deleted'] = $post->is_deleted;
-        $data['tags'] = ($post->tags) ? '<option selected>' . implode('</option><option selected>', explode(',', $post->tags)) . '</option>' : '';
+
+        // Get tags from `posts_tags` table
+        $posts_tags = $post->postsTag()->get();
+        $post->tags = null; // Force override
+
+        // Get tag names to string to retain old format
+        foreach ($posts_tags as $key => $posts_tag) {
+            $tag = Tag::find($posts_tag->tag_id);
+            $post->tags .= $tag->name . ',';
+        }
+
+        $post->tags = rtrim($post->tags, ',');
+
+        $data['tags'] = ($post->tags) ?
+                        '<option selected>' .
+                            implode('</option><option selected>',
+                                explode(',', $post->tags)
+                            ) .
+                        '</option>' : '';
 
 
         return $data;
@@ -290,6 +308,32 @@ class PostController extends Controller
             'seo_page_title' => request('page_title') ?: NULL,
             'tags' => (request()->has('tags')) ? implode(',', request('tags')) : NULL
         ]);
+
+        // Delete all previous tags on `posts_tags` table with this post
+        $delete_posts_tags = PostsTag::where('post_id', $post->id)->delete();
+
+        // Insert tags on `posts_tags` table
+        $tags_input = request('tags');
+
+        foreach ($tags_input as $key => $tag_input) {
+            $tag = Tag::firstWhere('name', $tag_input);
+
+            // If tag doesn't exist yet, create it
+            if (!$tag) {
+                $tag                  = new Tag;
+                $tag->name            = $tag_input;
+                $tag->tag_category_id = 1; // defaults to 1
+                $tag->published       = true;
+                $tag->save();
+            }
+
+            // Insert posts_tag
+            $posts_tag          = new PostsTag;
+            $posts_tag->post_id = $post->id;
+            $posts_tag->tag_id  = $tag->id;
+
+            $posts_tag->save();
+        }
 
         return response()->json([
             'status' => true,

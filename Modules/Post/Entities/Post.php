@@ -39,7 +39,7 @@ class Post extends Model
     	}
 		}
 
-		public function tags()
+		public function postsTag()
     {
         return $this->hasMany(PostsTag::class);
 		}
