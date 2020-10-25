@@ -33,7 +33,8 @@
                     </div>
               
                 </fieldset>
-              
+                
+                {{-- 
                 <fieldset class="margin-top-xxl">
                   <h3 class="margin-bottom-sm">Image Setting</h3>
               
@@ -46,8 +47,9 @@
                     @endforeach
                   </div>
                 </fieldset>
+                 --}}
 
-                <fieldset class="margin-top-xxl">
+                <fieldset class="margin-top-xl">
                   <h3 class="margin-bottom-sm">Listing per page</h3>
                     <div class="col-6@md">
                       <input class="form-control width-100%" type="text" value="{{ old('list_per_page') ? old('list_per_page') : ((!is_null($posts_settings)) ? $posts_settings->list_per_page : '') }}" name="list_per_page" id="listPerPage" placeholder="Enter amount">
