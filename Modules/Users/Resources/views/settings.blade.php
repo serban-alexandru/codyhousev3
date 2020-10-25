@@ -2,7 +2,6 @@
 
 @section('in-head')
   <link rel="stylesheet" href="{{ asset('assets/js/croppie/croppie.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('modules/users/css/cover-photo.css') }}">
 @stop
 
 @section('content')
