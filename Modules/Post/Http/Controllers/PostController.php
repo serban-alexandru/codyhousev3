@@ -108,7 +108,7 @@ class PostController extends Controller
         $this->validate(request(), [
             'medium_width' => 'required|max:255',
             'medium_height' => 'required|max:255',
-            'image_setting' => 'in:maintain,crop'
+            // 'image_setting' => 'in:maintain,crop'
         ]);
 
         if($method == 'create'){

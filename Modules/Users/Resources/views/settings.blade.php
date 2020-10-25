@@ -2,7 +2,6 @@
 
 @section('in-head')
   <link rel="stylesheet" href="{{ asset('assets/js/croppie/croppie.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('modules/users/css/cover-photo.css') }}">
 @stop
 
 @section('content')
@@ -54,7 +53,7 @@
                   <button
                     type="button" 
                     id="btnDeleteAvatar"
-                    @if(Auth::user()->getMedia('avatars')->last())
+                    @if(auth()->user()->avatar)
                       class="btn btn--subtle"
                     @else
                       class="btn btn--subtle btn--disabled"
