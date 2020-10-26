@@ -372,5 +372,51 @@ class TagController extends Controller
 
     }
 
+    public function draft(Request $request, $id)
+    {
+
+        $tag = Tag::find($id);
+        $responseMessage = 'Something went wrong. Please try again.';
+
+        // If tag not found
+        if (!$tag) {
+            return back()->with('responseMessage', 'Tag not found.');
+        }
+
+        $tag->published = false;
+        $saved          = $tag->save();
+
+        if ($saved) {
+            $responseMessage = 'Tag "'. $tag->name . '" has been moved to drafts.';
+        }else{
+            $responseMessage = 'Failed to move tag "'. $tag->name . '" to drafts. Please try again.';
+        }
+
+        return back()->with('responseMessage', $responseMessage);
+
+    }
+
+    public function publish(Request $request, $id)
+    {
+        $tag = Tag::find($id);
+        $responseMessage = 'Something went wrong. Please try again.';
+
+        // If tag not found
+        if (!$tag) {
+            return back()->with('responseMessage', 'Tag not found.');
+        }
+
+        $tag->published = true;
+        $saved          = $tag->save();
+
+        if ($saved) {
+            $responseMessage = 'Tag "'. $tag->name . '" has been published.';
+        }else{
+            $responseMessage = 'Failed to publish tag "'. $tag->name . '". Please try again.';
+        }
+
+        return back()->with('responseMessage', $responseMessage);
+    }
+
 
 }

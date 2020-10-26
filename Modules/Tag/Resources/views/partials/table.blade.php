@@ -188,11 +188,23 @@
                 </li>
 
                 <li>
-                  <a href="{{ route('tag.edit', [$tag->id]) }}" role="menuitem" data-url="{{ route('tag.edit', [$tag->id]) }}" data-method="get" aria-controls="modal-add-tag" class="site-load-modal-edit-form menu-bar__item menu-bar__item--hide">
+                  <a
+                    href="
+                      {{
+                        ($tag->published) ?
+                          route('tag.draft', [$tag->id]) :
+                          route('tag.publish', [$tag->id])
+                      }}
+                    "
+                    role="menuitem" class="site-load-modal-edit-form menu-bar__item menu-bar__item--hide">
                   <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 12 12">
                     <path d="M10.121.293a1,1,0,0,0-1.414,0L1,8,0,12l4-1,7.707-7.707a1,1,0,0,0,0-1.414Z"></path>
                   </svg>
-                  <span class="menu-bar__label">Edit</span>
+                  <span class="menu-bar__label">
+                    {{
+                      ($tag->published) ? 'Move to Drafts' : 'Publish'
+                    }}
+                  </span>
                   </a>
                 </li>
 
