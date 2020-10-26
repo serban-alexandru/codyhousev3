@@ -35,7 +35,7 @@
 </form>
 
 <div id="table-1" class="int-table text-sm js-int-table">
-    <div class="int-table__inner">
+    <div class="int-table__inner" style="overflow: unset;">
       <table class="int-table__table" aria-label="Interactive table example">
         @if($tags->count() > 0)
         <thead class="int-table__header js-int-table__header">
@@ -177,7 +177,7 @@
                 None
               @endif
             </td>
-            <td class="int-table__cell text-left">
+            <td class="int-table__cell text-left" style="overflow: unset;">
 
               <menu class="menu-bar menu-bar--expanded@md js-menu-bar">
                 <li class="menu-bar__item menu-bar__item--trigger js-menu-bar__trigger align-left" role="menuitem" aria-label="More options">
@@ -187,8 +187,8 @@
                     <circle cx="14.5" cy="7.5" r="1.5" /></svg>
                 </li>
 
-                <li class="menu-bar__item menu-bar__item--hide" role="menuitem">
-                  <a href="{{ route('tag.edit', [$tag->id]) }}" data-url="{{ route('tag.edit', [$tag->id]) }}" data-method="get" aria-controls="modal-add-tag" class="site-load-modal-edit-form">
+                <li>
+                  <a href="{{ route('tag.edit', [$tag->id]) }}" role="menuitem" data-url="{{ route('tag.edit', [$tag->id]) }}" data-method="get" aria-controls="modal-add-tag" class="site-load-modal-edit-form menu-bar__item menu-bar__item--hide">
                   <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 12 12">
                     <path d="M10.121.293a1,1,0,0,0-1.414,0L1,8,0,12l4-1,7.707-7.707a1,1,0,0,0,0-1.414Z"></path>
                   </svg>
@@ -196,7 +196,7 @@
                   </a>
                 </li>
 
-                <li class="menu-bar__item menu-bar__item--hide" role="menuitem">
+                <li>
                   <a
                     href="
                       {{
@@ -204,12 +204,17 @@
                                       : route('tag.trash', ['id' => $tag->id])
                       }}
                     "
+                    class="menu-bar__item menu-bar__item--hide" role="menuitem"
                   >
                     <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
                       <path d="M2,6v8c0,1.1,0.9,2,2,2h8c1.1,0,2-0.9,2-2V6H2z"></path>
                       <path d="M12,3V1c0-0.6-0.4-1-1-1H5C4.4,0,4,0.4,4,1v2H0v2h16V3H12z M10,3H6V2h4V3z"></path>
                     </svg>
-                    <span class="menu-bar__label">Delete</span>
+                    <span class="menu-bar__label">
+                      {{
+                        ($is_trashed) ? 'Delete' : 'Move to Trash'
+                      }}
+                    </span>
                   </a>
                 </li>
 
