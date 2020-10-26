@@ -38,7 +38,7 @@
     </a>
 
     <!-- 👇 icon buttons --mobile -->
-    <div class="mega-nav__icon-btns mega-nav__icon-btns--mobile gap-xxxs">
+    <div class="mega-nav__icon-btns mega-nav__icon-btns--mobile gap-xxxxs">
       @guest
       <a href="#0" class="mega-nav__icon-btn js-signin-modal-trigger" data-signin="login">
         <svg class="icon" viewBox="0 0 24 24" class="js-signin-modal-trigger" data-signin="login">
@@ -178,14 +178,14 @@
 
             @auth
             <!-- With avatar -->
-            <div class="dropdown js-dropdown padding-xxxs">
+            <div class="dropdown js-dropdown padding-right-xxxs">
               <div class="mega-nav__icon-btn dropdown__wrapper inline-block author author--minimal-mobile">
                 <a href="#0" class="author__img-wrapper author--minimal dropdown__trigger">
                   @if(auth()->user()->avatar)
                     <img src="{{ auth()->user()->getAvatar() }}" alt="Logged in user avatar,">
                   @else
                     <!-- Without avatar -->
-                    <div class="mega-nav__icon-btn dropdown__wrapper inline-block padding-xxs">
+                    <div class="mega-nav__icon-btn dropdown__wrapper inline-block">
                     <svg class="icon" viewBox="0 0 24 24">
                       <title>Go to account settings</title>
                       <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
