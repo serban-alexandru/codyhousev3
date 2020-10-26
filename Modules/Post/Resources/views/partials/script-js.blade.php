@@ -105,7 +105,7 @@
   function select2ForTags(selector){
     $(selector).select2({
       tags: true,
-      tokenSeparators: [",", " "]
+      tokenSeparators: [","]
     }).on('select2:open', function(e){
       $('.select2-container--open .select2-dropdown--below').css('display','none');
     });
@@ -292,7 +292,7 @@
 
     // Check all boxes when the checkall box checkbox is checked
     $(document).on('click', '#checkboxDeleteAll', function(){
-      
+
       if($(this).is(':checked')){
         $('.checkbox-delete').prop('checked', true);
       } else {
@@ -306,7 +306,7 @@
           checkPostCount++
         }
       });
-      
+
       $('#deleteBadge').html(checkPostCount);
 
       if($('.checkbox-delete:checked').length){
@@ -331,7 +331,7 @@
 
     $(document).on('change', '#upload-file', function(){
       var ddfArea = $(this).closest('.ddf__area');
-      
+
       ddfArea.addClass('ddf__area--file-dropped');
       ddfArea.find('.js-ddf__files-counter').html("1 selected file");
     });
