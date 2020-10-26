@@ -132,7 +132,7 @@ class TagController extends Controller
 
         // validate data
         $this->validate($request,[
-            'tag_name'        => ['required', 'alpha_num', 'max:255'],
+            'tag_name'        => ['required', 'max:255'],
             'tag_category_id' => ['required', 'exists:tag_categories,id'],
         ]);
 
