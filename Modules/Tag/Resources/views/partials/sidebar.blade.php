@@ -57,7 +57,10 @@
             <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g><path d="M14,6.883V13H2V6.82L0,5.695V14c0,0.553,0.448,1,1,1h14c0.552,0,1-0.447,1-1V5.783L14,6.883z"></path><path d="M15,1H1C0.4,1,0,1.4,0,2v1.4l8,4.5l8-4.4V2C16,1.4,15.6,1,15,1z"></path></g></svg>
             <span class="sidenav__text">{{ $tag_category->name }}</span>
 
-            <span class="sidenav__counter">{{ $tag_category->tag()->count() }} <i class="sr-only">count</i></span>
+            <span class="sidenav__counter">
+              {{ $tag_category->tag()->where('is_trashed', false)->count() }}
+              <i class="sr-only">count</i>
+            </span>
           </a>
         </li>
       @endforeach
