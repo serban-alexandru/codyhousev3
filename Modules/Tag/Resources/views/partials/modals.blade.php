@@ -75,7 +75,7 @@
         <section id="tab1Panel2" class="padding-top-md js-tabs__panel">
           <div class="ddf">
             <div class="ddf__area padding-y-xl padding-x-md js-ddf__area">
-              <input class="ddf__input sr-only js-ddf__input" type="file" id="upload-file" name="tag_image">
+              <input class="ddf__input sr-only js-ddf__input" type="file" id="upload-file" name="tag_image" accept="image/*">
 
               <label class="ddf__label js-ddf__label" for="upload-file">
                 <i class="ddf__label-inner">

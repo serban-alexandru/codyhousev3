@@ -285,6 +285,13 @@
       $('#site-table-with-pagination-container').load(url);
     });
 
+    $(document).on('change', '#upload-file', function(){
+      var ddfArea = $(this).closest('.ddf__area');
+
+      ddfArea.addClass('ddf__area--file-dropped');
+      ddfArea.find('.js-ddf__files-counter').html("1 selected file");
+    });
+
   })();
 </script>
 @endauth
