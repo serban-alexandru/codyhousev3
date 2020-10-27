@@ -11,6 +11,7 @@ use DB;
 use Modules\Tag\Entities\Tag;
 use Modules\Tag\Entities\TagCategory;
 use Modules\Users\Entities\User;
+use Modules\Post\Entities\PostsTag;
 
 class TagController extends Controller
 {
@@ -231,6 +232,12 @@ class TagController extends Controller
             return back()->with('responseMessage', 'Tag not found.');
         }
 
+        $post_tag = PostsTag::firstWhere('tag_id', $tag->id);
+
+        if ($post_tag) {
+            return back()->with('responseMessage', 'Cannot permanently delete tag because it is used on a post.');
+        }
+
         $media_items = $tag->getMedia('images');
 
         // Loop through each images collection
@@ -287,15 +294,22 @@ class TagController extends Controller
 
         // Loop through each tags
         foreach ($tags->get() as $key => $tag) {
+
+            $post_tag = PostsTag::firstWhere('tag_id', $tag->id);
+
+            if ($post_tag) {
+                return back()->with('responseMessage', 'Cannot permanently delete tag "'.$tag->name.'" because it is used on a post.');
+            }
+
             $media_items = $tag->getMedia('images');
+
+            $tag->delete();
 
             // Loop through each images collection
             foreach ($media_items as $key => $media_item) {
                 $media_item->delete(); // Delete image
             }
         }
-
-        $deleted = $tags->delete();
 
         $responseMessage = 'Trash has been empty.';
 
