@@ -58,7 +58,12 @@
             <span class="sidenav__text">{{ $tag_category->name }}</span>
 
             <span class="sidenav__counter">
-              {{ $tag_category->tag()->where('is_trashed', false)->count() }}
+              {{
+                $tag_category->tag()->where([
+                  'published'  => true,
+                  'is_trashed' => false
+                ])->count()
+              }}
               <i class="sr-only">count</i>
             </span>
           </a>
