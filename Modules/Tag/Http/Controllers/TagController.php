@@ -55,10 +55,7 @@ class TagController extends Controller
         }
 
         // Check if tag is published
-        $tags = ($request->has('published'))
-                ? $tags->where('published', $published)
-                : $tags->where('published', true);
-        ;
+        $tags = $tags->where('published', $published);
 
         // Check if tag is trashed
         $tags = $tags->where('is_trashed', $is_trashed);
