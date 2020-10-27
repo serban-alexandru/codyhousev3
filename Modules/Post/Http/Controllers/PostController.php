@@ -180,27 +180,29 @@ class PostController extends Controller
             'is_published'     => request('is_published')
         ]);
 
-        // Insert tags on posts_tags table
-        $tags_input = request('tags');
+        if (request()->has('tags')) {
+            // Insert tags on posts_tags table
+            $tags_input = request('tags');
 
-        foreach ($tags_input as $key => $tag_input) {
-            $tag = Tag::firstWhere('name', $tag_input);
+            foreach ($tags_input as $key => $tag_input) {
+                $tag = Tag::firstWhere('name', $tag_input);
 
-            // If tag doesn't exist yet, create it
-            if (!$tag) {
-                $tag                  = new Tag;
-                $tag->name            = $tag_input;
-                $tag->tag_category_id = 1; // defaults to 1
-                $tag->published       = true;
-                $tag->save();
+                // If tag doesn't exist yet, create it
+                if (!$tag) {
+                    $tag                  = new Tag;
+                    $tag->name            = $tag_input;
+                    $tag->tag_category_id = 1; // defaults to 1
+                    $tag->published       = true;
+                    $tag->save();
+                }
+
+                // Insert posts_tag
+                $posts_tag          = new PostsTag;
+                $posts_tag->post_id = $post->id;
+                $posts_tag->tag_id  = $tag->id;
+
+                $posts_tag->save();
             }
-
-            // Insert posts_tag
-            $posts_tag          = new PostsTag;
-            $posts_tag->post_id = $post->id;
-            $posts_tag->tag_id  = $tag->id;
-
-            $posts_tag->save();
         }
 
 
@@ -309,30 +311,33 @@ class PostController extends Controller
             'tags' => (request()->has('tags')) ? implode(',', request('tags')) : NULL
         ]);
 
-        // Delete all previous tags on `posts_tags` table with this post
-        $delete_posts_tags = PostsTag::where('post_id', $post->id)->delete();
+        if (request()->has('tags')) {
 
-        // Insert tags on `posts_tags` table
-        $tags_input = request('tags');
+            // Delete all previous tags on `posts_tags` table with this post
+            $delete_posts_tags = PostsTag::where('post_id', $post->id)->delete();
 
-        foreach ($tags_input as $key => $tag_input) {
-            $tag = Tag::firstWhere('name', $tag_input);
+            // Insert tags on `posts_tags` table
+            $tags_input = request('tags');
 
-            // If tag doesn't exist yet, create it
-            if (!$tag) {
-                $tag                  = new Tag;
-                $tag->name            = $tag_input;
-                $tag->tag_category_id = 1; // defaults to 1
-                $tag->published       = true;
-                $tag->save();
+            foreach ($tags_input as $key => $tag_input) {
+                $tag = Tag::firstWhere('name', $tag_input);
+
+                // If tag doesn't exist yet, create it
+                if (!$tag) {
+                    $tag                  = new Tag;
+                    $tag->name            = $tag_input;
+                    $tag->tag_category_id = 1; // defaults to 1
+                    $tag->published       = true;
+                    $tag->save();
+                }
+
+                // Insert posts_tag
+                $posts_tag          = new PostsTag;
+                $posts_tag->post_id = $post->id;
+                $posts_tag->tag_id  = $tag->id;
+
+                $posts_tag->save();
             }
-
-            // Insert posts_tag
-            $posts_tag          = new PostsTag;
-            $posts_tag->post_id = $post->id;
-            $posts_tag->tag_id  = $tag->id;
-
-            $posts_tag->save();
         }
 
         return response()->json([
