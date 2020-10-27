@@ -55,11 +55,16 @@ class TagController extends Controller
             $tags = $tags->where('tag_categories.id', $tag_category_id);
         }
 
-        // Check if tag is published
-        $tags = $tags->where('published', $published);
-
         // Check if tag is trashed
         $tags = $tags->where('is_trashed', $is_trashed);
+
+        if (!$is_trashed) {
+            // Check if tag is published if `is_trashed` is false
+            $tags = ($request->has('published'))
+                ? $tags->where('published', $published)
+                : $tags->where('published', true);
+            ;
+        }
 
         // If search query is not null then apply where clauses
         if ($q != null) {
