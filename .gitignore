@@ -12,3 +12,9 @@ npm-debug.log
 yarn-error.log
 public/vendor/laravel-filemanager
 resources/views/vendor/laravel-filemanager
+
+
+Homestead.json
+Homestead.yaml
+.vagrant/
+adminer.php

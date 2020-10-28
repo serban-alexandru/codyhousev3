@@ -4,6 +4,8 @@ namespace Modules\Post\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Modules\Post\Entities\PostsTag;
+
 class Post extends Model
 {
     protected $guarded = ['id'];
@@ -35,5 +37,11 @@ class Post extends Model
     	if($type == 'medium'){
     		return asset('storage/posts/thumbnail') . '/' . $this->thumbnail_medium;
     	}
-    }
+		}
+
+		public function postsTag()
+    {
+        return $this->hasMany(PostsTag::class);
+		}
+
 }

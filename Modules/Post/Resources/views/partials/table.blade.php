@@ -7,7 +7,7 @@
   </div>
 @endif
 <div id="table-1" class="int-table text-sm js-int-table">
-    <div class="int-table__inner"  id="site-table-container">
+    <div class="int-table__inner" id="site-table-container" style="overflow: unset;">
       <table class="int-table__table" aria-label="Interactive table example">
         <thead class="int-table__header js-int-table__header">
           <tr class="int-table__row">
@@ -144,9 +144,9 @@
               </span>
               @endif
             </td>
-            
+
             @if(!$post->is_deleted || ($post->is_published && !$post->is_deleted))
-              <td class="int-table__cell text-center flex">
+              <td class="int-table__cell text-center flex" style="overflow: unset;">
                 @if(!$post->is_deleted)
                   <form action="{{ route('posts.delete') }}" method="post">
                     @csrf
@@ -173,7 +173,7 @@
                 @endif
               </td>
             @endif
-            
+
             @if(!$post->is_published && !$post->is_deleted)
               <td>
                 <a href="{{ route('posts.publish', ['id' => $post->id]) }}" class="btn">Publish</a>

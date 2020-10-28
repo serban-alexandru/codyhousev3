@@ -5,10 +5,11 @@ namespace Modules\Users\Entities;
 use File;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Notifications\Notifiable;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 class User extends Authenticatable implements HasMedia
 {
@@ -118,7 +119,7 @@ class User extends Authenticatable implements HasMedia
 
         // Create random string
         $name = md5(uniqid()) . time() . '.jpg';
-        
+
         File::copy($old_directory, $new_directory . '/' . $name);
 
         return $name;
@@ -135,7 +136,7 @@ class User extends Authenticatable implements HasMedia
             $user_avatar_folder_path = storage_path() . '/app/public/' . $query->id;
             if(is_dir($user_avatar_folder_path)){
                 File::deleteDirectory($user_avatar_folder_path);
-                
+
                 $query->delete();
             }
         }

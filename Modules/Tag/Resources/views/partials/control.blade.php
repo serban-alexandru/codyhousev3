@@ -33,7 +33,7 @@
                       <circle cx="14.5" cy="7.5" r="1.5" /></svg>
                   </li>
 
-                  <li class="menu-bar__item " role="menuitem">
+                  <li class="menu-bar__item " role="menuitem" onclick="location.reload();">
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>ic_refresh_48px</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f9f9f9"></rect>
                         <g transform="translate(12 12) scale(0.5)" fill="#666666">
                             <path d="M35.3 12.7C32.41 9.8 28.42 8 24 8 15.16 8 8.02 15.16 8.02 24S15.16 40 24 40c7.45 0 13.69-5.1 15.46-12H35.3c-1.65 4.66-6.07 8-11.3 8-6.63 0-12-5.37-12-12s5.37-12 12-12c3.31 0 6.28 1.38 8.45 3.55L26 22h14V8l-4.7 4.7z"></path>
@@ -55,20 +55,26 @@
                       <circle cx="1.5" cy="7.5" r="1.5" />
                       <circle cx="14.5" cy="7.5" r="1.5" /></svg>
                   </li>
-                  <li class="menu-bar__item" role="menuitem">
+                  <li class="menu-bar__item" role="menuitem" data-control-form="#form-bulk-delete">
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>trash-simple</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f9f9f9"></rect><g transform="translate(12 12) scale(0.5)" fill="#666666"><path fill="#666666" d="M7,13v32c0,1.105,0.895,2,2,2h30c1.105,0,2-0.895,2-2V13H7z M17,38c0,0.552-0.447,1-1,1s-1-0.448-1-1V22 c0-0.552,0.447-1,1-1s1,0.448,1,1V38z M25,38c0,0.552-0.447,1-1,1s-1-0.448-1-1V22c0-0.552,0.447-1,1-1s1,0.448,1,1V38z M33,38 c0,0.552-0.447,1-1,1s-1-0.448-1-1V22c0-0.552,0.447-1,1-1s1,0.448,1,1V38z"></path> <path d="M46,9H33V2c0-0.552-0.447-1-1-1H16c-0.553,0-1,0.448-1,1v7H2c-0.553,0-1,0.448-1,1 s0.447,1,1,1h44c0.553,0,1-0.448,1-1S46.553,9,46,9z M31,9H17V3h14V9z"></path></g></svg>
                     <span class="menu-bar__label">Delete</span>
-                    <span class="counter counter--critical counter--docked">1 <i class="sr-only">Notifications</i></span>
+                    <span class="counter counter--critical counter--docked"><span class="table-total-selected">0</span><i class="sr-only">Delete</i></span>
                   </li>
                 </menu>
               </div>
           </div>
         </div>
 
+        @if($tags->count() > 0)
         <nav class="pagination text-sm" aria-label="Pagination">
           <ul class="pagination__list flex flex-wrap gap-xxxs">
             <li>
-              <a href="#0" class="pagination__item">
+              <a
+                href="{{ $tags->withQueryString()->previousPageUrl() }}"
+                class="pagination__item
+                  {{ ($tags->currentPage() == 1) ? 'pagination__item--disabled' : '' }}
+                "
+              >
                 <svg class="icon" viewBox="0 0 16 16">
                   <title>Go to previous page</title>
                   <g stroke-width="1.5" stroke="currentColor">
@@ -77,16 +83,35 @@
                 </svg>
               </a>
             </li>
-    
+
             <li>
               <span class="pagination__jumper flex items-center">
-                <input aria-label="Page number" class="form-control" type="text" id="pageNumber" name="pageNumber" value="1">
-                <em>of 50</em>
+                <form action="{{ url()->full() }}" class="inline" method="get">
+                  @if($request->has('is_trashed'))
+                    <input type="hidden" name="is_trashed" value="{{ $is_trashed }}">
+                  @endif
+
+                  @if($request->has('published'))
+                    <input type="hidden" name="published" value="{{ $published }}">
+                  @endif
+
+                  @if($request->has('tag_category_id'))
+                    <input type="hidden" name="tag_category_id" value="{{ $tag_category_id }}">
+                  @endif
+
+                  <input aria-label="Page number" class="form-control" type="number" name="page" min="1" max="{{ $tags->lastPage() }}" value="{{ $tags->currentPage() }}">
+                </form>
+                <em>of {{ $tags->lastPage() }}</em>
               </span>
             </li>
-    
+
             <li>
-              <a href="#0" class="pagination__item">
+              <a
+                href="{{ $tags->withQueryString()->nextPageUrl() }}"
+                class="pagination__item
+                  {{ !$tags->hasMorePages() ? 'pagination__item--disabled' : '' }}
+                "
+              >
                 <svg class="icon" viewBox="0 0 16 16">
                   <title>Go to next page</title>
                   <g stroke-width="1.5" stroke="currentColor">
@@ -97,6 +122,7 @@
             </li>
           </ul>
         </nav>
+        @endif
 
       </div>
   </div>
