@@ -41,3 +41,7 @@ Route::get('/site1/home',function(){
 Route::get('/site2',function(){
   return view('site2.index');
 });
+
+Route::get('/pages/post-archive',function(){
+  return view('pages.post-archive');
+});

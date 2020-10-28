@@ -9,7 +9,7 @@
             </a>
           </figure>
 
-          <div class="card__content card-v8 bg radius-lg">
+          <div class="card__content card-v8 bg">
             <p class="text-sm color-contrast-medium margin-bottom-sm">Restaurant</p>
             <div class="text-component">
               <h4><span class="card-v8__title">Almost before we knew it, we had left the ground.</span></h4>
@@ -25,7 +25,7 @@
             </a>
           </figure>
 
-          <div class="card__content card-v8 bg radius-lg">
+          <div class="card__content card-v8 bg">
             <p class="text-sm color-contrast-medium margin-bottom-sm">Restaurant</p>
             <div class="text-component">
               <h4><span class="card-v8__title">Almost before we knew it, we had left the ground.</span></h4>
@@ -41,7 +41,7 @@
             </a>
           </figure>
 
-          <div class="card__content card-v8 bg radius-lg">
+          <div class="card__content card-v8">
             <p class="text-sm color-contrast-medium margin-bottom-sm">Restaurant</p>
             <div class="text-component">
               <h4><span class="card-v8__title">Almost before we knew it, we had left the ground.</span></h4>
@@ -57,7 +57,7 @@
             </a>
           </figure>
 
-          <div class="card__content card-v8 bg radius-lg">
+          <div class="card__content card-v8 bg">
             <p class="text-sm color-contrast-medium margin-bottom-sm">Restaurant</p>
             <div class="text-component">
               <h4><span class="card-v8__title">Almost before we knew it, we had left the ground.</span></h4>
@@ -73,7 +73,7 @@
             </a>
           </figure>
 
-          <div class="card__content card-v8 bg radius-lg">
+          <div class="card__content card-v8 bg">
             <p class="text-sm color-contrast-medium margin-bottom-sm">Restaurant</p>
             <div class="text-component">
               <h4><span class="card-v8__title">Almost before we knew it, we had left the ground.</span></h4>

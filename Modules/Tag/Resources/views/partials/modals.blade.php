@@ -5,7 +5,7 @@
       <!-- 👇 Tabs -->
       <nav class="tabs">
         <ul class="flex flex-wrap gap-xl js-tabs__controls" aria-label="Tabs Interface">
-          <li><a href="#tab1Panel1" class="tabs__control" aria-selected="true">Add</a></li>
+          <li><a href="#tab1Panel1" class="tabs__control" aria-selected="true">Add Tag</a></li>
           <li><a href="#tab1Panel2" class="tabs__control">Images</a></li>
           <li><a href="#tab1Panel3" class="tabs__control">Settings</a></li>
         </ul>
@@ -37,8 +37,7 @@
           <div>
 
             <div class="grid gap-sm">
-              <label class="form-label margin-bottom-xxs" for="tag_name">Enter Your Tag</label>
-              <input class="form-control width-100%" type="text" name="tag_name" id="tag_name" required>
+              <input class="form-control width-100%" type="text" name="tag_name" id="tag_name" required placeholder="Enter Tag">
               <div role="alert" class="form-error-msg"></div>
 
               <div class="flex items-start">
@@ -63,11 +62,9 @@
             <div>
             <div role="alert" class="form-error-msg"></div>
 
-
-
             <label class="form-label margin-bottom-xxs margin-top-md" for="tag_description">Enter Your Tag Description</label>
-            <div id="editorjs" data-target-input="#tag_description" class="site-editor form-control"></div>
-            <input type="hidden" name="tag_description" id="tag_description" />
+            <div id="editorjs" data-target-input="#tag_description" class="site-editor form-control" required placeholder="Enter Tag"></div>
+            <input type="hidden" name="tag_description" id="tag_description"/>
           </div>
         </section>
 
