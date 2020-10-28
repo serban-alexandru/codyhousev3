@@ -47,7 +47,6 @@
                     @endforeach
                   </div>
                 </fieldset>
-                 --}}
 
                 <fieldset class="margin-top-xl">
                   <h3 class="margin-bottom-sm">Listing per page</h3>
@@ -55,9 +54,11 @@
                       <input class="form-control width-100%" type="text" value="{{ old('list_per_page') ? old('list_per_page') : ((!is_null($posts_settings)) ? $posts_settings->list_per_page : '') }}" name="list_per_page" id="listPerPage" placeholder="Enter amount">
                     </div>
                 </fieldset>
+                --}}
+
 
                 <div>
-                  <button class="btn btn--primary margin-top-xxl">Save</button>
+                  <button class="btn btn--primary margin-top-md">Save</button>
                 </div>
               </form>
               
