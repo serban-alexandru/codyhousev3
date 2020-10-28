@@ -6,7 +6,7 @@
         <!-- 👇 Tabs -->
         <nav class="">
           <ul class="flex flex-wrap gap-sm js-tabs__controls" aria-label="Tabs Interface">
-            <li><a href="#tab1Panel1" class="tabs__control" aria-selected="true">User</a></li>
+            <li><a href="#tab1Panel1" class="tabs__control" aria-selected="true">Add User</a></li>
             <li><a href="#tab1Panel2" class="tabs__control">Images</a></li>
           </ul>
         </nav>
@@ -27,7 +27,6 @@
         <div class="js-tabs__panels">
           <section id="tab1Panel1" class="padding-top-md js-tabs__panel">
             <div class="text-component">
-              <h1 class="text-lg">New user</h1>
               <div id="ajax-add-user-form">Loading...</div><!-- /#ajax-add-user-form -->
             </div>
           </section>
@@ -63,7 +62,7 @@
         <!-- 👇 Tabs -->
         <nav class="">
           <ul class="flex flex-wrap gap-sm js-tabs__controls" aria-label="Tabs Interface">
-            <li><a href="#tab2Panel1" class="tabs__control" aria-selected="true">User</a></li>
+            <li><a href="#tab2Panel1" class="tabs__control" aria-selected="true">Edit User</a></li>
             <li><a href="#tab2Panel2" class="tabs__control">Images</a></li>
           </ul>
         </nav>
@@ -84,7 +83,6 @@
         <div class="js-tabs__panels">
           <section id="tab2Panel1" class="padding-top-md js-tabs__panel">
             <div class="text-component">
-              <h1 class="text-lg">Edit user</h1>
               <div id="ajax-edit-user-form">Loading...</div><!-- /#ajax-edit-user-form -->
             </div>
           </section>

@@ -8,28 +8,27 @@
       </div>
     </div>
 
-    <div>
-      <label class="form-label margin-bottom-xxs" for="name">Full name</label>
-      <input class="form-control width-100%" type="text" name="name" id="name">
+    <div class="margin-bottom-sm">
+      <input class="form-control width-100%" type="text" name="name" id="name" placeholder="Enter Full Name">
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
-    <div>
-      <label class="form-label margin-bottom-xxs" for="email">Email</label>
+
+    <div class="margin-bottom-sm">
       <input class="form-control width-100%" type="email" name="email" id="email" placeholder="email@myemail.com">
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
-    <div>
-      <label class="form-label margin-bottom-xxs" for="username">Username</label>
-      <input class="form-control width-100%" type="text" name="username" id="username">
+
+    <div class="margin-bottom-sm">
+      <input class="form-control width-100%" type="text" name="username" id="username" placeholder="Enter username">
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
-    <div>
-      <label class="form-label margin-bottom-xxs" for="password">Password</label>
-      <input class="form-control width-100%" type="text" name="password" id="password">
+
+    <div class="margin-bottom-sm">
+      <input class="form-control width-100%" type="text" name="password" id="password" placeholder="Enter Password">
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
-    <div>
-      <label class="form-label margin-bottom-xxxs" for="role">Select role</label>
+
+    <div class="margin-bottom-sm">
       <div class="select">
         <select class="select__input form-control" name="role" id="role">
           @php
@@ -44,23 +43,23 @@
         <svg class="icon select__icon" aria-hidden="true" viewBox="0 0 16 16"><g stroke-width="1" stroke="currentColor"><polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="15.5,4.5 8,12 0.5,4.5 "></polyline></g></svg>
       </div><!-- /.select -->
     </div>
-    <div>
-      <label class="form-label margin-bottom-xxs" for="bio">Bio <small>(Optional)</small></label>
-      <textarea class="form-control width-100%" type="text" name="bio" id="bio" @error('bio') aria-invalid="true" @enderror></textarea>
+
+    <div class="margin-bottom-sm">
+      <textarea class="form-control width-100%" type="text" name="bio" id="bio" @error('bio') aria-invalid="true" @enderror placeholder="Enter Bio (Optional)"></textarea>
       <div role="alert" class="form-error-msg"></div>
     </div>
-    <div>
-      <label class="form-label margin-bottom-xxs" for="twitterLink">Twitter link (Optional)</label>
-      <input class="form-control width-100%" type="text" name="twitter_link" id="twitterLink" @error('twitter_link') aria-invalid="true" @enderror>
+
+    <div class="margin-bottom-sm">
+      <input class="form-control width-100%" type="text" name="twitter_link" id="twitterLink" @error('twitter_link') aria-invalid="true" @enderror placeholder="Twitter link (Optional)">
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
-    <div>
-      <label class="form-label margin-bottom-xxs" for="facebookLink">Facebook link (Optional)</label>
-      <input class="form-control width-100%" type="text" name="facebook_link" id="facebookLink" @error('facebook_link') aria-invalid="true" @enderror>
+
+    <div class="margin-bottom-sm">
+      <input class="form-control width-100%" type="text" name="facebook_link" id="facebookLink" @error('facebook_link') aria-invalid="true" @enderror placeholder="Facebook link (Optional)">
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
-    <div>
-      <label class="form-label margin-bottom-xxs" for="instagramLink">Instagram link (Optional)</label>
-      <input class="form-control width-100%" type="text" name="instagram_link" id="instagramLink" @error('instagram_link') aria-invalid="true" @enderror>
+
+    <div class="margin-bottom-sm">
+      <input class="form-control width-100%" type="text" name="instagram_link" id="instagramLink" @error('instagram_link') aria-invalid="true" @enderror placeholder="Instagram link (Optional)">
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>

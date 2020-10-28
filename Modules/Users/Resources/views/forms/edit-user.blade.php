@@ -8,22 +8,22 @@
       </div>
     </div>
 
-    <div>
-      <label class="form-label margin-bottom-xxs" for="name">Full name</label>
-      <input class="form-control width-100%" type="text" name="name" id="name" value="{{$user->name}}" @error('name') aria-invalid="true" @enderror>
+    <div class="margin-bottom-sm">
+      <input class="form-control width-100%" type="text" name="name" id="name" value="{{$user->name}}" @error('name') aria-invalid="true" @enderror placeholder="Name">
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
-    <div>
-      <label class="form-label margin-bottom-xxs" for="email">Email</label>
+
+    <div class="margin-bottom-sm">
       <input class="form-control width-100%" type="email" name="email" id="email" value="{{$user->email}}" placeholder="email@myemail.com" @error('email') aria-invalid="true" @enderror>
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
-    <div>
-      <label class="form-label margin-bottom-xxs" for="username">Username</label>
-      <input class="form-control width-100%" type="text" name="username" id="username" value="{{$user->username}}" @error('username') aria-invalid="true" @enderror>
+
+    <div class="margin-bottom-sm">
+      <input class="form-control width-100%" type="text" name="username" id="username" value="{{$user->username}}" @error('username') aria-invalid="true" @enderror placeholder="Username">
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
-    <div>
+
+    <div class="margin-bottom-sm">
       <label class="form-label margin-bottom-xxxs" for="role">Select role</label>
       <div class="select">
         <select class="select__input form-control" name="role" id="role" @if(auth()->user()->id == $user->id) disabled @endif>
@@ -43,24 +43,24 @@
         <p class="text-xs color-contrast-medium margin-top-xxs">You cannot change your role while logged in.</p>
       @endif
     </div>
-    <div>
-      <label class="form-label margin-bottom-xxs" for="bio">Bio <small>(Optional)</small></label>
-      <textarea class="form-control width-100%" type="text" name="bio" id="bio" @error('bio') aria-invalid="true" @enderror>{{ ($user->account_setting) ? $user->account_setting->bio : '' }}</textarea>
+
+    <div class="margin-bottom-sm">
+      <textarea class="form-control width-100%" type="text" name="bio" id="bio" @error('bio') aria-invalid="true" @enderror placeholder="Bio (optional)">{{ ($user->account_setting) ? $user->account_setting->bio : '' }}</textarea>
       <div role="alert" class="form-error-msg"></div>
     </div>
-    <div>
-      <label class="form-label margin-bottom-xxs" for="twitterLink">Twitter link (Optional)</label>
-      <input class="form-control width-100%" type="text" name="twitter_link" id="twitterLink" value="{{ ($user->account_setting) ? $user->account_setting->twitter_link : '' }}" @error('twitter_link') aria-invalid="true" @enderror>
+
+    <div class="margin-bottom-sm">
+      <input class="form-control width-100%" type="text" name="twitter_link" id="twitterLink" value="{{ ($user->account_setting) ? $user->account_setting->twitter_link : '' }}" @error('twitter_link') aria-invalid="true" @enderror placeholder="Twitter link (optional)">
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
-    <div>
-      <label class="form-label margin-bottom-xxs" for="facebookLink">Facebook link (Optional)</label>
-      <input class="form-control width-100%" type="text" name="facebook_link" id="facebookLink" value="{{ ($user->account_setting) ? $user->account_setting->facebook_link : '' }}" @error('facebook_link') aria-invalid="true" @enderror>
+
+    <div class="margin-bottom-sm">
+      <input class="form-control width-100%" type="text" name="facebook_link" id="facebookLink" value="{{ ($user->account_setting) ? $user->account_setting->facebook_link : '' }}" @error('facebook_link') aria-invalid="true" @enderror placeholder="Facebook link (optional)">
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
-    <div>
-      <label class="form-label margin-bottom-xxs" for="instagramLink">Instagram link (Optional)</label>
-      <input class="form-control width-100%" type="text" name="instagram_link" id="instagramLink" value="{{ ($user->account_setting) ? $user->account_setting->instagram_link : '' }}" @error('instagram_link') aria-invalid="true" @enderror>
+
+    <div class="margin-bottom-sm">
+      <input class="form-control width-100%" type="text" name="instagram_link" id="instagramLink" value="{{ ($user->account_setting) ? $user->account_setting->instagram_link : '' }}" @error('instagram_link') aria-invalid="true" @enderror placeholder="Instagram link (optional)">
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
 
