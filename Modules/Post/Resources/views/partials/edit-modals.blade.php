@@ -39,8 +39,9 @@
                   <label class="form-label margin-bottom-xxs" for="editTitle">Edit Your Title</label>
                   <input class="form-control width-100%" type="text" name="title" id="editTitle" required>
                 <div>
-                  <label class="form-label margin-bottom-xxs" for="editDescription">Edit Discription</label>
-                  <textarea name="description" id="editDescription" cols="30" rows="10"></textarea>
+                  <label class="form-label margin-bottom-xxs" for="editDescription">Edit Description</label>
+                  <div id="editorjs2" data-target-input="#editDescription" class="form-control"></div>
+                  <input type="hidden" name="description" id="editDescription"/>
                 </div>
             </section>
 
@@ -54,7 +55,7 @@
                 <label for="editThumbnail" class="file-upload__label btn btn--subtle">
                   <span class="file-upload__text file-upload__text--has-max-width">Edit Photo</span>
                 </label>
-                
+
                 <input type="file" class="file-upload__input" name="thumbnail" id="editThumbnail">
               </div>
             </section>

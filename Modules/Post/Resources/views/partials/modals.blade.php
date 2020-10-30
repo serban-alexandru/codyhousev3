@@ -47,9 +47,9 @@
                   <input class="form-control width-100%" type="text" name="title" id="title" required>
                 <div>
 
-                  <label class="form-label margin-bottom-xxs" for="description">Add Discription</label>
-                  <textarea name="description" id="description" cols="30" rows="10"></textarea>
-                {{-- <div id="editorjs" class="form-control"></div> --}} <!-- /#ajax-add-blog-form -->
+                  <label class="form-label margin-bottom-xxs" for="description">Add Description</label>
+                  <div id="editorjs" data-target-input="#description" class="site-editor form-control"></div>
+                  <input type="hidden" name="description" id="description"/>
               </div>
             </section>
 

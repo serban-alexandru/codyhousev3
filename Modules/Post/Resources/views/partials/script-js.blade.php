@@ -1,43 +1,19 @@
 @auth
 
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
-{{--
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/@editorjs/link@latest"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/raw@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
 
-
 <script>
   (function(){
-    const editor = new EditorJS({
-      /**
-      * Id of Element that should contain Editor instance
-      */
-      holder: 'editorjs',
-      tools: {
-        header: Header,
-        image: SimpleImage,
-        embed: Embed,
-        quote: Quote,
-        checklist: {
-          class: Checklist,
-          inlineToolbar: true,
-        },
-        list: {
-          class: List,
-          inlineToolbar: true,
-        }
-      }
-    });
-  })();
-</script>
- --}}
 
-<script>
-  (function(){
 
     // load content when user clicked on sidebar links
     $(document).on('click', '.ajax-link', function (e) {
@@ -113,16 +89,96 @@
 
   $(function(){
 
-    getTiny('{{ URL::to('/') }}', '#description');
+    // getTiny('{{ URL::to('/') }}', '#description');
 
     select2ForTags('#tags');
+
+    var editor = new EditorJS({
+      /**
+      * Id of Element that should contain Editor instance
+      */
+      holder: 'editorjs',
+      tools: {
+        header: Header,
+        raw: RawTool,
+        image: SimpleImage,
+        embed: Embed,
+        quote: Quote,
+        checklist: {
+          class: Checklist,
+          inlineToolbar: true,
+        },
+        list: {
+          class: List,
+          inlineToolbar: true,
+        }
+      }
+    });
+
+    var editor2 = new EditorJS({
+      /**
+      * Id of Element that should contain Editor instance
+      */
+      holder: 'editorjs2',
+      tools: {
+        header: Header,
+        raw: RawTool,
+        image: SimpleImage,
+        embed: Embed,
+        quote: Quote,
+        checklist: {
+          class: Checklist,
+          inlineToolbar: true,
+        },
+        list: {
+          class: List,
+          inlineToolbar: true,
+        }
+      }
+    });
+
+    // used editorjs for add post form
+    $('.site-editor').on('input', function(){
+      var $this = $(this);
+
+      if($this.data('target-input')){
+        console.log('WTF');
+        var $targetInput = $($this.data('target-input'));
+
+        editor.save().then((outputData) => {
+          // Save data as string
+          $targetInput.val(JSON.stringify(outputData));
+        }).catch((error) => {
+          console.log('Saving failed: ', error);
+        });
+      }
+
+    });
+
+    // used editorjs for edit post form
+    $('#editorjs2').on('input', function(){
+      var $this = $(this);
+
+      if($this.data('target-input')){
+        console.log('edit description input');
+        var $targetInput = $($this.data('target-input'));
+
+        editor2.save().then((outputData) => {
+          // Save data as string
+          $targetInput.val(JSON.stringify(outputData));
+        }).catch((error) => {
+          console.log('Saving failed: ', error);
+        });
+      }
+
+    });
 
     $(document).on('click', '#btnSave, #btnPublish', function(){
         $(this).html('Please wait...');
         var isPublished = ($(this).attr('id') != 'btnSave') ? 1 : 0;
         var formData = new FormData($('#formAddPost')[0]);
         formData.append('is_published', isPublished);
-        formData.append('description', tinyMCE.activeEditor.getContent());
+        // formData.append('description', tinyMCE.activeEditor.getContent());
 
         $.ajaxSetup({
           headers: {
@@ -155,13 +211,21 @@
       // Clear form
       $('#formEditPost').get(0).reset();
       $('#editTags').val('').trigger('change');
-      tinymce.remove('#editDescription');
+      // tinymce.remove('#editDescription');
+      editor2.clear(); // used editorjs for edit post form
 
       $.ajax({
         url: editUrl,
         dataType: 'json',
         type: 'get',
         success: function(response){
+          var editorData = JSON.parse(response.description);
+
+          if (editorData) {
+            editor2.render(editorData);
+            $('#editDescription').val(response.description);
+          }
+
           $('#editTitle').val(response.title);
           $('#editDescription').val(response.description);
           $('#thumbnailPreview').attr('src', response.thumbnail);
@@ -196,7 +260,7 @@
           }
 
           select2ForTags('#editTags');
-          getTiny('{{ URL::to('/') }}', '#editDescription');
+          // getTiny('{{ URL::to('/') }}', '#editDescription');
         }
       });
 
@@ -207,7 +271,7 @@
       $(this).html("Please wait...");
 
       var formData = new FormData($('#formEditPost')[0]);
-      formData.append('description', tinyMCE.activeEditor.getContent());
+      // formData.append('description', tinyMCE.activeEditor.getContent());
       formData.append('id', $('#postId').val());
 
       $.ajaxSetup({

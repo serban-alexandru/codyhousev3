@@ -172,7 +172,7 @@ class PostController extends Controller
         $post = Post::create([
             'user_id'          => auth()->user()->id,
             'title'            => request('title'),
-            'description'      => htmlentities(request('description')) ?: NULL,
+            'description'      => request('description'),
             'thumbnail'        => (request()->has('thumbnail')) ? $thumbnail_name : NULL,
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : NULL,
             'seo_page_title'   => request('page_title') ?: NULL,
@@ -304,7 +304,7 @@ class PostController extends Controller
 
         $post->update([
             'title' => request('title'),
-            'description' => htmlentities(request('description')) ?: NULL,
+            'description' => request('description'),
             'thumbnail' => (request()->has('thumbnail')) ? $thumbnail_name : $post->thumbnail,
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : $post->thumbnail_medium,
             'seo_page_title' => request('page_title') ?: NULL,
