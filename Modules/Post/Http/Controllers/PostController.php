@@ -60,9 +60,13 @@ class PostController extends Controller
             $image_height = $posts_settings->medium_height;
         }
 
+        $request    = request();
+        $is_trashed = request('is_trashed');
+        $is_draft   = request('is_draft');
+
         return view($view, compact(
             'posts', 'posts_published_count', 'posts_draft_count', 'posts_deleted_count',
-            'availableLimit', 'limit', 'image_width', 'image_height'
+            'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'is_trashed', 'is_draft'
             )
         );
     }
