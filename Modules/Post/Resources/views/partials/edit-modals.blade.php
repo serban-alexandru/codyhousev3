@@ -70,10 +70,19 @@
                       <input class="form-control width-100%" type="text" name="page_title" id="editPageTitle" required>
                     <div>
 
-                  <div class="grid gap-sm">
+                  <!-- <div class="grid gap-sm">
                       <label class="form-label margin-bottom-xxs" for="editTags">Edit Tags</label>
                       <select name="tags[]" id="editTags" class="form-control" multiple></select>
-                  <div>
+                  <div> -->
+
+                  @foreach($tag_categories as $key=> $tag_category)
+                    <div class="grid gap-sm">
+                        <label class="form-label margin-bottom-xxs" for="edit_tag_category_{{ $tag_category->id }}">
+                          Edit {{ $tag_category->name }}
+                        </label>
+                        <select name="tag_category_{{ $tag_category->id }}[]" id="edit_tag_category_{{ $tag_category->id }}" class="form-control site-tag-pills" multiple></select>
+                    <div>
+                  @endforeach
 
                     </div>
                   </div>
