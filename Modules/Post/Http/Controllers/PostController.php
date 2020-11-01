@@ -6,7 +6,7 @@ use Arr, Str, Image, File;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Modules\Post\Entities\{ PostSetting, Post, PostsTag };
-use Modules\Tag\Entities\Tag;
+use Modules\Tag\Entities\{Tag, TagCategory};
 
 class PostController extends Controller
 {
@@ -64,9 +64,11 @@ class PostController extends Controller
         $is_trashed = request('is_trashed');
         $is_draft   = request('is_draft');
 
+        $tag_categories = TagCategory::all();
+
         return view($view, compact(
             'posts', 'posts_published_count', 'posts_draft_count', 'posts_deleted_count',
-            'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'is_trashed', 'is_draft'
+            'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'is_trashed', 'is_draft', 'tag_categories'
             )
         );
     }

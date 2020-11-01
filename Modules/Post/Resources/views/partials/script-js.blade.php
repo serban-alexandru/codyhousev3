@@ -102,7 +102,7 @@
 
     // getTiny('{{ URL::to('/') }}', '#description');
 
-    select2ForTags('#tags');
+    select2ForTags('#tags, .site-tag-pills');
 
     var editor = new EditorJS({
       /**

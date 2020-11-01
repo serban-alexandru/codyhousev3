@@ -117,6 +117,15 @@
                     <select name="tags[]" id="tags" class="form-control" multiple></select>
                 <div>
 
+                @foreach($tag_categories as $key=> $tag_category)
+                  <div class="grid gap-sm">
+                      <label class="form-label margin-bottom-xxs" for="tag_category_{{ $tag_category->id }}">
+                        Add {{ $tag_category->name }}
+                      </label>
+                      <select name="tag_category_{{ $tag_category->id }}[]" id="tag_category_{{ $tag_category->id }}" class="form-control site-tag-pills" multiple></select>
+                  <div>
+                @endforeach
+
                   </div>
                 </div>
               </fieldset>
