@@ -186,28 +186,32 @@ class PostController extends Controller
             'is_published'     => request('is_published')
         ]);
 
-        if (request()->has('tags')) {
-            // Insert tags on posts_tags table
-            $tags_input = request('tags');
+        $tag_categories = TagCategory::all();
 
-            foreach ($tags_input as $key => $tag_input) {
-                $tag = Tag::firstWhere('name', $tag_input);
+        foreach ($tag_categories as $key => $tag_category) {
+            if (request()->has('tag_category_' . $tag_category->id)) {
 
-                // If tag doesn't exist yet, create it
-                if (!$tag) {
-                    $tag                  = new Tag;
-                    $tag->name            = $tag_input;
-                    $tag->tag_category_id = 1; // defaults to 1
-                    $tag->published       = true;
-                    $tag->save();
+                $tags_input = request('tag_category_' . $tag_category->id);
+
+                foreach ($tags_input as $key => $tag_input) {
+                    $tag = Tag::firstWhere('name', $tag_input);
+
+                    // If tag doesn't exist yet, create it
+                    if (!$tag) {
+                        $tag                  = new Tag;
+                        $tag->name            = $tag_input;
+                        $tag->tag_category_id = $tag_category->id;
+                        $tag->published       = true;
+                        $tag->save();
+                    }
+
+                    // Insert posts_tag
+                    $posts_tag          = new PostsTag;
+                    $posts_tag->post_id = $post->id;
+                    $posts_tag->tag_id  = $tag->id;
+
+                    $posts_tag->save();
                 }
-
-                // Insert posts_tag
-                $posts_tag          = new PostsTag;
-                $posts_tag->post_id = $post->id;
-                $posts_tag->tag_id  = $tag->id;
-
-                $posts_tag->save();
             }
         }
 

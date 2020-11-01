@@ -102,7 +102,10 @@
 
     // getTiny('{{ URL::to('/') }}', '#description');
 
-    select2ForTags('#tags, .site-tag-pills');
+    $('.site-tag-pills').each(function(){
+      console.log(this);
+      select2ForTags(this);
+    });
 
     var editor = new EditorJS({
       /**
@@ -221,7 +224,10 @@
 
       // Clear form
       $('#formEditPost').get(0).reset();
-      $('#editTags').val('').trigger('change');
+      // $('#editTags').val('').trigger('change');
+      $('.site-tag-pills').each(function(){
+        $(this).val('').trigger('change');
+      });
       // tinymce.remove('#editDescription');
       editor2.clear(); // used editorjs for edit post form
 
@@ -242,6 +248,7 @@
           $('#thumbnailPreview').attr('src', response.thumbnail);
           $('#editPageTitle').val(response.page_title);
           $('#editTags').html(response.tags);
+          console.log(response.tags);
           $('#postId').val(postId);
 
           if(response.is_published == 1 && response.is_deleted != 1){
@@ -270,7 +277,10 @@
             $(document).find('.restore-post-link').removeClass('is-hidden');
           }
 
-          select2ForTags('#editTags');
+          // select2ForTags('#editTags');
+          $('.site-tag-pills').each(function(){
+            select2ForTags(this);
+          });
           // getTiny('{{ URL::to('/') }}', '#editDescription');
         }
       });

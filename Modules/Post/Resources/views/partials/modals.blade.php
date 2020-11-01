@@ -112,10 +112,10 @@
                     <input class="form-control width-100%" type="text" name="page_title" id="pageTitle" required>
                   <div>
 
-                <div class="grid gap-sm">
+                <!-- <div class="grid gap-sm">
                     <label class="form-label margin-bottom-xxs" for="tags">Add Tags</label>
                     <select name="tags[]" id="tags" class="form-control" multiple></select>
-                <div>
+                <div> -->
 
                 @foreach($tag_categories as $key=> $tag_category)
                   <div class="grid gap-sm">
