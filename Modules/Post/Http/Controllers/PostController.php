@@ -340,16 +340,21 @@ class PostController extends Controller
 
         $tag_categories = TagCategory::all();
 
+        // Delete all previous tags on `posts_tags` table with this post
+        $delete_posts_tags = PostsTag::where('post_id', $post->id)->delete();
+
         foreach ($tag_categories as $key => $tag_category) {
             if (request()->has('tag_category_' . $tag_category->id)) {
-
-                // Delete all previous tags on `posts_tags` table with this post
-                $delete_posts_tags = PostsTag::where('post_id', $post->id)->delete();
 
                 $tags_input = request('tag_category_' . $tag_category->id);
 
                 foreach ($tags_input as $key => $tag_input) {
-                    $tag = Tag::firstWhere('name', $tag_input);
+                    $tag = Tag::where(
+                        [
+                            'name'            => $tag_input,
+                            'tag_category_id' => $tag_category->id
+                        ]
+                    )->first();
 
                     // If tag doesn't exist yet, create it
                     if (!$tag) {
