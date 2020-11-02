@@ -103,7 +103,6 @@
     // getTiny('{{ URL::to('/') }}', '#description');
 
     $('.site-tag-pills').each(function(){
-      console.log(this);
       select2ForTags(this);
     });
 
@@ -236,9 +235,15 @@
         dataType: 'json',
         type: 'get',
         success: function(response){
-          var editorData = JSON.parse(response.description);
+          var allTagsPerCategory = JSON.parse(response.tags);
 
-          if (editorData) {
+          for (let i = 0; i < allTagsPerCategory.length; i++) {
+            const tagCategory = allTagsPerCategory[i];
+            $('#edit_tag_category_'+tagCategory.tag_category_id).html(tagCategory.tags);
+          }
+
+          if (response.description) {
+            var editorData = JSON.parse(response.description);
             editor2.render(editorData);
             $('#editDescription').val(response.description);
           }
@@ -247,8 +252,7 @@
           $('#editDescription').val(response.description);
           $('#thumbnailPreview').attr('src', response.thumbnail);
           $('#editPageTitle').val(response.page_title);
-          $('#editTags').html(response.tags);
-          console.log(response.tags);
+          // $('#editTags').html(response.tags);
           $('#postId').val(postId);
 
           if(response.is_published == 1 && response.is_deleted != 1){

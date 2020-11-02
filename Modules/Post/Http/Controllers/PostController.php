@@ -242,25 +242,42 @@ class PostController extends Controller
         $data['is_published'] = $post->is_published;
         $data['is_deleted'] = $post->is_deleted;
 
-        // Get tags from `posts_tags` table
-        $posts_tags = $post->postsTag()->get();
-        $post->tags = null; // Force override
+        $tag_categories        = TagCategory::all();
+        $posts_tags            = $post->postsTag()->get();
+        $all_tags_per_category = [];
 
-        // Get tag names to string to retain old format
-        foreach ($posts_tags as $key => $posts_tag) {
-            $tag = Tag::find($posts_tag->tag_id);
-            $post->tags .= $tag->name . ',';
-        }
+        foreach ($tag_categories as $key => $tag_category) {
+            $tags_per_category = '';
 
-        $post->tags = rtrim($post->tags, ',');
+            foreach ($posts_tags as $post_tags_key => $posts_tag) {
+                $tag = Tag::find($posts_tag->tag_id);
 
-        $data['tags'] = ($post->tags) ?
+                // If they belong to the current tag category -> append
+                if ($tag->tag_category_id == $tag_category->id) {
+                    $tags_per_category .= $tag->name . ',';
+                }
+            }
+
+            $tags_per_category = rtrim($tags_per_category, ',');
+
+            $tags_html = ($tags_per_category) ?
                         '<option selected>' .
                             implode('</option><option selected>',
-                                explode(',', $post->tags)
+                                explode(',', $tags_per_category)
                             ) .
                         '</option>' : '';
 
+            array_push(
+                $all_tags_per_category,
+                [
+                    'tag_category_id' => $tag_category->id,
+                    'tags'            => $tags_html
+                ]
+            );
+
+        }
+
+        $data['tags'] = json_encode($all_tags_per_category);
 
         return $data;
     }
