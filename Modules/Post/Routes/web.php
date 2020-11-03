@@ -17,12 +17,12 @@ Route::group([
 ], function() {
     Route::get('posts', 'PostController@index');
     Route::get('posts/settings', 'PostController@settings');
-    
+
     Route::post('posts/store', [
     	'as' => 'posts.store',
     	'uses' => 'PostController@store'
     ]);
-    
+
     Route::get('posts/{id}/fetch-data', [
     	'as' => 'posts.fetch-data',
     	'uses' => 'PostController@fetchDataAjax'
@@ -71,6 +71,11 @@ Route::group([
     Route::get('posts/{id}/restore', [
         'as' => 'posts.restore',
         'uses' => 'PostController@restore'
+    ]);
+
+    Route::post('posts/upload-image', [
+        'as'   => 'posts.upload-image',
+        'uses' => 'PostController@uploadImage'
     ]);
 
 });

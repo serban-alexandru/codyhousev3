@@ -4,6 +4,7 @@ namespace Modules\Post\Http\Controllers;
 
 use Arr, Str, Image, File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Modules\Post\Entities\{ PostSetting, Post, PostsTag };
 use Modules\Tag\Entities\{Tag, TagCategory};
@@ -476,4 +477,18 @@ class PostController extends Controller
 
         $post->update(['is_published' => $value]);
     }
+
+    public function uploadImage(Request $request)
+    {
+        $uploaded_image_path = $request->file('image')->store('public/editorjs-images');
+        $url                 = Storage::url($uploaded_image_path);
+
+        return response()->json([
+            'success' => 1,
+            'file'    => [
+                'url' => $url
+            ]
+        ]);
+    }
+
 }
