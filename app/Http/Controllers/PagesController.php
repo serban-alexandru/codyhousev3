@@ -28,6 +28,36 @@ class PagesController extends Controller
 		$post = Post::findOrFail($id);
 
 		return view('site1.pages.post', compact('post'));
-	}
+    }
+
+    public function posts(Request $request)
+    {
+        $q = $request->input('q');
+
+        $posts = Post::where(
+            [
+                'is_published' => true,
+                'is_deleted'   => false
+            ]
+        )
+        ->orderBy('created_at', 'desc')
+        ;
+
+        if($request->has('q')){
+            $posts->where('title', 'LIKE', '%' . $q . '%')
+            ->orWhere('description', 'LIKE', '%' . $q . '%');
+        }
+
+        $posts = $posts->get();
+        $page_title = $q ?? 'Posts';
+
+        // Set view data
+        $data['page_title'] = $page_title;
+        $data['posts']      = $posts;
+        $data['q']          = $q;
+        $data['request']    = $request;
+
+        return view('pages.post-archive', $data);
+    }
 
 }

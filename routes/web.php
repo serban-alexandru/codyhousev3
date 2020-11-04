@@ -42,9 +42,10 @@ Route::get('/site2',function(){
   return view('site2.index');
 });
 
-Route::get('/pages/post-archive',function(){
-  return view('pages.post-archive');
-});
+Route::get('/pages/post-archive', [
+  'as'   => 'pages.posts',
+  'uses' => 'PagesController@posts'
+]);
 
 Route::group(['middleware' => 'auth'], function(){
   Route::post('editorjs/upload-image', [
