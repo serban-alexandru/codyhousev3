@@ -1,7 +1,12 @@
 @extends('site1.layouts.app')
 
 @section('content')
-	@include('partials.posts.featured-post')
+	<!-- OLD via include -->
+	<!-- @include('partials.posts.featured-post') -->
+
+	<!-- NEW via blade component -->
+	<x-featured-post />
+
 	<div class="margin-bottom-lg"></div>
 	@include('partials.posts.draggable-gallery')
 
