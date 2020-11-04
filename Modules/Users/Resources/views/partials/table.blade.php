@@ -304,9 +304,72 @@
     </div><!-- /#site-table-container -->
   </div><!-- /.int-table js-int-table -->
 
-  <div class="site-table-pagination-ajax">
-    {{ $users->onEachSide(5)->withQueryString()->links('vendor.pagination.codyhouse') }}
-  </div><!-- /.site-table-pagination -->
+  <div class="flex items-center justify-between padding-top-sm">
+    <p class="text-sm">
+      {{ $users->count() }}
+      {{ ($users->count() < 2) ? 'result' : 'results' }}
+    </p>
+
+    @if($users->count() > 0)
+    <nav class="pagination text-sm" aria-label="Pagination" id="table-pagination-bottom">
+      <ul class="pagination__list flex flex-wrap gap-xxxs">
+        <li>
+          <a
+            href="{{ $users->withQueryString()->previousPageUrl() }}"
+            class="pagination__item
+              {{ ($users->currentPage() == 1) ? 'pagination__item--disabled' : '' }}
+            "
+          >
+            <svg class="icon" viewBox="0 0 16 16">
+              <title>Go to previous page</title>
+              <g stroke-width="1.5" stroke="currentColor">
+                <polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="9.5,3.5 5,8 9.5,12.5 "></polyline>
+              </g>
+            </svg>
+          </a>
+        </li>
+
+        <li>
+          <span class="pagination__jumper flex items-center">
+            <form action="{{ url()->full() }}" class="inline" method="get">
+              @if($request->has('is_trashed'))
+                <input type="hidden" name="is_trashed" value="{{ $is_trashed }}">
+              @endif
+
+              @if($request->has('status'))
+                <input type="hidden" name="status" value="{{ $status }}">
+              @endif
+
+              @if($request->has('role'))
+                <input type="hidden" name="role" value="{{ $role }}">
+              @endif
+
+              <input aria-label="Page number" class="form-control" type="number" name="page" min="1" max="{{ $users->lastPage() }}" value="{{ $users->currentPage() }}">
+            </form>
+            <em>of {{ $users->lastPage() }}</em>
+          </span>
+        </li>
+
+
+        <li>
+          <a
+            href="{{ $users->withQueryString()->nextPageUrl() }}"
+            class="pagination__item
+              {{ !$users->hasMorePages() ? 'pagination__item--disabled' : '' }}
+            "
+          >
+            <svg class="icon" viewBox="0 0 16 16">
+              <title>Go to next page</title>
+              <g stroke-width="1.5" stroke="currentColor">
+                <polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="6.5,3.5 11,8 6.5,12.5 "></polyline>
+              </g>
+            </svg>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    @endif
+  </div><!-- /.flex items-center justify-between padding-top-sm -->
 
   <!-- Re-initialized utl and menu component if the request is ajax -->
   @if(Request::ajax())
