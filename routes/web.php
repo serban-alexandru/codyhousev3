@@ -45,3 +45,10 @@ Route::get('/site2',function(){
 Route::get('/pages/post-archive',function(){
   return view('pages.post-archive');
 });
+
+Route::group(['middleware' => 'auth'], function(){
+  Route::post('editorjs/upload-image', [
+      'as'   => 'editorjs.upload-image',
+      'uses' => 'EditorjsController@uploadImage'
+  ]);
+});

@@ -73,11 +73,6 @@ Route::group([
         'uses' => 'PostController@restore'
     ]);
 
-    Route::post('posts/upload-image', [
-        'as'   => 'posts.upload-image',
-        'uses' => 'PostController@uploadImage'
-    ]);
-
 });
 
 Route::group([
