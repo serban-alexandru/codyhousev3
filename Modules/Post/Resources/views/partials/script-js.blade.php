@@ -173,7 +173,7 @@
     });
 
     // used editorjs for add post form
-    $('.site-editor').on('input, click', function(){
+    $('.site-editor').on('input click', function(){
       var $this = $(this);
 
       if($this.data('target-input')){
@@ -191,7 +191,7 @@
     });
 
     // used editorjs for edit post form
-    $('#editorjs2').on('input, click', function(){
+    $('#editorjs2').on('input click', function(){
       var $this = $(this);
 
       if($this.data('target-input')){
