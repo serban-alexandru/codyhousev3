@@ -26,6 +26,8 @@
                                 <img src="{{ $post->showThumbnail() }}" alt="Image of {{ $post->title }}">
                             </figure>
                         </a>
+                    @else
+                        <span class="post-table-image-wrapper post-table-image bg-black bg-opacity-50% margin-right-sm"></span>
                     @endif
 
                     <div class="featured__headline line-height-xl v-space-sm text-sm">
@@ -53,7 +55,15 @@
                                 {{ $post->created_at->format('F d, Y') }}
                             </time>
                             <span class="stories__separator" role="separator"></span>
-                            <a href="#0">Podcast</a>
+                            @foreach($post->postsTag as $key => $post_tag)
+                                @php
+                                    $tag = Modules\Tag\Entities\Tag::find($post_tag->tag_id);
+                                @endphp
+                                <a href="#0">{{ $tag->name }}</a>
+                                @if($key < $post->postsTag->count() - 1)
+                                ,
+                                @endif
+                            @endforeach
                         </p>
                     </div>
                 </li>
