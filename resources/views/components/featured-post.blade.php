@@ -55,13 +55,29 @@
                                 {{ $post->created_at->format('F d, Y') }}
                             </time>
                             <span class="stories__separator" role="separator"></span>
-                            @foreach($post->postsTag as $key => $post_tag)
+                            @php
+                                $tag_categories = Modules\Tag\Entities\TagCategory::all();
+                                $posts_tags     = $post->postsTag;
+                            @endphp
+                            @foreach($tag_categories as $key => $tag_category)
                                 @php
-                                    $tag = Modules\Tag\Entities\Tag::find($post_tag->tag_id);
+                                    $show_category = false;
+
+                                    foreach($posts_tags as $post_tag){
+                                        $tag = Modules\Tag\Entities\Tag::find($post_tag->tag_id);
+
+                                        if($tag->tag_category_id === $tag_category->id){
+                                            $show_category = true;
+                                            break;
+                                        }
+                                    }
                                 @endphp
-                                <a href="#0">{{ $tag->name }}</a>
-                                @if($key < $post->postsTag->count() - 1)
-                                ,
+
+                                @if($show_category)
+                                    @if($key > 0)
+                                        ,
+                                    @endif
+                                    <a href="#0" data-key="{{ $key }}" data-count="{{ $tag_categories->count() }}">{{ $tag_category->name }}</a>
                                 @endif
                             @endforeach
                         </p>
