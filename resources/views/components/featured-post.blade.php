@@ -38,7 +38,11 @@
                         </h4>
                         <div class="author author--minimal padding-bottom-xs">
                         <a href="#0" class="author__img-wrapper">
-                            <img src="{{ asset('assets/img/team-img-1.jpg') }}" alt="Author picture">
+                            @if($post->user->getMedia('avatars')->last())
+                                <img src="{{ $post->user->getMedia('avatars')->last()->getFullUrl('thumb') }}" alt="Author picture">
+                            @else
+                                <img src="{{ asset('assets/img/team-img-1.jpg') }}" alt="Author picture">
+                            @endif
                         </a>
 
                         <div class="author__content">
