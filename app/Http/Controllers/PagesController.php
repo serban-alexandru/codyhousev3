@@ -60,4 +60,25 @@ class PagesController extends Controller
         return view('pages.post-archive', $data);
     }
 
+    public function tags(Request $request)
+    {
+        $data = [];
+
+        return view('pages.tag-archive', $data);
+    }
+
+    public function categories(Request $request)
+    {
+        $data = [];
+
+        return view('pages.category-archive', $data);
+    }
+
+    public function searches(Request $request)
+    {
+        $data = [];
+
+        return view('pages.search-archive', $data);
+    }
+
 }

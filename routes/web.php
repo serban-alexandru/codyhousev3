@@ -42,10 +42,29 @@ Route::get('/site2',function(){
   return view('site2.index');
 });
 
-Route::get('/pages/post-archive', [
-  'as'   => 'pages.posts',
-  'uses' => 'PagesController@posts'
-]);
+Route::prefix('pages')->group(function(){
+
+  Route::get('/post-archive', [
+    'as'   => 'pages.posts',
+    'uses' => 'PagesController@posts'
+  ]);
+
+  Route::get('/tag-archive', [
+    'as'   => 'pages.tags',
+    'uses' => 'PagesController@tags'
+  ]);
+
+  Route::get('/category-archive', [
+    'as'   => 'pages.categories',
+    'uses' => 'PagesController@categories'
+  ]);
+
+  Route::get('/search-archive', [
+    'as'   => 'pages.searches',
+    'uses' => 'PagesController@searches'
+  ]);
+
+});
 
 Route::group(['middleware' => 'auth'], function(){
   Route::post('editorjs/upload-image', [
