@@ -148,4 +148,9 @@ class User extends Authenticatable implements HasMedia
         unlink($path);
     }
 
+    public function posts()
+    {
+        return $this->hasMany('Modules\Post\Entities\Post');
+    }
+
 }
