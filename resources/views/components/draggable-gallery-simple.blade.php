@@ -14,16 +14,38 @@
 
             <div class="card__content card-v8 bg">
               <p class="text-sm color-contrast-medium margin-bottom-sm">
-                {{ $post->title }}
+                @php
+                    $tag_categories = Modules\Tag\Entities\TagCategory::all();
+                    $posts_tags     = $post->postsTag;
+                @endphp
+                @foreach($tag_categories as $key => $tag_category)
+                    @php
+                        $show_category = false;
+
+                        foreach($posts_tags as $post_tag){
+                            $tag = Modules\Tag\Entities\Tag::find($post_tag->tag_id);
+
+                            if($tag->tag_category_id === $tag_category->id){
+                                $show_category = true;
+                                break;
+                            }
+                        }
+                    @endphp
+
+                    @if($show_category)
+                        @if($key > 0)
+                            ,
+                        @endif
+                        {{ $tag_category->name }}
+                    @endif
+                @endforeach
               </p>
               <div class="text-component">
-                @if($post->description)
-                    <h4>
-                        <div class="card-v8__title">
-                            <x-editorjs-block :data="$post->description" :excerpt="true" />
-                        </div>
-                    </h4>
-                @endif
+                <h4>
+                    <span class="card-v8__title">
+                        {{ $post->title }}
+                    </span>
+                </h4>
             </div>
           </div>
         </li>
