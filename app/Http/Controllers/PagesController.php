@@ -30,6 +30,16 @@ class PagesController extends Controller
 		return view('site1.pages.post', compact('post'));
     }
 
+    public function profile()
+    {
+        $user  = auth()->user();
+        $posts = $user->posts()->latest()->get();
+
+        $data['posts'] = $user->posts;
+
+        return view('site1.pages.profile', $data);
+    }
+
     public function posts(Request $request)
     {
         $q = $request->input('q');

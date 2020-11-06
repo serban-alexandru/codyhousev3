@@ -18,9 +18,10 @@ Route::get('/site1/blog',function(){
   return view('site1.pages.blog');
 });
 
-Route::get('/site1/profile',function(){
-  return view('site1.pages.profile');
-});
+Route::get('/site1/profile', [
+  'as'   => 'pages.profile',
+  'uses' => 'PagesController@profile'
+]);
 
 Route::get('/site1/post',function(){
   return view('site1.pages.post');
