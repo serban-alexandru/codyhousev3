@@ -8,7 +8,7 @@
 	<x-featured-post />
 
 	<div class="margin-bottom-lg"></div>
-	@include('partials.posts.draggable-gallery')
+	<x-draggable-gallery />
 
 	<div class="margin-top-md container max-width-lg">
 		<div class="flex justify-between">
