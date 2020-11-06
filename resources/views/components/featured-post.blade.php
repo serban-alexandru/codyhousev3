@@ -80,7 +80,7 @@
                                     @if($key > 0)
                                         ,
                                     @endif
-                                    <a href="#0" data-key="{{ $key }}" data-count="{{ $tag_categories->count() }}">{{ $tag_category->name }}</a>
+                                    <a href="#0">{{ $tag_category->name }}</a>
                                 @endif
                             @endforeach
                         </p>
