@@ -24,7 +24,7 @@
 			</div>
 		</div>
 	  </div>
-	  @include('partials.posts.draggable-gallery-simple')
+	  <x-draggable-gallery-simple />
 
 	  <div class="margin-top-md container max-width-lg">
 		<div class="flex justify-between">
@@ -40,7 +40,7 @@
 			</div>
 		</div>
 	  </div>
-	  @include('partials.posts.draggable-gallery-simple')
+	  <x-draggable-gallery-simple />
 
 	  <div class="margin-top-md container max-width-lg">
 		<div class="flex justify-between">
@@ -56,7 +56,7 @@
 			</div>
 		</div>
 	  </div>
-	  @include('partials.posts.draggable-gallery-simple')
+	  <x-draggable-gallery-simple />
 @endsection
 
 @section('before-end')
