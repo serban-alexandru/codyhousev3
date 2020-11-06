@@ -37,22 +37,21 @@
                             </a>
                         </h4>
                         <div class="author author--minimal padding-bottom-xs">
-                        <a href="#0" class="author__img-wrapper">
-                            @if($post->user->getMedia('avatars')->last())
-                                <img src="{{ $post->user->getMedia('avatars')->last()->getFullUrl('thumb') }}" alt="Author picture">
-                            @else
-                                <img src="{{ asset('assets/img/team-img-1.jpg') }}" alt="Author picture">
-                            @endif
-                        </a>
-
-                        <div class="author__content">
-                            <h4 class="stories__metadata">
-                                by
-                                <a href="#0" rel="author">
-                                    {{ $post->user->name }}
+                            @if($post->user->avatar)
+                                <a href="#0" class="author__img-wrapper">
+                                    <img src="{{ $post->user->getAvatar() }}" alt="Author picture">
                                 </a>
-                            </h4>
-                        </div>
+                            @else
+                                <span class="author__img-wrapper"></span>
+                            @endif
+                            <div class="author__content">
+                                <h4 class="stories__metadata">
+                                    by
+                                    <a href="#0" rel="author">
+                                        {{ $post->user->name }}
+                                    </a>
+                                </h4>
+                            </div>
                         </div>
                         <p class="stories__metadata padding-bottom-xs">
                             <time datetime="{{ $post->created_at->format('Y-m-d') }}">
