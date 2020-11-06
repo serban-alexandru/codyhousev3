@@ -25,7 +25,7 @@
                 </a>
               </li>
             @endif
-            
+
             @if(!is_null(auth()->user()->account_setting->facebook_link))
               <li>
                 <a href="{{ auth()->user()->account_setting->facebook_link }}" class="author__social">
@@ -49,163 +49,68 @@
   </div>
 </section>
 
-<div class="text-divider padding-bottom-xs text-lg max-width-adaptive-lg"><span>Olivia Gribben's Content</span></div>
+<div class="text-divider padding-bottom-xs text-lg max-width-adaptive-lg">
+    <span>
+        {{ auth()->user()->name }}&apos;{{
+            (substr(auth()->user()->name, -1) == 's' ? '' : 's')
+        }}
+        Content
+    </span>
+</div>
 
 <section class="margin-top-md">
   <div class="container max-width-adaptive-lg">
-<ul class="grid-auto-md gap-md">
+    <ul class="grid-auto-md gap-md">
+      @foreach($posts as $post)
+        <li>
+          <a href="#0" class="card-v8 bg radius-lg">
+            @if($post->thumbnail)
+                <figure>
+                    <img src="{{ $post->showThumbnail() }}" alt="Image of {{ $post->title }}">
+                </figure>
+            @endif
 
-  <li>
-    <a href="#0" class="card-v8 bg radius-lg">
-      <figure>
-        <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Image description">
-      </figure>
-    
-      <footer class="padding-sm">
-        <p class="text-sm color-contrast-medium margin-bottom-sm">Label</p>
-        <div class="text-component">
-          <h4><span class="card-v8__title text-sm">Almost before we knew it, we had left the ground.</span></h4>
-        </div>
-      </footer>
-    </a>
-  </li>
+            <footer class="padding-sm">
+              <p class="text-sm color-contrast-medium margin-bottom-sm">
+                @php
+                    $tag_categories = Modules\Tag\Entities\TagCategory::all();
+                    $posts_tags     = $post->postsTag;
+                @endphp
+                @foreach($tag_categories as $key => $tag_category)
+                    @php
+                        $show_category = false;
 
-  <li>
-    <a href="#0" class="card-v8 bg radius-lg">
-      <figure>
-        <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Image description">
-      </figure>
-    
-      <footer class="padding-sm">
-        <p class="text-sm color-contrast-medium margin-bottom-sm">Label</p>
-        <div class="text-component">
-          <h4><span class="card-v8__title text-sm">Almost before we knew it, we had left the ground.</span></h4>
-        </div>
-      </footer>
-    </a>
-  </li>
+                        foreach($posts_tags as $post_tag){
+                            $tag = Modules\Tag\Entities\Tag::find($post_tag->tag_id);
 
-  <li>
-    <a href="#0" class="card-v8 bg radius-lg">
-      <figure>
-        <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Image description">
-      </figure>
-    
-      <footer class="padding-sm">
-        <p class="text-sm color-contrast-medium margin-bottom-sm">Label</p>
-        <div class="text-component">
-          <h4><span class="card-v8__title text-sm">Almost before we knew it, we had left the ground.</span></h4>
-        </div>
-      </footer>
-    </a>
-  </li>
+                            if($tag->tag_category_id === $tag_category->id){
+                                $show_category = true;
+                                break;
+                            }
+                        }
+                    @endphp
 
-  <li>
-    <a href="#0" class="card-v8 bg radius-lg">
-      <figure>
-        <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Image description">
-      </figure>
-    
-      <footer class="padding-sm">
-        <p class="text-sm color-contrast-medium margin-bottom-sm">Label</p>
-        <div class="text-component">
-          <h4><span class="card-v8__title text-sm">Almost before we knew it, we had left the ground.</span></h4>
-        </div>
-      </footer>
-    </a>
-  </li>
-
-  <li>
-    <a href="#0" class="card-v8 bg radius-lg">
-      <figure>
-        <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Image description">
-      </figure>
-    
-      <footer class="padding-sm">
-        <p class="text-sm color-contrast-medium margin-bottom-sm">Label</p>
-        <div class="text-component">
-          <h4><span class="card-v8__title text-sm">Almost before we knew it, we had left the ground.</span></h4>
-        </div>
-      </footer>
-    </a>
-  </li>
-
-  <li>
-    <a href="#0" class="card-v8 bg radius-lg">
-      <figure>
-        <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Image description">
-      </figure>
-    
-      <footer class="padding-sm">
-        <p class="text-sm color-contrast-medium margin-bottom-sm">Label</p>
-        <div class="text-component">
-          <h4><span class="card-v8__title text-sm">Almost before we knew it, we had left the ground.</span></h4>
-        </div>
-      </footer>
-    </a>
-  </li>
-
-  <li>
-    <a href="#0" class="card-v8 bg radius-lg">
-      <figure>
-        <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Image description">
-      </figure>
-    
-      <footer class="padding-sm">
-        <p class="text-sm color-contrast-medium margin-bottom-sm">Label</p>
-        <div class="text-component">
-          <h4><span class="card-v8__title text-sm">Almost before we knew it, we had left the ground.</span></h4>
-        </div>
-      </footer>
-    </a>
-  </li>
-
-  <li>
-    <a href="#0" class="card-v8 bg radius-lg">
-      <figure>
-        <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Image description">
-      </figure>
-    
-      <footer class="padding-sm">
-        <p class="text-sm color-contrast-medium margin-bottom-sm">Label</p>
-        <div class="text-component">
-          <h4><span class="card-v8__title text-sm">Almost before we knew it, we had left the ground.</span></h4>
-        </div>
-      </footer>
-    </a>
-  </li>
-
-  <li>
-    <a href="#0" class="card-v8 bg radius-lg">
-      <figure>
-        <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Image description">
-      </figure>
-    
-      <footer class="padding-sm">
-        <p class="text-sm color-contrast-medium margin-bottom-sm">Label</p>
-        <div class="text-component">
-          <h4><span class="card-v8__title text-sm">Almost before we knew it, we had left the ground.</span></h4>
-        </div>
-      </footer>
-    </a>
-  </li>
-
-  <li>
-    <a href="#0" class="card-v8 bg radius-lg">
-      <figure>
-        <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Image description">
-      </figure>
-    
-      <footer class="padding-sm">
-        <p class="text-sm color-contrast-medium margin-bottom-sm">Label</p>
-        <div class="text-component">
-          <h4><span class="card-v8__title text-sm">Almost before we knew it, we had left the ground.</span></h4>
-        </div>
-      </footer>
-    </a>
-  </li>
-</ul>
-</div>
+                    @if($show_category)
+                        @if($key > 0)
+                            ,
+                        @endif
+                        {{ $tag_category->name }}
+                    @endif
+                @endforeach
+              </p>
+              <div class="text-component">
+                <h4>
+                    <span class="card-v8__title text-sm">
+                        {{ $post->title }}
+                    </span>
+                </h4>
+              </div>
+            </footer>
+          </a>
+        </li>
+      @endforeach
+    </ul>
+  </div>
 </section>
 
 @endsection
