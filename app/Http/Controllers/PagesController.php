@@ -59,7 +59,7 @@ class PagesController extends Controller
         }
 
         $posts = $posts->get();
-        $page_title = $q ?? 'Posts';
+        $page_title = $q ?? 'Posts'; // If there's no search query -> set title to `Posts`
 
         // Set view data
         $data['page_title'] = $page_title;
