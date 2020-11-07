@@ -30,12 +30,14 @@ class EditorjsBlock extends Component
 
     public function getExcerptHTML($data)
     {
-        $blocks = $data->blocks;
+        if (isset($data->blocks)) {
+            $blocks = $data->blocks;
 
-        foreach ($blocks as $key => $block) {
-            if ($block->type == 'paragraph') {
-                // Return only the first paragraph content
-                return $this->getParagraph($block->data);
+            foreach ($blocks as $key => $block) {
+                if ($block->type == 'paragraph') {
+                    // Return only the first paragraph content
+                    return $this->getParagraph($block->data);
+                }
             }
         }
 
