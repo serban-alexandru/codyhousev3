@@ -24,7 +24,7 @@ Route::get('/site1/profile', [
 ]);
 
 Route::get('/site1/profile/{username}', [
-  'as'   => 'profile.user',
+  'as'   => 'pages.profile.user',
   'uses' => 'PagesController@profile'
 ]);
 
