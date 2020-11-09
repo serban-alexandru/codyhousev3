@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use Modules\Post\Entities\Post;
+use Modules\Post\Entities\PostsTag;
 use Modules\Users\Entities\User;
+use Modules\Tag\Entities\Tag;
+use Modules\Tag\Entities\TagCategory;
 
 class PagesController extends Controller
 {
@@ -85,9 +88,34 @@ class PagesController extends Controller
         return view('pages.tag-archive', $data);
     }
 
-    public function categories(Request $request)
+    public function tagCategories(Request $request, $tag_category_query = null)
     {
-        $data = [];
+        $tag_category = TagCategory::where('name', $tag_category_query)->first();
+
+        // If tag category is not found -> return 404 | Not Found
+        if (!$tag_category_query || !$tag_category) {
+            abort(404);
+        }
+
+        // Get tags that use the tag category
+        $tags       = Tag::where('tag_category_id', $tag_category->id)->get();
+
+        // Get middle table `posts_tags`
+        $posts_tags = PostsTag::all();
+
+        // Get only items from `posts_tags` that is on `tags`
+        $filtered_posts_tags = $posts_tags->filter(function($post_tag, $key) use ($tags){
+            return $tags->contains($post_tag->tag_id);
+        });
+
+        // Convert `posts_tags` collection to `posts`
+        $posts = $filtered_posts_tags->map(function($post_tag, $key){
+            return $post_tag->post; // via `belongsTo` method
+        });
+
+
+        $data['page_title'] = $tag_category->name;
+        $data['posts']      = $posts;
 
         return view('pages.category-archive', $data);
     }

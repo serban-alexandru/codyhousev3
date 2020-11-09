@@ -60,9 +60,9 @@ Route::prefix('pages')->group(function(){
     'uses' => 'PagesController@tags'
   ]);
 
-  Route::get('/category-archive', [
-    'as'   => 'pages.categories',
-    'uses' => 'PagesController@categories'
+  Route::get('/tag-category-archive/{tagCategory}', [
+    'as'   => 'pages.tag-categories',
+    'uses' => 'PagesController@tagCategories'
   ]);
 
   Route::get('/search-archive', [

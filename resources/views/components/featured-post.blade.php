@@ -80,7 +80,7 @@
                                     @if($key > 0)
                                         ,
                                     @endif
-                                    <a href="#0">{{ $tag_category->name }}</a>
+                                    <a href="{{ route('pages.tag-categories', $tag_category->name) }}">{{ $tag_category->name }}</a>
                                 @endif
                             @endforeach
                         </p>
