@@ -38,7 +38,7 @@
                         </h4>
                         <div class="author author--minimal padding-bottom-xs">
                             @if($post->user->avatar)
-                                <a href="#0" class="author__img-wrapper">
+                                <a href="{{ route('pages.profile.user', $post->user->username) }}" class="author__img-wrapper">
                                     <img src="{{ $post->user->getAvatar() }}" alt="Author picture">
                                 </a>
                             @else
@@ -47,7 +47,7 @@
                             <div class="author__content">
                                 <h4 class="stories__metadata">
                                     by
-                                    <a href="#0" rel="author">
+                                    <a href="{{ route('pages.profile.user', $post->user->username) }}" rel="author">
                                         {{ $post->user->name }}
                                     </a>
                                 </h4>

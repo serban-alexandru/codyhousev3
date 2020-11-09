@@ -28,7 +28,7 @@
 
                     <div class="author author--meta margin-top-md">
                         @if($post->user->avatar)
-                            <a href="http://127.0.0.1:8000/site1/profile" class="author__img-wrapper" draggable="false" ondragstart="return false;">
+                            <a href="{{ route('pages.profile.user', $post->user->username) }}" class="author__img-wrapper" draggable="false" ondragstart="return false;">
                                 <img src="{{ $post->user->getAvatar() }}" alt="Author picture">
                             </a>
                         @else
@@ -37,7 +37,7 @@
 
                         <div class="featured__headline v-space-xxs">
                             <h4 class="text-sm">
-                                <a href="#0" rel="author" draggable="false" ondragstart="return false;">
+                                <a href="{{ route('pages.profile.user', $post->user->username) }}" rel="author" draggable="false" ondragstart="return false;">
                                     {{ $post->user->name }}
                                 </a>
                             </h4>
