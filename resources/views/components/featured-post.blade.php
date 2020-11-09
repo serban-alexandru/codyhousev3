@@ -23,11 +23,11 @@
                     @if($post->thumbnail)
                         <a href="#0" class="stories__img-wrapper">
                             <figure>
-                                <img src="{{ $post->showThumbnail() }}" alt="Image of {{ $post->title }}">
+                                <img src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
                             </figure>
                         </a>
                     @else
-                        <span class="post-table-image-wrapper post-table-image bg-black bg-opacity-50% margin-right-sm"></span>
+                        <span class="stories__img-wrapper bg-black bg-opacity-50%"></span>
                     @endif
 
                     <div class="featured__headline line-height-xl v-space-sm text-sm">
