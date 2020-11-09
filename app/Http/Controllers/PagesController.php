@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Illuminate\Http\Request;
 use Modules\Post\Entities\Post;
+use Modules\Users\Entities\User;
 
 class PagesController extends Controller
 {
@@ -30,11 +31,18 @@ class PagesController extends Controller
 		return view('site1.pages.post', compact('post'));
     }
 
-    public function profile()
+    public function profile($username = null)
     {
-        $user  = auth()->user();
+        $user = ($username) ? User::where('username', $username)->first()
+                : auth()->user();
+
+        if (!$user) {
+            abort(403);
+        }
+
         $posts = $user->posts()->latest()->get();
 
+        $data['user']  = $user;
         $data['posts'] = $user->posts;
 
         return view('site1.pages.profile', $data);

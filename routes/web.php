@@ -23,6 +23,11 @@ Route::get('/site1/profile', [
   'uses' => 'PagesController@profile'
 ]);
 
+Route::get('/site1/profile/{username}', [
+  'as'   => 'profile.user',
+  'uses' => 'PagesController@profile'
+]);
+
 Route::get('/site1/post',function(){
   return view('site1.pages.post');
 });
