@@ -20,6 +20,8 @@
               </td>
             @endif
 
+            <th class="int-table__cell int-table__cell--th text-center">Image</th>
+
             <th class="int-table__cell int-table__cell--th int-table__cell--sort js-int-table__cell--sort">
               <div class="flex items-center">
                 <span>Post Title</span>
@@ -100,8 +102,6 @@
                 </li>
               </ul>
             </th>
-
-            <th class="int-table__cell int-table__cell--th text-center">Image</th>
             @if(!request()->has('is_trashed'))
               <th class="int-table__cell int-table__cell--th text-left">Action</th>
             @endif
@@ -119,71 +119,73 @@
 
         <tbody class="int-table__body js-int-table__body">
           @foreach($posts as $post)
-          <tr class="int-table__row">
-            @if(!request()->has('is_trashed'))
-              <th class="int-table__cell" scope="row">
-                <div class="custom-checkbox int-table__checkbox">
-                  <input value="{{ $post->id }}" class="custom-checkbox__input js-int-table__select-row checkbox-delete" type="checkbox" aria-label="Select this row">
-                  <div class="custom-checkbox__control" aria-hidden="true"></div>
-                </div>
-              </th>
-            @endif
-            <td class="int-table__cell cursor-pointer" aria-controls="modal-edit-post" data-id="{{ $post->id }}">
-              <a href="#0">
-                {{ Str::limit($post->title, 47) }}
-              </a>
-            </td>
-            <td class="int-table__cell">{{ $post->username }}</td>
-            <td class="int-table__cell">{{ $post->created_at->format('m/d/Y') }}</td>
-            <td class="int-table__cell text-center">
-              @if(is_null($post->thumbnail_medium))
-                <span class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%"></span>
-              @else
-              <span class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%">
-                <img src="{{ $post->showThumbnail('medium') }}">
-              </span>
+            <tr class="int-table__row">
+              @if(!request()->has('is_trashed'))
+                <th class="int-table__cell" scope="row">
+                  <div class="custom-checkbox int-table__checkbox">
+                    <input value="{{ $post->id }}" class="custom-checkbox__input js-int-table__select-row checkbox-delete" type="checkbox" aria-label="Select this row">
+                    <div class="custom-checkbox__control" aria-hidden="true"></div>
+                  </div>
+                </th>
               @endif
-            </td>
-
-            @if(!$post->is_deleted || ($post->is_published && !$post->is_deleted))
-              <td class="int-table__cell text-center flex" style="overflow: unset;">
-                @if(!$post->is_deleted)
-                  <form action="{{ route('posts.delete') }}" method="post">
-                    @csrf
-                    <input type="hidden" name="post_id" value="{{ $post->id }}">
-                    <li class="menu-bar__item btn-delete" role="menuitem" aria-controls="modal-name-1">
-                      <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
-                        <path d="M2,6v8c0,1.1,0.9,2,2,2h8c1.1,0,2-0.9,2-2V6H2z"></path>
-                        <path d="M12,3V1c0-0.6-0.4-1-1-1H5C4.4,0,4,0.4,4,1v2H0v2h16V3H12z M10,3H6V2h4V3z"></path>
-                      </svg>
-                      <span class="menu-bar__label">Delete</span>
-                    </li>
-                  </form>
-                @endif
-
-                @if($post->is_published && !$post->is_deleted)
-                  <a href="{{ route('posts.make-draft', ['id' => $post->id]) }}">
-                    <li class="menu-bar__item menu-bar__item--hide" role="menuitem">
-                      <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 12 12">
-                        <path d="M10.121.293a1,1,0,0,0-1.414,0L1,8,0,12l4-1,7.707-7.707a1,1,0,0,0,0-1.414Z"></path>
-                      </svg>
-                      <span class="menu-bar__label">Draft</span>
-                    </li>
-                  </a>
+              
+              <td class="int-table__cell text-center cursor-pointer" aria-controls="modal-edit-post" data-id="{{ $post->id }}">
+                @if(is_null($post->thumbnail_medium))
+                  <span class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%"></span>
+                @else
+                <span class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%">
+                  <img src="{{ $post->showThumbnail('medium') }}">
+                </span>
                 @endif
               </td>
-            @endif
 
-            @if(!$post->is_published && !$post->is_deleted)
-              <td>
-                <a href="{{ route('posts.publish', ['id' => $post->id]) }}" class="btn">Publish</a>
+              <td class="int-table__cell cursor-pointer" aria-controls="modal-edit-post" data-id="{{ $post->id }}">
+                <a href="#0">
+                  {{ Str::limit($post->title, 47) }}
+                </a>
               </td>
-            @elseif($post->is_deleted)
-              <td>
-                <a href="{{ route('posts.restore', ['id' => $post->id]) }}" class="btn">Restore</a>
-              </td>
-            @endif
-          </tr>
+              <td class="int-table__cell">{{ $post->username }}</td>
+              <td class="int-table__cell">{{ $post->created_at->format('m/d/Y') }}</td>
+
+              @if(!$post->is_deleted || ($post->is_published && !$post->is_deleted))
+                <td class="int-table__cell text-center flex" style="overflow: unset;">
+                  @if(!$post->is_deleted)
+                    <form action="{{ route('posts.delete') }}" method="post">
+                      @csrf
+                      <input type="hidden" name="post_id" value="{{ $post->id }}">
+                      <li class="menu-bar__item btn-delete" role="menuitem" aria-controls="modal-name-1">
+                        <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
+                          <path d="M2,6v8c0,1.1,0.9,2,2,2h8c1.1,0,2-0.9,2-2V6H2z"></path>
+                          <path d="M12,3V1c0-0.6-0.4-1-1-1H5C4.4,0,4,0.4,4,1v2H0v2h16V3H12z M10,3H6V2h4V3z"></path>
+                        </svg>
+                        <span class="menu-bar__label">Delete</span>
+                      </li>
+                    </form>
+                  @endif
+
+                  @if($post->is_published && !$post->is_deleted)
+                    <a href="{{ route('posts.make-draft', ['id' => $post->id]) }}">
+                      <li class="menu-bar__item menu-bar__item--hide" role="menuitem">
+                        <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 12 12">
+                          <path d="M10.121.293a1,1,0,0,0-1.414,0L1,8,0,12l4-1,7.707-7.707a1,1,0,0,0,0-1.414Z"></path>
+                        </svg>
+                        <span class="menu-bar__label">Draft</span>
+                      </li>
+                    </a>
+                  @endif
+                </td>
+              @endif
+
+              @if(!$post->is_published && !$post->is_deleted)
+                <td>
+                  <a href="{{ route('posts.publish', ['id' => $post->id]) }}" class="btn">Publish</a>
+                </td>
+              @elseif($post->is_deleted)
+                <td>
+                  <a href="{{ route('posts.restore', ['id' => $post->id]) }}" class="btn">Restore</a>
+                </td>
+              @endif
+            </tr>
           @endforeach
         </tbody>
 
