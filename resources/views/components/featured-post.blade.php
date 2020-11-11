@@ -4,10 +4,8 @@
 
         @if($featured_post)
             @if($featured_post->thumbnail)
-                <a href="#0" class="featured__img-wrapper">
-                    <figure>
-                        <img src="{{ $featured_post->showThumbnail() }}" alt="Image of {{ $featured_post->title }}">
-                    </figure>
+                <a href="#0" class="featured__img-wrapper featured__img-wrapper-cropped">
+                    <img src="{{ $featured_post->showThumbnail() }}" alt="Image of {{ $featured_post->title }}">
                 </a>
             @endif
             <h1 class="featured__headline-main line-height-xxxl feature-v12__offset-item text-left padding-left-sm">
