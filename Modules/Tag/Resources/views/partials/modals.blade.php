@@ -34,15 +34,16 @@
           </div>
         </div>
         <section id="tab1Panel1" class="padding-top-md js-tabs__panel">
-          <div>
-
-            <div class="grid gap-sm">
+          <div class="flex gap-xs">
+            <div class="flex-grow">
               <input class="form-control width-100%" type="text" name="tag_name" id="tag_name" required placeholder="Enter Tag">
               <div role="alert" class="form-error-msg"></div>
+            </div>
 
+            <div>
               <div class="flex items-start">
                 <label class="form-label" for="tag_category_id"></label>
-                <div class="select inline-block js-select" data-trigger-class="btn btn--subtle">
+                <div class="select inline-block js-select" data-trigger-class="btn btn--subtle" style="right: 0;">
                   <select name="tag_category_id" id="tag_category_id">
                     <optgroup label="Tag category">
                     @foreach($tag_categories as $key => $tag_category)
@@ -59,7 +60,9 @@
                   <svg class="icon icon--xs margin-left-xxxs" aria-hidden="true" viewBox="0 0 16 16"><polygon points="3,5 8,11 13,5 "></polygon></svg>
                 </div>
               </div>
-            <div>
+            </div>
+          </div>
+          <div>
             <div role="alert" class="form-error-msg"></div>
 
             <label class="form-label margin-bottom-xxs margin-top-md" for="tag_description">Enter Your Tag Description</label>
