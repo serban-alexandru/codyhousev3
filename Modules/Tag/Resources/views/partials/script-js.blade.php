@@ -1,7 +1,4 @@
 @auth
-<style>
-  #tag_category_id-dropdown { right: 0 !important; left: unset !important; }
-</style>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
 <!-- <script src="https://cdn.jsdelivr.net/npm/@editorjs/link@latest"></script> -->
