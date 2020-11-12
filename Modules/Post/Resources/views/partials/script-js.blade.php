@@ -191,7 +191,7 @@
     });
 
     // used editorjs for edit post form
-    $('#editorjs2').on('input click', function(){
+    $('#editorjs2, .trigger-site-editor-save').on('input click', function(){
       var $this = $(this);
 
       if($this.data('target-input')){
