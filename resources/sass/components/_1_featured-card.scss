@@ -76,9 +76,14 @@ Usage: codyhouse.co/license
     }
 }
 
-/* custom */
+/* Custom styles */
 .featured__img-wrapper-cropped {
     max-height: 520px;
+
+    // mobile view max height
+    @media (max-width: 60rem) {
+        max-height: 300px;
+    }
 }
 
 .stories__text {
