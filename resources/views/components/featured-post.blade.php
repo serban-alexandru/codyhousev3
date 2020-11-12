@@ -4,9 +4,11 @@
 
         @if($featured_post)
             @if($featured_post->thumbnail)
-                <a href="#0" class="featured__img-wrapper featured__img-wrapper-cropped">
-                    <img src="{{ $featured_post->showThumbnail() }}" alt="Image of {{ $featured_post->title }}">
+                <a href="#0" class="featured__img-wrapper feautured__img-wrapper-cropped">
+                    <img src="{{ $featured_post->showThumbnail('medium') }}" alt="Image of {{ $featured_post->title }}">
                 </a>
+            @else
+                <span class="feautured__img-wrapper-cropped bg-black bg-opacity-50%"></span>
             @endif
             <h1 class="featured__headline-main line-height-xxxl feature-v12__offset-item text-left padding-left-sm">
                 <a href="#0">{{ $featured_post->title }}</a>
