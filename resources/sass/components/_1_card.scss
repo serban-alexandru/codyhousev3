@@ -22,16 +22,29 @@ Usage: codyhouse.co/license
     }
 }
 
-/* Custom styles */
+/* Start custom styles */
 .card__img-cropped {
-    height: 250px;
+    display: block;
+    width: 100%;
+    height: 12em;
     overflow: hidden;
+    flex-shrink: 0;
 
-    // mobile view max height
+    // mobile view height
     @media (max-width: 60rem) {
-        max-height: 350px;
+        height: 12em;
+    }
+
+    img {
+        width: inherit;
+        height: inherit;
+        display: block;
+        -o-object-fit: cover;
+        object-fit: cover;
     }
 }
+
+/* End custom styles */
 
 .card__content {
     padding: var(--space-md);
