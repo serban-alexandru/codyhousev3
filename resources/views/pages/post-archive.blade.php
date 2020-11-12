@@ -7,11 +7,9 @@
       @foreach($posts as $key => $post)
         <li>
           <a href="#0" class="card-v8 bg radius-lg">
-            <figure>
+            <figure class="card__img card__img-cropped bg-black bg-opacity-50%">
               @if($post->thumbnail)
                 <img src="{{ $post->showThumbnail() }}" alt="Image of {{ $post->title }}">
-              @else
-                <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Image description">
               @endif
             </figure>
 

@@ -64,11 +64,11 @@
       @foreach($posts as $post)
         <li>
           <a href="#0" class="card-v8 bg radius-lg">
-            @if($post->thumbnail)
-                <figure>
-                    <img src="{{ $post->showThumbnail() }}" alt="Image of {{ $post->title }}">
-                </figure>
-            @endif
+            <figure class="card__img card__img-cropped bg-black bg-opacity-50%">
+              @if($post->thumbnail)
+                <img src="{{ $post->showThumbnail() }}" alt="Image of {{ $post->title }}">
+              @endif
+            </figure>
 
             <footer class="padding-sm">
               <p class="text-sm color-contrast-medium margin-bottom-sm">

@@ -4,13 +4,13 @@
         @foreach($posts as $post)
             <li class="drag-gallery__item">
                 <div class="card">
-                    @if($post->thumbnail)
-                        <figure class="card__img">
-                            <a href="http://127.0.0.1:8000/site1/blog" draggable="false" ondragstart="return false;">
+                    <a href="http://127.0.0.1:8000/site1/blog" draggable="false" ondragstart="return false;">
+                        <figure class="card__img card__img-cropped bg-black bg-opacity-50%">
+                            @if($post->thumbnail)
                                 <img src="{{ $post->showThumbnail('medium') }}" alt="Card preview img">
-                            </a>
+                            @endif
                         </figure>
-                    @endif
+                    </a>
 
                     <div class="card__content">
                     <div class="featured__headline">
