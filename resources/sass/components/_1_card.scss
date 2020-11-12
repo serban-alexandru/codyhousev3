@@ -1,4 +1,4 @@
-/* -------------------------------- 
+/* --------------------------------
 
 File#: _1_card
 Title: Card
@@ -13,56 +13,68 @@ Usage: codyhouse.co/license
     border-radius: var(--radius-md);
     overflow: hidden;
     margin-left: 1px;
-  }
-  
-  .card__img {
+}
+
+.card__img {
     img {
-      display: block;
-      width: 100%;
+        display: block;
+        width: 100%;
     }
-  }
-  
-  .card__content {
+}
+
+/* Custom styles */
+.card__img-cropped {
+    height: 250px;
+    overflow: hidden;
+
+    // mobile view max height
+    @media (max-width: 60rem) {
+        max-height: 350px;
+    }
+}
+
+.card__content {
     padding: var(--space-md);
-  }
-  
-  // --link
-  .card--is-link {
+}
+
+// --link
+.card--is-link {
     will-change: box-shadow;
     transition: box-shadow 0.2s;
-  
+
     &:hover {
-      box-shadow: var(--shadow-md);
-  
-      .card__img::after {
-        opacity: 1;
-      }
+        box-shadow: var(--shadow-md);
+
+        .card__img::after {
+            opacity: 1;
+        }
     }
-  
+
     .card__img {
-      position: relative;
-  
-      &::after { // overlay layer
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: alpha(var(--color-black), 0.6);
-        opacity: 0;
-        transition: opacity 0.2s;
-      }
+        position: relative;
+
+        &::after {
+            // overlay layer
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: alpha(var(--color-black), 0.6);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
     }
-  }
-  
-  .card__link {
+}
+
+.card__link {
     text-decoration: none;
     display: block;
     color: inherit;
-  }
-  
-  .card__link-icon {
+}
+
+.card__link-icon {
     position: absolute;
     z-index: 1;
     width: 64px;
@@ -74,18 +86,18 @@ Usage: codyhouse.co/license
     display: flex;
     align-items: center;
     justify-content: center;
-  
+
     opacity: 0;
     transition: opacity 0.2s;
-  
+
     .icon {
-      display: block;
-      width: 32px;
-      height: 32px;
-      color: var(--color-black); // icon color
+        display: block;
+        width: 32px;
+        height: 32px;
+        color: var(--color-black); // icon color
     }
-  }
-  
-  .card--is-link:hover .card__link-icon {
+}
+
+.card--is-link:hover .card__link-icon {
     opacity: 1;
-  }
+}
