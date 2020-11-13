@@ -89,6 +89,7 @@ Usage: codyhouse.co/license
     // mobile view height
     @media (max-width: 60rem) {
         height: 29em;
+        width: calc(100% + 40px);
     }
 
     img {
