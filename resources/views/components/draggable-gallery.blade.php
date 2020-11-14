@@ -1,9 +1,9 @@
 <section class="margin-top-md">
     <div class="drag-gallery js-drag-gallery container max-width-adaptive-lg">
-      <ul class="drag-gallery__list gap-md">
+      <ul class="drag-gallery__list drag-gallery__list-align-top gap-md">
         @foreach($posts as $post)
             <li class="drag-gallery__item">
-                <div class="card">
+                <div class="card shadow-none">
                     @if($post->thumbnail)
                         <a href="http://127.0.0.1:8000/site1/blog" draggable="false" ondragstart="return false;" class="card__img card__img-cropped">
                             <img src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
@@ -23,6 +23,8 @@
                             <div class="text-sm color-contrast-medium">
                                 <x-editorjs-block :data="$post->description" :excerpt="true" />
                             </div>
+                        @else
+                        <p>&nbsp;</p>
                         @endif
                     </div>
 

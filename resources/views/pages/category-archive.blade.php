@@ -6,7 +6,7 @@
       <ul class="grid-auto-md gap-md">
       @foreach($posts as $key => $post)
         <li>
-          <a href="#0" class="card-v8 bg radius-lg">
+          <a href="#0" class="card-v8 bg radius-lg shadow-none">
             @if($post->thumbnail)
                 <figure class="card__img card__img-cropped">
                     <img src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
@@ -42,6 +42,7 @@
                         {{ $tag_category->name }}
                     @endif
                 @endforeach
+                &nbsp;
               </p>
               <div class="text-component">
                 <h4>
