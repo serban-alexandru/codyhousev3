@@ -49,6 +49,10 @@ Usage: codyhouse.co/license
     }
 }
 
+.drag-gallery__list-align-top {
+    align-items: flex-start !important;
+}
+
 .drag-gallery__item {
     float: left; // flex fallback
     width: var(--drag-gallery-img-width);
