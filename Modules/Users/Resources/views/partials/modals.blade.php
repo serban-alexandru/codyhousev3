@@ -57,7 +57,9 @@
 <!-- 👇 Full Screen Modal -->
 <div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll" id="modal-edit-user">
   <div class="modal__content height-100% tabs js-tabs width-100% max-width-xs bg radius-md shadow-md flex flex-column" role="alertdialog" aria-labelledby="modal-edit-user-title" aria-describedby="modal-description-4">
-    <form action="#" method="POST" id="modal-edit-user-form" class="modal-form  flex flex-column height-100%"> @csrf
+    <form action="#" method="POST" id="modal-edit-user-form" class="modal-form  flex flex-column height-100%" enctype="multipart/form-data">
+      @csrf
+      <input type="file" class="is-hidden" name="avatar" id="avatar" accept="image/*">
       <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
         <!-- 👇 Tabs -->
         <nav class="">
@@ -87,10 +89,14 @@
             </div>
           </section>
 
-          <section id="tab2Panel2" class="padding-top-md js-tabs__panel">
-            <div class="text-component">
-              <h1 class="text-lg">Edit Images</h1>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt, nobis! Vitae quis minus accusantium qui atque? Officiis sunt exercitationem natus, minus sapiente debitis eum animi porro. Ut cupiditate amet expedita!</p>
+          <section id="tab2Panel2" class="padding-top-md js-tabs__panel flex gap-sm items-center">
+            <a href="#" class="bg-contrast-medium author__img-wrapper modal-user-avatar"></a>
+            <div>
+              <label for="avatar" class="file-upload__label btn btn--subtle">
+                <span class="file-upload__text file-upload__text--has-max-width" data-default-text="Upload a file">Upload Avatar</span>
+              </label>
+
+              
             </div>
           </section>
 

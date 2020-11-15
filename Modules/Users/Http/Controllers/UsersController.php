@@ -236,12 +236,18 @@ class UsersController extends Controller
             return redirect('admin/users')->with('responseMessage', 'User not found.');
         }
 
-        // validate data
-        $this->validate($request,[
+        $rules = [
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$id],
-            'username' => ['required', 'string', 'max:255', 'unique:users,username,'.$id],
-        ]);
+            'username' => ['required', 'string', 'max:255', 'unique:users,username,'.$id]
+        ];
+
+        if($request->has('avatar')) {
+            $rules['avatar'] = ['image'];
+        }
+
+        // validate data
+        $this->validate($request, $rules);
 
         // get inputs
         $name = $request->input('name');
@@ -275,6 +281,38 @@ class UsersController extends Controller
         }
 
         $saved = $user->save();
+
+        // AVATAR SECTION
+        $lastUsedAvatar = $user->getMedia('avatars')->last();
+
+        if ($request->file('avatar') !== null) {
+
+            // check if there is currently set and then delete
+            if ($lastUsedAvatar) {
+                $lastUsedAvatar->delete();
+            }
+
+            // set avatar
+            $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
+
+            // Copy avatar to specific folder
+            $new_avatar = $user->copyAvatar();
+
+            // Delete old avatar if not null
+            if(!is_null($user->avatar)){
+                $user_old_avatar = $user->avatar;
+                $old_avatar_path = storage_path() . '/app/public/users-images/avatars/' . $user_old_avatar;
+                if(File::exists($old_avatar_path)){
+                    unlink($old_avatar_path);
+                }
+            }
+
+            // Update in users table
+            $user->update(['avatar' => $new_avatar]);
+
+            // Delete user avatar from the media table, and file system
+            $user->deleteMediaAvatar();
+        }
 
         $response = [
             'status'  => 'success',

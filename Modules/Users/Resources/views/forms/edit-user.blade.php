@@ -64,3 +64,4 @@
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
 
+    <input type="hidden" value="{{ $user->getAvatar() }}" class="input-user-avatar" data-avatar="{{ $user->avatar }}">
