@@ -11,10 +11,6 @@ use Modules\Tag\Entities\{Tag, TagCategory};
 
 class PostController extends Controller
 {
-    public function __construct()
-    {
-        $this->cleanupEditorImages();
-    }
 
     public function cleanupEditorImages()
     {
@@ -37,6 +33,9 @@ class PostController extends Controller
 
     public function index()
     {
+        // Cleanup unused images created with editorjs
+        $this->cleanupEditorImages();
+
         $view = request()->ajax() ? 'post::partials.table' : 'post::index';
 
         $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
