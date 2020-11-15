@@ -113,6 +113,8 @@ class PagesController extends Controller
             return $post_tag->post; // via `belongsTo` method
         });
 
+        $posts = $posts->unique()->sortByDesc('created_at');
+
 
         $data['page_title'] = $tag_category->name;
         $data['posts']      = $posts;
