@@ -61,6 +61,7 @@
                             @php
                                 $tag_categories = Modules\Tag\Entities\TagCategory::all();
                                 $posts_tags     = $post->postsTag;
+                                $category_names = [];
                             @endphp
                             @foreach($tag_categories as $key => $tag_category)
                                 @php
@@ -74,13 +75,18 @@
                                             break;
                                         }
                                     }
+
+                                    if($show_category){
+                                        array_push($category_names, $tag_category->name);
+                                    }
                                 @endphp
 
-                                @if($show_category)
-                                    @if($key > 0)
-                                        ,
-                                    @endif
-                                    <a href="{{ route('pages.tag-categories', $tag_category->name) }}">{{ $tag_category->name }}</a>
+                            @endforeach
+
+                            @foreach($category_names as $cn_key => $category_name)
+                                <a href="{{ route('pages.tag-categories', $category_name) }}">{{ $category_name }}</a>
+                                @if($cn_key < count($category_names) - 1)
+                                    ,
                                 @endif
                             @endforeach
                         </p>
