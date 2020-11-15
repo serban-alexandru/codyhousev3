@@ -6,9 +6,7 @@
           <div class="card">
             @if($post->thumbnail)
                 <figure class="card__img">
-                <a href="http://127.0.0.1:8000/site1/blog" draggable="false" ondragstart="return false;">
                     <img src="{{ $post->showThumbnail('medium') }}" alt="Card preview img">
-                </a>
                 </figure>
             @endif
 

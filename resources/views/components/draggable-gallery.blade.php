@@ -6,16 +6,14 @@
                 <div class="card">
                     @if($post->thumbnail)
                         <figure class="card__img">
-                            <a href="http://127.0.0.1:8000/site1/blog" draggable="false" ondragstart="return false;">
-                                <img src="{{ $post->showThumbnail('medium') }}" alt="Card preview img">
-                            </a>
+                            <img src="{{ $post->showThumbnail('medium') }}" alt="Card preview img">
                         </figure>
                     @endif
 
                     <div class="card__content">
                     <div class="featured__headline">
                         <h4 class="margin-bottom-md">
-                        <a href="#0" draggable="false" ondragstart="return false;">
+                        <a href="#0">
                             {{ $post->title }}
                         </a>
                         </h4>
@@ -28,7 +26,7 @@
 
                     <div class="author author--meta margin-top-md">
                         @if($post->user->avatar)
-                            <a href="{{ route('pages.profile.user', $post->user->username) }}" class="author__img-wrapper" draggable="false" ondragstart="return false;">
+                            <a href="{{ route('pages.profile.user', $post->user->username) }}" class="author__img-wrapper">
                                 <img src="{{ $post->user->getAvatar() }}" alt="Author picture">
                             </a>
                         @else
@@ -37,7 +35,7 @@
 
                         <div class="featured__headline v-space-xxs">
                             <h4 class="text-sm">
-                                <a href="{{ route('pages.profile.user', $post->user->username) }}" rel="author" draggable="false" ondragstart="return false;">
+                                <a href="{{ route('pages.profile.user', $post->user->username) }}" rel="author">
                                     {{ $post->user->name }}
                                 </a>
                             </h4>
