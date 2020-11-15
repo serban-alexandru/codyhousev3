@@ -46,7 +46,7 @@ class PagesController extends Controller
         $posts = $user->posts()->latest()->get();
 
         $data['user']  = $user;
-        $data['posts'] = $user->posts;
+        $data['posts'] = $posts;
 
         return view('site1.pages.profile', $data);
     }
