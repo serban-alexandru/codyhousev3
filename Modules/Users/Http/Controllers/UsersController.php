@@ -349,6 +349,56 @@ class UsersController extends Controller
         // return back()->with('responseMessage', $responseMessage);
     }
 
+    public function getUpdateCoverPhoto($id)
+    {
+        $user = User::find($id);
+
+        if(!$user) {
+            return response()->json(['User does not exists.']);
+        }
+
+        if(!$user->account_setting){
+            $account_setting = AccountSetting::create([
+                'user_id' => $user->id
+            ]);
+        }
+
+        $user->refresh();
+
+        return view('users::settings-admin', compact('user'));
+    }
+
+    public function postAjaxUpdateCoverPhotoAdmin($id)
+    {
+        $this->validate(request(), ['base64Image' => 'required']);
+
+        $user = User::find($id);
+
+        if(!$user) {
+            return response()->json(['User does not exists.']);
+        }
+
+        // Get and set old cover photo
+        if($user->hasCoverPhoto()){
+            $old_cover_photo = storage_path() . '/app/public/users-images/cover/' . $user->cover_photo;
+
+            if(File::exists($old_cover_photo)){
+                unlink($old_cover_photo);
+            }
+        }
+
+        $cover_photo = (new CoverPhotoUploader)->uploadBase64Photo(request('base64Image'), 'storage/app/public/users-images/cover');
+
+        $user->update([
+            'cover_photo' => $cover_photo->file_name
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Cover photo has been updated!'
+        ]);
+    }
+
     /**
      * Activate user account
      * Set `permission` to `previous_permission`

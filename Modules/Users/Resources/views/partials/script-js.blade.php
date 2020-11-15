@@ -12,11 +12,9 @@
       $('#modal-edit-user-form').attr('action', updateURL);
       var $element = $('#ajax-edit-user-form');
       $element.load( url, function(response, status, xhr) {
-        
         var currentUserAvatar = $(response).filter('.input-user-avatar').val();
         var currentDataAvatar = $(response).filter('.input-user-avatar').attr('data-avatar');
-
-        console.log(currentDataAvatar != '')
+        var currentUserId = $(response).filter('.user-id').val();
 
         if(currentDataAvatar != ''){
           $('.modal-user-avatar').empty();
@@ -25,6 +23,9 @@
         } else {
           $('.modal-user-avatar').empty();
         }
+
+        // Update cover photo link
+        $('.update-cover-photo-link').attr('href', '/admin/users/update-coverphoto/' + currentUserId);
 
       });
     });
