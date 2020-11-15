@@ -4,12 +4,36 @@ namespace Modules\Post\Http\Controllers;
 
 use Arr, Str, Image, File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Modules\Post\Entities\{ PostSetting, Post, PostsTag };
 use Modules\Tag\Entities\{Tag, TagCategory};
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->cleanupEditorImages();
+    }
+
+    public function cleanupEditorImages()
+    {
+        // `$directory` path value must be the value from `uploadImage` method
+        // `uploadImage` method at app/Http/Controllers/EditorjsController.php
+
+        $directory = 'public/editorjs-images';
+        $files     = Storage::files($directory);
+
+        foreach ($files as $file) {
+            $file_name    = basename($file);
+            $file_on_post = Post::firstWhere('description', 'LIKE', '%' . $file_name . '%');
+
+            // model is null -> delete
+            if (!$file_on_post) {
+                Storage::delete($file);
+            }
+        }
+    }
 
     public function index()
     {
