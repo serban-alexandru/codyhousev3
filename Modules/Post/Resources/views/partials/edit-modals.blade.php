@@ -70,11 +70,6 @@
                       <input class="form-control width-100%" type="text" name="page_title" id="editPageTitle" required>
                     <div>
 
-                  <!-- <div class="grid gap-sm">
-                      <label class="form-label margin-bottom-xxs" for="editTags">Edit Tags</label>
-                      <select name="tags[]" id="editTags" class="form-control" multiple></select>
-                  <div> -->
-
                   @foreach($tag_categories as $key=> $tag_category)
                     <div class="grid gap-sm">
                         <label class="form-label margin-bottom-xxs" for="edit_tag_category_{{ $tag_category->id }}">
@@ -95,9 +90,9 @@
 
         <footer class="padding-y-sm padding-x-md bg shadow-md flex-shrink-0">
           <div class="flex justify-end gap-xs">
-            <button type="button" class="btn btn--subtle js-modal__close">Cancel</button>
-            <a href="#" type="button" class="btn btn--primary is-hidden draft-post-link trigger-site-editor-save" data-target-input="#editDescription">Draft</a>
-            <a href="#" type="button" class="btn btn--primary is-hidden publish-post-link">Publish</a>
+            <button type="button" class="btn btn--subtle js-modal__close" data-toggle="close-modal" data-target-close="#closeEditModal">Cancel</button>
+            <a href="#" type="button" class="btn btn--primary is-hidden draft-post-link trigger-site-editor-save" data-target-input="#editDescription" id="btnEditSaveDraft" data-toggle-published="0">Draft</a>
+            <a href="#" type="button" class="btn btn--primary is-hidden publish-post-link trigger-site-editor-save" data-target-input="#editDescription" id="btnEditSavePublish" data-toggle-published="1">Publish</a>
             <a href="#" type="button" class="btn btn--primary is-hidden restore-post-link">Restore</a>
             <button type="button" class="btn btn--primary trigger-site-editor-save" data-target-input="#editDescription" id="btnEditSave">Save</button>
           </div>

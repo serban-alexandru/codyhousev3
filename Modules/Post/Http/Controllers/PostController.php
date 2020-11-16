@@ -352,13 +352,16 @@ class PostController extends Controller
             }
         }
 
+        $is_published = request('is_published') ?? $post->is_published;
+
         $post->update([
             'title' => request('title'),
             'description' => request('description'),
             'thumbnail' => (request()->has('thumbnail')) ? $thumbnail_name : $post->thumbnail,
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : $post->thumbnail_medium,
             'seo_page_title' => request('page_title') ?: NULL,
-            'tags' => (request()->has('tags')) ? implode(',', request('tags')) : NULL
+            'tags' => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
+            'is_published' => $is_published
         ]);
 
         $tag_categories = TagCategory::all();
