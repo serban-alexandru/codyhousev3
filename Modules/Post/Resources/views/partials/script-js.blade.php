@@ -279,6 +279,7 @@
           }
 
           $('#editTitle').val(response.title);
+          $('#editSlug').val(response.slug);
           $('#editDescription').val(response.description);
           $('#thumbnailPreview').attr('src', response.thumbnail);
           $('#editPageTitle').val(response.page_title);

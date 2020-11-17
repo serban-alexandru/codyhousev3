@@ -39,6 +39,11 @@
                   <label class="form-label margin-bottom-xxs" for="editTitle">Edit Your Title</label>
                   <input class="form-control width-100%" type="text" name="title" id="editTitle" required>
                 <div>
+                <div class="margin-bottom-sm">
+                  <label class="form-label margin-bottom-xxs" for="editSlug">Edit Slug</label>
+                  <input class="form-control width-100%" type="text" name="slug" id="editSlug" required>
+                </div><!-- /.margin-bottom-sm -->
+
                   <label class="form-label margin-bottom-xxs" for="editDescription">Edit Description</label>
                   <div id="editorjs2" data-target-input="#editDescription" class="form-control"></div>
                   <input type="hidden" name="description" id="editDescription"/>

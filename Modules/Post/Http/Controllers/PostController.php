@@ -5,6 +5,7 @@ namespace Modules\Post\Http\Controllers;
 use Arr, Str, Image, File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+
 use App\Http\Controllers\Controller;
 use Modules\Post\Entities\{ PostSetting, Post, PostsTag };
 use Modules\Tag\Entities\{Tag, TagCategory};
@@ -88,6 +89,19 @@ class PostController extends Controller
         $is_draft   = request('is_draft');
 
         $tag_categories = TagCategory::all();
+
+        // Generate `slug` if it's not yet set
+        foreach ($posts as $post) {
+            $slug                = Str::slug($post->title, '-');
+            $post_with_same_slug = Post::where('slug', $slug)->where('id', '<>', $post->id)->first();
+
+            if ($post_with_same_slug) {
+                $slug .= '-2';
+            }
+
+            $post->slug = $slug;
+            $post->save();
+        }
 
         return view($view, compact(
             'posts', 'posts_published_count', 'posts_draft_count', 'posts_deleted_count',
@@ -198,9 +212,18 @@ class PostController extends Controller
             $thumbnail_medium->save($post_image_path . '/thumbnail/' . $thumbnail_medium_name);
         }
 
+        // Generate slug
+        $slug                = Str::slug(request('title'), '-');
+        $post_with_same_slug = Post::firstWhere('slug', $slug);
+
+        if ($post_with_same_slug) {
+            $slug .= '-2';
+        }
+
         $post = Post::create([
             'user_id'          => auth()->user()->id,
             'title'            => request('title'),
+            'slug'             => $slug,
             'description'      => request('description'),
             'thumbnail'        => (request()->has('thumbnail')) ? $thumbnail_name : NULL,
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : NULL,
@@ -257,13 +280,14 @@ class PostController extends Controller
 
         $data = [];
 
-        $data['id'] = $post->id;
-        $data['title'] = $post->title;
-        $data['description'] = html_entity_decode($post->description);
-        $data['thumbnail'] = asset("storage/posts/original/{$post->thumbnail}");
-        $data['page_title'] = $post->seo_page_title;
+        $data['id']           = $post->id;
+        $data['title']        = $post->title;
+        $data['slug']         = $post->slug;
+        $data['description']  = html_entity_decode($post->description);
+        $data['thumbnail']    = asset("storage/posts/original/{$post->thumbnail}");
+        $data['page_title']   = $post->seo_page_title;
         $data['is_published'] = $post->is_published;
-        $data['is_deleted'] = $post->is_deleted;
+        $data['is_deleted']   = $post->is_deleted;
 
         $tag_categories        = TagCategory::all();
         $posts_tags            = $post->postsTag()->get();
@@ -354,8 +378,17 @@ class PostController extends Controller
 
         $is_published = request('is_published') ?? $post->is_published;
 
+        // Generate slug
+        $slug                = Str::slug(request('slug'), '-');
+        $post_with_same_slug = Post::where('slug', $slug)->where('id', '<>', $post->id)->first();
+
+        if ($post_with_same_slug) {
+            $slug .= '-2';
+        }
+
         $post->update([
             'title' => request('title'),
+            'slug' => $slug,
             'description' => request('description'),
             'thumbnail' => (request()->has('thumbnail')) ? $thumbnail_name : $post->thumbnail,
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : $post->thumbnail_medium,
