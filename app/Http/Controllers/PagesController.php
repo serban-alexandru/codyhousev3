@@ -90,33 +90,19 @@ class PagesController extends Controller
 
     public function tagCategories(Request $request, $tag_category_query = null)
     {
-        $tag_category = TagCategory::where('name', $tag_category_query)->first();
-
         // If tag category is not found -> return 404 | Not Found
-        if (!$tag_category_query || !$tag_category) {
+        if (!$tag_category_query) {
             abort(404);
         }
 
-        // Get tags that use the tag category
-        $tags       = Tag::where('tag_category_id', $tag_category->id)->get();
-
-        // Get middle table `posts_tags`
-        $posts_tags = PostsTag::all();
-
-        // Get only items from `posts_tags` that is on `tags`
-        $filtered_posts_tags = $posts_tags->filter(function($post_tag, $key) use ($tags){
-            return $tags->contains($post_tag->tag_id);
-        });
-
-        // Convert `posts_tags` collection to `posts`
-        $posts = $filtered_posts_tags->map(function($post_tag, $key){
-            return $post_tag->post; // via `belongsTo` method
-        });
-
-        $posts = $posts->unique()->sortByDesc('created_at');
+        $posts = Post::getByTagCategoryName($tag_category_query);
 
 
-        $data['page_title'] = $tag_category->name;
+        $data['page_title'] = $tag_category_query;
+        $data['posts']      = $posts;
+
+
+        $data['page_title'] = $tag_category_query;
         $data['posts']      = $posts;
 
         return view('pages.category-archive', $data);

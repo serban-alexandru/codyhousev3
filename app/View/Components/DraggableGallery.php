@@ -15,21 +15,27 @@ class DraggableGallery extends Component
      *
      * @return void
      */
-    public function __construct($limit = 4)
+    public function __construct($tagCategory = null, $limit = 4)
     {
+        // If `tag-category` attribute is set on the component
+        if ($tagCategory) {
+            $posts = Post::getByTagCategoryName($tagCategory, $limit);
+        }else{
 
-        $posts = Post::where(
-            [
-                'is_published' => true,
-                'is_deleted'   => false
-            ]
-        )
-        ->orderBy('created_at', 'desc')
-        ->limit($limit)
-        ->offset(0)
-        ;
+            // Else if not set, then just get latest posts
+            $posts = Post::where(
+                [
+                    'is_published' => true,
+                    'is_deleted'   => false
+                ]
+            )
+            ->orderBy('created_at', 'desc')
+            ->limit($limit)
+            ->offset(0)
+            ;
 
-        $posts = $posts->get();
+            $posts = $posts->get();
+        }
 
         $this->posts = $posts;
     }

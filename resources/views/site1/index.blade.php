@@ -8,7 +8,7 @@
 	<x-featured-post />
 
 	<div class="margin-bottom-lg"></div>
-	<x-draggable-gallery />
+	<x-draggable-gallery tag-category="Tags" />
 
 	<div class="margin-top-md container max-width-lg">
 		<div class="flex justify-between">
