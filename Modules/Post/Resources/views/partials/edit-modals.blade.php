@@ -39,10 +39,6 @@
                   <label class="form-label margin-bottom-xxs" for="editTitle">Edit Your Title</label>
                   <input class="form-control width-100%" type="text" name="title" id="editTitle" required>
                 <div>
-                <div class="margin-bottom-sm">
-                  <label class="form-label margin-bottom-xxs" for="editSlug">Edit Slug</label>
-                  <input class="form-control width-100%" type="text" name="slug" id="editSlug" required>
-                </div><!-- /.margin-bottom-sm -->
 
                   <label class="form-label margin-bottom-xxs" for="editDescription">Edit Description</label>
                   <div id="editorjs2" data-target-input="#editDescription" class="form-control"></div>
@@ -69,7 +65,10 @@
             <section id="tab1Panel3" class="padding-top-md js-tabs__panel">
                 <fieldset class="margin-bottom-md">
                   <legend class="form-legend">Form Legend</legend>
-
+                  <div class="margin-bottom-sm">
+                    <label class="form-label margin-bottom-xxs" for="editSlug">Edit Slug</label>
+                    <input class="form-control width-100%" type="text" name="slug" id="editSlug" required>
+                  </div><!-- /.margin-bottom-sm -->
                   <div class="grid gap-sm">
                       <label class="form-label margin-bottom-xxs" for="editPageTitle">Edit SEO Page Title</label>
                       <input class="form-control width-100%" type="text" name="page_title" id="editPageTitle" required>
