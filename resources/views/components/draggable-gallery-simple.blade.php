@@ -5,7 +5,17 @@
         <li class="drag-gallery__item">
           <div class="card shadow-none">
             @if($post->thumbnail)
-                <a href="http://127.0.0.1:8000/site1/blog" draggable="false" ondragstart="return false;" class="card__img card__img-cropped">
+                <a href="
+                  {{
+                      route(
+                          'pages.post',
+                          [
+                              'locale' => config('app.locale'),
+                              'slug'   => $post->slug
+                          ]
+                      )
+                  }}
+                " draggable="false" ondragstart="return false;" class="card__img card__img-cropped">
                     <img src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
                 </a>
             @else
