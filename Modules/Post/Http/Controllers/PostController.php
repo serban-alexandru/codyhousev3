@@ -43,6 +43,7 @@ class PostController extends Controller
             ->select([
                 'posts.id',
                 'title',
+                'slug',
                 'posts.created_at as created_at',
                 'thumbnail',
                 'thumbnail_medium',
@@ -92,15 +93,17 @@ class PostController extends Controller
 
         // Generate `slug` if it's not yet set
         foreach ($posts as $post) {
-            $slug                = Str::slug($post->title, '-');
-            $post_with_same_slug = Post::where('slug', $slug)->where('id', '<>', $post->id)->first();
+            if (!$post->slug) {
+                $slug                = Str::slug($post->title, '-');
+                $post_with_same_slug = Post::where('slug', $slug)->where('id', '<>', $post->id)->first();
 
-            if ($post_with_same_slug) {
-                $slug .= '-2';
+                if ($post_with_same_slug) {
+                    $slug .= '-2';
+                }
+
+                $post->slug = $slug;
+                $post->save();
             }
-
-            $post->slug = $slug;
-            $post->save();
         }
 
         return view($view, compact(
