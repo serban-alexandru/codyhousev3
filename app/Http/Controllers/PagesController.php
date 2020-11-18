@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 use Modules\Post\Entities\Post;
 use Modules\Post\Entities\PostsTag;
 use Modules\Users\Entities\User;
@@ -32,6 +34,20 @@ class PagesController extends Controller
 		$post = Post::findOrFail($id);
 
 		return view('site1.pages.post', compact('post'));
+    }
+
+    public function post($locale, $slug)
+    {
+
+        $post = Post::firstWhere('slug', $slug);
+
+        if (!$post) {
+            abort(404);
+        }
+
+        $data['post'] = $post;
+
+        return view('site1.pages.blog', $data);
     }
 
     public function profile($username = null)

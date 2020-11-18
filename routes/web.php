@@ -48,6 +48,16 @@ Route::get('/site2',function(){
   return view('site2.index');
 });
 
+Route::group([
+  'prefix' => '{locale}',
+  'where'  => ['locale' => '[a-zA-Z]{2}']
+], function(){
+  Route::get('{slug}', [
+    'as'   => 'pages.post',
+    'uses' => 'PagesController@post'
+  ]);
+});
+
 Route::prefix('pages')->group(function(){
 
   Route::get('/post-archive', [
