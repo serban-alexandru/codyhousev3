@@ -63,7 +63,17 @@
     <ul class="grid-auto-md gap-md">
       @foreach($posts as $post)
         <li>
-          <a href="#0" class="card-v8 bg radius-lg shadow-none">
+          <a href="
+            {{
+                route(
+                    'pages.post',
+                    [
+                        'locale' => config('app.locale'),
+                        'slug'   => $post->slug
+                    ]
+                )
+            }}
+          " class="card-v8 bg radius-lg shadow-none">
             @if($post->thumbnail)
                 <figure class="card__img card__img-cropped">
                     <img src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
