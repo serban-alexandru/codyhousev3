@@ -7,8 +7,7 @@
 	<!-- NEW via blade component -->
 	<x-featured-post />
 
-	<div class="margin-bottom-lg"></div>
-	<x-draggable-gallery tag-category="Tags" />
+	<div class="margin-bottom-xl"></div>
 
 	<div class="margin-top-md container max-width-lg">
 		<div class="flex justify-between">
