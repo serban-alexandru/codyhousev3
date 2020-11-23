@@ -24,7 +24,7 @@
 			</div>
 		</div>
 	  </div>
-	  <x-draggable-gallery-simple />
+	  <x-draggable-gallery-simple tag-category="Tags"/>
 
 	  <div class="margin-top-md container max-width-lg">
 		<div class="flex justify-between">
