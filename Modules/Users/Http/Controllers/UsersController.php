@@ -236,12 +236,18 @@ class UsersController extends Controller
             return redirect('admin/users')->with('responseMessage', 'User not found.');
         }
 
-        // validate data
-        $this->validate($request,[
+        $rules = [
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$id],
-            'username' => ['required', 'string', 'max:255', 'unique:users,username,'.$id],
-        ]);
+            'username' => ['required', 'string', 'max:255', 'unique:users,username,'.$id]
+        ];
+
+        if($request->has('avatar')) {
+            $rules['avatar'] = ['image'];
+        }
+
+        // validate data
+        $this->validate($request, $rules);
 
         // get inputs
         $name = $request->input('name');
@@ -276,6 +282,38 @@ class UsersController extends Controller
 
         $saved = $user->save();
 
+        // AVATAR SECTION
+        $lastUsedAvatar = $user->getMedia('avatars')->last();
+
+        if ($request->file('avatar') !== null) {
+
+            // check if there is currently set and then delete
+            if ($lastUsedAvatar) {
+                $lastUsedAvatar->delete();
+            }
+
+            // set avatar
+            $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
+
+            // Copy avatar to specific folder
+            $new_avatar = $user->copyAvatar();
+
+            // Delete old avatar if not null
+            if(!is_null($user->avatar)){
+                $user_old_avatar = $user->avatar;
+                $old_avatar_path = storage_path() . '/app/public/users-images/avatars/' . $user_old_avatar;
+                if(File::exists($old_avatar_path)){
+                    unlink($old_avatar_path);
+                }
+            }
+
+            // Update in users table
+            $user->update(['avatar' => $new_avatar]);
+
+            // Delete user avatar from the media table, and file system
+            $user->deleteMediaAvatar();
+        }
+
         $response = [
             'status'  => 'success',
             'message' => 'User has been updated.',
@@ -309,6 +347,56 @@ class UsersController extends Controller
 
         return response()->json($response);
         // return back()->with('responseMessage', $responseMessage);
+    }
+
+    public function getUpdateCoverPhoto($id)
+    {
+        $user = User::find($id);
+
+        if(!$user) {
+            return response()->json(['User does not exists.']);
+        }
+
+        if(!$user->account_setting){
+            $account_setting = AccountSetting::create([
+                'user_id' => $user->id
+            ]);
+        }
+
+        $user->refresh();
+
+        return view('users::settings-admin', compact('user'));
+    }
+
+    public function postAjaxUpdateCoverPhotoAdmin($id)
+    {
+        $this->validate(request(), ['base64Image' => 'required']);
+
+        $user = User::find($id);
+
+        if(!$user) {
+            return response()->json(['User does not exists.']);
+        }
+
+        // Get and set old cover photo
+        if($user->hasCoverPhoto()){
+            $old_cover_photo = storage_path() . '/app/public/users-images/cover/' . $user->cover_photo;
+
+            if(File::exists($old_cover_photo)){
+                unlink($old_cover_photo);
+            }
+        }
+
+        $cover_photo = (new CoverPhotoUploader)->uploadBase64Photo(request('base64Image'), 'storage/app/public/users-images/cover');
+
+        $user->update([
+            'cover_photo' => $cover_photo->file_name
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Cover photo has been updated!'
+        ]);
     }
 
     /**

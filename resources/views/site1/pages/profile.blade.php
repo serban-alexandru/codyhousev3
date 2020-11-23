@@ -5,9 +5,13 @@
   <div class="container max-width-adaptive-lg" id="userProfile">
     <div class="author author--featured">
       <div class="profile__cover radius-lg radius-top-left-0 radius-top-right-0" aria-hidden="true" style="background-image: url('{{ $user->getCoverPhoto() }}" alt="{{ $user->name }}'s Cover Photo');"></div>
-      <a href="#" class="author__img-wrapper border border-4 border-white">
-        <img src="{{ $user->getAvatar() }}" alt="Author picture">
-      </a>
+      @if($user->avatar)
+        <a href="#" class="author__img-wrapper border border-4 border-white">
+          <img src="{{ $user->getAvatar() }}" alt="Author picture">
+        </a>
+      @else
+        <a href="#" class="author__img-wrapper border border-4 border-white bg-contrast-medium"></a>
+      @endif
 
       <h3>{{ $user->name }}</h3>
 

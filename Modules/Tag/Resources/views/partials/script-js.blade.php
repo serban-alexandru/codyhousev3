@@ -1,5 +1,4 @@
 @auth
-
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
 <!-- <script src="https://cdn.jsdelivr.net/npm/@editorjs/link@latest"></script> -->

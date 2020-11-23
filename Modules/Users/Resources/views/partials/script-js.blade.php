@@ -12,6 +12,21 @@
       $('#modal-edit-user-form').attr('action', updateURL);
       var $element = $('#ajax-edit-user-form');
       $element.load( url, function(response, status, xhr) {
+        var currentUserAvatar = $(response).filter('.input-user-avatar').val();
+        var currentDataAvatar = $(response).filter('.input-user-avatar').attr('data-avatar');
+        var currentUserId = $(response).filter('.user-id').val();
+
+        if(currentDataAvatar != ''){
+          $('.modal-user-avatar').empty();
+
+          $('.modal-user-avatar').prepend("<img src='" + currentUserAvatar + "'>");
+        } else {
+          $('.modal-user-avatar').empty();
+        }
+
+        // Update cover photo link
+        $('.update-cover-photo-link').attr('href', '/admin/users/update-coverphoto/' + currentUserId);
+
       });
     });
 
@@ -30,13 +45,15 @@
     });
 
     // trigger to submit modal form
-    $('.modal-form').on('submit', function(){
+    $('.modal-form').on('submit', function(e){
       var $this = $(this);
 
       var url = $this.attr('action');
       var method = $this.attr('method');
       var dataType = 'JSON';
       var data = $this.serialize();
+
+      var formData = new FormData($(this)[0]);
 
       var currentURL = $('meta[name="current-url"]').attr('content');
 
@@ -46,7 +63,9 @@
         url: url,
         method: method,
         dataType: dataType,
-        data: data,
+        data: formData,
+        contentType: false,
+        processData: false,
         success : function(response) {
           // console.log('Response', response);
 
