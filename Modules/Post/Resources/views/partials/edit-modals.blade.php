@@ -39,6 +39,7 @@
                   <label class="form-label margin-bottom-xxs" for="editTitle">Edit Your Title</label>
                   <input class="form-control width-100%" type="text" name="title" id="editTitle" required>
                 <div>
+
                   <label class="form-label margin-bottom-xxs" for="editDescription">Edit Description</label>
                   <div id="editorjs2" data-target-input="#editDescription" class="form-control"></div>
                   <input type="hidden" name="description" id="editDescription"/>
@@ -64,16 +65,14 @@
             <section id="tab1Panel3" class="padding-top-md js-tabs__panel">
                 <fieldset class="margin-bottom-md">
                   <legend class="form-legend">Form Legend</legend>
-
+                  <div class="margin-bottom-sm">
+                    <label class="form-label margin-bottom-xxs" for="editSlug">Edit Slug</label>
+                    <input class="form-control width-100%" type="text" name="slug" id="editSlug" required>
+                  </div><!-- /.margin-bottom-sm -->
                   <div class="grid gap-sm">
                       <label class="form-label margin-bottom-xxs" for="editPageTitle">Edit SEO Page Title</label>
                       <input class="form-control width-100%" type="text" name="page_title" id="editPageTitle" required>
                     <div>
-
-                  <!-- <div class="grid gap-sm">
-                      <label class="form-label margin-bottom-xxs" for="editTags">Edit Tags</label>
-                      <select name="tags[]" id="editTags" class="form-control" multiple></select>
-                  <div> -->
 
                   @foreach($tag_categories as $key=> $tag_category)
                     <div class="grid gap-sm">
@@ -95,11 +94,11 @@
 
         <footer class="padding-y-sm padding-x-md bg shadow-md flex-shrink-0">
           <div class="flex justify-end gap-xs">
-            <button type="button" class="btn btn--subtle js-modal__close">Cancel</button>
-            <a href="#" type="button" class="btn btn--primary is-hidden draft-post-link">Draft</a>
-            <a href="#" type="button" class="btn btn--primary is-hidden publish-post-link">Publish</a>
+            <button type="button" class="btn btn--subtle js-modal__close" data-toggle="close-modal" data-target-close="#closeEditModal">Cancel</button>
+            <a href="#" type="button" class="btn btn--primary is-hidden draft-post-link trigger-site-editor-save" data-target-input="#editDescription" id="btnEditSaveDraft" data-toggle-published="0">Draft</a>
+            <a href="#" type="button" class="btn btn--primary is-hidden publish-post-link trigger-site-editor-save" data-target-input="#editDescription" id="btnEditSavePublish" data-toggle-published="1">Publish</a>
             <a href="#" type="button" class="btn btn--primary is-hidden restore-post-link">Restore</a>
-            <button type="button" class="btn btn--primary" id="btnEditSave">Save</button>
+            <button type="button" class="btn btn--primary trigger-site-editor-save" data-target-input="#editDescription" id="btnEditSave">Save</button>
           </div>
         </footer>
     </div><!-- /.modal__content -->

@@ -1,13 +1,25 @@
 <section class="margin-top-md">
   <div class="drag-gallery js-drag-gallery container max-width-adaptive-lg">
-    <ul class="drag-gallery__list gap-md">
+    <ul class="drag-gallery__list drag-gallery__list-align-top gap-md">
       @foreach($posts as $post)
         <li class="drag-gallery__item">
-          <div class="card">
+          <div class="card shadow-none">
             @if($post->thumbnail)
-                <figure class="card__img">
-                    <img src="{{ $post->showThumbnail('medium') }}" alt="Card preview img">
-                </figure>
+                <a href="
+                  {{
+                      route(
+                          'pages.post',
+                          [
+                              'locale' => config('app.locale'),
+                              'slug'   => $post->slug
+                          ]
+                      )
+                  }}
+                " draggable="false" ondragstart="return false;" class="card__img card__img-cropped">
+                    <img src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
+                </a>
+            @else
+                <span class="card__img card__img-cropped bg-black bg-opacity-50%"></span>
             @endif
 
             <div class="card__content card-v8 bg">
@@ -15,6 +27,7 @@
                 @php
                     $tag_categories = Modules\Tag\Entities\TagCategory::all();
                     $posts_tags     = $post->postsTag;
+                    $category_names = [];
                 @endphp
                 @foreach($tag_categories as $key => $tag_category)
                     @php
@@ -28,15 +41,20 @@
                                 break;
                             }
                         }
+
+                        if($show_category){
+                            array_push($category_names, $tag_category->name);
+                        }
                     @endphp
 
-                    @if($show_category)
-                        @if($key > 0)
-                            ,
-                        @endif
-                        {{ $tag_category->name }}
+                @endforeach
+                @foreach($category_names as $cn_key => $category_name)
+                    {{ $category_name }}
+                    @if($cn_key < count($category_names) - 1)
+                        ,
                     @endif
                 @endforeach
+                &nbsp;
               </p>
               <div class="text-component">
                 <h4>

@@ -138,8 +138,8 @@
         <footer class="padding-y-sm padding-x-md bg shadow-md flex-shrink-0">
           <div class="flex justify-end gap-xs">
             <button type="button" class="btn btn--subtle js-modal__close">Cancel</button>
-            <button type="button" id="btnSave" class="btn btn--primary">Save</button>
-            <button type="button" id="btnPublish" class="btn btn--primary">Publish</button>
+            <button type="button" id="btnSave" class="btn btn--primary site-editor" data-target-input="#description">Save</button>
+            <button type="button" id="btnPublish" class="btn btn--primary site-editor" data-target-input="#description">Publish</button>
           </div>
         </footer>
     </div><!-- /.modal__content -->

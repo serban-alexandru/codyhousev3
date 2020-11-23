@@ -6,20 +6,31 @@
       <ul class="grid-auto-md gap-md">
       @foreach($posts as $key => $post)
         <li>
-          <a href="#0" class="card-v8 bg radius-lg">
-            <figure>
-              @if($post->thumbnail)
-                <img src="{{ $post->showThumbnail() }}" alt="Image of {{ $post->title }}">
-              @else
-                <img src="{{ asset('assets/img/author-img-1.jpg') }}" alt="Image description">
-              @endif
-            </figure>
+          <a href="
+            {{
+                route(
+                    'pages.post',
+                    [
+                        'locale' => config('app.locale'),
+                        'slug'   => $post->slug
+                    ]
+                )
+            }}
+          " class="card-v8 bg radius-lg shadow-none">
+            @if($post->thumbnail)
+                <figure class="card__img card__img-cropped">
+                    <img src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
+                </figure>
+            @else
+                <span class="card__img card__img-cropped bg-black bg-opacity-50%"></span>
+            @endif
 
             <footer class="padding-sm">
               <p class="text-sm color-contrast-medium margin-bottom-sm">
                 @php
                     $tag_categories = Modules\Tag\Entities\TagCategory::all();
                     $posts_tags     = $post->postsTag;
+                    $category_names = [];
                 @endphp
                 @foreach($tag_categories as $key => $tag_category)
                     @php
@@ -33,15 +44,20 @@
                                 break;
                             }
                         }
+
+                        if($show_category){
+                            array_push($category_names, $tag_category->name);
+                        }
                     @endphp
 
-                    @if($show_category)
-                        @if($key > 0)
-                            ,
-                        @endif
-                        {{ $tag_category->name }}
+                @endforeach
+                @foreach($category_names as $cn_key => $category_name)
+                    {{ $category_name }}
+                    @if($cn_key < count($category_names) - 1)
+                        ,
                     @endif
                 @endforeach
+                &nbsp;
               </p>
               <div class="text-component">
                 <h4>

@@ -7,8 +7,7 @@
 	<!-- NEW via blade component -->
 	<x-featured-post />
 
-	<div class="margin-bottom-lg"></div>
-	<x-draggable-gallery />
+	<div class="margin-bottom-xl"></div>
 
 	<div class="margin-top-md container max-width-lg">
 		<div class="flex justify-between">
@@ -24,7 +23,7 @@
 			</div>
 		</div>
 	  </div>
-	  <x-draggable-gallery-simple />
+	  <x-draggable-gallery-simple tag-category="Tags"/>
 
 	  <div class="margin-top-md container max-width-lg">
 		<div class="flex justify-between">

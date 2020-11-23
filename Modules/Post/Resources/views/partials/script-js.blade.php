@@ -14,6 +14,14 @@
 <script>
   (function(){
 
+    // Close modal trigger
+    $('[data-toggle="close-modal"]').on('click', function(){
+      var $this = $(this);
+      var closeModalBtn = $($this.data('target-close'));
+
+      closeModalBtn.click();
+    });
+
 
     // load content when user clicked on sidebar links
     $(document).on('click', '.ajax-link', function (e) {
@@ -191,7 +199,7 @@
     });
 
     // used editorjs for edit post form
-    $('#editorjs2').on('input click', function(){
+    $('#editorjs2, .trigger-site-editor-save').on('input click', function(){
       var $this = $(this);
 
       if($this.data('target-input')){
@@ -271,6 +279,7 @@
           }
 
           $('#editTitle').val(response.title);
+          $('#editSlug').val(response.slug);
           $('#editDescription').val(response.description);
           $('#thumbnailPreview').attr('src', response.thumbnail);
           $('#editPageTitle').val(response.page_title);
@@ -314,12 +323,21 @@
       $('#modal-edit-post').addClass('modal--is-visible');
     });
 
-    $(document).on('click', '#btnEditSave', function(){
+    function savePost(e) {
+
+      e.preventDefault();
+
+      var $this = $(this);
+      var published = $this.data('toggle-published');
+
       $(this).html("Please wait...");
 
       var formData = new FormData($('#formEditPost')[0]);
-      // formData.append('description', tinyMCE.activeEditor.getContent());
       formData.append('id', $('#postId').val());
+
+      if (published != undefined) {
+        formData.append('is_published', published);
+      }
 
       $.ajaxSetup({
         headers: {
@@ -338,7 +356,11 @@
           location.reload();
         }
       });
-    });
+    }
+
+    $(document).on('click', '#btnEditSave', savePost);
+    $(document).on('click', '#btnEditSaveDraft', savePost);
+    $(document).on('click', '#btnEditSavePublish', savePost);
 
     // Single post delete
     $(document).on('click', '.btn-delete', function(){

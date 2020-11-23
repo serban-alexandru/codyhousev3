@@ -18,12 +18,12 @@ Route::get('/site1/blog',function(){
   return view('site1.pages.blog');
 });
 
-Route::get('/site1/profile', [
+Route::get('/profile', [
   'as'   => 'pages.profile',
   'uses' => 'PagesController@profile'
 ]);
 
-Route::get('/site1/profile/{username}', [
+Route::get('/profile/{username}', [
   'as'   => 'pages.profile.user',
   'uses' => 'PagesController@profile'
 ]);
@@ -46,6 +46,16 @@ Route::get('/site1/home',function(){
 
 Route::get('/site2',function(){
   return view('site2.index');
+});
+
+Route::group([
+  'prefix' => '{locale}',
+  'where'  => ['locale' => '[a-zA-Z]{2}']
+], function(){
+  Route::get('{slug}', [
+    'as'   => 'pages.post',
+    'uses' => 'PagesController@post'
+  ]);
 });
 
 Route::prefix('pages')->group(function(){

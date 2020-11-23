@@ -1,19 +1,41 @@
 <section class="margin-top-md">
     <div class="drag-gallery js-drag-gallery container max-width-adaptive-lg">
-      <ul class="drag-gallery__list gap-md">
+      <ul class="drag-gallery__list drag-gallery__list-align-top gap-md">
         @foreach($posts as $post)
             <li class="drag-gallery__item">
-                <div class="card">
+                <div class="card shadow-none">
                     @if($post->thumbnail)
-                        <figure class="card__img">
-                            <img src="{{ $post->showThumbnail('medium') }}" alt="Card preview img">
-                        </figure>
+                        <a href="
+                            {{
+                                route(
+                                    'pages.post',
+                                    [
+                                        'locale' => config('app.locale'),
+                                        'slug'   => $post->slug
+                                    ]
+                                )
+                            }}
+                        " draggable="false" ondragstart="return false;" class="card__img card__img-cropped">
+                            <img src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
+                        </a>
+                    @else
+                        <span class="card__img card__img-cropped bg-black bg-opacity-50%"></span>
                     @endif
 
                     <div class="card__content">
                     <div class="featured__headline">
                         <h4 class="margin-bottom-md">
-                        <a href="#0">
+                        <a href="
+                            {{
+                                route(
+                                    'pages.post',
+                                    [
+                                        'locale' => config('app.locale'),
+                                        'slug'   => $post->slug
+                                    ]
+                                )
+                            }}
+                        " draggable="false" ondragstart="return false;">
                             {{ $post->title }}
                         </a>
                         </h4>
@@ -21,12 +43,14 @@
                             <div class="text-sm color-contrast-medium">
                                 <x-editorjs-block :data="$post->description" :excerpt="true" />
                             </div>
+                        @else
+                        <p>&nbsp;</p>
                         @endif
                     </div>
 
                     <div class="author author--meta margin-top-md">
                         @if($post->user->avatar)
-                            <a href="{{ route('pages.profile.user', $post->user->username) }}" class="author__img-wrapper">
+                            <a href="{{ route('pages.profile.user', $post->user->username) }}" class="author__img-wrapper" draggable="false" ondragstart="return false;">
                                 <img src="{{ $post->user->getAvatar() }}" alt="Author picture">
                             </a>
                         @else
@@ -35,7 +59,7 @@
 
                         <div class="featured__headline v-space-xxs">
                             <h4 class="text-sm">
-                                <a href="{{ route('pages.profile.user', $post->user->username) }}" rel="author">
+                                <a href="{{ route('pages.profile.user', $post->user->username) }}" rel="author" draggable="false" ondragstart="return false;">
                                     {{ $post->user->name }}
                                 </a>
                             </h4>
