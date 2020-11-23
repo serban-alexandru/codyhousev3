@@ -45,7 +45,7 @@ class Post extends Model
         return $this->hasMany(PostsTag::class);
 	}
 
-    public static function getByTagCategoryName($tag_category_query = null, $limit = -1)
+    public static function getByTagCategoryName($tag_category_query = null, $limit = null)
     {
 
         $tag_category = TagCategory::where('name', $tag_category_query)->first();
@@ -73,7 +73,11 @@ class Post extends Model
 
         $posts = $posts->unique()->sortByDesc('created_at');
 
-        $posts = $posts->slice(0, $limit)->all();
+        if ($limit) {
+            $posts = $posts->slice(0, $limit);
+        }
+
+        $posts = $posts->all();
 
         return $posts;
     }

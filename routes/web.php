@@ -18,12 +18,12 @@ Route::get('/site1/blog',function(){
   return view('site1.pages.blog');
 });
 
-Route::get('/site1/profile', [
+Route::get('/profile', [
   'as'   => 'pages.profile',
   'uses' => 'PagesController@profile'
 ]);
 
-Route::get('/site1/profile/{username}', [
+Route::get('/profile/{username}', [
   'as'   => 'pages.profile.user',
   'uses' => 'PagesController@profile'
 ]);
