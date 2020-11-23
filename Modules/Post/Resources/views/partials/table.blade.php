@@ -223,12 +223,21 @@
   </menu>
 
   <div class="flex items-center justify-between padding-top-sm">
-    <p class="text-sm">{{ $posts->count() }} results</p>
+    <p class="text-sm">
+      {{ $posts->count() }}
+      {{ ($posts->count() < 2) ? 'result' : 'results' }}
+    </p>
 
-    <nav class="pagination text-sm" aria-label="Pagination">
+    @if($posts->count() > 0)
+    <nav class="pagination text-sm" aria-label="Pagination" id="table-pagination-bottom">
       <ul class="pagination__list flex flex-wrap gap-xxxs">
         <li>
-          <a href="#0" class="pagination__item">
+          <a
+            href="{{ $posts->withQueryString()->previousPageUrl() }}"
+            class="pagination__item
+              {{ ($posts->currentPage() == 1) ? 'pagination__item--disabled' : '' }}
+            "
+          >
             <svg class="icon" viewBox="0 0 16 16">
               <title>Go to previous page</title>
               <g stroke-width="1.5" stroke="currentColor">
@@ -240,13 +249,29 @@
 
         <li>
           <span class="pagination__jumper flex items-center">
-            <input aria-label="Page number" class="form-control" type="text" id="pageNumber" name="pageNumber" value="1">
-            <em>of 50</em>
+            <form action="{{ url()->full() }}" class="inline" method="get">
+              @if($request->has('is_trashed'))
+                <input type="hidden" name="is_trashed" value="{{ $is_trashed }}">
+              @endif
+
+              @if($request->has('is_draft'))
+                <input type="hidden" name="is_draft" value="{{ $is_draft }}">
+              @endif
+
+              <input aria-label="Page number" class="form-control" type="number" name="page" min="1" max="{{ $posts->lastPage() }}" value="{{ $posts->currentPage() }}">
+            </form>
+            <em>of {{ $posts->lastPage() }}</em>
           </span>
         </li>
 
+
         <li>
-          <a href="#0" class="pagination__item">
+          <a
+            href="{{ $posts->withQueryString()->nextPageUrl() }}"
+            class="pagination__item
+              {{ !$posts->hasMorePages() ? 'pagination__item--disabled' : '' }}
+            "
+          >
             <svg class="icon" viewBox="0 0 16 16">
               <title>Go to next page</title>
               <g stroke-width="1.5" stroke="currentColor">
@@ -257,6 +282,7 @@
         </li>
       </ul>
     </nav>
+    @endif
   </div><!-- /.flex items-center justify-between padding-top-sm -->
 
 

@@ -47,9 +47,9 @@
                   <input class="form-control width-100%" type="text" name="title" id="title" required>
                 <div>
 
-                  <label class="form-label margin-bottom-xxs" for="description">Add Discription</label>
-                  <textarea name="description" id="description" cols="30" rows="10"></textarea>
-                {{-- <div id="editorjs" class="form-control"></div> --}} <!-- /#ajax-add-blog-form -->
+                  <label class="form-label margin-bottom-xxs" for="description">Add Description</label>
+                  <div id="editorjs" data-target-input="#description" class="site-editor form-control"></div>
+                  <input type="hidden" name="description" id="description"/>
               </div>
             </section>
 
@@ -112,10 +112,19 @@
                     <input class="form-control width-100%" type="text" name="page_title" id="pageTitle" required>
                   <div>
 
-                <div class="grid gap-sm">
+                <!-- <div class="grid gap-sm">
                     <label class="form-label margin-bottom-xxs" for="tags">Add Tags</label>
                     <select name="tags[]" id="tags" class="form-control" multiple></select>
-                <div>
+                <div> -->
+
+                @foreach($tag_categories as $key=> $tag_category)
+                  <div class="grid gap-sm">
+                      <label class="form-label margin-bottom-xxs" for="tag_category_{{ $tag_category->id }}">
+                        Add {{ $tag_category->name }}
+                      </label>
+                      <select name="tag_category_{{ $tag_category->id }}[]" id="tag_category_{{ $tag_category->id }}" class="form-control site-tag-pills" multiple></select>
+                  <div>
+                @endforeach
 
                   </div>
                 </div>
@@ -129,8 +138,8 @@
         <footer class="padding-y-sm padding-x-md bg shadow-md flex-shrink-0">
           <div class="flex justify-end gap-xs">
             <button type="button" class="btn btn--subtle js-modal__close">Cancel</button>
-            <button type="button" id="btnSave" class="btn btn--primary">Save</button>
-            <button type="button" id="btnPublish" class="btn btn--primary">Publish</button>
+            <button type="button" id="btnSave" class="btn btn--primary site-editor" data-target-input="#description">Save</button>
+            <button type="button" id="btnPublish" class="btn btn--primary site-editor" data-target-input="#description">Publish</button>
           </div>
         </footer>
     </div><!-- /.modal__content -->

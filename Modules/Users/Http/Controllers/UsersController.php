@@ -38,6 +38,9 @@ class UsersController extends Controller
         $sort      = $request->input('sort') ? $request->input('sort') : 'id';
         $order     = $request->input('order') ? $request->input('order') : 'desc';
 
+        // Data for view
+        $is_trashed = $isTrashed;
+
         // work around for status
         $statusOrder = ($order == 'asc') ? 'desc' : 'asc';
 
@@ -109,7 +112,7 @@ class UsersController extends Controller
         ])->count();
 
         return view($bladeTemplate,
-            compact('users', 'q', 'limit', 'availableLimit', 'sort', 'order', 'allUsersCount', 'suspendedUsersCount', 'trashedUsersCount', 'subscriberUsersCount', 'editorUsersCount', 'adminUsersCount')
+            compact('users', 'q', 'limit', 'availableLimit', 'sort', 'order', 'allUsersCount', 'suspendedUsersCount', 'trashedUsersCount', 'subscriberUsersCount', 'editorUsersCount', 'adminUsersCount', 'is_trashed', 'status', 'role', 'request')
         );
 
         // return view('users::index');
@@ -622,7 +625,7 @@ class UsersController extends Controller
         $user->name     = $request->input('name');
         $user->email    = $request->input('email');
         $user->password = $request->input('password') ? Hash::make($request->input('password')) : $user->password;
-        
+
 
         $user->account_setting->update([
             'bio' => request('bio') ? request('bio') : $user->account_setting->bio,
@@ -696,7 +699,7 @@ class UsersController extends Controller
                 unlink($old_cover_photo);
             }
         }
-        
+
         $cover_photo = (new CoverPhotoUploader)->uploadBase64Photo(request('base64Image'), 'storage/app/public/users-images/cover');
 
         $user->update([

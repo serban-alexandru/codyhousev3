@@ -1,5 +1,6 @@
 <div class="margin-bottom-md">
   <div class="flex flex-wrap items-center justify-between">
+    <div>
     <ul class="flex flex-wrap gap-xs">
       <li class="menu-bar__item js-menu-bar modal-trigger-add-user" aria-controls="modal-add-user" role="menuitem" data-href="{{ url('admin/users/add') }}">
         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
@@ -77,34 +78,64 @@
         </ul>
       </li><!-- /.int-table-actions -->
     </ul><!-- /.flex flex-wrap gap-xs -->
-    <ul class="flex flex-wrap gap-xs">
-      <li class="menu-bar__item" style="margin-left: auto; margin-right: 50px; background-color: transparent;">
+    </div>
+    @if($users->count() > 0)
+    <nav class="pagination text-sm" aria-label="Pagination" id="table-pagination-top">
+      <ul class="pagination__list flex flex-wrap gap-xxxs">
+        <li>
+          <a
+            href="{{ $users->withQueryString()->previousPageUrl() }}"
+            class="pagination__item
+              {{ ($users->currentPage() == 1) ? 'pagination__item--disabled' : '' }}
+            "
+          >
+            <svg class="icon" viewBox="0 0 16 16">
+              <title>Go to previous page</title>
+              <g stroke-width="1.5" stroke="currentColor">
+                <polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="9.5,3.5 5,8 9.5,12.5 "></polyline>
+              </g>
+            </svg>
+          </a>
+        </li>
 
-        <!-- /Show how many -->
-        <form action="{{ url('admin/users') }}" method="GET" style="margin-top: -20px;">
-          <input type="hidden" name="q" value="{{$q}}">
-          <input type="hidden" name="sort" value="{{$sort}}">
-          <input type="hidden" name="order" value="{{$order}}">
+        <li>
+          <span class="pagination__jumper flex items-center">
+            <form action="{{ url()->full() }}" class="inline" method="get">
+              @if($request->has('is_trashed'))
+                <input type="hidden" name="is_trashed" value="{{ $is_trashed }}">
+              @endif
 
-          <label class="form-label" for="site-table-limit"></label>
+              @if($request->has('status'))
+                <input type="hidden" name="status" value="{{ $status }}">
+              @endif
 
-          <div class="select inline-block js-select" data-trigger-class="btn btn--subtle padding-sm@md padding-sm">
-          <select name="limit" id="site-table-limit">
-              <optgroup label="Amount to show">
-              @foreach($availableLimit as $amount)
-                  <option value="{{$amount}}" @if($limit == $amount) selected @endif>Show {{$amount}}</option>
-              @endforeach
-              </optgroup>
-          </select>
+              @if($request->has('role'))
+                <input type="hidden" name="role" value="{{ $role }}">
+              @endif
 
-          <svg class="icon icon--xs margin-left-xxxs" aria-hidden="true" viewBox="0 0 16 16"><polygon points="3,5 8,11 13,5 "></polygon></svg>
-          </div><!-- /.js-select -->
-        </form>
+              <input aria-label="Page number" class="form-control" type="number" name="page" min="1" max="{{ $users->lastPage() }}" value="{{ $users->currentPage() }}">
+            </form>
+            <em>of {{ $users->lastPage() }}</em>
+          </span>
+        </li>
 
-      </li><!-- /.menu-bar__item -->
-      <li class="menu-bar__item hide@md no-js:is-hidden" style="margin-left: auto;" aria-controls="sidebar">
-        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>preferences</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f9f9f9"></rect><g transform="translate(12 12) scale(0.5)" fill="#666666"><path fill="#666666" d="M46,7H21c-0.552,0-1,0.448-1,1s0.448,1,1,1h25c0.552,0,1-0.448,1-1S46.552,7,46,7z"></path> <path fill="#666666" d="M16,1H8C7.448,1,7,1.448,7,2v5H2C1.448,7,1,7.448,1,8s0.448,1,1,1h5v5c0,0.552,0.448,1,1,1h8 c0.552,0,1-0.448,1-1V2C17,1.448,16.552,1,16,1z"></path> <path d="M2,23h25c0.552,0,1,0.448,1,1s-0.448,1-1,1H2c-0.552,0-1-0.448-1-1S1.448,23,2,23z"></path> <path d="M32,17h8c0.552,0,1,0.448,1,1v5h5c0.552,0,1,0.448,1,1s-0.448,1-1,1h-5v5 c0,0.552-0.448,1-1,1h-8c-0.552,0-1-0.448-1-1V18C31,17.448,31.448,17,32,17z"></path> <path fill="#666666" d="M46,39H21c-0.552,0-1,0.448-1,1s0.448,1,1,1h25c0.552,0,1-0.448,1-1S46.552,39,46,39z"></path> <path fill="#666666" d="M16,33H8c-0.552,0-1,0.448-1,1v5H2c-0.552,0-1,0.448-1,1s0.448,1,1,1h5v5c0,0.552,0.448,1,1,1h8 c0.552,0,1-0.448,1-1V34C17,33.448,16.552,33,16,33z"></path></g></svg>
-      </li><!-- /[aria-controls="sidebar"] -->
-    </ul><!-- /.flex flex-wrap gap-xs -->
+        <li>
+          <a
+            href="{{ $users->withQueryString()->nextPageUrl() }}"
+            class="pagination__item
+              {{ !$users->hasMorePages() ? 'pagination__item--disabled' : '' }}
+            "
+          >
+            <svg class="icon" viewBox="0 0 16 16">
+              <title>Go to next page</title>
+              <g stroke-width="1.5" stroke="currentColor">
+                <polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="6.5,3.5 11,8 6.5,12.5 "></polyline>
+              </g>
+            </svg>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    @endif
   </div><!-- /.flex flex-wrap gap-sm items-center justify-between -->
 </div><!-- /.margin-bottom-xl -->

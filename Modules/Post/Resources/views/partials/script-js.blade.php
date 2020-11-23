@@ -1,43 +1,27 @@
 @auth
 
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
-{{--
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/@editorjs/link@latest"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/raw@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
 
-
 <script>
   (function(){
-    const editor = new EditorJS({
-      /**
-      * Id of Element that should contain Editor instance
-      */
-      holder: 'editorjs',
-      tools: {
-        header: Header,
-        image: SimpleImage,
-        embed: Embed,
-        quote: Quote,
-        checklist: {
-          class: Checklist,
-          inlineToolbar: true,
-        },
-        list: {
-          class: List,
-          inlineToolbar: true,
-        }
-      }
+
+    // Close modal trigger
+    $('[data-toggle="close-modal"]').on('click', function(){
+      var $this = $(this);
+      var closeModalBtn = $($this.data('target-close'));
+
+      closeModalBtn.click();
     });
-  })();
-</script>
- --}}
 
-<script>
-  (function(){
 
     // load content when user clicked on sidebar links
     $(document).on('click', '.ajax-link', function (e) {
@@ -48,7 +32,18 @@
       $('meta[name="current-url"]').attr('content', url);
 
       // loads page content inside this element
-      $('#site-table-with-pagination-container').load(url);
+      $('#site-table-with-pagination-container').load(url, function(){
+        // Apply pagination dynamically
+        var $tablePaginationBottom = $('#table-pagination-bottom');
+        var $tablePaginationTop = $('#table-pagination-top');
+
+        $tablePaginationTop.html(
+          ($tablePaginationBottom.length > 0) ?
+            $tablePaginationBottom.html() :
+            $tablePaginationTop.html('')
+        );
+
+      });
 
       $('.sidenav__item a').removeAttr('aria-current');
       $(this).attr('aria-current', 'page');
@@ -113,16 +108,120 @@
 
   $(function(){
 
-    getTiny('{{ URL::to('/') }}', '#description');
+    // getTiny('{{ URL::to('/') }}', '#description');
 
-    select2ForTags('#tags');
+    $('.site-tag-pills').each(function(){
+      select2ForTags(this);
+    });
+
+    const ImageTool = window.ImageTool;
+
+    var editor = new EditorJS({
+      /**
+      * Id of Element that should contain Editor instance
+      */
+      holder: 'editorjs',
+      tools: {
+        header: Header,
+        raw: RawTool,
+        image: {
+          class: ImageTool,
+          config: {
+            endpoints: {
+              byFile: window.location.origin + '/editorjs/upload-image'
+            },
+            additionalRequestHeaders : {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+          }
+        },
+        embed: Embed,
+        quote: Quote,
+        checklist: {
+          class: Checklist,
+          inlineToolbar: true,
+        },
+        list: {
+          class: List,
+          inlineToolbar: true,
+        }
+      }
+    });
+
+    var editor2 = new EditorJS({
+      /**
+      * Id of Element that should contain Editor instance
+      */
+      holder: 'editorjs2',
+      tools: {
+        header: Header,
+        raw: RawTool,
+        image: {
+          class: ImageTool,
+          config: {
+            endpoints: {
+              byFile: window.location.origin + '/editorjs/upload-image'
+            },
+            additionalRequestHeaders : {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+          }
+        },
+        embed: Embed,
+        quote: Quote,
+        checklist: {
+          class: Checklist,
+          inlineToolbar: true,
+        },
+        list: {
+          class: List,
+          inlineToolbar: true,
+        }
+      }
+    });
+
+    // used editorjs for add post form
+    $('.site-editor').on('input click', function(){
+      var $this = $(this);
+
+      if($this.data('target-input')){
+        console.log('WTF');
+        var $targetInput = $($this.data('target-input'));
+
+        editor.save().then((outputData) => {
+          // Save data as string
+          $targetInput.val(JSON.stringify(outputData));
+        }).catch((error) => {
+          console.log('Saving failed: ', error);
+        });
+      }
+
+    });
+
+    // used editorjs for edit post form
+    $('#editorjs2, .trigger-site-editor-save').on('input click', function(){
+      var $this = $(this);
+
+      if($this.data('target-input')){
+        console.log('edit description input');
+        var $targetInput = $($this.data('target-input'));
+
+        editor2.save().then((outputData) => {
+          // Save data as string
+          $targetInput.val(JSON.stringify(outputData));
+        }).catch((error) => {
+          console.log('Saving failed: ', error);
+        });
+      }
+
+    });
 
     $(document).on('click', '#btnSave, #btnPublish', function(){
         $(this).html('Please wait...');
         var isPublished = ($(this).attr('id') != 'btnSave') ? 1 : 0;
         var formData = new FormData($('#formAddPost')[0]);
         formData.append('is_published', isPublished);
-        formData.append('description', tinyMCE.activeEditor.getContent());
+        // formData.append('description', tinyMCE.activeEditor.getContent());
 
         $.ajaxSetup({
           headers: {
@@ -154,19 +253,37 @@
 
       // Clear form
       $('#formEditPost').get(0).reset();
-      $('#editTags').val('').trigger('change');
-      tinymce.remove('#editDescription');
+      // $('#editTags').val('').trigger('change');
+      $('.site-tag-pills').each(function(){
+        $(this).val('').trigger('change');
+      });
+      // tinymce.remove('#editDescription');
+      editor2.clear(); // used editorjs for edit post form
 
       $.ajax({
         url: editUrl,
         dataType: 'json',
         type: 'get',
         success: function(response){
+          var allTagsPerCategory = JSON.parse(response.tags);
+
+          for (let i = 0; i < allTagsPerCategory.length; i++) {
+            const tagCategory = allTagsPerCategory[i];
+            $('#edit_tag_category_'+tagCategory.tag_category_id).html(tagCategory.tags);
+          }
+
+          if (response.description) {
+            var editorData = JSON.parse(response.description);
+            editor2.render(editorData);
+            $('#editDescription').val(response.description);
+          }
+
           $('#editTitle').val(response.title);
+          $('#editSlug').val(response.slug);
           $('#editDescription').val(response.description);
           $('#thumbnailPreview').attr('src', response.thumbnail);
           $('#editPageTitle').val(response.page_title);
-          $('#editTags').html(response.tags);
+          // $('#editTags').html(response.tags);
           $('#postId').val(postId);
 
           if(response.is_published == 1 && response.is_deleted != 1){
@@ -195,20 +312,32 @@
             $(document).find('.restore-post-link').removeClass('is-hidden');
           }
 
-          select2ForTags('#editTags');
-          getTiny('{{ URL::to('/') }}', '#editDescription');
+          // select2ForTags('#editTags');
+          $('.site-tag-pills').each(function(){
+            select2ForTags(this);
+          });
+          // getTiny('{{ URL::to('/') }}', '#editDescription');
         }
       });
 
       $('#modal-edit-post').addClass('modal--is-visible');
     });
 
-    $(document).on('click', '#btnEditSave', function(){
+    function savePost(e) {
+
+      e.preventDefault();
+
+      var $this = $(this);
+      var published = $this.data('toggle-published');
+
       $(this).html("Please wait...");
 
       var formData = new FormData($('#formEditPost')[0]);
-      formData.append('description', tinyMCE.activeEditor.getContent());
       formData.append('id', $('#postId').val());
+
+      if (published != undefined) {
+        formData.append('is_published', published);
+      }
 
       $.ajaxSetup({
         headers: {
@@ -227,7 +356,11 @@
           location.reload();
         }
       });
-    });
+    }
+
+    $(document).on('click', '#btnEditSave', savePost);
+    $(document).on('click', '#btnEditSaveDraft', savePost);
+    $(document).on('click', '#btnEditSavePublish', savePost);
 
     // Single post delete
     $(document).on('click', '.btn-delete', function(){

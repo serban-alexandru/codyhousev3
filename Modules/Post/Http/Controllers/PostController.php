@@ -4,21 +4,46 @@ namespace Modules\Post\Http\Controllers;
 
 use Arr, Str, Image, File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 use App\Http\Controllers\Controller;
 use Modules\Post\Entities\{ PostSetting, Post, PostsTag };
-use Modules\Tag\Entities\Tag;
+use Modules\Tag\Entities\{Tag, TagCategory};
 
 class PostController extends Controller
 {
 
+    public function cleanupEditorImages()
+    {
+        // `$directory` path value must be the value from `uploadImage` method
+        // `uploadImage` method at app/Http/Controllers/EditorjsController.php
+
+        $directory = 'public/editorjs-images';
+        $files     = Storage::files($directory);
+
+        foreach ($files as $file) {
+            $file_name    = basename($file);
+            $file_on_post = Post::firstWhere('description', 'LIKE', '%' . $file_name . '%');
+
+            // model is null -> delete
+            if (!$file_on_post) {
+                Storage::delete($file);
+            }
+        }
+    }
+
     public function index()
     {
+        // Cleanup unused images created with editorjs
+        $this->cleanupEditorImages();
+
         $view = request()->ajax() ? 'post::partials.table' : 'post::index';
 
         $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
             ->select([
                 'posts.id',
                 'title',
+                'slug',
                 'posts.created_at as created_at',
                 'thumbnail',
                 'thumbnail_medium',
@@ -60,9 +85,30 @@ class PostController extends Controller
             $image_height = $posts_settings->medium_height;
         }
 
+        $request    = request();
+        $is_trashed = request('is_trashed');
+        $is_draft   = request('is_draft');
+
+        $tag_categories = TagCategory::all();
+
+        // Generate `slug` if it's not yet set
+        foreach ($posts as $post) {
+            if (!$post->slug) {
+                $slug                = Str::slug($post->title, '-');
+                $post_with_same_slug = Post::where('slug', $slug)->where('id', '<>', $post->id)->first();
+
+                if ($post_with_same_slug) {
+                    $slug .= '-2';
+                }
+
+                $post->slug = $slug;
+                $post->save();
+            }
+        }
+
         return view($view, compact(
             'posts', 'posts_published_count', 'posts_draft_count', 'posts_deleted_count',
-            'availableLimit', 'limit', 'image_width', 'image_height'
+            'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'is_trashed', 'is_draft', 'tag_categories'
             )
         );
     }
@@ -169,10 +215,19 @@ class PostController extends Controller
             $thumbnail_medium->save($post_image_path . '/thumbnail/' . $thumbnail_medium_name);
         }
 
+        // Generate slug
+        $slug                = Str::slug(request('title'), '-');
+        $post_with_same_slug = Post::firstWhere('slug', $slug);
+
+        if ($post_with_same_slug) {
+            $slug .= '-2';
+        }
+
         $post = Post::create([
             'user_id'          => auth()->user()->id,
             'title'            => request('title'),
-            'description'      => htmlentities(request('description')) ?: NULL,
+            'slug'             => $slug,
+            'description'      => request('description'),
             'thumbnail'        => (request()->has('thumbnail')) ? $thumbnail_name : NULL,
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : NULL,
             'seo_page_title'   => request('page_title') ?: NULL,
@@ -180,28 +235,32 @@ class PostController extends Controller
             'is_published'     => request('is_published')
         ]);
 
-        if (request()->has('tags')) {
-            // Insert tags on posts_tags table
-            $tags_input = request('tags');
+        $tag_categories = TagCategory::all();
 
-            foreach ($tags_input as $key => $tag_input) {
-                $tag = Tag::firstWhere('name', $tag_input);
+        foreach ($tag_categories as $key => $tag_category) {
+            if (request()->has('tag_category_' . $tag_category->id)) {
 
-                // If tag doesn't exist yet, create it
-                if (!$tag) {
-                    $tag                  = new Tag;
-                    $tag->name            = $tag_input;
-                    $tag->tag_category_id = 1; // defaults to 1
-                    $tag->published       = true;
-                    $tag->save();
+                $tags_input = request('tag_category_' . $tag_category->id);
+
+                foreach ($tags_input as $key => $tag_input) {
+                    $tag = Tag::firstWhere('name', $tag_input);
+
+                    // If tag doesn't exist yet, create it
+                    if (!$tag) {
+                        $tag                  = new Tag;
+                        $tag->name            = $tag_input;
+                        $tag->tag_category_id = $tag_category->id;
+                        $tag->published       = true;
+                        $tag->save();
+                    }
+
+                    // Insert posts_tag
+                    $posts_tag          = new PostsTag;
+                    $posts_tag->post_id = $post->id;
+                    $posts_tag->tag_id  = $tag->id;
+
+                    $posts_tag->save();
                 }
-
-                // Insert posts_tag
-                $posts_tag          = new PostsTag;
-                $posts_tag->post_id = $post->id;
-                $posts_tag->tag_id  = $tag->id;
-
-                $posts_tag->save();
             }
         }
 
@@ -224,33 +283,51 @@ class PostController extends Controller
 
         $data = [];
 
-        $data['id'] = $post->id;
-        $data['title'] = $post->title;
-        $data['description'] = html_entity_decode($post->description);
-        $data['thumbnail'] = asset("storage/posts/original/{$post->thumbnail}");
-        $data['page_title'] = $post->seo_page_title;
+        $data['id']           = $post->id;
+        $data['title']        = $post->title;
+        $data['slug']         = $post->slug;
+        $data['description']  = html_entity_decode($post->description);
+        $data['thumbnail']    = asset("storage/posts/original/{$post->thumbnail}");
+        $data['page_title']   = $post->seo_page_title;
         $data['is_published'] = $post->is_published;
-        $data['is_deleted'] = $post->is_deleted;
+        $data['is_deleted']   = $post->is_deleted;
 
-        // Get tags from `posts_tags` table
-        $posts_tags = $post->postsTag()->get();
-        $post->tags = null; // Force override
+        $tag_categories        = TagCategory::all();
+        $posts_tags            = $post->postsTag()->get();
+        $all_tags_per_category = [];
 
-        // Get tag names to string to retain old format
-        foreach ($posts_tags as $key => $posts_tag) {
-            $tag = Tag::find($posts_tag->tag_id);
-            $post->tags .= $tag->name . ',';
-        }
+        foreach ($tag_categories as $key => $tag_category) {
+            $tags_per_category = '';
 
-        $post->tags = rtrim($post->tags, ',');
+            foreach ($posts_tags as $post_tags_key => $posts_tag) {
+                $tag = Tag::find($posts_tag->tag_id);
 
-        $data['tags'] = ($post->tags) ?
+                // If they belong to the current tag category -> append
+                if ($tag->tag_category_id == $tag_category->id) {
+                    $tags_per_category .= $tag->name . ',';
+                }
+            }
+
+            $tags_per_category = rtrim($tags_per_category, ',');
+
+            $tags_html = ($tags_per_category) ?
                         '<option selected>' .
                             implode('</option><option selected>',
-                                explode(',', $post->tags)
+                                explode(',', $tags_per_category)
                             ) .
                         '</option>' : '';
 
+            array_push(
+                $all_tags_per_category,
+                [
+                    'tag_category_id' => $tag_category->id,
+                    'tags'            => $tags_html
+                ]
+            );
+
+        }
+
+        $data['tags'] = json_encode($all_tags_per_category);
 
         return $data;
     }
@@ -302,41 +379,61 @@ class PostController extends Controller
             }
         }
 
+        $is_published = request('is_published') ?? $post->is_published;
+
+        // Generate slug
+        $slug                = Str::slug(request('slug'), '-');
+        $post_with_same_slug = Post::where('slug', $slug)->where('id', '<>', $post->id)->first();
+
+        if ($post_with_same_slug) {
+            $slug .= '-2';
+        }
+
         $post->update([
             'title' => request('title'),
-            'description' => htmlentities(request('description')) ?: NULL,
+            'slug' => $slug,
+            'description' => request('description'),
             'thumbnail' => (request()->has('thumbnail')) ? $thumbnail_name : $post->thumbnail,
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : $post->thumbnail_medium,
             'seo_page_title' => request('page_title') ?: NULL,
-            'tags' => (request()->has('tags')) ? implode(',', request('tags')) : NULL
+            'tags' => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
+            'is_published' => $is_published
         ]);
 
-        if (request()->has('tags')) {
+        $tag_categories = TagCategory::all();
 
-            // Delete all previous tags on `posts_tags` table with this post
-            $delete_posts_tags = PostsTag::where('post_id', $post->id)->delete();
+        // Delete all previous tags on `posts_tags` table with this post
+        $delete_posts_tags = PostsTag::where('post_id', $post->id)->delete();
 
-            // Insert tags on `posts_tags` table
-            $tags_input = request('tags');
+        foreach ($tag_categories as $key => $tag_category) {
+            if (request()->has('tag_category_' . $tag_category->id)) {
 
-            foreach ($tags_input as $key => $tag_input) {
-                $tag = Tag::firstWhere('name', $tag_input);
+                $tags_input = request('tag_category_' . $tag_category->id);
 
-                // If tag doesn't exist yet, create it
-                if (!$tag) {
-                    $tag                  = new Tag;
-                    $tag->name            = $tag_input;
-                    $tag->tag_category_id = 1; // defaults to 1
-                    $tag->published       = true;
-                    $tag->save();
+                foreach ($tags_input as $key => $tag_input) {
+                    $tag = Tag::where(
+                        [
+                            'name'            => $tag_input,
+                            'tag_category_id' => $tag_category->id
+                        ]
+                    )->first();
+
+                    // If tag doesn't exist yet, create it
+                    if (!$tag) {
+                        $tag                  = new Tag;
+                        $tag->name            = $tag_input;
+                        $tag->tag_category_id = $tag_category->id;
+                        $tag->published       = true;
+                        $tag->save();
+                    }
+
+                    // Insert posts_tag
+                    $posts_tag          = new PostsTag;
+                    $posts_tag->post_id = $post->id;
+                    $posts_tag->tag_id  = $tag->id;
+
+                    $posts_tag->save();
                 }
-
-                // Insert posts_tag
-                $posts_tag          = new PostsTag;
-                $posts_tag->post_id = $post->id;
-                $posts_tag->tag_id  = $tag->id;
-
-                $posts_tag->save();
             }
         }
 
@@ -441,4 +538,5 @@ class PostController extends Controller
 
         $post->update(['is_published' => $value]);
     }
+
 }

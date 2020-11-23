@@ -5,7 +5,7 @@
 <!-- <script src="https://cdn.jsdelivr.net/npm/@editorjs/link@latest"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/raw@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"></script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/@editorjs/image@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script>
@@ -13,6 +13,8 @@
 
 <script>
   (function(){
+
+    const ImageTool = window.ImageTool;
 
     var editor = new EditorJS({
       /**
@@ -22,7 +24,17 @@
       tools: {
         header: Header,
         raw: RawTool,
-        image: SimpleImage,
+        image: {
+          class: ImageTool,
+          config: {
+            endpoints: {
+              byFile: window.location.origin + '/editorjs/upload-image'
+            },
+            additionalRequestHeaders : {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+          }
+        },
         embed: Embed,
         quote: Quote,
         checklist: {

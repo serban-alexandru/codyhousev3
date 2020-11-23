@@ -18,9 +18,15 @@ Route::get('/site1/blog',function(){
   return view('site1.pages.blog');
 });
 
-Route::get('/site1/profile',function(){
-  return view('site1.pages.profile');
-});
+Route::get('/site1/profile', [
+  'as'   => 'pages.profile',
+  'uses' => 'PagesController@profile'
+]);
+
+Route::get('/site1/profile/{username}', [
+  'as'   => 'pages.profile.user',
+  'uses' => 'PagesController@profile'
+]);
 
 Route::get('/site1/post',function(){
   return view('site1.pages.post');
@@ -42,6 +48,43 @@ Route::get('/site2',function(){
   return view('site2.index');
 });
 
-Route::get('/pages/post-archive',function(){
-  return view('pages.post-archive');
+Route::group([
+  'prefix' => '{locale}',
+  'where'  => ['locale' => '[a-zA-Z]{2}']
+], function(){
+  Route::get('{slug}', [
+    'as'   => 'pages.post',
+    'uses' => 'PagesController@post'
+  ]);
+});
+
+Route::prefix('pages')->group(function(){
+
+  Route::get('/post-archive', [
+    'as'   => 'pages.posts',
+    'uses' => 'PagesController@posts'
+  ]);
+
+  Route::get('/tag-archive', [
+    'as'   => 'pages.tags',
+    'uses' => 'PagesController@tags'
+  ]);
+
+  Route::get('/tag-category-archive/{tagCategory}', [
+    'as'   => 'pages.tag-categories',
+    'uses' => 'PagesController@tagCategories'
+  ]);
+
+  Route::get('/search-archive', [
+    'as'   => 'pages.searches',
+    'uses' => 'PagesController@searches'
+  ]);
+
+});
+
+Route::group(['middleware' => 'auth'], function(){
+  Route::post('editorjs/upload-image', [
+      'as'   => 'editorjs.upload-image',
+      'uses' => 'EditorjsController@uploadImage'
+  ]);
 });

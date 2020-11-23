@@ -1,31 +1,28 @@
-@extends('site1.layouts.app')
-@section('content')
 <section class="margin-top-md">
-    <div class="container max-width-adaptive-lg">
-      <p class="text-xl margin-bottom-md">{{ $page_title }}</p>
-      <ul class="grid-auto-md gap-md">
-      @foreach($posts as $key => $post)
-        <li>
-          <a href="
-            {{
-                route(
-                    'pages.post',
-                    [
-                        'locale' => config('app.locale'),
-                        'slug'   => $post->slug
-                    ]
-                )
-            }}
-          " class="card-v8 bg radius-lg shadow-none">
+  <div class="drag-gallery js-drag-gallery container max-width-adaptive-lg">
+    <ul class="drag-gallery__list drag-gallery__list-align-top gap-md">
+      @foreach($posts as $post)
+        <li class="drag-gallery__item">
+          <div class="card shadow-none">
             @if($post->thumbnail)
-                <figure class="card__img card__img-cropped">
+                <a href="
+                  {{
+                      route(
+                          'pages.post',
+                          [
+                              'locale' => config('app.locale'),
+                              'slug'   => $post->slug
+                          ]
+                      )
+                  }}
+                " draggable="false" ondragstart="return false;" class="card__img card__img-cropped">
                     <img src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
-                </figure>
+                </a>
             @else
                 <span class="card__img card__img-cropped bg-black bg-opacity-50%"></span>
             @endif
 
-            <footer class="padding-sm">
+            <div class="card__content card-v8 bg">
               <p class="text-sm color-contrast-medium margin-bottom-sm">
                 @php
                     $tag_categories = Modules\Tag\Entities\TagCategory::all();
@@ -61,16 +58,16 @@
               </p>
               <div class="text-component">
                 <h4>
-                  <span class="card-v8__title text-sm">
-                    {{ $post->title }}
-                  </span>
+                    <span class="card-v8__title">
+                        {{ $post->title }}
+                    </span>
                 </h4>
-              </div>
-            </footer>
-          </a>
+            </div>
+          </div>
         </li>
       @endforeach
-      </ul>
-    </div>
-  </section>
-@endsection
+    </ul>
+    <div aria-hidden="true" class="drag-gallery__gesture-hint"></div>
+    <div class="custom-drag-gallery-end-overlay right"></div><!-- /.custom-gallery-end-overlay -->
+  </div><!-- /.drag-gallery js-drag-gallery container max-width-adaptive-lg -->
+</section>
