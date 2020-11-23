@@ -74,7 +74,7 @@ class Post extends Model
         $posts = $posts->unique()->sortByDesc('created_at');
 
         if ($limit) {
-            $posts = $post->slice(0, $limit);
+            $posts = $posts->slice(0, $limit);
         }
 
         $posts = $posts->all();
