@@ -39,6 +39,13 @@ Route::middleware('auth', 'role:admin')->group(function(){
     Route::post('users/store', 'UsersController@store');
     Route::get('users/edit/{id}', 'UsersController@edit');
     Route::post('users/update/{id}', 'UsersController@update');
+    Route::get('users/update-coverphoto/{id}', [
+      'as' => 'admin.update-coverphoto',
+      'uses' => 'UsersController@getUpdateCoverPhoto'
+    ]);
+    Route::post('users/update-coverphoto/{id}', [
+      'uses' => 'UsersController@postAjaxUpdateCoverPhotoAdmin'
+    ]);
     Route::get('users/suspend/{id}', 'UsersController@suspend');
     Route::get('users/activate/{id}', 'UsersController@activate');
     Route::get('users/trash/{id}', 'UsersController@trash');
