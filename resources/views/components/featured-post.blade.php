@@ -20,7 +20,7 @@
             @else
                 <span class="feautured__img-wrapper-cropped bg-black bg-opacity-50%"></span>
             @endif
-            <h1 class="featured__headline-main line-height-xxxl feature-v12__offset-item text-left padding-left-sm">
+            <h1 class="featured__headline-main feature-v12__offset-item text-left">
                 <a href="
                     {{
                         route(
