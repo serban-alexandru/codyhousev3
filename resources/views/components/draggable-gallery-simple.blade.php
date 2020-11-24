@@ -5,7 +5,7 @@
         <li class="drag-gallery__item">
           <div class="card shadow-none">
             @if($post->thumbnail)
-                <a href="
+                <a src="
                   {{
                       route(
                           'pages.post',
@@ -15,7 +15,7 @@
                           ]
                       )
                   }}
-                " draggable="false" ondragstart="return false;" class="card__img card__img-cropped">
+                " draggable="false" ondragstart="return false;" class="j-draggable card__img card__img-cropped">
                     <img src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
                 </a>
             @else
