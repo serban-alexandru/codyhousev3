@@ -29,6 +29,24 @@
 
 			}
 		});
+
+		// Disable default behavior of anchor tags when dragging
+		var isDragging = false;
+		$("a.j-draggable").css('cursor', 'pointer');
+		$("a.j-draggable")
+		.mousedown(function() {
+		    isDragging = false;
+		})
+		.mousemove(function() {
+		    isDragging = true;
+		 })
+		.mouseup(function() {
+		    var wasDragging = isDragging;
+		    isDragging = false;
+		    if (!wasDragging) {
+		        window.location = $(this).attr('src');
+		    }
+		});
 	});
 
 </script>
