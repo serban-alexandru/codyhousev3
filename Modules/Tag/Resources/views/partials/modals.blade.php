@@ -34,7 +34,7 @@
           </div>
         </div>
         <section id="tab1Panel1" class="padding-top-md js-tabs__panel">
-          <div class="flex gap-xs">
+          <div class="flex width-90% gap-xs">
             <div class="flex-grow">
               <input class="form-control width-100%" type="text" name="tag_name" id="tag_name" required placeholder="Enter Tag">
               <div role="alert" class="form-error-msg"></div>
