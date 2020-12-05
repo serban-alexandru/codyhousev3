@@ -18,6 +18,10 @@ Route::get('/site1/blog',function(){
   return view('site1.pages.blog');
 });
 
+Route::get('/about',function(){
+  return view('site1.pages.about');
+});
+
 Route::get('/profile', [
   'as'   => 'pages.profile',
   'uses' => 'PagesController@profile'
