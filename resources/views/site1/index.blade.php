@@ -23,7 +23,7 @@
 			</div>
 		</div>
 	  </div>
-	  <x-draggable-gallery-simple tag-category="Tags"/>
+	  <x-draggable-gallery-simple tag-category="Best of"/>
 
 	  <div class="margin-top-md container max-width-lg">
 		<div class="flex justify-between">

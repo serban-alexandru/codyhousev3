@@ -3,7 +3,7 @@
     <ul class="drag-gallery__list drag-gallery__list-align-top gap-md">
       @foreach($posts as $post)
         <li class="drag-gallery__item">
-          <div class="card shadow-none">
+          <div class="card">
             @if($post->thumbnail)
                 <a src="
                   {{

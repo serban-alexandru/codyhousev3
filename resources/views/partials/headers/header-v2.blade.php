@@ -108,7 +108,7 @@
           <!-- 👇 layout 2 -> multiple lists -->
           <li class="mega-nav__item js-mega-nav__item">
             <button class="reset mega-nav__control js-mega-nav__control js-tab-focus">
-              Browse
+              Best Of
               <i class="mega-nav__arrow-icon" aria-hidden="true">
                 <svg class="icon" viewBox="0 0 16 16">
                   <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
@@ -122,17 +122,17 @@
             <div class="mega-nav__sub-nav-wrapper">
               <div class="mega-nav__sub-nav mega-nav__sub-nav--layout-2">
                 <ul class="mega-nav__sub-items">
-                  <li class="mega-nav__label">Magazine Sites</li>
+                  <li class="mega-nav__label">Best of F&B</li>
                   <li class="mega-nav__sub-item"><a href="http://127.0.0.1:8000/site1" class="mega-nav__sub-link">Site 1</a></li>
                 </ul>
 
                 <ul class="mega-nav__sub-items">
-                  <li class="mega-nav__label">Blog Sites</li>
+                  <li class="mega-nav__label">Best of Services</li>
                   <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">All Shoes</a></li>
                 </ul>
 
                 <ul class="mega-nav__sub-items">
-                  <li class="mega-nav__label">Social Networks Sites</li>
+                  <li class="mega-nav__label">Best of People</li>
                   <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">All Shoes</a></li>
                 </ul>
 
@@ -152,10 +152,16 @@
           </li>
           <!-- 👇 link -->
           <li class="mega-nav__item">
-            <a href="#" class="mega-nav__control">About us</a>
+            <a href="#" class="mega-nav__control">Lifestyle</a>
           </li>
           <li class="mega-nav__item">
-            <a href="{{ url('admin') }}" class="mega-nav__control">Admin</a>
+            <a href="#" class="mega-nav__control">F&B</a>
+          </li>
+          <li class="mega-nav__item">
+            <a href="#" class="mega-nav__control">People</a>
+          </li>
+          <li class="mega-nav__item">
+            <a href="#" class="mega-nav__control">About Us</a>
           </li>
         </ul>
 
@@ -198,7 +204,7 @@
                 </a>
 
                 <ul class="dropdown__menu" aria-label="submenu">
-                  <li><a href="{{ url('site1/profile') }}" class="dropdown__item">Profile</a></li>
+                  <li><a href="{{ url('profile') }}" class="dropdown__item">Profile</a></li>
                   <li class="dropdown__separator" role="separator"></li>
                   <li><a href="{{ url('users/settings') }}" class="dropdown__item">Account Settings</a></li>
                   <li><a href="{{ url('/logout') }}" class="dropdown__item">Log out</a></li>
