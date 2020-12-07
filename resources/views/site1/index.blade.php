@@ -23,7 +23,7 @@
 			</div>
 		</div>
 	  </div>
-	  <x-draggable-gallery-simple-itag :tags="['remixes', 'hello']"/>
+	  <x-draggable-gallery-simple-itag :tags="['Best of', 'test']"/>
 
 	  <div class="margin-top-md container max-width-lg">
 		<div class="flex justify-between">
