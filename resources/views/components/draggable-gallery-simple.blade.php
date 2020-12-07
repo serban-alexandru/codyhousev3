@@ -49,7 +49,13 @@
 
                 @endforeach
                 @foreach($category_names as $cn_key => $category_name)
-                    {{ $category_name }}
+                    <a
+                      href="{{ route('pages.tag-categories', $category_name) }}"
+                      class="color-contrast-medium"
+                      draggable="false" ondragstart="return false;"
+                    >
+                      {{ $category_name }}
+                    </a>
                     @if($cn_key < count($category_names) - 1)
                         ,
                     @endif
@@ -58,9 +64,23 @@
               </p>
               <div class="text-component">
                 <h4>
-                    <span class="card-v8__title">
+                    <a
+                      href="
+                        {{
+                            route(
+                                'pages.post',
+                                [
+                                    'locale' => config('app.locale'),
+                                    'slug'   => $post->slug
+                                ]
+                            )
+                        }}
+                      "
+                      class="color-contrast-higher card-v8__title"
+                      draggable="false" ondragstart="return false;"
+                    >
                         {{ $post->title }}
-                    </span>
+                    </a>
                 </h4>
             </div>
           </div>
