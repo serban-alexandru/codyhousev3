@@ -293,8 +293,6 @@
 
       // loads page content inside this element
       $('#site-table-with-pagination-container').load(url, function(){
-        var $this = $(this);
-        $this.load(url);
 
         // Apply pagination dynamically
         var $tablePaginationBottom = $('#table-pagination-bottom');
