@@ -474,7 +474,35 @@ class PostController extends Controller
 
     public function emptyTrash()
     {
-        Post::where('is_deleted', 1)->delete();
+
+        // Get posts on trash
+        $trashed_posts = Post::where('is_deleted', 1)->get();
+
+        foreach ($trashed_posts as $post) {
+            $description      = json_decode($post->description);
+            $blocks           = $description->blocks ?? [];
+
+            // Delete thumbnails
+            if ($post->thumbnail) {
+                Storage::delete('public/posts/original/' . $post->thumbnail);
+            }
+
+            if ($post->thumbnail_medium) {
+                Storage::delete('public/posts/thumbnail' . $post->thumbnail_medium);
+            }
+
+            // Delete records on `posts_tags` table
+            $posts_tags = $post->postsTag;
+
+            foreach ($posts_tags as $posts_tag) {
+                $posts_tag->delete();
+            }
+
+            // Finally, delete post
+            $post->delete();
+
+        }
+
 
         return redirect('admin/posts');
     }
