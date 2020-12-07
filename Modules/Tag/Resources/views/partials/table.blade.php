@@ -279,7 +279,7 @@
     </p>
 
     @if($tags->count() > 0)
-    <nav class="pagination text-sm" aria-label="Pagination">
+    <nav class="pagination text-sm" aria-label="Pagination"  id="table-pagination-bottom">
       <ul class="pagination__list flex flex-wrap gap-xxxs">
         <li>
           <a
@@ -296,6 +296,7 @@
             </svg>
           </a>
         </li>
+
 
         <li>
           <span class="pagination__jumper flex items-center">

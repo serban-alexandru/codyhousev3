@@ -66,7 +66,7 @@
         </div>
 
         @if($tags->count() > 0)
-        <nav class="pagination text-sm" aria-label="Pagination">
+        <nav class="pagination text-sm" aria-label="Pagination" id="table-pagination-top">
           <ul class="pagination__list flex flex-wrap gap-xxxs">
             <li>
               <a
