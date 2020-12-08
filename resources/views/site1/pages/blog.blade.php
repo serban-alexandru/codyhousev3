@@ -1,4 +1,9 @@
 @extends('site1.layouts.app')
+
+@isset($page_title)
+  @section('title-tag', $page_title)
+@endisset
+
 @section('content')
 
 <article class="padding-bottom-lg">
@@ -66,7 +71,7 @@
       </div>
 
 <!-- Begin Comments -->
-    
+
 <!-- End Comments -->
   </div>
 </section>
