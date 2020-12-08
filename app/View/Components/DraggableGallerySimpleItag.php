@@ -5,8 +5,6 @@ namespace App\View\Components;
 use Illuminate\View\Component;
 
 use Modules\Post\Entities\Post;
-use Modules\Post\Entities\PostsTag;
-use Modules\Tag\Entities\Tag;
 
 class DraggableGallerySimpleItag extends Component
 {
