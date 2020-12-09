@@ -91,8 +91,18 @@ class EditorjsBlock extends Component
             return;
         }
 
+        $block_text = $block_data->text;
+
+        // Replace `<b>` tags
+        $block_text = str_replace('<b>', '<strong>', $block_text);
+        $block_text = str_replace('</b>', '</strong>', $block_text);
+
+        // Replace `<i>` tags
+        $block_text = str_replace('<i>', '<em>', $block_text);
+        $block_text = str_replace('</i>', '</em>', $block_text);
+
         $html = '
-            <p>' . $block_data->text . '</p>
+            <p>' . $block_text . '</p>
         ';
 
         return $html;
