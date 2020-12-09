@@ -21,7 +21,7 @@ class TagController extends Controller
      */
     public function index(Request $request)
     {
-        $bladeTemplate = 'tag::index';
+        $bladeTemplate = $request->ajax() ? 'tag::partials.table' : 'tag::index';
 
         // Get query strings
         $q               = $request->input('q');

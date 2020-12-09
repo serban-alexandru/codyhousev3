@@ -179,7 +179,7 @@
             </td>
             <td class="int-table__cell text-left" style="overflow: unset;">
 
-              <menu class="menu-bar menu-bar--expanded@md js-menu-bar">
+              <menu class="menu-bar menu-bar--expanded@md js-menu-bar" style="opacity: 1;">
                 <li class="menu-bar__item menu-bar__item--trigger js-menu-bar__trigger align-left" role="menuitem" aria-label="More options">
                   <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
                     <circle cx="8" cy="7.5" r="1.5" />
@@ -187,7 +187,7 @@
                     <circle cx="14.5" cy="7.5" r="1.5" /></svg>
                 </li>
 
-                <li>
+                <li> <!--  -->
                   <a
                     href="
                       {{
@@ -196,15 +196,15 @@
                           route('tag.publish', [$tag->id])
                       }}
                     "
-                    role="menuitem" class="site-load-modal-edit-form menu-bar__item menu-bar__item--hide">
-                  <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 12 12">
-                    <path d="M10.121.293a1,1,0,0,0-1.414,0L1,8,0,12l4-1,7.707-7.707a1,1,0,0,0,0-1.414Z"></path>
-                  </svg>
-                  <span class="menu-bar__label">
-                    {{
-                      ($tag->published) ? 'Move to Drafts' : 'Publish'
-                    }}
-                  </span>
+                    role="menuitem" class="menu-bar__item">
+                    <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 12 12">
+                      <path d="M10.121.293a1,1,0,0,0-1.414,0L1,8,0,12l4-1,7.707-7.707a1,1,0,0,0,0-1.414Z"></path>
+                    </svg>
+                    <span class="menu-bar__label">
+                      {{
+                        ($tag->published) ? 'Move to Drafts' : 'Publish'
+                      }}
+                    </span>
                   </a>
                 </li>
 
@@ -279,7 +279,7 @@
     </p>
 
     @if($tags->count() > 0)
-    <nav class="pagination text-sm" aria-label="Pagination">
+    <nav class="pagination text-sm" aria-label="Pagination"  id="table-pagination-bottom">
       <ul class="pagination__list flex flex-wrap gap-xxxs">
         <li>
           <a
@@ -296,6 +296,7 @@
             </svg>
           </a>
         </li>
+
 
         <li>
           <span class="pagination__jumper flex items-center">
@@ -341,10 +342,10 @@
 
 <!-- Re-initialized utl and menu component if the request is ajax -->
 @if(Request::ajax())
-  <script src="{{ asset('assets/js/util.js') }}"></script>
-  <script src="{{ asset('assets/js/components/_1_menu.js') }}"></script>
+  <!-- <script src="{{ asset('assets/js/util.js') }}"></script> -->
+  <!-- <script src="{{ asset('assets/js/components/_1_menu.js') }}"></script> -->
   <script src="{{ asset('assets/js/components/_2_interactive-table.js') }}"></script>
-  <script src="{{ asset('assets/js/components/_1_modal-window.js') }}"></script>
+  <!-- <script src="{{ asset('assets/js/components/_1_modal-window.js') }}"></script> -->
   <script>
     (function() {
       // event that watches interactive table checkboxes

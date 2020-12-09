@@ -38,6 +38,11 @@ Route::group([
     	'uses' => 'PostController@delete'
     ]);
 
+    Route::post('posts/delete-permanently', [
+    	'as' => 'posts.delete-permanently',
+    	'uses' => 'PostController@deletePermanently'
+    ]);
+
     Route::post('posts/delete/multiple', [
     	'as' => 'posts.delete.multiple',
     	'uses' => 'PostController@deleteMultiple'

@@ -6,17 +6,18 @@
       <ul class="grid-auto-md gap-md">
       @foreach($posts as $key => $post)
         <li>
-          <a href="
-            {{
-                route(
-                    'pages.post',
-                    [
-                        'locale' => config('app.locale'),
-                        'slug'   => $post->slug
-                    ]
-                )
-            }}
-          " class="card-v8 bg radius-lg shadow-none">
+          <span class="card-v8 bg radius-lg shadow-none">
+            <a href="
+              {{
+                  route(
+                      'pages.post',
+                      [
+                          'locale' => config('app.locale'),
+                          'slug'   => $post->slug
+                      ]
+                  )
+              }}
+            ">
             @if($post->thumbnail)
                 <figure class="card__img card__img-cropped">
                     <img src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
@@ -24,6 +25,7 @@
             @else
                 <span class="card__img card__img-cropped bg-black bg-opacity-50%"></span>
             @endif
+            </a>
 
             <footer class="padding-sm">
               <p class="text-sm color-contrast-medium margin-bottom-sm">
@@ -52,7 +54,13 @@
 
                 @endforeach
                 @foreach($category_names as $cn_key => $category_name)
-                    {{ $category_name }}
+                    <a
+                      href="{{ route('pages.tag-categories', $category_name) }}"
+                      class="color-contrast-medium"
+                      draggable="false" ondragstart="return false;"
+                    >
+                      {{ $category_name }}
+                    </a>
                     @if($cn_key < count($category_names) - 1)
                         ,
                     @endif
@@ -61,13 +69,21 @@
               </p>
               <div class="text-component">
                 <h4>
-                  <span class="card-v8__title text-sm">
+                  <a href="{{
+                    route(
+                        'pages.post',
+                        [
+                            'locale' => config('app.locale'),
+                            'slug'   => $post->slug
+                        ]
+                    )
+                }}" class="color-contrast-higher card-v8__title text-sm">
                     {{ $post->title }}
-                  </span>
+                  </a>
                 </h4>
               </div>
             </footer>
-          </a>
+          </span>
         </li>
       @endforeach
       </ul>

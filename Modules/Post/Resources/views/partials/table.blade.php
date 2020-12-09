@@ -112,6 +112,7 @@
 
             @if(request()->has('is_trashed'))
               <th class="int-table__cell int-table__cell--th text-left">Restore</th>
+              <th class="int-table__cell int-table__cell--th text-left">Action</th>
             @endif
 
           </tr>
@@ -128,7 +129,7 @@
                   </div>
                 </th>
               @endif
-              
+
               <td class="int-table__cell text-center cursor-pointer" aria-controls="modal-edit-post" data-id="{{ $post->id }}">
                 @if(is_null($post->thumbnail_medium))
                   <span class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%"></span>
@@ -181,8 +182,21 @@
                   <a href="{{ route('posts.publish', ['id' => $post->id]) }}" class="btn">Publish</a>
                 </td>
               @elseif($post->is_deleted)
-                <td>
-                  <a href="{{ route('posts.restore', ['id' => $post->id]) }}" class="btn">Restore</a>
+                <td class="int-table__cell" style="overflow: unset;">
+                  <a href="{{ route('posts.restore', ['id' => $post->id]) }}" class="btn margin-right-sm">Restore</a>
+                </td>
+                <td class="int-table__cell text-center" style="overflow: unset;">
+                  <form action="{{ route('posts.delete-permanently') }}" method="post">
+                    @csrf
+                    <input type="hidden" name="post_id" value="{{ $post->id }}">
+                    <li class="menu-bar__item btn-delete" role="menuitem">
+                      <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
+                        <path d="M2,6v8c0,1.1,0.9,2,2,2h8c1.1,0,2-0.9,2-2V6H2z"></path>
+                        <path d="M12,3V1c0-0.6-0.4-1-1-1H5C4.4,0,4,0.4,4,1v2H0v2h16V3H12z M10,3H6V2h4V3z"></path>
+                      </svg>
+                      <span class="menu-bar__label">Delete</span>
+                    </li>
+                  </form>
                 </td>
               @endif
             </tr>

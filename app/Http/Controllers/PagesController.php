@@ -45,7 +45,8 @@ class PagesController extends Controller
             abort(404);
         }
 
-        $data['post'] = $post;
+        $data['post']       = $post;
+        $data['page_title'] = $post->title;
 
         return view('site1.pages.blog', $data);
     }

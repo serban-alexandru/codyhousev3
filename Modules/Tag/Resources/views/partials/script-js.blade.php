@@ -284,16 +284,30 @@
   (function(){
 
     // load content when user clicked on sidebar links
-    $(document).on('click', '.site-load-content a', function (e) {
+    $(document).on('click', '.ajax-link', function (e) {
       e.preventDefault();
       var $this = $(this);
       var url = $this.attr('href');
 
       $('meta[name="current-url"]').attr('content', url);
-      console.log(url);
 
       // loads page content inside this element
-      $('#site-table-with-pagination-container').load(url);
+      $('#site-table-with-pagination-container').load(url, function(){
+
+        // Apply pagination dynamically
+        var $tablePaginationBottom = $('#table-pagination-bottom');
+        var $tablePaginationTop = $('#table-pagination-top');
+
+        $tablePaginationTop.html(
+          ($tablePaginationBottom.length > 0) ?
+            $tablePaginationBottom.html() :
+            $tablePaginationTop.html('')
+        );
+
+      });
+
+      $('.sidenav__item a').removeAttr('aria-current');
+      $(this).attr('aria-current', 'page');
     });
 
     $(document).on('change', '#upload-file', function(){

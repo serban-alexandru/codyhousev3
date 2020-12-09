@@ -58,6 +58,9 @@ class EditorjsBlock extends Component
                     case 'raw':
                         $html .= $this->getRawHTML($block->data);
                         break;
+                    case 'quote':
+                        $html .= $this->getQuote($block->data);
+                        break;
                     default:
                         $html .= '';
                         break;
@@ -91,8 +94,18 @@ class EditorjsBlock extends Component
             return;
         }
 
+        $block_text = $block_data->text;
+
+        // Replace `<b>` tags
+        $block_text = str_replace('<b>', '<strong>', $block_text);
+        $block_text = str_replace('</b>', '</strong>', $block_text);
+
+        // Replace `<i>` tags
+        $block_text = str_replace('<i>', '<em>', $block_text);
+        $block_text = str_replace('</i>', '</em>', $block_text);
+
         $html = '
-            <p>' . $block_data->text . '</p>
+            <p>' . $block_text . '</p>
         ';
 
         return $html;
@@ -177,6 +190,28 @@ class EditorjsBlock extends Component
         }
 
         $html = $block_data->html;
+
+        return $html;
+    }
+
+    public function getQuote($block_data)
+    {
+        if (!$block_data) {
+            return;
+        }
+
+        $block_text    = $block_data->text;
+        $block_caption = $block_data->caption;
+        $alignment     = $block_data->alignment;
+
+        $html = '
+            <blockquote style="text-align: ' . $alignment . '">
+                <p>' . $block_text . '</p>
+                <footer>
+                    <cite title="' . $block_caption . '">' . $block_caption . '</cite>
+                </footer>
+            </blockquote>
+        ';
 
         return $html;
     }

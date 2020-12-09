@@ -458,6 +458,51 @@ class PostController extends Controller
         return redirect('admin/posts');
     }
 
+    public function deletePost($post = null)
+    {
+        if (!$post) {
+            return;
+        }
+
+        $description      = json_decode($post->description);
+        $blocks           = $description->blocks ?? [];
+
+        // Delete thumbnails
+        if ($post->thumbnail) {
+            Storage::delete('public/posts/original/' . $post->thumbnail);
+        }
+
+        if ($post->thumbnail_medium) {
+            Storage::delete('public/posts/thumbnail' . $post->thumbnail_medium);
+        }
+
+        // Delete records on `posts_tags` table
+        $posts_tags = $post->postsTag;
+
+        foreach ($posts_tags as $posts_tag) {
+            $posts_tag->delete();
+        }
+
+        // Finally, delete post
+        return $post->delete();
+    }
+
+    public function deletePermanently()
+    {
+        $post = Post::find(request('post_id'));
+
+        if (!$post) {
+            return response()->json([
+                'message' => 'Post does not exists.'
+            ]);
+        }
+
+        $this->deletePost($post);
+
+        return redirect('admin/posts');
+
+    }
+
     public function deleteMultiple()
     {
         $this->validate(request(), [
@@ -474,7 +519,14 @@ class PostController extends Controller
 
     public function emptyTrash()
     {
-        Post::where('is_deleted', 1)->delete();
+
+        // Get posts on trash
+        $trashed_posts = Post::where('is_deleted', 1)->get();
+
+        foreach ($trashed_posts as $post) {
+            $this->deletePost($post);
+        }
+
 
         return redirect('admin/posts');
     }

@@ -5,7 +5,7 @@
             <li class="drag-gallery__item">
                 <div class="card shadow-none">
                     @if($post->thumbnail)
-                        <a href="
+                        <a src="
                             {{
                                 route(
                                     'pages.post',
@@ -15,7 +15,7 @@
                                     ]
                                 )
                             }}
-                        " draggable="false" ondragstart="return false;" class="card__img card__img-cropped">
+                        " draggable="false" ondragstart="return false;" class="card__img card__img-cropped j-draggable">
                             <img src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
                         </a>
                     @else
@@ -25,7 +25,7 @@
                     <div class="card__content">
                     <div class="featured__headline">
                         <h4 class="margin-bottom-md">
-                        <a href="
+                        <a src="
                             {{
                                 route(
                                     'pages.post',
@@ -35,7 +35,7 @@
                                     ]
                                 )
                             }}
-                        " draggable="false" ondragstart="return false;">
+                        " class="j-draggable" draggable="false" ondragstart="return false;">
                             {{ $post->title }}
                         </a>
                         </h4>
@@ -78,7 +78,6 @@
         @endforeach
 
       </ul>
-      <div aria-hidden="true" class="drag-gallery__gesture-hint"></div>
       <div class="custom-drag-gallery-end-overlay right"></div><!-- /.custom-gallery-end-overlay -->
     </div><!-- /.drag-gallery js-drag-gallery container max-width-adaptive-lg -->
   </section>

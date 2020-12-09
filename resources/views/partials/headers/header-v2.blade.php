@@ -121,20 +121,9 @@
 
             <div class="mega-nav__sub-nav-wrapper">
               <div class="mega-nav__sub-nav mega-nav__sub-nav--layout-2">
-                <ul class="mega-nav__sub-items">
-                  <li class="mega-nav__label">Best of F&B</li>
-                  <li class="mega-nav__sub-item"><a href="http://127.0.0.1:8000/site1" class="mega-nav__sub-link">Site 1</a></li>
-                </ul>
-
-                <ul class="mega-nav__sub-items">
-                  <li class="mega-nav__label">Best of Services</li>
-                  <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">All Shoes</a></li>
-                </ul>
-
-                <ul class="mega-nav__sub-items">
-                  <li class="mega-nav__label">Best of People</li>
-                  <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">All Shoes</a></li>
-                </ul>
+                <x-mega-nav-sub-items label="Best of F&B" :tags="['Best of', 'F&B', 'test']" />
+                <x-mega-nav-sub-items label="Best of Services" :tags="['Best of', 'Services', 'test']" />
+                <x-mega-nav-sub-items label="Best of People" :tags="['Best of', 'People', 'test']" limit="6" />
 
                 <div class="mega-nav__card width-100% max-width-xs margin-x-auto">
                   <a href="#0" class="block radius-lg overflow-hidden">
