@@ -20,7 +20,7 @@
             @else
                 <span class="feautured__img-wrapper-cropped bg-black bg-opacity-50%"></span>
             @endif
-            <h1 class="featured__headline-main feature-v12__offset-item text-left">
+            <h1 class="featured__headline-main feature-v12__offset-item text-left margin-x-xxs">
                 <a href="
                     {{
                         route(
@@ -31,7 +31,7 @@
                             ]
                         )
                     }}
-                ">{{ $featured_post->title }}</a>
+                " class="">{{ $featured_post->title }}</a>
             </h1>
         @endif
       </div>
