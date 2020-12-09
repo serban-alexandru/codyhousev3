@@ -31,7 +31,15 @@
     </div>
   </div>
 
-  <div class="container max-width-adaptive-sm">
+      <div class="container max-width-adaptive-sm padding-y-md">
+        <div class="text-component line-height-lg v-space-md">
+          <section class="max-height-100vh bg-contrast-lower" id="sticky-banner-target"></section>
+          <x-editorjs-block :data="$post->description" />
+        </div>
+      </div>
+
+<!-- Social Share -->
+<div class="container max-width-adaptive-sm">
     <div class="line-height-sm v-space-sm">
       <div class="sticky-banner bg shadow-sm js-sticky-banner" data-target-in="#sticky-banner-target">
         <section class="socials text-right">
@@ -60,15 +68,7 @@
           </div>
         </section>
       </div>
-
-      <section class="max-height-100vh bg-contrast-lower" id="sticky-banner-target">
-      </section>
-
-      <div class="container max-width-sm padding-y-md">
-        <div class="text-component line-height-lg v-space-md">
-          <x-editorjs-block :data="$post->description" />
-        </div>
-      </div>
+</div>
 
 <!-- Begin Comments -->
 
