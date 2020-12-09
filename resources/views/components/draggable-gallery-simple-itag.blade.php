@@ -87,7 +87,6 @@
         </li>
       @endforeach
     </ul>
-    <div aria-hidden="true" class="drag-gallery__gesture-hint"></div>
     <div class="custom-drag-gallery-end-overlay right"></div><!-- /.custom-gallery-end-overlay -->
   </div><!-- /.drag-gallery js-drag-gallery container max-width-adaptive-lg -->
 </section>
