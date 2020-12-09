@@ -65,7 +65,7 @@
               <div class="text-component">
                 <h4>
                     <a
-                      href="
+                      src="
                         {{
                             route(
                                 'pages.post',
@@ -76,7 +76,7 @@
                             )
                         }}
                       "
-                      class="color-contrast-higher card-v8__title"
+                      class="j-draggable color-contrast-higher card-v8__title"
                       draggable="false" ondragstart="return false;"
                     >
                         {{ $post->title }}
