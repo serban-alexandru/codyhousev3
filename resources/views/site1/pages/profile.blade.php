@@ -89,7 +89,7 @@
             </a>
 
             <footer class="padding-sm">
-              <p class="text-sm color-contrast-medium margin-bottom-sm">
+              <p class="text-sm color-contrast-medium margin-bottom-sm post-thumbnail-tags-sm">
                 @php
                     $tag_categories = Modules\Tag\Entities\TagCategory::all();
                     $posts_tags     = $post->postsTag;
@@ -117,7 +117,7 @@
                 @foreach($category_names as $cn_key => $category_name)
                     <a
                       href="{{ route('pages.tag-categories', $category_name) }}"
-                      class="color-contrast-medium"
+                      class="color-contrast-medium post-thumbnail-tags-pill"
                       draggable="false" ondragstart="return false;"
                     >
                       {{ $category_name }}

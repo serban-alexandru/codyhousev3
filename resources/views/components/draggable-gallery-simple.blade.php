@@ -22,8 +22,8 @@
                 <span class="card__img card__img-cropped bg-black bg-opacity-50%"></span>
             @endif
 
-            <div class="card__content card-v8 bg">
-              <p class="text-sm color-contrast-medium margin-bottom-sm">
+            <div class="card__content card-v8 bg overflow-visible">
+              <p class="text-sm color-contrast-medium margin-bottom-sm post-thumbnail-tags">
                 @php
                     $tag_categories = Modules\Tag\Entities\TagCategory::all();
                     $posts_tags     = $post->postsTag;
@@ -51,7 +51,7 @@
                 @foreach($category_names as $cn_key => $category_name)
                     <a
                       href="{{ route('pages.tag-categories', $category_name) }}"
-                      class="color-contrast-medium"
+                      class="color-contrast-medium post-thumbnail-tags-pill"
                       draggable="false" ondragstart="return false;"
                     >
                       {{ $category_name }}
