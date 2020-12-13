@@ -130,13 +130,33 @@
                 </th>
               @endif
 
-              <td class="int-table__cell text-center cursor-pointer" aria-controls="modal-edit-post" data-id="{{ $post->id }}">
+              <td class="int-table__cell text-center cursor-pointer">
                 @if(is_null($post->thumbnail_medium))
-                  <span class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%"></span>
+                  <a href="
+                    {{
+                        route(
+                            'pages.post',
+                            [
+                                'locale' => config('app.locale'),
+                                'slug'   => $post->slug
+                            ]
+                        )
+                    }}
+                  " target="_blank" class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%"></a>
                 @else
-                <span class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%">
+                <a href="
+                    {{
+                        route(
+                            'pages.post',
+                            [
+                                'locale' => config('app.locale'),
+                                'slug'   => $post->slug
+                            ]
+                        )
+                    }}
+                " target="_blank" class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%">
                   <img src="{{ $post->showThumbnail('medium') }}">
-                </span>
+                </a>
                 @endif
               </td>
 
