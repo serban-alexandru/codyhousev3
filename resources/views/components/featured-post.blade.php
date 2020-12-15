@@ -99,33 +99,11 @@
                             </time>
                             <span class="stories__separator" role="separator"></span>
                             @php
-                                $tag_categories = Modules\Tag\Entities\TagCategory::all();
-                                $posts_tags     = $post->postsTag;
-                                $category_names = [];
+                                $tag_pills = $post->getTagCategoryNames();
                             @endphp
-                            @foreach($tag_categories as $key => $tag_category)
-                                @php
-                                    $show_category = false;
-
-                                    foreach($posts_tags as $post_tag){
-                                        $tag = Modules\Tag\Entities\Tag::find($post_tag->tag_id);
-
-                                        if($tag->tag_category_id === $tag_category->id){
-                                            $show_category = true;
-                                            break;
-                                        }
-                                    }
-
-                                    if($show_category){
-                                        array_push($category_names, $tag_category->name);
-                                    }
-                                @endphp
-
-                            @endforeach
-
-                            @foreach($category_names as $cn_key => $category_name)
-                                <a href="{{ route('pages.tag-categories', $category_name) }}">{{ $category_name }}</a>
-                                @if($cn_key < count($category_names) - 1)
+                            @foreach($tag_pills as $tag_pills_key => $tag_pill_name)
+                                <a href="{{ route('pages.tag-categories', $tag_pill_name) }}">{{ $tag_pill_name }}</a>
+                                @if($tag_pills_key < count($tag_pills) - 1)
                                     ,
                                 @endif
                             @endforeach

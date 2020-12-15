@@ -110,4 +110,46 @@ class Post extends Model
         return $posts->all();
     }
 
+    public function getTagCategoryNames()
+    {
+        $tag_categories = TagCategory::all();
+        $posts_tags     = $this->postsTag;
+
+        $category_names = [];
+
+        foreach ($tag_categories as $key => $tag_category) {
+            $show_category = false;
+
+            foreach($posts_tags as $post_tag){
+                $tag = Tag::find($post_tag->tag_id);
+
+                if($tag->tag_category_id === $tag_category->id){
+                    $show_category = true;
+                    break;
+                }
+            }
+
+            if($show_category){
+                array_push($category_names, $tag_category->name);
+            }
+        }
+
+        return $category_names;
+    }
+
+    public function getTagNames()
+    {
+        $posts_tags = $this->postsTag;
+        $tags       = [];
+
+        foreach($posts_tags as $post_tag){
+            $tag = Tag::find($post_tag->tag_id);
+
+            array_push($tags, $tag->name);
+        }
+
+        return $tags;
+
+    }
+
 }
