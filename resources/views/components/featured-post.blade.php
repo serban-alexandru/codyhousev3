@@ -1,6 +1,6 @@
 <section class="feature-bottom container max-width-adaptive-lg margin-top-md margin-bottom-md">
     <div class="grid gap-md">
-      <div class="col-9@md featured-post margin-bottom-xl">
+      <div class="col-9@md featured-post margin-bottom-lg padding-bottom-xs">
 
         @if($featured_post)
             @if($featured_post->thumbnail)

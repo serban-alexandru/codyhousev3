@@ -1,7 +1,7 @@
 <!-- 👇 Full Screen Modal -->
 <form action="#" id="formAddPost">
   @csrf
-  <div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll" id="modal-add-article">
+  <div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll custom-disable-modal-close" id="modal-add-article">
     <div class="modal__content height-100% tabs js-tabs width-100% max-width-sm bg radius-md shadow-md flex flex-column">
         <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
           <!-- 👇 Tabs -->

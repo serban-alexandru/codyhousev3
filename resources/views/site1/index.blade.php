@@ -9,7 +9,7 @@
 
 	<div class="margin-bottom-xl"></div>
 
-	<div class="margin-top-md container max-width-lg">
+	<div class="container max-width-lg">
 		<div class="flex justify-between">
 		  <p class="text-xl divider-title">Best of Saigon</p>
 		  	<div class="margin-left-sm">
