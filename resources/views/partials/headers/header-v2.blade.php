@@ -32,7 +32,7 @@
 
        <!-- 👇 Logo Text -->
 
-        <h2 class="logo">SaigonFinest</h2>
+        <h1 class="logo">SaigonFinest</h1>
 
       </div>
     </a>
