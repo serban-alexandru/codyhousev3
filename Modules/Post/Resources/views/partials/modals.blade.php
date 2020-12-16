@@ -6,7 +6,7 @@
         <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
           <!-- 👇 Tabs -->
           <nav class="tabs">
-            <ul class="flex flex-wrap gap-xl js-tabs__controls" aria-label="Tabs Interface">
+            <ul class="flex flex-wrap gap-lg js-tabs__controls" aria-label="Tabs Interface">
               <li><a href="#tab1Panel1" class="tabs__control" aria-selected="true">Add</a></li>
               <li><a href="#tab1Panel2" class="tabs__control">Image</a></li>
               <li><a href="#tab1Panel3" class="tabs__control">Settings</a></li>
