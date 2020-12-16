@@ -245,11 +245,9 @@
         <div class="margin-top-lg">
           <p class="mega-nav__label">Quick Links</p>
           <ul>
-            <li><a href="#0" class="mega-nav__quick-link">Find a Store</a></li>
-            <li><a href="#0" class="mega-nav__quick-link">Your Orders</a></li>
-            <li><a href="#0" class="mega-nav__quick-link">Documentation</a></li>
-            <li><a href="#0" class="mega-nav__quick-link">Questions &amp; Answers</a></li>
-            <li><a href="#0" class="mega-nav__quick-link">Contact Us</a></li>
+            <li><a href="https://www.facebook.com/saigonfinest" class="mega-nav__quick-link">Visit us on Facebook</a></li>
+            <li><a href="https://www.instagram.com/saigon_finest/" class="mega-nav__quick-link">Visit us on Instagram</a></li>
+            <li><a href="https://saigonfinest.com/contact" class="mega-nav__quick-link">Contact Us</a></li>
           </ul>
         </div>
       </div>
