@@ -24,22 +24,20 @@
 
             <div class="card__content card-v8 bg overflow-visible">
               <p class="text-sm color-contrast-medium margin-bottom-sm post-thumbnail-tags">
-                @php
-                  $tag_pills = $post->getTagCategoryNames();
-                @endphp
-                @foreach($tag_pills as $tag_pills_key => $tag_pill_name)
-                    <a
-                      href="{{ route('pages.tag-categories', $tag_pill_name) }}"
-                      class="color-contrast-medium post-thumbnail-tags-pill"
-                      draggable="false" ondragstart="return false;"
-                    >
-                      {{ $tag_pill_name }}
-                    </a>
-                    @if($tag_pills_key < count($tag_pills) - 1)
-                        ,
-                    @endif
-                @endforeach
-                &nbsp;
+                <span>
+                  @php
+                    $tag_pills = $post->getTagNames();
+                  @endphp
+                  @foreach($tag_pills as $tag_pills_key => $tag_pill_name)
+                      <a
+                        href="{{ route('pages.tags', $tag_pill_name) }}"
+                        class="color-contrast-medium"
+                        draggable="false" ondragstart="return false;"
+                      >
+                        {{ $tag_pill_name }}@if($tag_pills_key < count($tag_pills) - 1),@endif
+                      </a>
+                  @endforeach
+                </span>
               </p>
               <div class="text-component">
                 <h4>

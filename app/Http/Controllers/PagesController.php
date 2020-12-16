@@ -98,9 +98,22 @@ class PagesController extends Controller
         return view('pages.post-archive', $data);
     }
 
-    public function tags(Request $request)
+    public function tags(Request $request, $tag_query = null)
     {
-        $data = [];
+
+        // If tag is not found -> return 404 | Not Found
+        if (!$tag_query) {
+            abort(404);
+        }
+
+        $posts = Post::getByTagNames([$tag_query]);
+
+        $data['page_title'] = $tag_query;
+        $data['posts']      = $posts;
+
+
+        $data['page_title'] = $tag_query;
+        $data['posts']      = $posts;
 
         return view('pages.tag-archive', $data);
     }

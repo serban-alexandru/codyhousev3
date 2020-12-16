@@ -99,10 +99,10 @@
                             </time>
                             <span class="stories__separator" role="separator"></span>
                             @php
-                                $tag_pills = $post->getTagCategoryNames();
+                                $tag_pills = $post->getTagNames();
                             @endphp
                             @foreach($tag_pills as $tag_pills_key => $tag_pill_name)
-                                <a href="{{ route('pages.tag-categories', $tag_pill_name) }}">{{ $tag_pill_name }}</a>
+                                <a href="{{ route('pages.tags', $tag_pill_name) }}">{{ $tag_pill_name }}</a>
                                 @if($tag_pills_key < count($tag_pills) - 1)
                                     ,
                                 @endif
