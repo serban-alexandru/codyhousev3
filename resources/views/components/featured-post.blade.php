@@ -15,7 +15,7 @@
                         )
                     }}
                 " class="featured__img-wrapper feautured__img-wrapper-cropped">
-                    <img src="{{ $featured_post->showThumbnail('medium') }}" alt="Image of {{ $featured_post->title }}">
+                    <img src="{{ $featured_post->showThumbnail() }}" alt="Image of {{ $featured_post->title }}">
                 </a>
             @else
                 <span class="feautured__img-wrapper-cropped bg-black bg-opacity-50%"></span>

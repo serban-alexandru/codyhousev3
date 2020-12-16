@@ -72,6 +72,57 @@
                       <input class="form-control width-100%" type="text" name="page_title" id="editPageTitle" required>
                     <div>
 
+                      <div class="date-input js-date-input">
+                        <label for="date-input-1" class="form-label margin-bottom-xxs">Select date<i class="sr-only">, format is dd/mm/yyyy</i>:</label>
+                        
+                        <div class="date-input__wrapper">
+                          <input type="text" class="form-control width-100% date-input__text js-date-input__text" placeholder="dd/mm/yyyy" autocomplete="off" id="date-input-1">
+                          
+                          <button class="reset date-input__trigger js-date-input__trigger js-tab-focus" aria-label="Select date using calendar widget" type="button">
+                            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="10"><line x1="17" y1="4" x2="17" y2="1"  ></line><line x1="7" y1="4" x2="7" y2="1"></line><line x1="1" y1="8" x2="23" y2="8"></line><rect x="1" y="4" width="22" height="18"></rect></g></svg>
+                          </button>
+                        </div>
+                        
+                        <div class="date-picker bg radius-md shadow-md js-date-picker" role="dialog" aria-labelledby="calendar-label-1">
+                          <header class="date-picker__header">
+                            <div class="date-picker__month">
+                              <span class="date-picker__month-label js-date-picker__month-label" id="calendar-label-1"></span> <!-- this will contain month label + year -->
+                      
+                              <nav>
+                                <ul class="date-picker__month-nav js-date-picker__month-nav">
+                                  <li>
+                                    <button class="reset date-picker__month-nav-btn js-date-picker__month-nav-btn js-date-picker__month-nav-btn--prev js-tab-focus" type="button">
+                                      <svg class="icon icon--xs" viewBox="0 0 16 16"><title>Previous month</title><polyline points="11 14 5 8 11 2" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2"/></svg>
+                                    </button>
+                                  </li>
+                      
+                                  <li>
+                                    <button class="reset date-picker__month-nav-btn js-date-picker__month-nav-btn js-date-picker__month-nav-btn--next js-tab-focus" type="button">
+                                      <svg class="icon icon--xs" viewBox="0 0 16 16"><title>Next month</title><polyline points="5 2 11 8 5 14" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2"/></svg>
+                                    </button>
+                                  </li>
+                                </ul>
+                              </nav>
+                            </div>
+                      
+                            <ol class="date-picker__week">
+                              <li><div class="date-picker__day">M<span class="sr-only">onday</span></div></li>
+                              <li><div class="date-picker__day">T<span class="sr-only">uesday</span></div></li>
+                              <li><div class="date-picker__day">W<span class="sr-only">ednesday</span></div></li>
+                              <li><div class="date-picker__day">T<span class="sr-only">hursday</span></div></li>
+                              <li><div class="date-picker__day">F<span class="sr-only">riday</span></div></li>
+                              <li><div class="date-picker__day">S<span class="sr-only">aturday</span></div></li>
+                              <li><div class="date-picker__day">S<span class="sr-only">unday</span></div></li>
+                            </ol>
+                          </header>
+                      
+                          <ol class="date-picker__dates js-date-picker__dates" aria-labelledby="calendar-label-1">
+                            <!-- days will be created using js -->
+                          </ol>
+                        </div>
+                      </div>
+                      
+
                   @foreach($tag_categories as $key=> $tag_category)
                     <div class="grid gap-sm">
                         <label class="form-label margin-bottom-xxs" for="edit_tag_category_{{ $tag_category->id }}">
