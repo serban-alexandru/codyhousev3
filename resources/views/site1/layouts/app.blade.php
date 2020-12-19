@@ -2,14 +2,14 @@
   <html lang="en">
   <head>
     <!-- favicon 👇 -->
-    <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
-    
+    <link rel="icon" type="image/svg+xml" href="{{ asset('assets/img/favicon.svg') }}">
+
     <title>@yield('title-tag')</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-  
+
     <script>document.getElementsByTagName("html")[0].className += " js";</script>
     @yield('in-head')
     <script>
@@ -19,11 +19,11 @@
         document.write('<link rel="stylesheet" href="{{ asset('assets/css/style-fallback.css') }}">');
       }
     </script>
-    
+
     <noscript>
       <link rel="stylesheet" href="{{ asset('assets/css/style-fallback.css') }}">
     </noscript>
-  
+
   </head>
   <body>
     @include('fonts.external-fonts-v1')
@@ -37,10 +37,10 @@
     @include('partials.footers.footer-v1')
 
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
-    
+
     @include('custom-scripts.signin-js')
 
     @yield('before-end')
   </body>
   </html>
-  
+
