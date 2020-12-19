@@ -90,22 +90,23 @@
 
             <footer class="padding-sm">
               <p class="text-sm color-contrast-medium margin-bottom-sm post-thumbnail-tags-sm">
-                @php
-                  $tag_pills = $post->getTagCategoryNames();
-                @endphp
-                @foreach($tag_pills as $tag_pills_key => $tag_pill_name)
-                    <a
-                      href="{{ route('pages.tag-categories', $tag_pill_name) }}"
-                      class="color-contrast-medium post-thumbnail-tags-pill"
-                      draggable="false" ondragstart="return false;"
-                    >
-                      {{ $tag_pill_name }}
-                    </a>
-                    @if($tag_pills_key < count($tag_pills) - 1)
-                        ,
-                    @endif
-                @endforeach
-                &nbsp;
+                <span>
+                  @php
+                    $tag_pills = $post->getTagCategoryNames();
+                  @endphp
+                  @foreach($tag_pills as $tag_pills_key => $tag_pill_name)
+                      <a
+                        href="{{ route('pages.tag-categories', $tag_pill_name) }}"
+                        class="color-contrast-medium"
+                        draggable="false" ondragstart="return false;"
+                      >
+                        {{ $tag_pill_name }}
+                      </a>
+                      @if($tag_pills_key < count($tag_pills) - 1)
+                          ,
+                      @endif
+                  @endforeach
+                </span>
               </p>
               <div class="text-component">
                 <h4>
