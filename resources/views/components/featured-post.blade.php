@@ -31,7 +31,7 @@
                             ]
                         )
                     }}
-                " class="">{{ $featured_post->title }}</a>
+                " class="main-featured-title">{{ $featured_post->title }}</a>
             </h1>
         @endif
       </div>

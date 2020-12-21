@@ -44,12 +44,13 @@
 
 <!-- Social Share -->
 
-  <div class="sticky-banner bg shadow-sm js-sticky-banner" data-target-in="#sticky-banner-target">
+  <div class="sticky-banner bg shadow-xs js-sticky-banner" data-target-in="#sticky-banner-target">
     <!--👇 sticky banner content -->
-    <div class="flex padding-sm margin-xxxxs">
+    <div class="flex padding-xs margin-xs@md">
       <div>
+        <a href="{{ url('/') }}">
         <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
-        width="25.000000pt" height="25.000000pt" viewBox="0 0 200.000000 200.000000"
+        width="24.000000pt" height="24.000000pt" viewBox="0 0 200.000000 200.000000"
         preserveAspectRatio="xMidYMid meet">
             <g transform="translate(0.000000,200.000000) scale(0.100000,-0.100000)"
             fill="#000000" stroke="no">
@@ -72,9 +73,10 @@
             -154 0 c-104 -1 -163 -5 -183 -14z"/>
             </g>
         </svg>
+      </a>
       </div>
 
-      <div class="flex-2 margin-left-sm margin-right-sm">
+      <div class="flex-2 margin-left-sm margin-right-sm text-xs padding-top-xs">
         <h3>{{ $post->title }}</h3>
       </div><!-- /.margin-left-sm margin-right-sm -->
 
