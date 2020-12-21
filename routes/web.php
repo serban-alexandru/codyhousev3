@@ -69,7 +69,7 @@ Route::prefix('pages')->group(function(){
     'uses' => 'PagesController@posts'
   ]);
 
-  Route::get('/tag-archive', [
+  Route::get('/tag-archive/{tag}', [
     'as'   => 'pages.tags',
     'uses' => 'PagesController@tags'
   ]);

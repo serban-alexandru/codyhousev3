@@ -31,82 +31,84 @@
     </div>
   </div>
 
-      <div class="container max-width-adaptive-sm padding-y-md">
-        <div class="text-component line-height-lg v-space-md">
-          <section class="max-height-100vh bg-contrast-lower" id="sticky-banner-target"></section>
-          <x-editorjs-block :data="$post->description" />
-        </div>
-      </div>
+  <div class="container max-width-adaptive-sm padding-y-md">
+    <div class="text-component line-height-lg v-space-md">
+      <section class="max-height-100vh bg-contrast-lower" id="sticky-banner-target"></section>
+      <x-editorjs-block :data="$post->description" />
+    </div>
+  </div>
 
 <!-- Social Share -->
 
-  <div class="line-height-sm v-space-sm">
-    <div class="sticky-banner bg shadow-sm js-sticky-banner" data-target-in="#sticky-banner-target">
-      <div class="flex justify-between padding-sm margin-xxxxs">
+  <div class="sticky-banner bg shadow-sm js-sticky-banner" data-target-in="#sticky-banner-target">
+    <!--👇 sticky banner content -->
+    <div class="flex padding-sm margin-xxxxs">
+      <div>
         <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
-    width="25.000000pt" height="25.000000pt" viewBox="0 0 200.000000 200.000000"
-    preserveAspectRatio="xMidYMid meet">
-      <g transform="translate(0.000000,200.000000) scale(0.100000,-0.100000)"
-      fill="#000000" stroke="no">
-      <path d="M855 1989 c-234 -33 -481 -175 -630 -362 -457 -571 -175 -1417 532
-      -1598 42 -10 88 -19 103 -19 l27 0 12 118 c21 200 17 188 76 228 80 52 126
-      120 146 213 8 40 7 62 -6 113 -9 34 -20 67 -24 71 -5 5 -10 -25 -13 -67 -9
-      -131 -78 -235 -194 -292 -54 -27 -68 -29 -169 -29 -98 0 -116 3 -167 27 -76
-      35 -130 79 -158 130 -22 40 -23 41 -4 55 24 18 115 65 118 61 90 -149 183
-      -183 315 -117 99 49 128 126 78 200 -38 56 -81 79 -222 118 -62 16 -132 68
-      -162 118 -21 36 -27 63 -31 122 -4 68 -1 84 22 134 37 76 101 132 184 157 52
-      16 92 20 216 20 l152 0 12 116 c27 256 60 333 181 426 l35 26 -41 11 c-106 29
-      -269 37 -388 20z"/>
-      <path d="M1410 1819 c-50 -15 -85 -44 -105 -86 -15 -32 -24 -85 -49 -305 l-4
-      -38 124 0 124 0 0 -75 0 -75 -135 0 c-74 0 -135 -2 -135 -5 0 -4 -83 -718
-      -132 -1128 -6 -53 -9 -99 -6 -102 8 -8 160 23 234 49 269 91 503 315 604 579
-      52 132 63 199 64 357 1 221 -45 381 -161 559 -60 93 -198 236 -247 256 -45 19
-      -135 26 -176 14z"/>
-      <path d="M695 1226 c-42 -18 -68 -61 -69 -113 -2 -75 72 -132 244 -188 47 -15
-      91 -32 98 -38 7 -5 14 -8 16 -6 2 2 11 67 20 144 9 77 19 157 22 178 l6 37
-      -154 0 c-104 -1 -163 -5 -183 -14z"/>
-      </g>
-  </svg>
+        width="25.000000pt" height="25.000000pt" viewBox="0 0 200.000000 200.000000"
+        preserveAspectRatio="xMidYMid meet">
+            <g transform="translate(0.000000,200.000000) scale(0.100000,-0.100000)"
+            fill="#000000" stroke="no">
+            <path d="M855 1989 c-234 -33 -481 -175 -630 -362 -457 -571 -175 -1417 532
+            -1598 42 -10 88 -19 103 -19 l27 0 12 118 c21 200 17 188 76 228 80 52 126
+            120 146 213 8 40 7 62 -6 113 -9 34 -20 67 -24 71 -5 5 -10 -25 -13 -67 -9
+            -131 -78 -235 -194 -292 -54 -27 -68 -29 -169 -29 -98 0 -116 3 -167 27 -76
+            35 -130 79 -158 130 -22 40 -23 41 -4 55 24 18 115 65 118 61 90 -149 183
+            -183 315 -117 99 49 128 126 78 200 -38 56 -81 79 -222 118 -62 16 -132 68
+            -162 118 -21 36 -27 63 -31 122 -4 68 -1 84 22 134 37 76 101 132 184 157 52
+            16 92 20 216 20 l152 0 12 116 c27 256 60 333 181 426 l35 26 -41 11 c-106 29
+            -269 37 -388 20z"/>
+            <path d="M1410 1819 c-50 -15 -85 -44 -105 -86 -15 -32 -24 -85 -49 -305 l-4
+            -38 124 0 124 0 0 -75 0 -75 -135 0 c-74 0 -135 -2 -135 -5 0 -4 -83 -718
+            -132 -1128 -6 -53 -9 -99 -6 -102 8 -8 160 23 234 49 269 91 503 315 604 579
+            52 132 63 199 64 357 1 221 -45 381 -161 559 -60 93 -198 236 -247 256 -45 19
+            -135 26 -176 14z"/>
+            <path d="M695 1226 c-42 -18 -68 -61 -69 -113 -2 -75 72 -132 244 -188 47 -15
+            91 -32 98 -38 7 -5 14 -8 16 -6 2 2 11 67 20 144 9 77 19 157 22 178 l6 37
+            -154 0 c-104 -1 -163 -5 -183 -14z"/>
+            </g>
+        </svg>
+      </div>
 
-<h3 class="text-sm">{{ $post->title }}</h3>
-<div class="margin-left-sm">
-<a href="{{ url('/') }}">
+      <div class="flex-2 margin-left-sm margin-right-sm">
+        <h3>{{ $post->title }}</h3>
+      </div><!-- /.margin-left-sm margin-right-sm -->
 
-  <ul class="socials__btns">
-    <li>
-      <a href="#0">
-        <svg class="icon" viewBox="0 0 32 32"><title>Follow us on Twitter</title><g><path d="M32,6.1c-1.2,0.5-2.4,0.9-3.8,1c1.4-0.8,2.4-2.1,2.9-3.6c-1.3,0.8-2.7,1.3-4.2,1.6C25.7,3.8,24,3,22.2,3 c-3.6,0-6.6,2.9-6.6,6.6c0,0.5,0.1,1,0.2,1.5C10.3,10.8,5.5,8.2,2.2,4.2c-0.6,1-0.9,2.1-0.9,3.3c0,2.3,1.2,4.3,2.9,5.5 c-1.1,0-2.1-0.3-3-0.8c0,0,0,0.1,0,0.1c0,3.2,2.3,5.8,5.3,6.4c-0.6,0.1-1.1,0.2-1.7,0.2c-0.4,0-0.8,0-1.2-0.1 c0.8,2.6,3.3,4.5,6.1,4.6c-2.2,1.8-5.1,2.8-8.2,2.8c-0.5,0-1.1,0-1.6-0.1C2.9,27.9,6.4,29,10.1,29c12.1,0,18.7-10,18.7-18.7 c0-0.3,0-0.6,0-0.8C30,8.5,31.1,7.4,32,6.1z"></path></g></svg>
-      </a>
-    </li>
+      <ul class="socials__btns">
+        <li>
+          <a href="#0">
+            <svg class="icon" viewBox="0 0 32 32"><title>Follow us on Twitter</title><g><path d="M32,6.1c-1.2,0.5-2.4,0.9-3.8,1c1.4-0.8,2.4-2.1,2.9-3.6c-1.3,0.8-2.7,1.3-4.2,1.6C25.7,3.8,24,3,22.2,3 c-3.6,0-6.6,2.9-6.6,6.6c0,0.5,0.1,1,0.2,1.5C10.3,10.8,5.5,8.2,2.2,4.2c-0.6,1-0.9,2.1-0.9,3.3c0,2.3,1.2,4.3,2.9,5.5 c-1.1,0-2.1-0.3-3-0.8c0,0,0,0.1,0,0.1c0,3.2,2.3,5.8,5.3,6.4c-0.6,0.1-1.1,0.2-1.7,0.2c-0.4,0-0.8,0-1.2-0.1 c0.8,2.6,3.3,4.5,6.1,4.6c-2.2,1.8-5.1,2.8-8.2,2.8c-0.5,0-1.1,0-1.6-0.1C2.9,27.9,6.4,29,10.1,29c12.1,0,18.7-10,18.7-18.7 c0-0.3,0-0.6,0-0.8C30,8.5,31.1,7.4,32,6.1z"></path></g></svg>
+          </a>
+        </li>
 
-    <li>
-      <a href="#0">
-        <svg class="icon" viewBox="0 0 32 32"><title>Follow us on Facebook</title><path d="M32,16A16,16,0,1,0,13.5,31.806V20.625H9.438V16H13.5V12.475c0-4.01,2.389-6.225,6.043-6.225a24.644,24.644,0,0,1,3.582.312V10.5H21.107A2.312,2.312,0,0,0,18.5,13v3h4.438l-.71,4.625H18.5V31.806A16,16,0,0,0,32,16Z"></path></svg>
-      </a>
-    </li>
-  </ul>
-</div>
-</div>
-<!-- Begin Comments -->
+        <li>
+          <a href="#0">
+            <svg class="icon" viewBox="0 0 32 32"><title>Follow us on Facebook</title><path d="M32,16A16,16,0,1,0,13.5,31.806V20.625H9.438V16H13.5V12.475c0-4.01,2.389-6.225,6.043-6.225a24.644,24.644,0,0,1,3.582.312V10.5H21.107A2.312,2.312,0,0,0,18.5,13v3h4.438l-.71,4.625H18.5V31.806A16,16,0,0,0,32,16Z"></path></svg>
+          </a>
+        </li>
+      </ul>
 
-<!-- End Comments -->
-  </div>
-</section>
+    </div><!-- /.flex -->
+  </div><!-- /.sticky-banner -->
+
+</article>
 
 <div class="margin-top-md container max-width-xl">
   <div class="flex justify-between">
     <p class="text-xl divider-title">Recommended</p>
       <div class="margin-left-sm">
-      <a href="{{ url('/') }}">
-        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36"><title>ic_chevron_right_36px</title><rect data-element="frame" x="0" y="0" width="36" height="36" rx="18" ry="18" stroke="none" fill="#e5e5e5"></rect>
-          <g fill="#a8a8a8">
-            <path d="M15 9l-2.12 2.12L19.76 18l-6.88 6.88L15 27l9-9z"></path>
-        </g>
-      </a>
-      </svg>
-    </div>
+        <a href="{{ url('/') }}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36"><title>ic_chevron_right_36px</title><rect data-element="frame" x="0" y="0" width="36" height="36" rx="18" ry="18" stroke="none" fill="#e5e5e5"></rect>
+            <g fill="#a8a8a8">
+              <path d="M15 9l-2.12 2.12L19.76 18l-6.88 6.88L15 27l9-9z"></path>
+          </g>
+          </svg>
+        </a>
+      </div>
+    </p>
   </div>
-  </div>
-  <x-draggable-gallery-simple-itag :tags="['Best of', 'test']"/>
+</div>
+
+<x-draggable-gallery-simple-itag :tags="['Best of', 'test']"/>
 
 @endsection

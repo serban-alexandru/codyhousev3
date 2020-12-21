@@ -10,7 +10,7 @@ h2 {
 // logo
 
 .logo {
-    font-family: 'Libre Caslon Display', serif;
+    font-family: "Libre Caslon Display", serif;
     font-size: 27px;
     color: alpha(var(--color-contrast-lower), var(--color-o, 1));
 }
@@ -19,9 +19,10 @@ h2 {
 $grid-columns: 15 !default;
 
 // all text links
-a, .link {
+a,
+.link {
     text-decoration: none;
-  }
+}
 
 // body styles
 body {
@@ -92,7 +93,7 @@ body {
     .custom-modal {
         padding: 0px;
         border-radius: 0px;
-        
+
         .modal__content {
             max-width: 100%;
             border-radius: 0px;
@@ -102,7 +103,7 @@ body {
 
 // divider title on index page
 .divider-title {
-    margin-right : auto;
+    margin-right: auto;
     font-family: var(--font-primary);
     background-image: linear-gradient(120deg, #008aeb 0%, #ffffff 100%);
     background-repeat: no-repeat;
@@ -110,62 +111,97 @@ body {
     background-position: 0 100%;
     transition: background-size 0.25s ease-in;
     &:hover {
-      background-size: 100% 88%;
+        background-size: 100% 88%;
     }
 }
-.mce-branding-powered-by{ display: none; }
+.mce-branding-powered-by {
+    display: none;
+}
 
-.post-table-image-wrapper { // img link
+.post-table-image-wrapper {
+    // img link
     display: inline-block;
     width: 50px;
     height: 45px;
     border-radius: 10%;
     overflow: hidden;
-    transition: transform .2s var(--bounce);
-  
+    transition: transform 0.2s var(--bounce);
+
     &:hover {
-      transform: scale(1.1);
+        transform: scale(1.1);
     }
-  
+
     img {
-      display: block;
-      width: inherit;
-      height: inherit;
-      object-fit: cover;
+        display: block;
+        width: inherit;
+        height: inherit;
+        object-fit: cover;
     }
-  }
+}
 
 .post-table-image {
     --author-img-size: 1.7em;
     align-items: center;
     grid-gap: var(--space-xs);
-  }
+}
 
-  .hidden{ display: none; }
+.hidden {
+    display: none;
+}
 
 // Cover photo
 
-.alert-cover-photo{
-	width: 104%;
-	padding: 10px;
+.alert-cover-photo {
+    width: 104%;
+    padding: 10px;
     background: #daeffb;
     border-radius: 5px;
 }
 
-.btn-cover-photo{
-	background: #fff;
-	color: #000;
-	border: none;
-	border-radius: 5px;
-	padding: 5px 10px;
-	font-size: 14px;
-	cursor: pointer;
+.btn-cover-photo {
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
 }
 
-#btnCancel{
-	background: #f31414;
-	color: #fff;
+#btnCancel {
+    background: #f31414;
+    color: #fff;
 }
 // CSS import for select2 library
 @import "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css";
 
+.overflow-visible {
+    overflow: visible !important;
+}
+
+.post-thumbnail-tags {
+    margin-top: -36px;
+}
+
+.post-thumbnail-tags-sm {
+    margin-top: -26px;
+}
+
+.post-thumbnail-tags,
+.post-thumbnail-tags-sm {
+    & > span {
+        display: inline-block;
+        padding: 5px;
+        background-color: #fff;
+    }
+}
+
+/* Flex */
+
+.flex-1 {
+    flex: 1;
+}
+
+.flex-2 {
+    flex: 2;
+}

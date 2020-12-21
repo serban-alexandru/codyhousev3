@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="current-url" content="{{ url()->full() }}">
 
+  <!-- favicon 👇 -->
+  <link rel="icon" type="image/svg+xml" href="{{ asset('assets/img/favicon.svg') }}">
+
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
