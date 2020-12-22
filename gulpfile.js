@@ -9,6 +9,9 @@ var calc = require("postcss-calc");
 var concat = require("gulp-concat");
 var rename = require("gulp-rename");
 var uglify = require("gulp-uglify");
+var connect  = require('gulp-connect-php');
+var projectPath = 'localhost:8888/curateship'; // 👈 make sure to replace 'projectName' with the name of your project folder
+var purgecss = require('gulp-purgecss');
 
 // js file paths
 var utilJsPath = "node_modules/codyhouse-framework/main/assets/js"; // util.js path - you may need to update this if including the framework as external node module

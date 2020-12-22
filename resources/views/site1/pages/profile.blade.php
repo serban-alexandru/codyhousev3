@@ -67,7 +67,7 @@
     <ul class="grid-auto-md gap-md">
       @foreach($posts as $post)
         <li>
-          <span class="card-v8 bg radius-lg shadow-none">
+          <span class="card-v8 bg radius-lg">
             <a href="
               {{
                   route(

@@ -18,7 +18,7 @@
 
     <div class="t-article-v2__intro container max-width-adaptive-sm">
       <div class="text-component text-center">
-        <h1 class="text-xxxl">{{ $post->title }}</h1>
+        <h1 class="text-xxl">{{ $post->title }}</h1>
         <p class="text-sm">
           By
           <a href="{{ route('pages.profile.user', $post->user->username) }}">
