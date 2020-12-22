@@ -16,7 +16,7 @@
       @endif
     ></div>
 
-    <div class="t-article-v2__intro container max-width-adaptive-sm">
+    <div class="t-article-v2__intro container max-width-adaptive-sm radius-lg">
       <div class="text-component text-center">
         <h1 class="text-xxl">{{ $post->title }}</h1>
         <p class="text-sm">
