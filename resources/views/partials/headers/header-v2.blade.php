@@ -1,7 +1,7 @@
 <header class="mega-nav mega-nav--mobile mega-nav--desktop@md position-relative js-mega-nav hide-nav js-hide-nav js-hide-nav--main">
   <div class="mega-nav__container">
     <!-- 👇 logo -->
-    <a href="{{ url('/') }}" class="mega-nav__logo padding-xxs">
+    <a href="{{ url('/') }}" class="mega-nav__logo">
       <div class="flex gap-xxs">
           <div>
               <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
