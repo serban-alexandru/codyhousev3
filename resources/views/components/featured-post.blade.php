@@ -61,7 +61,7 @@
                     @endif
 
                     <div class="featured__headline line-height-xl v-space-sm text-sm">
-                        <h4 class="padding-bottom-md">
+                        <h4 class="padding-bottom-xs">
                             <a href="
                                 {{
                                     route(
