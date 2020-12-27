@@ -105,40 +105,7 @@
     <div class="mega-nav__nav js-mega-nav__nav" id="mega-nav-navigation" role="navigation" aria-label="Main">
       <div class="mega-nav__nav-inner">
         <ul class="mega-nav__items">
-          <!-- 👇 layout 2 -> multiple lists -->
-          <li class="mega-nav__item js-mega-nav__item">
-            <button class="reset mega-nav__control js-mega-nav__control js-tab-focus">
-              Best Of
-              <i class="mega-nav__arrow-icon" aria-hidden="true">
-                <svg class="icon" viewBox="0 0 16 16">
-                  <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
-                    <path d="M2 2l12 12" />
-                    <path d="M14 2L2 14" />
-                  </g>
-                </svg>
-              </i>
-            </button>
 
-            <div class="mega-nav__sub-nav-wrapper">
-              <div class="mega-nav__sub-nav mega-nav__sub-nav--layout-2">
-                <x-mega-nav-sub-items label="Best of F&B" :tags="['Best of', 'F&B', 'test']" />
-                <x-mega-nav-sub-items label="Best of Services" :tags="['Best of', 'Services', 'test']" />
-                <x-mega-nav-sub-items label="Best of People" :tags="['Best of', 'People', 'test']" limit="6" />
-
-                <div class="mega-nav__card width-100% max-width-xs margin-x-auto">
-                  <a href="#0" class="block radius-lg overflow-hidden">
-                    <figure class="media-wrapper media-wrapper--4:3">
-                      <img class="block width-100%" src="{{ asset('assets/img/mega-site-nav-img-1.jpg') }}" alt="Image description">
-                    </figure>
-                  </a>
-
-                  <div class="margin-top-sm">
-                    <h3 class="text-base"><a href="#0" class="mega-nav__card-title">Browse all →</a></h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>
           <!-- 👇 link -->
           <li class="mega-nav__item">
             <a href="#" class="mega-nav__control">Lifestyle</a>
