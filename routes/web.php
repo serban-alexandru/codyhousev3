@@ -22,6 +22,10 @@ Route::get('/about',function(){
   return view('site1.pages.about');
 });
 
+Route::get('/contact',function(){
+  return view('site1.pages.contact');
+});
+
 Route::get('/profile', [
   'as'   => 'pages.profile',
   'uses' => 'PagesController@profile'
