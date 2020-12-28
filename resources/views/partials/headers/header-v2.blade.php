@@ -108,6 +108,9 @@
 
           <!-- 👇 link -->
           <li class="mega-nav__item">
+            <a href="#" class="mega-nav__control">News</a>
+          </li>
+          <li class="mega-nav__item">
             <a href="#" class="mega-nav__control">Lifestyle</a>
           </li>
           <li class="mega-nav__item">
@@ -117,7 +120,7 @@
             <a href="#" class="mega-nav__control">People</a>
           </li>
           <li class="mega-nav__item">
-            <a href="#" class="mega-nav__control">About Us</a>
+            <a href="#" class="mega-nav__control">Culture</a>
           </li>
         </ul>
 

@@ -1,7 +1,7 @@
 @extends('admin::layouts.master')
 @section('content')
 <section>
-  <div class="container max-width-lg margin-top-xl">
+  <div class="container max-width-lg margin-top-md">
       <main class="flex items-center grid gap-sm z-index-1 col-15@md">
         @include('admin::widgets.users')
         @include('admin::widgets.visitors')
