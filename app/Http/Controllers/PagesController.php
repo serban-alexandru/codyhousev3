@@ -60,7 +60,7 @@ class PagesController extends Controller
             abort(403);
         }
 
-        $posts = $user->posts()->latest()->get();
+        $posts = $user->posts()->where('is_published', true)->latest()->get();
 
         $data['user']  = $user;
         $data['posts'] = $posts;
