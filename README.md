@@ -28,11 +28,21 @@ php artisan db:seed --class=Modules\\Users\\Database\\Seeders\\TestUsersSeeder
 
 This will create dummy users specified on `Modules/Users/Database/Seeders/TestUsersSeeder.php`
 
-## 4. Login Using
+## 4 Install modules
+npm install
+composer update
+
+## 5. Login Using
 admin@mailinator.com
 helloworld
 
-## 4. Creating a Component
+## 6. Run setup
+1. php artisan serve
+2. npm run gulp watch
+
+----------------------------------
+
+## Creating a Component
 
 Components are reusable bits of code that function individually.
 
