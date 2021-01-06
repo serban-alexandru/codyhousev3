@@ -86,12 +86,45 @@ gulp.task(
     })
 );
 
-gulp.task(
-    "watch",
-    gulp.series(["browserSync", "sass", "scripts"], function() {
-        gulp.watch("resources/views/**/*.php", gulp.series(reload));
-        gulp.watch("resources/views/**/*.html", gulp.series(reload));
-        gulp.watch("resources/sass/**/*.scss", gulp.series(["sass"]));
-        gulp.watch(componentsJsPath, gulp.series(["scripts"]));
-    })
-);
+
+gulp.task('watch', gulp.series(['sass', 'scripts', 'browserSync'], function () {
+    connect.server({}, function (){
+      browserSync({
+        proxy: projectPath,
+        notify: false
+      });
+    });
+    gulp.watch('**/*.php', gulp.series(reload));
+    gulp.watch('assets/css/**/*.scss', gulp.series(['sass']));
+    gulp.watch("resources/views/**/*.php", gulp.series(reload));
+    gulp.watch("resources/views/**/*.html", gulp.series(reload));
+    gulp.watch("resources/sass/**/*.scss", gulp.series(["sass"]));
+    gulp.watch(componentsJsPath, gulp.series(['scripts']));
+  }));
+
+  /* Gulp dist task */
+// create a distribution folder for production
+var distFolder = 'public/';
+var assetsFolder = 'public/assets/';
+
+gulp.task('dist', async function(){
+  // remove unused classes from the style.css file with PurgeCSS and copy it to the dist folder
+  await purgeCSS();
+  console.log('Distribution task completed!')
+});
+
+function purgeCSS() {
+  return new Promise(function(resolve, reject) {
+    var stream = gulp.src(cssFolder+'/style.css')
+    .pipe(purgecss({
+      content: ['main/*.php', scriptsJsPath+'/scripts.js'],
+      safelist: ['.is-hidden', '.is-visible'],
+      defaultExtractor: content => content.match(/[\w-/:%@]+(?<!:)/g) || []
+    }))
+    .pipe(gulp.dest(distFolder+'/assets/css'));
+    
+    stream.on('finish', function() {
+      resolve();
+    });
+  });
+};
