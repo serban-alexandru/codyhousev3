@@ -1,7 +1,7 @@
 <header class="mega-nav mega-nav--mobile mega-nav--desktop@md position-relative js-mega-nav hide-nav js-hide-nav js-hide-nav--main">
   <div class="mega-nav__container">
     <!-- 👇 logo -->
-    <a href="{{ url('/') }}" class="mega-nav__logo padding-xxs">
+    <a href="{{ url('/') }}" class="mega-nav__logo">
       <div class="flex gap-xxs">
           <div>
               <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
@@ -31,14 +31,14 @@
           </div>
 
        <!-- 👇 Logo Text -->
-          
-        <h2 class="logo">SaigonFinest</h2>
-          
+
+        <h1 class="logo">SaigonFinest</h1>
+
       </div>
     </a>
 
     <!-- 👇 icon buttons --mobile -->
-    <div class="mega-nav__icon-btns mega-nav__icon-btns--mobile">
+    <div class="mega-nav__icon-btns mega-nav__icon-btns--mobile gap-xxxxs">
       @guest
       <a href="#0" class="mega-nav__icon-btn js-signin-modal-trigger" data-signin="login">
         <svg class="icon" viewBox="0 0 24 24" class="js-signin-modal-trigger" data-signin="login">
@@ -51,19 +51,23 @@
       </a>
       @endguest
       @auth
-      <div class="dropdown js-dropdown">
-        <div class="mega-nav__icon-btn dropdown__wrapper inline-block">
-          <a href="#0" class="color-inherit dropdown__trigger">
+      <!-- With avatar -->
+      <div class="dropdown js-dropdown padding-xxxs">
+        <div class="mega-nav__icon-btn dropdown__wrapper inline-block author author--minimal-mobile ">
+          <a href="#0" class="author__img-wrapper dropdown__trigger">
             @if(auth()->user()->avatar)
-              <img src="{{ auth()->user()->getAvatar() }}" style="width: 32px; height: 32px; border-radius: 50%; vertical-align: middle;" alt="Logged in user avatar,">
+              <img src="{{ auth()->user()->getAvatar() }}" alt="Logged in user avatar,">
             @else
-              <svg class="icon" viewBox="0 0 24 24">
-                <title>Go to account settings</title>
-                <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
-                  <circle cx="12" cy="6" r="4" />
-                  <path d="M12 13a8 8 0 00-8 8h16a8 8 0 00-8-8z" />
-                </g>
-              </svg>
+              <!-- Without avatar -->
+              <div class="mega-nav__icon-btn dropdown__wrapper inline-block padding-bottom-xxxxs">
+                <svg class="icon" viewBox="0 0 24 24">
+                  <title>Go to account settings</title>
+                  <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
+                    <circle cx="12" cy="6" r="4" />
+                    <path d="M12 13a8 8 0 00-8 8h16a8 8 0 00-8-8z" />
+                  </g>
+                </svg>
+              </div>
             @endif
           </a>
 
@@ -101,57 +105,22 @@
     <div class="mega-nav__nav js-mega-nav__nav" id="mega-nav-navigation" role="navigation" aria-label="Main">
       <div class="mega-nav__nav-inner">
         <ul class="mega-nav__items">
-          <!-- 👇 layout 2 -> multiple lists -->
-          <li class="mega-nav__item js-mega-nav__item">
-            <button class="reset mega-nav__control js-mega-nav__control js-tab-focus">
-              Browse
-              <i class="mega-nav__arrow-icon" aria-hidden="true">
-                <svg class="icon" viewBox="0 0 16 16">
-                  <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
-                    <path d="M2 2l12 12" />
-                    <path d="M14 2L2 14" />
-                  </g>
-                </svg>
-              </i>
-            </button>
 
-            <div class="mega-nav__sub-nav-wrapper">
-              <div class="mega-nav__sub-nav mega-nav__sub-nav--layout-2">
-                <ul class="mega-nav__sub-items">
-                  <li class="mega-nav__label">Magazine Sites</li>
-                  <li class="mega-nav__sub-item"><a href="http://127.0.0.1:8000/site1" class="mega-nav__sub-link">Site 1</a></li>
-                </ul>
-
-                <ul class="mega-nav__sub-items">
-                  <li class="mega-nav__label">Blog Sites</li>
-                  <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">All Shoes</a></li>
-                </ul>
-
-                <ul class="mega-nav__sub-items">
-                  <li class="mega-nav__label">Social Networks Sites</li>
-                  <li class="mega-nav__sub-item"><a href="#0" class="mega-nav__sub-link">All Shoes</a></li>
-                </ul>
-
-                <div class="mega-nav__card width-100% max-width-xs margin-x-auto">
-                  <a href="#0" class="block radius-lg overflow-hidden">
-                    <figure class="media-wrapper media-wrapper--4:3">
-                      <img class="block width-100%" src="{{ asset('assets/img/mega-site-nav-img-1.jpg') }}" alt="Image description">
-                    </figure>
-                  </a>
-
-                  <div class="margin-top-sm">
-                    <h3 class="text-base"><a href="#0" class="mega-nav__card-title">Browse all →</a></h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>
           <!-- 👇 link -->
           <li class="mega-nav__item">
-            <a href="#" class="mega-nav__control">About us</a>
+            <a href="#" class="mega-nav__control">News</a>
           </li>
           <li class="mega-nav__item">
-            <a href="{{ url('admin') }}" class="mega-nav__control">Admin</a>
+            <a href="#" class="mega-nav__control">Lifestyle</a>
+          </li>
+          <li class="mega-nav__item">
+            <a href="#" class="mega-nav__control">F&B</a>
+          </li>
+          <li class="mega-nav__item">
+            <a href="#" class="mega-nav__control">People</a>
+          </li>
+          <li class="mega-nav__item">
+            <a href="#" class="mega-nav__control">Culture</a>
           </li>
         </ul>
 
@@ -173,12 +142,15 @@
             @endguest
 
             @auth
-            <div class="dropdown js-dropdown">
-              <div class="mega-nav__icon-btn dropdown__wrapper inline-block">
-                <a href="#0" class="color-inherit flex height-100% width-100% flex-center dropdown__trigger">
+            <!-- With avatar -->
+            <div class="dropdown js-dropdown padding-right-xxxs">
+              <div class="mega-nav__icon-btn dropdown__wrapper inline-block author author--minimal-mobile">
+                <a href="#0" class="author__img-wrapper author--minimal dropdown__trigger">
                   @if(auth()->user()->avatar)
-                    <img src="{{ auth()->user()->getAvatar() }}" style="width: 32px; height: 32px; border-radius: 50%;" alt="Logged in user avatar,">
+                    <img src="{{ auth()->user()->getAvatar() }}" alt="Logged in user avatar,">
                   @else
+                    <!-- Without avatar -->
+                    <div class="mega-nav__icon-btn dropdown__wrapper inline-block">
                     <svg class="icon" viewBox="0 0 24 24">
                       <title>Go to account settings</title>
                       <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
@@ -186,11 +158,12 @@
                         <path d="M12 13a8 8 0 00-8 8h16a8 8 0 00-8-8z" />
                       </g>
                     </svg>
+                  </div>
                   @endif
                 </a>
 
                 <ul class="dropdown__menu" aria-label="submenu">
-                  <li><a href="{{ url('site1/profile') }}" class="dropdown__item">Profile</a></li>
+                  <li><a href="{{ url('profile') }}" class="dropdown__item">Profile</a></li>
                   <li class="dropdown__separator" role="separator"></li>
                   <li><a href="{{ url('users/settings') }}" class="dropdown__item">Account Settings</a></li>
                   <li><a href="{{ url('/logout') }}" class="dropdown__item">Log out</a></li>
@@ -232,15 +205,19 @@
     <!-- 👇 search -->
     <div class="mega-nav__search js-mega-nav__search" id="mega-nav-search">
       <div class="mega-nav__search-inner">
-        @include('users::partials.search-form')
+        <form action="{{ route('pages.posts') }}" method="GET">
+          <input type="hidden" name="limit" value="{{$limit ?? ''}}">
+          <input type="hidden" name="sort" value="{{$sort ?? ''}}">
+          <input type="hidden" name="order" value="{{$order ?? ''}}">
+
+          <input class="form-control width-100%" type="reset search" name="q" value="{{ $q ?? '' }}" id="megasite-search" placeholder="Search..." aria-label="Search">
+        </form>
         <div class="margin-top-lg">
           <p class="mega-nav__label">Quick Links</p>
           <ul>
-            <li><a href="#0" class="mega-nav__quick-link">Find a Store</a></li>
-            <li><a href="#0" class="mega-nav__quick-link">Your Orders</a></li>
-            <li><a href="#0" class="mega-nav__quick-link">Documentation</a></li>
-            <li><a href="#0" class="mega-nav__quick-link">Questions &amp; Answers</a></li>
-            <li><a href="#0" class="mega-nav__quick-link">Contact Us</a></li>
+            <li><a href="https://www.facebook.com/saigonfinest" class="mega-nav__quick-link">Visit us on Facebook</a></li>
+            <li><a href="https://www.instagram.com/saigon_finest/" class="mega-nav__quick-link">Visit us on Instagram</a></li>
+            <li><a href="https://saigonfinest.com/contact" class="mega-nav__quick-link">Contact Us</a></li>
           </ul>
         </div>
       </div>
