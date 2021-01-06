@@ -18,6 +18,11 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 class UsersController extends Controller
 {
 
+    public function dashboard()
+    {
+        return view('users::dashboard.index');
+    }
+
     public function adminsettings()
     {
         return view('users::pages.adminsettings');

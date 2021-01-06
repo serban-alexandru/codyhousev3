@@ -73,3 +73,7 @@ Route::middleware('auth')->group(function(){
     'uses' => 'UsersController@postAjaxDeleteCoverPhoto'
   ]);
 });
+
+Route::get('/dashboard',function(){
+  return view('users::dashboard\index');
+});

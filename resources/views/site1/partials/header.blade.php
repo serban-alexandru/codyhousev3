@@ -74,6 +74,7 @@
           <ul class="dropdown__menu" aria-label="submenu">
             <li><a href="{{ url('profile') }}" class="dropdown__item">Profile</a></li>
             <li class="dropdown__separator" role="separator"></li>
+            <li><a href="{{ url('users/settings') }}" class="dropdown__item">Dashboard</a></li>
             <li><a href="{{ url('users/settings') }}" class="dropdown__item">Account Settings</a></li>
             <li><a href="{{ url('/logout') }}" class="dropdown__item">Log out</a></li>
           </ul>
@@ -165,6 +166,7 @@
                 <ul class="dropdown__menu" aria-label="submenu">
                   <li><a href="{{ url('profile') }}" class="dropdown__item">Profile</a></li>
                   <li class="dropdown__separator" role="separator"></li>
+                  <li><a href="{{ url('dashboard') }}" class="dropdown__item">Dashboard</a></li>
                   <li><a href="{{ url('users/settings') }}" class="dropdown__item">Account Settings</a></li>
                   <li><a href="{{ url('/logout') }}" class="dropdown__item">Log out</a></li>
                 </ul>

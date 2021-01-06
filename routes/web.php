@@ -14,9 +14,6 @@ Route::get('/',function(){
   return view('/site1/index');
 });
 
-Route::get('/site1/blog',function(){
-  return view('site1.pages.blog');
-});
 
 Route::get('/about',function(){
   return view('site1.pages.about');

@@ -19,3 +19,7 @@ Route::middleware('auth', 'role:admin')->group(function(){
 
     });
 });
+
+Route::get('admin/settings',function(){
+    return view('admin::partials\setting');
+  });
