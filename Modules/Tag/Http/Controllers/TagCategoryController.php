@@ -51,4 +51,51 @@ class TagCategoryController extends Controller
 
     }
 
+    public function tagCategories(Request $request, $tag_category_query = null)
+    {
+        // If tag category is not found -> return 404 | Not Found
+        if (!$tag_category_query) {
+            abort(404);
+        }
+
+        $posts = Post::getByTagCategoryName($tag_category_query);
+
+
+        $data['page_title'] = $tag_category_query;
+        $data['posts']      = $posts;
+
+
+        $data['page_title'] = $tag_category_query;
+        $data['posts']      = $posts;
+
+        return view('pages.category-archive', $data);
+    }
+
+    public function searches(Request $request)
+    {
+        $data = [];
+
+        return view('pages.search-archive', $data);
+    }
+
+    public function tags(Request $request, $tag_query = null)
+    {
+
+        // If tag is not found -> return 404 | Not Found
+        if (!$tag_query) {
+            abort(404);
+        }
+
+        $posts = Post::getByTagNames([$tag_query]);
+
+        $data['page_title'] = $tag_query;
+        $data['posts']      = $posts;
+
+
+        $data['page_title'] = $tag_query;
+        $data['posts']      = $posts;
+
+        return view('pages.tag-archive', $data);
+    }
+
 }
