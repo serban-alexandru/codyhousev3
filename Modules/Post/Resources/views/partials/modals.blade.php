@@ -32,11 +32,11 @@
         <!--Tab1 Content-->
         <div class="padding-y-sm padding-x-md flex-grow overflow-auto">
           <div class="js-tabs__panels">
-            <section id="tab1Panel1" class="padding-top-md js-tabs__panel">
+            <section id="tab1Panel1" class="padding-top-xs js-tabs__panel">
               <div>
 
                 <div class="grid gap-sm">
-                  <input class="form-control width-100%" type="text" name="title" id="title" required>
+                  <input class="form-control width-100%" type="text" name="title" id="title" placeholder="Enter Your Title" required>
                 <div>
 
                   <div id="editorjs" data-target-input="#description" class="site-editor form-control"></div>
@@ -113,7 +113,7 @@
                       <label class="form-label margin-bottom-xxs" for="tag_category_{{ $tag_category->id }}">
                         Add {{ $tag_category->name }}
                       </label>
-                      <select name="tag_category_{{ $tag_category->id }}[]" id="tag_category_{{ $tag_category->id }}" class="form-control site-tag-pills" multiple></select>
+                      <select name="tag_category_{{ $tag_category->id }}[]" id="tag_category_{{ $tag_category->id }}" class="site-tag-pills" multiple></select>
                   <div>
                 @endforeach
 

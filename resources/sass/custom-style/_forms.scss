@@ -11,7 +11,7 @@
   --form-control-font-size: 1em; // font size
   line-height: 1.2;
   background-color: var(--color-bg);
-  border: 2px solid var(--color-contrast-low);
+  border: 2px solid var(--color-contrast-lower);
   transition: .2s;
 
   &::placeholder {

@@ -1,14 +1,14 @@
 @extends('admin::layouts.master')
 @section('content')
   <section>
-    <div class="container max-width-lg margin-top-xs">
+    <div class="container max-width-lg margin-top-lg">
         <h1>Site Settings</h1>
         <form>
             <fieldset class="margin-bottom-md margin-top-md">
                 
               <div class="floating-label margin-bottom-md">
-                <label class="form-label" for="inputName">Enter Site Title</label>
-                <input class="form-control width-100%" type="text" name="inputName" id="inputName" placeholder="Enter Site Title">
+                <label class="form-label" for="inputName">Enter Logo Title</label>
+                <input class="form-control width-100%" type="text" name="inputName" id="inputName" placeholder="Enter Logo Title">
               </div>
 
               <div class="floating-label margin-bottom-md">
@@ -32,6 +32,8 @@
                 <label class="form-label" for="inputName">Tag Page Title</label>
                 <input class="form-control width-100%" type="text" name="inputName" id="inputName" placeholder="Tag Page Title">
               </div>
+
+              <button class="btn btn--primary">Save</button>
 
             </fieldset>
           </form>
