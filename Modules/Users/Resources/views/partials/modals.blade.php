@@ -2,7 +2,7 @@
 <div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-disable-modal-close custom-modal-hide-body-scroll" id="modal-add-user">
   <div class="modal__content height-100% tabs js-tabs width-100% max-width-xs bg radius-md shadow-md flex flex-column" role="alertdialog" aria-labelledby="modal-add-user-title" aria-describedby="modal-description-4">
     <form action="{{ url('admin/users/store') }}" id="modal-form-add-user" class="modal-form flex flex-column height-100%" method="post"> @csrf
-      <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
+      <header class="bg-contrast-lower padding-y-sm padding-x-xs flex items-center justify-between">
         <!-- 👇 Tabs -->
         <nav class="">
           <ul class="flex flex-wrap gap-sm js-tabs__controls" aria-label="Tabs Interface">
@@ -60,7 +60,7 @@
     <form action="#" method="POST" id="modal-edit-user-form" class="modal-form  flex flex-column height-100%" enctype="multipart/form-data">
       @csrf
       <input type="file" class="is-hidden" name="avatar" id="avatar" accept="image/*">
-      <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
+      <header class="bg-contrast-lower padding-y-sm padding-x-xs flex items-center justify-between">
         <!-- 👇 Tabs -->
         <nav class="">
           <ul class="flex flex-wrap gap-sm js-tabs__controls" aria-label="Tabs Interface">
