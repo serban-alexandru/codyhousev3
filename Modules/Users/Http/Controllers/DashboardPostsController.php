@@ -74,9 +74,9 @@ class DashboardPostsController extends Controller
 
         $posts = $posts->paginate($limit);
 
-        $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->count();
-        $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->count();
-        $posts_deleted_count = Post::where('is_deleted', 1)->count();
+        $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->where('user_id', auth()->user()->id)->count();
+        $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('user_id', auth()->user()->id)->count();
+        $posts_deleted_count = Post::where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();
 
         $availableLimit = ['25', '50', '100', '150', '200'];
 

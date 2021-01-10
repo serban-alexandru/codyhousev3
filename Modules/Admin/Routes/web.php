@@ -17,7 +17,7 @@ Route::middleware('auth', 'role:admin')->group(function(){
     Route::prefix('admin')->group(function() {
         // Share Site Setting Data
         $settings_data = Settings::getSiteSettings();
-        View::share('site_settings', $settings_data);
+        View::share('settings_data', $settings_data);
 
         Route::get('/', 'AdminController@index');
 
