@@ -74,6 +74,75 @@ Route::middleware('auth')->group(function(){
   ]);
 });
 
-Route::get('/dashboard',function(){
+/*Route::get('/dashboard',function(){
   return view('users::dashboard\index');
+});*/
+
+Route::group([
+  'prefix' => 'dashboard',
+  'middleware' => 'auth'
+], function() {
+  Route::get('/', 'DashboardPostsController@index');
+  Route::get('/settings', 'DashboardPostsController@settings');
+
+  Route::post('/store', [
+    'as' => 'dashboard.store',
+    'uses' => 'DashboardPostsController@store'
+  ]);
+
+  Route::get('{id}/fetch-data', [
+    'as' => 'dashboard.fetch-data',
+    'uses' => 'DashboardPostsController@fetchDataAjax'
+  ]);
+
+  Route::post('/update', [
+    'as' => 'dashboard.update',
+    'uses' => 'DashboardPostsController@ajaxUpdate'
+  ]);
+
+  Route::post('/delete', [
+    'as' => 'dashboard.delete',
+    'uses' => 'DashboardPostsController@delete'
+  ]);
+
+  Route::post('/delete-permanently', [
+    'as' => 'dashboard.delete-permanently',
+    'uses' => 'DashboardPostsController@deletePermanently'
+  ]);
+
+  Route::post('/delete/multiple', [
+    'as' => 'dashboard.delete.multiple',
+    'uses' => 'DashboardPostsController@deleteMultiple'
+  ]);
+
+  Route::post('/trash/empty', [
+    'as' => 'dashboard.trash.empty',
+    'uses' => 'DashboardPostsController@emptyTrash'
+  ]);
+
+  Route::post('/settings/store', [
+      'as' => 'dashboard.settings.store',
+      'uses' => 'DashboardPostsController@settingsStore'
+  ]);
+
+  Route::post('/settings/update', [
+      'as' => 'dashboard.settings.update',
+      'uses' => 'DashboardPostsController@settingsUpdate'
+  ]);
+
+  Route::get('/{id}/make-draft', [
+      'as' => 'dashboard.make-draft',
+      'uses' => 'DashboardPostsController@makePostDraft'
+  ]);
+
+  Route::get('/{id}/publish', [
+      'as' => 'dashboard.publish',
+      'uses' => 'DashboardPostsController@makePostPublish'
+  ]);
+
+  Route::get('/{id}/restore', [
+      'as' => 'dashboard.restore',
+      'uses' => 'DashboardPostsController@restore'
+  ]);
+
 });

@@ -8,7 +8,7 @@
     <ul class="sidenav__list">
 
       <li class="sidenav__item sidenav__item--expanded">
-        <a href="{{ url('/dashboard') }}" class="sidenav__link ajax-link"{{ (url('/dashboard') == url()->full()) ? 'aria-current=page' : '' }}>
+        <a href="{{ url('/admin/dashboard') }}" class="sidenav__link ajax-link"{{ (url('/admin/dashboard') == url()->full()) ? 'aria-current=page' : '' }}>
           <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g><path d="M14,7H2v7c0,0.6,0.4,1,1,1h10c0.6,0,1-0.4,1-1V7z"></path><rect y="1" width="16" height="4"></rect></g></svg>
           <span class="sidenav__text">All Posts</span>
           <span class="sidenav__counter">{{ $posts_published_count }} <i class="sr-only">notifications</i></span>
@@ -20,14 +20,14 @@
 
         <ul class="sidenav__list">
           <li class="sidenav__item">
-            <a href="{{ url('/dashboard?is_draft=1') }}" class="sidenav__link ajax-link">
+            <a href="{{ url('/admin/dashboard?is_draft=1') }}" class="sidenav__link ajax-link">
               <span class="sidenav__text">Draft</span>
               <span class="sidenav__counter">{{ $posts_draft_count }} <i class="sr-only">notifications</i></span>
             </a>
           </li>
 
           <li class="sidenav__item">
-            <a href="{{ url('/dashboard?is_trashed=1') }}" class="sidenav__link ajax-link">
+            <a href="{{ url('/admin/dashboard?is_trashed=1') }}" class="sidenav__link ajax-link">
               <span class="sidenav__text">Trash</span>
               <span class="sidenav__counter">{{ $posts_deleted_count }} <i class="sr-only">notifications</i></span>
             </a>
@@ -41,7 +41,7 @@
 
     <ul class="sidenav__list">
       <li class="sidenav__item">
-        <a href="{{ url('/dashboard/settings') }}" class="sidenav__link"{{ (url('/dashboard/settings') == url()->full()) ? 'aria-current=page' : '' }}>
+        <a href="{{ url('/admin/dashboard/settings') }}" class="sidenav__link"{{ (url('/admin/dashboard/settings') == url()->full()) ? 'aria-current=page' : '' }}>
           <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g><circle cx="6" cy="8" r="2"></circle><path d="M10,2H6C2.7,2,0,4.7,0,8s2.7,6,6,6h4c3.3,0,6-2.7,6-6S13.3,2,10,2z M10,12H6c-2.2,0-4-1.8-4-4s1.8-4,4-4h4 c2.2,0,4,1.8,4,4S12.2,12,10,12z"></path></g></svg>
           <span class="sidenav__text">Settings</span>
         </a>

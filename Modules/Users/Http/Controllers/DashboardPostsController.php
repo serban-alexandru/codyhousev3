@@ -1,16 +1,16 @@
 <?php
 
-namespace Modules\Admin\Http\Controllers;
+namespace Modules\Users\Http\Controllers;
 
 use Arr, Str, Image, File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 use App\Http\Controllers\Controller;
-use Modules\Admin\Entities\{ PostSetting, Post, PostsTag };
+use Modules\Users\Entities\{ PostSetting, Post, PostsTag };
 use Modules\Tag\Entities\{Tag, TagCategory};
 
-class AdminController extends Controller
+class DashboardPostsController extends Controller
 {
 
     public function cleanupEditorImages()
@@ -37,7 +37,7 @@ class AdminController extends Controller
         // Cleanup unused images created with editorjs
         $this->cleanupEditorImages();
 
-        $view = request()->ajax() ? 'admin::dashboard.table' : 'admin::dashboard.index';
+        $view = request()->ajax() ? 'users::dashboard.table' : 'users::dashboard.index';
 
         $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
             ->select([
@@ -66,6 +66,9 @@ class AdminController extends Controller
                 ? $posts->where('is_published', 0)
                 : $posts->where('is_published', 1);
         }
+
+        // get user specific posts only
+        $posts = $posts->where('user_id', auth()->user()->id);
 
         $limit = request('limit') ? request('limit') : 25;
 
@@ -115,13 +118,13 @@ class AdminController extends Controller
 
     public function settings()
     {
-        $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->count();
-        $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->count();
-        $posts_deleted_count = Post::where('is_deleted', 1)->count();
+        $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->where('user_id', auth()->user()->id)->count();
+        $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('user_id', auth()->user()->id)->count();
+        $posts_deleted_count = Post::where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();
 
         $posts_settings = PostSetting::first();
 
-        return view('admin::dashboard.settings', compact(
+        return view('users::dashboard.settings', compact(
             'posts_published_count', 'posts_draft_count', 'posts_deleted_count', 'posts_settings'
             )
         );
@@ -164,7 +167,7 @@ class AdminController extends Controller
             $posts_settings->update(request()->except(['_token']));
         }
 
-        return redirect('/admin/dashboard/settings')->with("posts-settings-alert", "Settings has been $message!");
+        return redirect('/dashboard/settings')->with("posts-settings-alert", "Settings has been $message!");
     }
 
     /**
@@ -273,7 +276,7 @@ class AdminController extends Controller
 
     public function fetchDataAjax($id)
     {
-        $post = Post::find($id);
+        $post = Post::where('user_id', auth()->user()->id)->find($id);
 
         if(!$post){
             return response()->json([
@@ -334,7 +337,7 @@ class AdminController extends Controller
 
     public function ajaxUpdate()
     {
-        $post = Post::find(request('id'));
+        $post = Post::where('user_id', auth()->user()->id)->find(request('id'));
 
         if(!$post){
             return response()->json([
@@ -445,7 +448,7 @@ class AdminController extends Controller
 
     public function delete()
     {
-        $post = Post::find(request('post_id'));
+        $post = Post::where('user_id', auth()->user()->id)->find(request('post_id'));
 
         if(!$post){
             return response()->json([
@@ -455,7 +458,7 @@ class AdminController extends Controller
 
         $post->update(['is_deleted' => 1]);
 
-        return redirect('admin/dashboard');
+        return redirect('dashboard');
     }
 
     public function deletePost($post = null)
@@ -489,7 +492,7 @@ class AdminController extends Controller
 
     public function deletePermanently()
     {
-        $post = Post::find(request('post_id'));
+        $post = Post::where('user_id', auth()->user()->id)->find(request('post_id'));
 
         if (!$post) {
             return response()->json([
@@ -499,7 +502,7 @@ class AdminController extends Controller
 
         $this->deletePost($post);
 
-        return redirect('admin/dashboard');
+        return redirect('dashboard');
 
     }
 
@@ -509,7 +512,7 @@ class AdminController extends Controller
             'post_ids' => 'required|array'
         ]);
 
-        Post::whereIn('id', request('post_ids'))->update(['is_deleted' => 1]);
+        Post::where('user_id', auth()->user()->id)->whereIn('id', request('post_ids'))->update(['is_deleted' => 1]);
 
         return response()->json([
             'status' => true,
@@ -521,19 +524,19 @@ class AdminController extends Controller
     {
 
         // Get posts on trash
-        $trashed_posts = Post::where('is_deleted', 1)->get();
+        $trashed_posts = Post::where('user_id', auth()->user()->id)->where('is_deleted', 1)->get();
 
         foreach ($trashed_posts as $post) {
             $this->deletePost($post);
         }
 
 
-        return redirect('admin/dashboard');
+        return redirect('dashboard');
     }
 
     public function restore($id)
     {
-        $post = Post::find($id);
+        $post = Post::where('user_id', auth()->user()->id)->find($id);
 
         if(!$post){
             return response()->json([
@@ -543,7 +546,7 @@ class AdminController extends Controller
 
         $post->update(['is_deleted' => 0]);
 
-        return redirect('admin/dashboard');
+        return redirect('dashboard');
     }
 
     /**
@@ -570,19 +573,19 @@ class AdminController extends Controller
     {
         $this->updateIsPublished($id, 0);
 
-        return redirect('admin/dashboard');
+        return redirect('dashboard');
     }
 
     public function makePostPublish($id)
     {
         $this->updateIsPublished($id, 1);
 
-        return redirect('admin/dashboard');
+        return redirect('dashboard');
     }
 
     public function updateIsPublished($id, $value)
     {
-        $post = Post::find($id);
+        $post = Post::where('user_id', auth()->user()->id)->find($id);
 
         if(!$post){
             throw new Exception("Post does not exists.");

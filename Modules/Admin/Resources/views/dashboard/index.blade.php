@@ -1,16 +1,16 @@
 @extends('admin::layouts.master')
 @section('content')
-  @include('users::dashboard.modals')
-  @include('users::dashboard.edit-modals')
+  @include('admin::dashboard.modals')
+  @include('admin::dashboard.edit-modals')
   <section>
     <div class="container max-width-lg margin-top-xs">
       <div class="grid gap-md@md">
-        @include('users::dashboard.sidebar')
+        @include('admin::dashboard.sidebar')
         <main class="position-relative padding-top-md z-index-1 col-12@md">
-          @include('users::dashboard.control')
+          @include('admin::dashboard.control')
           <div class="bg radius-md padding-md shadow-sm">
             <div id="site-table-with-pagination-container">
-              @include('users::dashboard.table')
+              @include('admin::dashboard.table')
             </div><!-- /#site-table-with-pagination-container -->
           </div><!-- /.bg radius-md padding-md shadow-sm -->
         </main>
@@ -21,5 +21,5 @@
 
 @push('module-scripts')
 <!-- MODULE'S CUSTOM SCRIPT -->
-  @include('users::dashboard.script-js')
+  @include('admin::dashboard.script-js')
 @endpush

@@ -6,10 +6,12 @@
   <meta name="current-url" content="{{ url()->full() }}">
 
   <!-- favicon 👇 -->
-  <link rel="icon" type="image/svg+xml" href="{{ asset('assets/img/favicon.svg') }}">
+  <link rel="icon" type="image/svg+xml" href="{{ !empty($settings_data['favicon']) ? asset($settings_data['favicon']) : asset('assets/img/favicon.svg') }}">
 
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
+
+  <meta name="title" content="{{ !empty($settings_data['meta_title']) ? $settings_data['meta_title'] : '' }}">
 
   <script>document.getElementsByTagName("html")[0].className += " js";</script>
   <script>
@@ -24,7 +26,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style-fallback.css') }}">
   </noscript>
 
-  <title>Title</title>
+  <title>{{ !empty($settings_data['page_title']) ? $settings_data['page_title'] : '' }}</title>
 
   @include('site1.partials.external-fonts-v1')
 

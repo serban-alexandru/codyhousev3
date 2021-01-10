@@ -1,6 +1,6 @@
 @if(request()->has('is_trashed'))
   <div class="margin-bottom-md">
-    <form action="{{ route('dashboard.trash.empty') }}" method="post">
+    <form action="{{ route('admin.dashboard.trash.empty') }}" method="post">
       @csrf
       <span class="btn btn--subtle" id="emptyTrash">Empty trash</span>
     </form>
@@ -171,7 +171,7 @@
               @if(!$post->is_deleted || ($post->is_published && !$post->is_deleted))
                 <td class="int-table__cell text-center flex" style="overflow: unset;">
                   @if(!$post->is_deleted)
-                    <form action="{{ route('dashboard.delete') }}" method="post">
+                    <form action="{{ route('admin.dashboard.delete') }}" method="post">
                       @csrf
                       <input type="hidden" name="post_id" value="{{ $post->id }}">
                       <li class="menu-bar__item btn-delete" role="menuitem" aria-controls="modal-name-1">
@@ -185,7 +185,7 @@
                   @endif
 
                   @if($post->is_published && !$post->is_deleted)
-                    <a href="{{ route('dashboard.make-draft', ['id' => $post->id]) }}">
+                    <a href="{{ route('admin.dashboard.make-draft', ['id' => $post->id]) }}">
                       <li class="menu-bar__item menu-bar__item--hide" role="menuitem">
                         <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 12 12">
                           <path d="M10.121.293a1,1,0,0,0-1.414,0L1,8,0,12l4-1,7.707-7.707a1,1,0,0,0,0-1.414Z"></path>
@@ -199,14 +199,14 @@
 
               @if(!$post->is_published && !$post->is_deleted)
                 <td>
-                  <a href="{{ route('dashboard.publish', ['id' => $post->id]) }}" class="btn">Publish</a>
+                  <a href="{{ route('admin.dashboard.publish', ['id' => $post->id]) }}" class="btn">Publish</a>
                 </td>
               @elseif($post->is_deleted)
                 <td class="int-table__cell" style="overflow: unset;">
-                  <a href="{{ route('dashboard.restore', ['id' => $post->id]) }}" class="btn margin-right-sm">Restore</a>
+                  <a href="{{ route('admin.dashboard.restore', ['id' => $post->id]) }}" class="btn margin-right-sm">Restore</a>
                 </td>
                 <td class="int-table__cell text-center" style="overflow: unset;">
-                  <form action="{{ route('dashboard.delete-permanently') }}" method="post">
+                  <form action="{{ route('admin.dashboard.delete-permanently') }}" method="post">
                     @csrf
                     <input type="hidden" name="post_id" value="{{ $post->id }}">
                     <li class="menu-bar__item btn-delete" role="menuitem">

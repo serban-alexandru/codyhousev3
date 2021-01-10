@@ -141,7 +141,7 @@
 
 <div class="modal modal--search modal--animate-fade flex flex-center padding-md js-modal" id="modal-search">
   <div class="modal__content width-100% max-width-sm" role="alertdialog" aria-labelledby="modal-search-title" aria-describedby="">
-    <form class="full-screen-search" action="{{ url('dashboard') }}" method="GET">
+    <form class="full-screen-search" action="{{ url('admin/dashboard') }}" method="GET">
       <label for="search-input-x" id="modal-search-title" class="sr-only">Search</label>
       <input class="reset full-screen-search__input" type="search" name="postsearch" id="search-input-x" placeholder="Search..." required>
       <button class="reset full-screen-search__btn">
