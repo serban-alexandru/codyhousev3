@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style-fallback.css') }}">
   </noscript>
 
-  <title>{{ !empty($settings_data['page_title']) ? $settings_data['page_title'] : '' }}</title>
+  <title>Title</title>
 
   @include('site1.partials.external-fonts-v1')
 
