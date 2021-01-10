@@ -2,13 +2,15 @@
   <html lang="en">
   <head>
     <!-- favicon 👇 -->
-    <link rel="icon" type="image/svg+xml" href="{{ asset('assets/img/favicon.svg') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ !empty($settings_data['favicon']) ? asset($settings_data['favicon']) : asset('assets/img/favicon.svg') }}">
 
-    <title>@yield('title-tag')</title>
+    <title>{{ !empty($settings_data['page_title']) ? $settings_data['page_title'] : '' }}</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <meta name="title" content="{{ !empty($settings_data['meta_title']) ? $settings_data['meta_title'] : '' }}">
 
     <script>document.getElementsByTagName("html")[0].className += " js";</script>
     @yield('in-head')
