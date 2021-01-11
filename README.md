@@ -4,7 +4,7 @@
 
 php artisan migrate
 
-## 2. Users module seeder
+## 2. Users and Admin module seeder
 
 ```
 php artisan module:seed Users
@@ -19,6 +19,13 @@ php artisan db:seed --class=Modules\\Users\\Database\\Seeders\\TestUsersSeeder
 ```
 
 This will create dummy users specified on `Modules/Users/Database/Seeders/TestUsersSeeder.php`
+
+## Settings seed
+
+```
+php artisan module:seed Admin 
+```
+This will add default settings content (logo, seo title data ) into settings table
 
 ## 3 Install modules
 npm install
