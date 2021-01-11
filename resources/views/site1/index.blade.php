@@ -1,4 +1,4 @@
-@extends('site1.layouts.app')
+@extends('site1.layouts.home')
 
 @section('content')
 	<!-- OLD via include -->
