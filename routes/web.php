@@ -8,7 +8,7 @@ Route::get('post/{slug}/{id}', [
 
 
 
-Route::get('/site1', 'PagesController@index');
+//Route::get('/site1', 'PagesController@index');
 
 Route::get('/',function(){
   return view('/site1/index');
