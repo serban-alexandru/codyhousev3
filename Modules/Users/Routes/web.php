@@ -79,7 +79,7 @@ Route::middleware('auth')->group(function(){
 });*/
 
 Route::group([
-  'prefix' => 'site1',
+  'prefix' => 'dashboard',
   'middleware' => 'auth'
 ], function() {
   Route::get('/', 'DashboardPostsController@index');
