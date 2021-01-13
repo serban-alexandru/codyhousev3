@@ -27,6 +27,12 @@
           </li>
 
           <li class="sidenav__item">
+            <a href="{{ url('/admin/posts?is_pending=1') }}" class="sidenav__link ajax-link">
+              <span class="sidenav__text">Pending</span>
+              <span class="sidenav__counter">{{ $posts_pending_count }} <i class="sr-only">notifications</i></span>
+            </a>
+          </li>
+          <li class="sidenav__item">
             <a href="{{ url('/admin/posts?is_trashed=1') }}" class="sidenav__link ajax-link">
               <span class="sidenav__text">Trash</span>
               <span class="sidenav__counter">{{ $posts_deleted_count }} <i class="sr-only">notifications</i></span>

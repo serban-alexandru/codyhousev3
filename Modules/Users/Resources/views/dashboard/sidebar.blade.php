@@ -17,12 +17,19 @@
         <button class="reset sidenav__sublist-control js-sidenav__sublist-control js-tab-focus" aria-label="Toggle sub navigation">
           <svg class="icon" viewBox="0 0 12 12"><polygon points="4 3 8 6 4 9 4 3"/></svg>
         </button>
-
+      
         <ul class="sidenav__list">
           <li class="sidenav__item">
             <a href="{{ url('/dashboard?is_draft=1') }}" class="sidenav__link ajax-link">
               <span class="sidenav__text">Draft</span>
               <span class="sidenav__counter">{{ $posts_draft_count }} <i class="sr-only">notifications</i></span>
+            </a>
+          </li>
+
+          <li class="sidenav__item">
+            <a href="{{ url('/dashboard?is_pending=1') }}" class="sidenav__link ajax-link">
+              <span class="sidenav__text">Pending</span>
+              <span class="sidenav__counter">{{ $posts_pending_count }} <i class="sr-only">notifications</i></span>
             </a>
           </li>
 

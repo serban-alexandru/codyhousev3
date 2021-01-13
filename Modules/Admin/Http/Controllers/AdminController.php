@@ -48,6 +48,7 @@ class AdminController extends Controller
                 'thumbnail',
                 'thumbnail_medium',
                 'is_deleted',
+                'is_pending',
                 'is_published',
                 'users.username as username'
             ])->orderBy('created_at', 'desc');
@@ -63,8 +64,8 @@ class AdminController extends Controller
 
         if(!request()->has('is_trashed')){
             $posts = (request()->has('is_draft'))
-                ? $posts->where('is_published', 0)
-                : $posts->where('is_published', 1);
+                ? $posts->where('is_published', 0)->where('is_pending', 0)
+                : (request()->has('is_pending') ? $posts->where('is_published', 0)->where('is_pending', 1) : $posts->where('is_published', 1));
         }
 
         $limit = request('limit') ? request('limit') : 25;
@@ -72,7 +73,8 @@ class AdminController extends Controller
         $posts = $posts->paginate($limit);
 
         $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->count();
-        $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->count();
+        $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
+        $posts_pending_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
         $posts_deleted_count = Post::where('is_deleted', 1)->count();
 
         $availableLimit = ['25', '50', '100', '150', '200'];
@@ -88,6 +90,7 @@ class AdminController extends Controller
         $request    = request();
         $is_trashed = request('is_trashed');
         $is_draft   = request('is_draft');
+        $is_pending   = request('is_pending');
 
         $tag_categories = TagCategory::all();
 
@@ -107,8 +110,8 @@ class AdminController extends Controller
         }
 
         return view($view, compact(
-            'posts', 'posts_published_count', 'posts_draft_count', 'posts_deleted_count',
-            'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'is_trashed', 'is_draft', 'tag_categories'
+            'posts', 'posts_published_count', 'posts_draft_count', 'posts_pending_count', 'posts_deleted_count',
+            'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'is_trashed', 'is_draft', 'is_pending', 'tag_categories'
             )
         );
     }
@@ -116,13 +119,13 @@ class AdminController extends Controller
     public function settings()
     {
         $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->count();
-        $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->count();
-        $posts_deleted_count = Post::where('is_deleted', 1)->count();
+        $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
+        $posts_pending_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
 
         $posts_settings = PostSetting::first();
 
         return view('admin::dashboard.settings', compact(
-            'posts_published_count', 'posts_draft_count', 'posts_deleted_count', 'posts_settings'
+            'posts_published_count', 'posts_draft_count', 'posts_pending_count', 'posts_deleted_count', 'posts_settings'
             )
         );
     }
@@ -277,6 +280,7 @@ class AdminController extends Controller
 
         if(!$post){
             return response()->json([
+                'status' => false,
                 'message' => 'Post does not exists.'
             ]);
         }
@@ -338,8 +342,9 @@ class AdminController extends Controller
 
         if(!$post){
             return response()->json([
-                'message' => 'Post does not exists.'
-            ]);
+                'status' => false,
+                'message' => 'Post does not exists!'
+            ]);            
         }
 
         if(request()->has('thumbnail')){
@@ -448,9 +453,11 @@ class AdminController extends Controller
         $post = Post::find(request('post_id'));
 
         if(!$post){
-            return response()->json([
-                'message' => 'Post does not exists.'
-            ]);
+            $alert = [
+                'message' => 'Post does not exists.',
+                'class'   => 'alert--error',
+            ];            
+            return redirect()->back()->with('alert', $alert);
         }
 
         $post->update(['is_deleted' => 1]);
@@ -492,9 +499,11 @@ class AdminController extends Controller
         $post = Post::find(request('post_id'));
 
         if (!$post) {
-            return response()->json([
-                'message' => 'Post does not exists.'
-            ]);
+            $alert = [
+                'message' => 'Post does not exists.',
+                'class'   => 'alert--error',
+            ];            
+            return redirect()->back()->with('alert', $alert);
         }
 
         $this->deletePost($post);
@@ -511,10 +520,11 @@ class AdminController extends Controller
 
         Post::whereIn('id', request('post_ids'))->update(['is_deleted' => 1]);
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Posts has been deleted!'
-        ]);
+        $alert = [
+            'message' => 'Posts has been deleted!',
+            'class'   => '',
+        ];            
+        return redirect()->back()->with('alert', $alert);
     }
 
     public function emptyTrash()
@@ -536,9 +546,11 @@ class AdminController extends Controller
         $post = Post::find($id);
 
         if(!$post){
-            return response()->json([
-                'message' => 'Post does not exists.'
-            ]);
+            $alert = [
+                'message' => 'Post does not exists.',
+                'class'   => 'alert--error',
+            ];            
+            return redirect()->back()->with('alert', $alert);
         }
 
         $post->update(['is_deleted' => 0]);
@@ -566,29 +578,33 @@ class AdminController extends Controller
         return view('post::forms');
     }
 
-    public function makePostDraft($id)
-    {
-        $this->updateIsPublished($id, 0);
-
-        return redirect('admin/dashboard');
-    }
-
-    public function makePostPublish($id)
-    {
-        $this->updateIsPublished($id, 1);
-
-        return redirect('admin/dashboard');
-    }
-
-    public function updateIsPublished($id, $value)
-    {
+    public function makePostDraft($id) {
         $post = Post::find($id);
-
-        if(!$post){
-            throw new Exception("Post does not exists.");
+        if (!$post) {
+            $alert = [
+                'message' => 'Post does not exists.',
+                'class'   => 'alert--error',
+            ];            
+            return redirect()->back()->with('alert', $alert);
         }
 
-        $post->update(['is_published' => $value]);
+        $post->update(['is_published' => 0, 'is_pending' => 0]);
+
+        return redirect('admin/dashboard');
     }
 
+    public function makePostPublish($id) {
+        $post = Post::find($id);
+        if (!$post) {
+            $alert = [
+                'message' => 'Post does not exists.',
+                'class'   => 'alert--error',
+            ];            
+            return redirect()->back()->with('alert', $alert);
+        }
+
+        $post->update(['is_published' => 1, 'is_pending' => 0]);
+
+        return redirect('admin/dashboard');
+    }
 }
