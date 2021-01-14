@@ -57,7 +57,7 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials, $request->has('remember'))) {
             $user         = User::where('email', $request->input('email'))->first();
-            $redirect_url = $user->permission === Role::where('key', 'admin')->first()->permission ? url('/admin') : $this->redirectTo;
+            $redirect_url = $user->permission === Role::where('key', 'admin')->first()->permission ? url('/admin/dashboard') : $this->redirectTo;
 
             // check if account is inacitve/ suspended
             if ($user->permission < 1) {
