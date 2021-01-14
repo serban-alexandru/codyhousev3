@@ -25,6 +25,7 @@
               <li class="subnav__item"><a href="{{ url('admin/tag') }}" class="subnav__link" aria-current="{{ Request::path() ==  'admin/tag' ? 'page' : ''  }}">Tags</a></li>
               <li class="subnav__item"><a href="{{ url('admin/posts') }}" class="subnav__link" aria-current="{{ Request::path() ==  'admin/posts' ? 'page' : ''  }}">Post</a></li>
               <li class="subnav__item"><a href="{{ url('admin/videos') }}" class="subnav__link" aria-current="{{ Request::path() ==  'admin/videos' ? 'page' : ''  }}">Videos</a></li>
+              <li class="subnav__item"><a href="{{ url('admin/menus') }}" class="subnav__link" aria-current="{{ Request::path() ==  'admin/menus' ? 'page' : ''  }}">Menus</a></li>
               <li class="subnav__item"><a href="{{ url('admin/settings') }}" class="subnav__link" aria-current="{{ Request::path() ==  'admin/settings' ? 'page' : ''  }}">Settings</a></li>
             </ul>
           </nav>

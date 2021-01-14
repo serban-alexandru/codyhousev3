@@ -182,6 +182,11 @@ return [
         Webwizo\Shortcodes\ShortcodesServiceProvider::class,
         App\Providers\ShortcodesServiceProvider::class,
 
+        /**
+         * Drag & Drop Menu Service Providers...
+         */
+        Harimayco\Menu\MenuServiceProvider::class,        
+
     ],
 
     /*
@@ -235,6 +240,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Shortcode' => Webwizo\Shortcodes\Facades\Shortcode::class,
+        'Menu' => Harimayco\Menu\Facades\Menu::class,
     ],
 
 ];
