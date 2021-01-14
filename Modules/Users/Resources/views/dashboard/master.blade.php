@@ -1,19 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Module Post</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="current-url" content="{{ url()->full() }}">
 
-       {{-- Laravel Mix - CSS File --}}
-       {{-- <link rel="stylesheet" href="{{ mix('css/post.css') }}"> --}}
+  <!-- favicon 👇 -->
+  <link rel="icon" type="image/svg+xml" href="{{ !empty($settings_data['favicon']) ? asset($settings_data['favicon']) : asset('assets/img/favicon.svg') }}">
 
-    </head>
-    <body>
-        @yield('content')
+  <!-- CSRF Token -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        {{-- Laravel Mix - JS File --}}
-        {{-- <script src="{{ mix('js/post.js') }}"></script> --}}
-    </body>
+  <script>document.getElementsByTagName("html")[0].className += " js";</script>
+  <script>
+    if('CSS' in window && CSS.supports('color', 'var(--color-var)')) {
+      document.write('<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">');
+    } else {
+      document.write('<link rel="stylesheet" href="{{ asset('assets/css/style-fallback.css') }}">');
+    }
+  </script>
+
+  <noscript>
+    <link rel="stylesheet" href="{{ asset('assets/css/style-fallback.css') }}">
+  </noscript>
+
+  <title>Title</title>
+
+  @include('site1.partials.external-fonts-v1')
+
+</head>
+<body>
+
+  @include('site1.partials.header')
+
+@if (auth()->user()->isAdmin())
+  @include('admin::partials.admin-bar')
+@endif
+
+  @yield('content')
+  @include('site1.partials.footer')
+
+  <!-- CODYHOUSE, LIBRARIES -->
+  <script src="{{ asset('assets/js/scripts.js') }}"></script>
+
+  <!-- COMMON SCRIPTS -->
+  @include('admin::partials.custom-script')
+
+  <!-- MODULE SCRIPTS -->
+  @stack('module-scripts')
+</body>
 </html>

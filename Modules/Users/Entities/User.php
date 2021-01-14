@@ -153,4 +153,18 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany('Modules\Post\Entities\Post');
     }
 
+    public function getUserRole() {
+        $query = Role::where('id', $this->id)
+            ->first();
+
+        if($query){
+            return $query->key;
+        }
+
+        return false;
+    }
+
+    public function isAdmin() {
+        return ($this->getUserRole() == 'admin') ? true : false;
+    }
 }

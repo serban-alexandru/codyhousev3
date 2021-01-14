@@ -11,6 +11,8 @@
 |
 */
 
-Route::prefix('admin')->group(function() {
-    Route::get('videos', 'VideoController@index');
+Route::middleware('auth', 'role:admin')->group(function(){
+    Route::prefix('admin')->group(function() {
+        Route::get('videos', 'VideoController@index');
+    });
 });
