@@ -121,6 +121,7 @@ class PostController extends Controller
         $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->count();
         $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
         $posts_pending_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
+        $posts_deleted_count = Post::where('is_deleted', 1)->count();
 
         $posts_settings = PostSetting::first();
 

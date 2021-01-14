@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 class SettingsController extends Controller {
   public function index() {
     $settings_data = Settings::getSiteSettings();
-    return view('admin::partials\setting', compact('settings_data'));
+    return view('admin::partials\setting', compact('settings_data'))->withoutShortcodes();
   }
 
   /**

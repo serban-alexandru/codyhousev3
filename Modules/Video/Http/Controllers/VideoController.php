@@ -53,7 +53,7 @@ class VideoController extends Controller
      */
     public function edit($id)
     {
-        return view('video::edit');
+        return view('video::edit')->withoutShortcodes();
     }
 
     /**

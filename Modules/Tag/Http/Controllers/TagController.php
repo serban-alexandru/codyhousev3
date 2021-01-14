@@ -42,10 +42,8 @@ class TagController extends Controller
                 'tags.created_at',
                 'tags.updated_at',
                 'tag_categories.id as category_id',
-                'tag_categories.name as category_name',
-            )
-            ->join('tag_categories', 'tag_categories.id', '=', 'tags.tag_category_id')
-        ;
+                'tag_categories.name as category_name'
+            )->join('tag_categories', 'tag_categories.id', '=', 'tags.tag_category_id');
 
         // Set sorting and order
         $tags = $tags->orderBy($sort, $order);
