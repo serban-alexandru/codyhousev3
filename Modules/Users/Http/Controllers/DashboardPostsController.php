@@ -48,6 +48,7 @@ class DashboardPostsController extends Controller
                 'thumbnail',
                 'thumbnail_medium',
                 'is_deleted',
+                'is_pending',
                 'is_published',
                 'users.username as username'
             ])->orderBy('created_at', 'desc');
@@ -490,7 +491,7 @@ class DashboardPostsController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $post->update(['is_deleted' => 1]);
+        $post->update(['is_deleted' => 1, 'is_published' => 0, 'is_pending' => 0]);
 
         return redirect('dashboard');
     }
@@ -588,7 +589,7 @@ class DashboardPostsController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $post->update(['is_deleted' => 0]);
+        $post->update(['is_deleted' => 0, 'is_pending' => 0, 'is_published' => 0]);
 
         return redirect('dashboard');
     }
