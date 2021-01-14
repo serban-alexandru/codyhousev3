@@ -318,6 +318,7 @@ class DashboardPostsController extends Controller
         $data['description']  = html_entity_decode($post->description);
         $data['thumbnail']    = asset("storage/posts/original/{$post->thumbnail}");
         $data['page_title']   = $post->seo_page_title;
+        $data['post_date']    = Date('d/m/Y', strtotime($post->created_at));
         $data['is_published'] = $post->is_published;
         $data['is_deleted']   = $post->is_deleted;
 
@@ -419,11 +420,27 @@ class DashboardPostsController extends Controller
             $slug .= '-2';
         }
 
-        if (auth()->user()->isAdmin()) {
+        // change Post Created Time "created_at"
+        $created_time = strtotime($post->created_at);
+        $created_h = date("H", $created_time);
+        $created_m = date("i", $created_time);
+        $created_s = date("s", $created_time);
+
+        if (request('post_date')) {
+            $date_array = explode('/', request('post_date'));
+
+            $day = $date_array[0];
+            $month = $date_array[1];
+            $year = $date_array[2];
 
         } else {
-
+            $day = date("d", time());
+            $month = date("m", time());
+            $year = date("Y", time());
         }
+
+        $datetime_format = "%s/%s/%s %s:%s:%s";
+        $post_date = strtotime(sprintf($datetime_format, $year, $month, $day, $created_h, $created_m, $created_s));
 
         $post->update([
             'title' => request('title'),
@@ -433,6 +450,7 @@ class DashboardPostsController extends Controller
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : $post->thumbnail_medium,
             'seo_page_title' => request('page_title') ?: NULL,
             'tags' => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
+            'created_at' => $post_date,
             'is_published' => $is_published,
             'is_pending' => $is_pending
         ]);
