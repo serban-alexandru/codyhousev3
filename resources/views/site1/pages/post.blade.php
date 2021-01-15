@@ -2,7 +2,7 @@
 
 <?php $page_title = ($post->seo_page_title) ? $post->seo_page_title : $post->title; ?>
 
-@section('title-tag'){{ $page_title }}@endsection
+@section('title-tag'){!! $page_title !!}@endsection
 
 @section('content')
   <article class="container max-width-adaptive-sm margin-top-lg article text-component">

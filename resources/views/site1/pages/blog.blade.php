@@ -1,7 +1,7 @@
 @extends('site1.layouts.app')
 
 @isset($page_title)
-  @section('title-tag', $page_title)
+  @section('title-tag'){!! $page_title !!}@endsection
 @endisset
 
 @section('content')
