@@ -6,5 +6,6 @@
     "Article": true,
     "Post": true,
     "Tag": true,
-    "Video": true
+    "Video": true,
+    "Menus": true
 }

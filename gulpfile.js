@@ -73,7 +73,7 @@ gulp.task(
     gulp.series(function(done) {
         browserSync.init({
             notify: false,
-            proxy: "localhost:8000",
+            proxy: projectPath,
             files: [
                 "app/**/*.php",
                 "resources/views/**/*.php",
@@ -89,7 +89,7 @@ gulp.task(
 
 gulp.task('watch', gulp.series(['sass', 'scripts', 'browserSync'], function () {
     connect.server({}, function (){
-      browserSync({
+      browserSync.reload({
         proxy: projectPath,
         notify: false
       });

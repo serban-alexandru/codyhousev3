@@ -76,7 +76,7 @@
                         <label for="date-input-1" class="form-label margin-bottom-xxs">Select date<i class="sr-only">, format is dd/mm/yyyy</i>:</label>
                         
                         <div class="date-input__wrapper">
-                          <input type="text" class="form-control width-100% date-input__text js-date-input__text" placeholder="dd/mm/yyyy" autocomplete="off" id="date-input-1">
+                          <input type="text" class="form-control width-100% date-input__text js-date-input__text" id="post_date" name="post_date" placeholder="dd/mm/yyyy" autocomplete="off" id="date-input-1">
                           
                           <button class="reset date-input__trigger js-date-input__trigger js-tab-focus" aria-label="Select date using calendar widget" type="button">
                             <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="10"><line x1="17" y1="4" x2="17" y2="1"  ></line><line x1="7" y1="4" x2="7" y2="1"></line><line x1="1" y1="8" x2="23" y2="8"></line><rect x="1" y="4" width="22" height="18"></rect></g></svg>

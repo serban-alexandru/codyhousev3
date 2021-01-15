@@ -48,6 +48,7 @@ class DashboardPostsController extends Controller
                 'thumbnail',
                 'thumbnail_medium',
                 'is_deleted',
+                'is_pending',
                 'is_published',
                 'users.username as username'
             ])->orderBy('created_at', 'desc');
@@ -63,20 +64,33 @@ class DashboardPostsController extends Controller
 
         if(!request()->has('is_trashed')){
             $posts = (request()->has('is_draft'))
-                ? $posts->where('is_published', 0)
-                : $posts->where('is_published', 1);
+                ? $posts->where('is_published', 0)->where('is_pending', 0)
+                : (request()->has('is_pending') ? $posts->where('is_published', 0)->where('is_pending', 1) : $posts->where('is_published', 1));
         }
 
-        // get user specific posts only
-        $posts = $posts->where('user_id', auth()->user()->id);
+        if (!auth()->user()->isAdmin()) {
+            // get user specific posts only
+            $posts = $posts->where('user_id', auth()->user()->id);
+        }
 
         $limit = request('limit') ? request('limit') : 25;
 
         $posts = $posts->paginate($limit);
 
-        $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->where('user_id', auth()->user()->id)->count();
-        $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('user_id', auth()->user()->id)->count();
-        $posts_deleted_count = Post::where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();
+        if (auth()->user()->isAdmin()) {
+            // get all posts count
+            $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->count();
+            $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
+            $posts_pending_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
+            $posts_deleted_count = Post::where('is_deleted', 1)->count();
+    
+        } else {
+            // get user specific posts count
+            $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->where('user_id', auth()->user()->id)->count();
+            $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->where('user_id', auth()->user()->id)->count();
+            $posts_pending_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->where('user_id', auth()->user()->id)->count();
+            $posts_deleted_count = Post::where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();    
+        }
 
         $availableLimit = ['25', '50', '100', '150', '200'];
 
@@ -91,6 +105,7 @@ class DashboardPostsController extends Controller
         $request    = request();
         $is_trashed = request('is_trashed');
         $is_draft   = request('is_draft');
+        $is_pending   = request('is_pending');
 
         $tag_categories = TagCategory::all();
 
@@ -110,22 +125,33 @@ class DashboardPostsController extends Controller
         }
 
         return view($view, compact(
-            'posts', 'posts_published_count', 'posts_draft_count', 'posts_deleted_count',
-            'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'is_trashed', 'is_draft', 'tag_categories'
+            'posts', 'posts_published_count', 'posts_draft_count', 'posts_pending_count', 'posts_deleted_count',
+            'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'is_trashed', 'is_draft', 'is_pending', 'tag_categories'
             )
         );
     }
 
     public function settings()
     {
-        $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->where('user_id', auth()->user()->id)->count();
-        $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('user_id', auth()->user()->id)->count();
-        $posts_deleted_count = Post::where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();
+        if (auth()->user()->isAdmin()) {
+            // get all posts count
+            $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->count();
+            $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
+            $posts_pending_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
+            $posts_deleted_count = Post::where('is_deleted', 1)->count();
+
+        } else {
+            // get user specific posts count
+            $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->where('user_id', auth()->user()->id)->count();
+            $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->where('user_id', auth()->user()->id)->count();
+            $posts_pending_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->where('user_id', auth()->user()->id)->count();
+            $posts_deleted_count = Post::where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();    
+        }
 
         $posts_settings = PostSetting::first();
 
         return view('users::dashboard.settings', compact(
-            'posts_published_count', 'posts_draft_count', 'posts_deleted_count', 'posts_settings'
+            'posts_published_count', 'posts_draft_count', 'posts_pending_count', 'posts_deleted_count', 'posts_settings'
             )
         );
     }
@@ -276,10 +302,10 @@ class DashboardPostsController extends Controller
 
     public function fetchDataAjax($id)
     {
-        $post = Post::where('user_id', auth()->user()->id)->find($id);
-
-        if(!$post){
+        $post = $this->getPost($id);
+        if (!$post) {
             return response()->json([
+                'status' => false,
                 'message' => 'Post does not exists.'
             ]);
         }
@@ -292,6 +318,7 @@ class DashboardPostsController extends Controller
         $data['description']  = html_entity_decode($post->description);
         $data['thumbnail']    = asset("storage/posts/original/{$post->thumbnail}");
         $data['page_title']   = $post->seo_page_title;
+        $data['post_date']    = Date('d/m/Y', strtotime($post->created_at));
         $data['is_published'] = $post->is_published;
         $data['is_deleted']   = $post->is_deleted;
 
@@ -337,12 +364,12 @@ class DashboardPostsController extends Controller
 
     public function ajaxUpdate()
     {
-        $post = Post::where('user_id', auth()->user()->id)->find(request('id'));
-
-        if(!$post){
+        $post = $this->getPost(request('id'));
+        if (!$post) {
             return response()->json([
-                'message' => 'Post does not exists.'
-            ]);
+                'status' => false,
+                'message' => 'Post does not exists!'
+            ]);            
         }
 
         if(request()->has('thumbnail')){
@@ -382,7 +409,8 @@ class DashboardPostsController extends Controller
             }
         }
 
-        $is_published = request('is_published') ?? $post->is_published;
+        $is_published = (request('is_published') && auth()->user()->isAdmin())?? $post->is_published;
+        $is_pending = (request('is_published') && !auth()->user()->isAdmin()) ?? $post->is_published;
 
         // Generate slug
         $slug                = Str::slug(request('slug'), '-');
@@ -392,6 +420,28 @@ class DashboardPostsController extends Controller
             $slug .= '-2';
         }
 
+        // change Post Created Time "created_at"
+        $created_time = strtotime($post->created_at);
+        $created_h = date("H", $created_time);
+        $created_m = date("i", $created_time);
+        $created_s = date("s", $created_time);
+
+        if (request('post_date')) {
+            $date_array = explode('/', request('post_date'));
+
+            $day = $date_array[0];
+            $month = $date_array[1];
+            $year = $date_array[2];
+
+        } else {
+            $day = date("d", time());
+            $month = date("m", time());
+            $year = date("Y", time());
+        }
+
+        $datetime_format = "%s/%s/%s %s:%s:%s";
+        $post_date = strtotime(sprintf($datetime_format, $year, $month, $day, $created_h, $created_m, $created_s));
+
         $post->update([
             'title' => request('title'),
             'slug' => $slug,
@@ -400,7 +450,9 @@ class DashboardPostsController extends Controller
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : $post->thumbnail_medium,
             'seo_page_title' => request('page_title') ?: NULL,
             'tags' => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
-            'is_published' => $is_published
+            'created_at' => $post_date,
+            'is_published' => $is_published,
+            'is_pending' => $is_pending
         ]);
 
         $tag_categories = TagCategory::all();
@@ -448,15 +500,16 @@ class DashboardPostsController extends Controller
 
     public function delete()
     {
-        $post = Post::where('user_id', auth()->user()->id)->find(request('post_id'));
-
-        if(!$post){
-            return response()->json([
-                'message' => 'Post does not exists.'
-            ]);
+        $post = $this->getPost(request('post_id'));
+        if (!$post) {
+            $alert = [
+                'message' => 'Post does not exists.',
+                'class'   => 'alert--error',
+            ];            
+            return redirect()->back()->with('alert', $alert);
         }
 
-        $post->update(['is_deleted' => 1]);
+        $post->update(['is_deleted' => 1, 'is_published' => 0, 'is_pending' => 0]);
 
         return redirect('dashboard');
     }
@@ -492,12 +545,22 @@ class DashboardPostsController extends Controller
 
     public function deletePermanently()
     {
-        $post = Post::where('user_id', auth()->user()->id)->find(request('post_id'));
+        if (!auth()->user()->isAdmin()) {
+            $alert = [
+                'message' => 'You are not authorized to delete post permanently.',
+                'class'   => 'alert--error',
+            ];            
+            return redirect()->back()->with('alert', $alert);
+        }
+
+        $post = Post::find(request('post_id'));
 
         if (!$post) {
-            return response()->json([
-                'message' => 'Post does not exists.'
-            ]);
+            $alert = [
+                'message' => 'Post does not exists.',
+                'class'   => 'alert--error',
+            ];            
+            return redirect()->back()->with('alert', $alert);
         }
 
         $this->deletePost($post);
@@ -514,15 +577,15 @@ class DashboardPostsController extends Controller
 
         Post::where('user_id', auth()->user()->id)->whereIn('id', request('post_ids'))->update(['is_deleted' => 1]);
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Posts has been deleted!'
-        ]);
+        $alert = [
+            'message' => 'Posts has been deleted!',
+            'class'   => '',
+        ];            
+        return redirect()->back()->with('alert', $alert);
     }
 
     public function emptyTrash()
     {
-
         // Get posts on trash
         $trashed_posts = Post::where('user_id', auth()->user()->id)->where('is_deleted', 1)->get();
 
@@ -530,21 +593,21 @@ class DashboardPostsController extends Controller
             $this->deletePost($post);
         }
 
-
         return redirect('dashboard');
     }
 
     public function restore($id)
     {
-        $post = Post::where('user_id', auth()->user()->id)->find($id);
-
-        if(!$post){
-            return response()->json([
-                'message' => 'Post does not exists.'
-            ]);
+        $post = $this->getPost($id);
+        if (!$post) {
+            $alert = [
+                'message' => 'Post does not exists.',
+                'class'   => 'alert--error',
+            ];            
+            return redirect()->back()->with('alert', $alert);
         }
 
-        $post->update(['is_deleted' => 0]);
+        $post->update(['is_deleted' => 0, 'is_pending' => 0, 'is_published' => 0]);
 
         return redirect('dashboard');
     }
@@ -569,29 +632,46 @@ class DashboardPostsController extends Controller
         return view('post::forms');
     }
 
-    public function makePostDraft($id)
-    {
-        $this->updateIsPublished($id, 0);
-
-        return redirect('dashboard');
-    }
-
-    public function makePostPublish($id)
-    {
-        $this->updateIsPublished($id, 1);
-
-        return redirect('dashboard');
-    }
-
-    public function updateIsPublished($id, $value)
-    {
-        $post = Post::where('user_id', auth()->user()->id)->find($id);
-
-        if(!$post){
-            throw new Exception("Post does not exists.");
+    public function makePostDraft($id) {
+        $post = $this->getPost($id);
+        if (!$post) {
+            $alert = [
+                'message' => 'Post does not exists.',
+                'class'   => 'alert--error',
+            ];            
+            return redirect()->back()->with('alert', $alert);
         }
 
-        $post->update(['is_published' => $value]);
+        $post->update(['is_published' => 0, 'is_pending' => 0]);
+
+        return redirect('dashboard');
     }
 
+    public function makePostPublish($id) {
+        $post = $this->getPost($id);
+        if (!$post) {
+            $alert = [
+                'message' => 'Post does not exists.',
+                'class'   => 'alert--error',
+            ];            
+            return redirect()->back()->with('alert', $alert);
+        }
+
+        $post->update(['is_published' => 1, 'is_pending' => 0]);
+        
+        return redirect('dashboard');
+    }
+
+    public function getPost($id) {
+        if (auth()->user()->isAdmin()) {
+            // admin has full authority for all posts
+            $post = Post::find($id);
+
+        } else {
+            // normal users (Editor, Subscriber) only have authority for their posts
+            $post = Post::where('user_id', auth()->user()->id)->find($id);
+        }
+
+        return $post;
+    }
 }

@@ -1,4 +1,4 @@
-@extends('admin::layouts.master')
+@extends('users::dashboard.master')
 @section('content')
   @include('users::dashboard.modals')
   @include('users::dashboard.edit-modals')

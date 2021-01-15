@@ -222,7 +222,7 @@ class UsersController extends Controller
             return redirect('admin/users')->with('responseMessage', 'User not found.');
         }
 
-        return view('users::forms.edit-user', compact('user', 'roles'));
+        return view('users::forms.edit-user', compact('user', 'roles'))->withoutShortcodes();
     }
 
     /**
@@ -678,7 +678,7 @@ class UsersController extends Controller
 
         $user->refresh();
 
-        return view('users::settings', compact('user'));
+        return view('users::settings', compact('user'))->withoutShortcodes();
     }
 
     public function saveSettings(Request $request)

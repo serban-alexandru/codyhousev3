@@ -1,4 +1,4 @@
-@extends('admin::layouts.master')
+@extends('users::dashboard.master')
 @section('content')
 <section>
     <div class="container max-width-lg margin-top-xs">

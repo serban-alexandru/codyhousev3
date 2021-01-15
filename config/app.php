@@ -176,6 +176,17 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Shortcode Service Providers...
+         */
+        Webwizo\Shortcodes\ShortcodesServiceProvider::class,
+        App\Providers\ShortcodesServiceProvider::class,
+
+        /**
+         * Drag & Drop Menu Service Providers...
+         */
+        Harimayco\Menu\MenuServiceProvider::class,        
+
     ],
 
     /*
@@ -227,7 +238,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Image' => Intervention\Image\Facades\Image::class
+        'Image' => Intervention\Image\Facades\Image::class,
+        'Shortcode' => Webwizo\Shortcodes\Facades\Shortcode::class,
+        'Menu' => Harimayco\Menu\Facades\Menu::class,
     ],
 
 ];

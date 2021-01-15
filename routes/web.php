@@ -1,5 +1,8 @@
 <?php
 
+// enable shortcode globally
+Shortcode::enable();
+
 // Show post
 Route::get('post/{slug}/{id}', [
   'as' => 'post.show',

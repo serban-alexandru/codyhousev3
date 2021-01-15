@@ -286,6 +286,8 @@
           // $('#editTags').html(response.tags);
           $('#postId').val(postId);
 
+          $('#post_date').val(response.post_date);
+
           if(response.is_published == 1 && response.is_deleted != 1){
             $(document).find('.publish-post-link').addClass('is-hidden');
             $(document).find('.restore-post-link').addClass('is-hidden');
