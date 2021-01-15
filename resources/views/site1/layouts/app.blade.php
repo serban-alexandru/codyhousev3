@@ -3,15 +3,12 @@
   <head>
     <!-- favicon 👇 -->
     <link rel="icon" type="image/svg+xml" href="{{ !empty($settings_data['favicon']) ? asset($settings_data['favicon']) : asset('assets/img/favicon.svg') }}">
-
     <title>@yield('title-tag')</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <meta name="title" content="@yield('meta-title-tag')">
-        
     <script>document.getElementsByTagName("html")[0].className += " js";</script>
     @yield('in-head')
     <script>
@@ -34,19 +31,12 @@
       </a>
 
     @include('site1.partials.external-fonts-v1')
-
     @include('site1.partials.header')
-
     @include('forms.signin-modal')
-
     @yield('content')
-
     @include('site1.partials.footer')
-
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
-
     @include('custom-scripts.signin-js')
-
     @yield('before-end')
   </body>
   </html>

@@ -1,14 +1,8 @@
 @extends('site1.layouts.home')
-
 @section('content')
-	<!-- OLD via include -->
-	<!-- @include('partials.posts.featured-post') -->
-
 	<!-- NEW via blade component -->
 	<x-featured-post />
-
 	<div class="margin-bottom-xl"></div>
-
 	<div class="container max-width-lg">
 		<div class="flex justify-between">
 		  <p class="text-xl divider-title">Best of Saigon</p>
