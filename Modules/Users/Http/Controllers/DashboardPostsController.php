@@ -252,6 +252,9 @@ class DashboardPostsController extends Controller
             $slug .= '-2';
         }
 
+        $is_published = (request('is_published') && auth()->user()->isAdmin())?? $post->is_published;
+        $is_pending = (request('is_published') && !auth()->user()->isAdmin()) ?? $post->is_published;
+
         $post = Post::create([
             'user_id'          => auth()->user()->id,
             'title'            => request('title'),
@@ -261,7 +264,8 @@ class DashboardPostsController extends Controller
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : NULL,
             'seo_page_title'   => request('page_title') ?: NULL,
             'tags'             => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
-            'is_published'     => request('is_published')
+            'is_pending'       => $is_pending,
+            'is_published'     => $is_published
         ]);
 
         $tag_categories = TagCategory::all();
@@ -657,7 +661,11 @@ class DashboardPostsController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $post->update(['is_published' => 1, 'is_pending' => 0]);
+        if (auth()->user()->isAdmin()) {
+            $post->update(['is_published' => 1, 'is_pending' => 0]);
+        } else {
+            $post->update(['is_published' => 0, 'is_pending' => 1]);
+        }
         
         return redirect('dashboard');
     }

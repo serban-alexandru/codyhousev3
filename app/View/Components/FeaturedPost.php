@@ -21,6 +21,7 @@ class FeaturedPost extends Component
         $featured_post = Post::where(
             [
                 'is_published' => true,
+                'is_pending'   => false,
                 'is_deleted'   => false
             ]
         )->latest()->first();
@@ -28,6 +29,7 @@ class FeaturedPost extends Component
         $featured_list = Post::where(
             [
                 'is_published' => true,
+                'is_pending'   => false,
                 'is_deleted'   => false
             ]
         )

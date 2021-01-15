@@ -26,6 +26,7 @@ class DraggableGallery extends Component
             $posts = Post::where(
                 [
                     'is_published' => true,
+                    'is_pending'   => false,
                     'is_deleted'   => false
                 ]
             )
