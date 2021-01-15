@@ -11,6 +11,8 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 public/vendor/laravel-filemanager
+public/assets/css/style-fallback.css
+public/assets/css/style.css
 resources/views/vendor/laravel-filemanager
 
 

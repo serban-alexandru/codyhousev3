@@ -81,26 +81,7 @@
 
     <div class="mega-nav__nav js-mega-nav__nav" id="mega-nav-navigation" role="navigation" aria-label="Main">
       <div class="mega-nav__nav-inner">
-        <ul class="mega-nav__items">
-
-          <!-- 👇 link -->
-          <li class="mega-nav__item">
-            <a href="#" class="mega-nav__control">News</a>
-          </li>
-          <li class="mega-nav__item">
-            <a href="#" class="mega-nav__control">Lifestyle</a>
-          </li>
-          <li class="mega-nav__item">
-            <a href="#" class="mega-nav__control">F&B</a>
-          </li>
-          <li class="mega-nav__item">
-            <a href="#" class="mega-nav__control">People</a>
-          </li>
-          <li class="mega-nav__item">
-            <a href="#" class="mega-nav__control">Culture</a>
-          </li>
-        </ul>
-
+        [menu name="Primary Menu"]
         <ul class="mega-nav__items js-main-nav custom-mega-nav__items-mobile">
           <!-- 👇 icon buttons --desktop -->
           <li class="mega-nav__icon-btns mega-nav__icon-btns--desktop">
