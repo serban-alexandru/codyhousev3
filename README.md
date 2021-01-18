@@ -4,15 +4,7 @@
 
 php artisan migrate
 
-## 2. Users module migration
-
-```
-php artisan module:migrate Users
-```
-
-This will create all db tables.
-
-## 3. Users module seeder
+## 2. Users and Admin module seeder
 
 ```
 php artisan module:seed Users
@@ -20,7 +12,7 @@ php artisan module:seed Users
 
 This will seed all called classes at `Modules/Users/Database/Seeders/UsersDatabaseSeeder.php`.
 
-## 4. Seed dummy users from factory
+Seed dummy users from factory
 
 ```
 php artisan db:seed --class=Modules\\Users\\Database\\Seeders\\TestUsersSeeder
@@ -28,15 +20,22 @@ php artisan db:seed --class=Modules\\Users\\Database\\Seeders\\TestUsersSeeder
 
 This will create dummy users specified on `Modules/Users/Database/Seeders/TestUsersSeeder.php`
 
-## 4 Install modules
+## Settings seed
+
+```
+php artisan module:seed Admin 
+```
+This will add default settings content (logo, seo title data ) into settings table
+
+## 3 Install modules
 npm install
 composer update
 
-## 5. Login Using
+## 4. Login Using
 admin@mailinator.com
 helloworld
 
-## 6. Run setup
+## 5. Run setup
 1. php artisan serve
 2. npm run gulp watch
 

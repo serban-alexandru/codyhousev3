@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style-fallback.css') }}">
   </noscript>
 
-  <title>Title</title>
+  <title>User Dashboard</title>
 
   @include('site1.partials.external-fonts-v1')
 

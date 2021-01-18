@@ -46,7 +46,7 @@ class PagesController extends Controller
         }
 
         $data['post']       = $post;
-        $data['page_title'] = $post->title . ' - Saigon Finest';
+        $data['page_title'] = $post->title;
 
         return view('site1.pages.blog', $data);
     }
