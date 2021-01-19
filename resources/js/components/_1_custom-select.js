@@ -141,25 +141,30 @@
     };
   
     function updateTriggerAria(select) {
-      select.trigger.setAttribute('aria-label', select.options[select.select.selectedIndex].innerHTML+', '+select.label.textContent);
+      if (select.options.length > 0)
+        select.trigger.setAttribute('aria-label', select.options[select.select.selectedIndex].innerHTML+', '+select.label.textContent);
     };
   
     function getSelectedOptionText(select) {// used to initialize the label of the custom select button
       var label = '';
-      if('selectedIndex' in select.select) {
-        label = select.options[select.select.selectedIndex].text;
-      } else {
-        label = select.select.querySelector('option[selected]').text;
+      if (select.options.length > 0) {
+        if('selectedIndex' in select.select) {
+          label = select.options[select.select.selectedIndex].text;
+        } else {
+          label = select.select.querySelector('option[selected]').text;
+        }
       }
+
       return label;
-  
     };
     
     function initButtonSelect(select) { // create the button element -> custom select trigger
       // check if we need to add custom classes to the button trigger
       var customClasses = select.element.getAttribute('data-trigger-class') ? ' '+select.element.getAttribute('data-trigger-class') : '';
-  
-      var label = select.options[select.select.selectedIndex].innerHTML+', '+select.label.textContent;
+
+      var label = "";
+      if (select.options.length > 0)
+        label = select.options[select.select.selectedIndex].innerHTML+', '+select.label.textContent;
     
       var button = '<button type="button" class="js-select__button select__button'+customClasses+'" aria-label="'+label+'" aria-expanded="false" aria-controls="'+select.selectId+'-dropdown"><span aria-hidden="true" class="js-select__label select__label">'+select.selectedOption+'</span>';
       if(select.arrowIcon.length > 0 && select.arrowIcon[0].outerHTML) {

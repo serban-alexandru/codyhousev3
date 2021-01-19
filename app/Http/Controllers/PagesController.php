@@ -104,15 +104,17 @@ class PagesController extends Controller
         // If tag is not found -> return 404 | Not Found
         if (!$tag_query) {
             abort(404);
-        }
+        }        
 
         $posts = Post::getByTagNames([$tag_query]);
 
-        $data['page_title'] = $tag_query;
-        $data['posts']      = $posts;
+        $tag = Tag::firstWhere('name', $tag_query);
 
+        $page_title = $tag_query;
+        if ($tag)
+            $page_title = $tag->name;
 
-        $data['page_title'] = $tag_query;
+        $data['page_title'] = $page_title;
         $data['posts']      = $posts;
 
         return view('pages.tag-archive', $data);
