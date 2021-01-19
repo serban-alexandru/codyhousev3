@@ -81,7 +81,13 @@
 
     <div class="mega-nav__nav js-mega-nav__nav" id="mega-nav-navigation" role="navigation" aria-label="Main">
       <div class="mega-nav__nav-inner">
-        [menu name="Primary Menu"]
+        <?php 
+          $shortcode = app('shortcode');
+          echo $shortcode->compile('[menu name="Primary Menu"]');
+
+          if (isset($disable_shortcode) && $disable_shortcode)
+            $shortcode->disable();
+        ?>
         <ul class="mega-nav__items js-main-nav custom-mega-nav__items-mobile">
           <!-- 👇 icon buttons --desktop -->
           <li class="mega-nav__icon-btns mega-nav__icon-btns--desktop">

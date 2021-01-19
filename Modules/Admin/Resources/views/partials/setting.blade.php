@@ -77,16 +77,6 @@
                 </div>
               </div>
 
-              <div class="floating-label margin-bottom-md margin-top-xs">
-                <label class="form-label" for="meta_title">Post Page Title</label>
-                <input class="form-control width-100%" type="text" name="Post Page Title" placeholder="Example [posttitle] whatevertext [sitetitle]" required>
-              </div>
-
-              <div class="floating-label margin-bottom-md margin-top-xs">
-                <label class="form-label" for="meta_title">Tag Page Title</label>
-                <input class="form-control width-100%" type="text" name="Tag Page Title" placeholder="Example [tagtitle] whatevertext [sitetitle]" required>
-              </div>
-
               <button id="btnSave" class="btn btn--primary">Save</button>
 
             </fieldset>
