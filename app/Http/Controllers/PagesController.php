@@ -48,7 +48,7 @@ class PagesController extends Controller
         $data['post']       = $post;
         $data['page_title'] = $post->title;
 
-        return view('site1.pages.blog', $data);
+        return view('post::templates.post-template', $data);
     }
 
     public function profile($username = null)
