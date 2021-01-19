@@ -26,12 +26,14 @@
             </a>
           </li>
 
+          @if (!auth()->user()->isEditor())
           <li class="sidenav__item">
             <a href="{{ url('/dashboard?is_pending=1') }}" class="sidenav__link ajax-link">
               <span class="sidenav__text">Pending</span>
               <span class="sidenav__counter">{{ $posts_pending_count }} <i class="sr-only">notifications</i></span>
             </a>
           </li>
+          @endif
 
           <li class="sidenav__item">
             <a href="{{ url('/dashboard?is_trashed=1') }}" class="sidenav__link ajax-link">

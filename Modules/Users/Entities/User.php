@@ -167,4 +167,12 @@ class User extends Authenticatable implements HasMedia
     public function isAdmin() {
         return ($this->getUserRole() == 'admin') ? true : false;
     }
+
+    public function isEditor() {
+        return ($this->getUserRole() == 'editor') ? true : false;
+    }
+
+    public function isRegisteredUser() {
+        return ($this->getUserRole() == 'registered') ? true : false;
+    }
 }

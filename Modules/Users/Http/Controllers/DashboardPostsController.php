@@ -661,10 +661,10 @@ class DashboardPostsController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        if (auth()->user()->isAdmin()) {
-            $post->update(['is_published' => 1, 'is_pending' => 0]);
-        } else {
+        if (auth()->user()->isRegisteredUser()) {
             $post->update(['is_published' => 0, 'is_pending' => 1]);
+        } else {
+            $post->update(['is_published' => 1, 'is_pending' => 0]);
         }
         
         return redirect('dashboard');
@@ -676,7 +676,7 @@ class DashboardPostsController extends Controller
             $post = Post::find($id);
 
         } else {
-            // normal users (Editor, Subscriber) only have authority for their posts
+            // normal users (Editor, Registered) only have authority for their posts
             $post = Post::where('user_id', auth()->user()->id)->find($id);
         }
 
