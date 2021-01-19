@@ -154,7 +154,7 @@ class User extends Authenticatable implements HasMedia
     }
 
     public function getUserRole() {
-        $query = Role::where('id', $this->id)
+        $query = Role::where('permission', $this->permission)
             ->first();
 
         if($query){

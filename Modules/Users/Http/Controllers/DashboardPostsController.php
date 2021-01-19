@@ -252,8 +252,8 @@ class DashboardPostsController extends Controller
             $slug .= '-2';
         }
 
-        $is_published = (request('is_published') && auth()->user()->isAdmin())?? $post->is_published;
-        $is_pending = (request('is_published') && !auth()->user()->isAdmin()) ?? $post->is_published;
+        $is_published = (request('is_published') && !auth()->user()->isRegisteredUser()) ?? $post->is_published;
+        $is_pending = (request('is_published') && auth()->user()->isRegisteredUser()) ?? $post->is_published;
 
         $post = Post::create([
             'user_id'          => auth()->user()->id,
@@ -413,8 +413,8 @@ class DashboardPostsController extends Controller
             }
         }
 
-        $is_published = (request('is_published') && auth()->user()->isAdmin())?? $post->is_published;
-        $is_pending = (request('is_published') && !auth()->user()->isAdmin()) ?? $post->is_published;
+        $is_published = (request('is_published') && !auth()->user()->isRegisteredUser())?? $post->is_published;
+        $is_pending = (request('is_published') && auth()->user()->isRegisteredUser()) ?? $post->is_published;
 
         // Generate slug
         $slug                = Str::slug(request('slug'), '-');
