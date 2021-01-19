@@ -117,7 +117,7 @@ class UsersController extends Controller
         ])->count();
 
         return view($bladeTemplate,
-            compact('users', 'q', 'limit', 'availableLimit', 'sort', 'order', 'allUsersCount', 'suspendedUsersCount', 'trashedUsersCount', 'registeredUsersCount ', 'editorUsersCount', 'adminUsersCount', 'is_trashed', 'status', 'role', 'request')
+            compact('users', 'q', 'limit', 'availableLimit', 'sort', 'order', 'allUsersCount', 'suspendedUsersCount', 'trashedUsersCount', 'registeredUsersCount', 'editorUsersCount', 'adminUsersCount', 'is_trashed', 'status', 'role', 'request')
         );
 
         // return view('users::index');
