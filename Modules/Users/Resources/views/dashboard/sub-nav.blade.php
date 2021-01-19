@@ -1,6 +1,4 @@
-@extends('users::dashboard.master')
-@section('content')
-<section>
+
 <div class="bg-contrast-lower">
     <div class="container max-width-lg flex items-center justify-between">
   
@@ -21,22 +19,7 @@
               d="M16,18c4.411,0,8-3.589,8-8V8c0-4.411-3.589-8-8-8S8,3.589,8,8v2C8,14.411,11.589,18,16,18z"
             ></path>
           </g></svg
-            ></a>
-  
-            <a class="margin-right-sm" href="#0"
-            ><svg class="icon header-v2__nav-dropdown-ico" viewbox="0 0 32 32">
-              <title>single-01</title>
-              <g fill="#a8a8a8">
-                <path
-                  d="M27.711,21.887C25.332,21.026,21.368,20,16,20s-9.332,1.026-11.711,1.887 C2.322,22.598,1,24.486,1,26.587V31c0,0.552,0.448,1,1,1h28c0.552,0,1-0.448,1-1v-4.413C31,24.486,29.678,22.598,27.711,21.887z"
-                ></path>
-                <path
-                  fill="#a8a8a8"
-                  d="M16,18c4.411,0,8-3.589,8-8V8c0-4.411-3.589-8-8-8S8,3.589,8,8v2C8,14.411,11.589,18,16,18z"
-                ></path>
-              </g></svg
-                ></a>
-                         
+            ></a>                    
             
         <label class="sr-only" for="expandable-search">Search</label>
         <input class="reset expandable-search__input js-expandable-search__input" type="search" name="expandable-search" id="expandable-search" placeholder="Search...">
@@ -71,11 +54,10 @@
             </button>
   
             <ul class="subnav__list">
-              <li class="subnav__item"><a href="#0" class="subnav__link" aria-current=page>Intro<span class="padding-left-sm sidenav__counter">12 <i class="sr-only">notifications</i></span></a></li>
-              <li class="subnav__item"><a href="#0" class="subnav__link">All Post</a></li>
-              <li class="subnav__item"><a href="#0" class="subnav__link">Draft</a></li>
-              <li class="subnav__item"><a href="#0" class="subnav__link">Pending</a></li>
-              <li class="subnav__item"><a href="#0" class="subnav__link">Trash</a></li>
+              <li class="subnav__item"><a href="#0" class="subnav__link" aria-current=page>Published<span class="padding-left-sm sidenav__counter">12 <i class="sr-only">notifications</i></span></a></li>
+              <li class="subnav__item"><a href="#0" class="subnav__link">Draft<span class="padding-left-sm sidenav__counter">0 <i class="sr-only">notifications</i></span></a></li>
+              <li class="subnav__item"><a href="#0" class="subnav__link">Pending<span class="padding-left-sm sidenav__counter">0 <i class="sr-only">notifications</i></span></a></li>
+              <li class="subnav__item"><a href="#0" class="subnav__link">Trash<span class="padding-left-sm sidenav__counter">0 <i class="sr-only">notifications</i></span></a></li>
             </ul>
           </nav>
         </div>
@@ -87,9 +69,3 @@
   </div>
       </div>
     </div>
-</section>
-@endsection
-@push('module-scripts')
-<!-- MODULE'S CUSTOM SCRIPT -->
-  @include('users::partials.script-js')
-@endpush
