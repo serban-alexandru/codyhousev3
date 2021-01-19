@@ -72,7 +72,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $permission = Role::where('key', 'subscriber')->first()->permission;
+        $permission = Role::where('key', 'registered')->first()->permission;
 
         return User::create([
             'username'   => $data['username'],

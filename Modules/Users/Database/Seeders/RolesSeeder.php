@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
 use Modules\Users\Entities\Permission;
+use Modules\Users\Entities\Role;
 use \DB;
 
 class RolesSeeder extends Seeder
@@ -36,9 +37,9 @@ class RolesSeeder extends Seeder
           'permission' => $this->getEditorPermission()
         ],
         [
-          'name'       => 'Subscriber',
-          'key'        => 'subscriber',
-          'permission' => $this->getSubscriberPermission()
+          'name'       => 'Registered',
+          'key'        => 'registered',
+          'permission' => $this->getRegisteredPermission()
         ],
       ];
 
@@ -46,8 +47,16 @@ class RolesSeeder extends Seeder
         $record['created_at'] = now();
         $record['updated_at'] = $record['created_at'];
 
-        DB::table($this->table)->insert($record);
+        $update = ['key' => $record['key']];
+        Role::updateOrCreate($update, $record);
+
+        // DB::table($this->table)->insert($record);
       }
+
+      // remove previous "Subscriber" Role
+      $subscriber = Role::where('key', 'subscriber');
+      if ($subscriber)
+        $subscriber->delete();
     }
 
     public function getAdminPermission()
@@ -69,7 +78,7 @@ class RolesSeeder extends Seeder
       return $permission;
     }
 
-    public function getSubscriberPermission()
+    public function getRegisteredPermission()
     {
       return Permission::where('key', 'allowed_log_in')->first()->permission;
     }

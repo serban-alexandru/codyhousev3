@@ -97,12 +97,12 @@ class UsersController extends Controller
 
         $trashedUsersCount   = User::where('is_trashed', '=', 1)->count();
 
-        $subscriberPermission = Role::where('key', 'subscriber')->first()->permission;
+        $registeredPermission = Role::where('key', 'registered')->first()->permission;
         $editorPermission     = Role::where('key', 'editor')->first()->permission;
         $adminPermission      = Role::where('key', 'admin')->first()->permission;
 
-        $subscriberUsersCount = User::where([
-            ['permission', '=', $subscriberPermission],
+        $registeredUsersCount  = User::where([
+            ['permission', '=', $registeredPermission],
             ['is_trashed', '=', 0],
         ])->count();
 
@@ -117,7 +117,7 @@ class UsersController extends Controller
         ])->count();
 
         return view($bladeTemplate,
-            compact('users', 'q', 'limit', 'availableLimit', 'sort', 'order', 'allUsersCount', 'suspendedUsersCount', 'trashedUsersCount', 'subscriberUsersCount', 'editorUsersCount', 'adminUsersCount', 'is_trashed', 'status', 'role', 'request')
+            compact('users', 'q', 'limit', 'availableLimit', 'sort', 'order', 'allUsersCount', 'suspendedUsersCount', 'trashedUsersCount', 'registeredUsersCount ', 'editorUsersCount', 'adminUsersCount', 'is_trashed', 'status', 'role', 'request')
         );
 
         // return view('users::index');
