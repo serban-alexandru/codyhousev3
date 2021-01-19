@@ -11,7 +11,7 @@ use DB;
 use Modules\Tag\Entities\Tag;
 use Modules\Tag\Entities\TagCategory;
 use Modules\Users\Entities\User;
-use Modules\Post\Entities\PostsTag;
+use Modules\Post\Entities\{PostsTag, Post};
 
 class TagController extends Controller
 {
@@ -428,5 +428,25 @@ class TagController extends Controller
         return back()->with('responseMessage', $responseMessage);
     }
 
+    public function tags(Request $request, $tag_query = null)
+    {
 
+        // If tag is not found -> return 404 | Not Found
+        if (!$tag_query) {
+            abort(404);
+        }        
+
+        $posts = Post::getByTagNames([$tag_query]);
+
+        $tag = Tag::firstWhere('name', $tag_query);
+
+        $page_title = $tag_query;
+        if ($tag)
+            $page_title = $tag->name;
+
+        $data['page_title'] = $page_title;
+        $data['posts']      = $posts;
+
+        return view('tag::archive.tag-archive', $data);
+    }
 }

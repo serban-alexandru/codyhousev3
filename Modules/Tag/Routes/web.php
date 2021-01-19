@@ -26,3 +26,16 @@ Route::middleware('auth', 'role:admin')->group(function(){
         Route::post('tag-category/store', 'TagCategoryController@store')->name('tag-category.store');
     });
 });
+
+Route::prefix('pages')->group(function(){
+    Route::get('/tag-archive/{tag}', [
+      'as'   => 'pages.tags',
+      'uses' => 'TagController@tags'
+    ]);
+  
+    Route::get('/tag-category-archive/{tagCategory}', [
+      'as'   => 'pages.tag-categories',
+      'uses' => 'TagCategoryController@tagCategories'
+    ]);
+});  
+  

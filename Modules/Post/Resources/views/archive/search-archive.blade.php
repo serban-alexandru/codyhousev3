@@ -1,4 +1,9 @@
 @extends('site1.layouts.app')
+
+@isset($page_title)
+  @section('title-tag'){!! $page_title !!}@endsection
+@endisset
+
 @section('content')
 <section class="margin-top-md">
     <div class="container max-width-adaptive-lg">
@@ -59,7 +64,7 @@
                             ]
                         )
                     }}
-                  " class="card-v8__title text-sm">
+                  " class="color-contrast-higher card-v8__title text-sm">
                     {{ $post->title }}
                   </a>
                 </h4>

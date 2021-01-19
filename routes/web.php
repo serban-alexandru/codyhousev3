@@ -66,30 +66,6 @@ Route::group([
   ]);
 });
 
-Route::prefix('pages')->group(function(){
-
-  Route::get('/post-archive', [
-    'as'   => 'pages.posts',
-    'uses' => 'PagesController@posts'
-  ]);
-
-  Route::get('/tag-archive/{tag}', [
-    'as'   => 'pages.tags',
-    'uses' => 'PagesController@tags'
-  ]);
-
-  Route::get('/tag-category-archive/{tagCategory}', [
-    'as'   => 'pages.tag-categories',
-    'uses' => 'PagesController@tagCategories'
-  ]);
-
-  Route::get('/search-archive', [
-    'as'   => 'pages.searches',
-    'uses' => 'PagesController@searches'
-  ]);
-
-});
-
 Route::group(['middleware' => 'auth'], function(){
   Route::post('editorjs/upload-image', [
       'as'   => 'editorjs.upload-image',

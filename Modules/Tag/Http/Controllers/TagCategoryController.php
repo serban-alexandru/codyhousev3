@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use Modules\Post\Entities\Post;
 use Modules\Tag\Entities\TagCategory;
 
 class TagCategoryController extends Controller
@@ -68,34 +69,6 @@ class TagCategoryController extends Controller
         $data['page_title'] = $tag_category_query;
         $data['posts']      = $posts;
 
-        return view('pages.category-archive', $data);
+        return view('tag::archive.category-archive', $data);
     }
-
-    public function searches(Request $request)
-    {
-        $data = [];
-
-        return view('pages.search-archive', $data);
-    }
-
-    public function tags(Request $request, $tag_query = null)
-    {
-
-        // If tag is not found -> return 404 | Not Found
-        if (!$tag_query) {
-            abort(404);
-        }
-
-        $posts = Post::getByTagNames([$tag_query]);
-
-        $data['page_title'] = $tag_query;
-        $data['posts']      = $posts;
-
-
-        $data['page_title'] = $tag_query;
-        $data['posts']      = $posts;
-
-        return view('pages.tag-archive', $data);
-    }
-
 }
