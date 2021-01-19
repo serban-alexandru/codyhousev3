@@ -1,4 +1,9 @@
 @extends('site1.layouts.app')
+
+@isset($page_title)
+  @section('title-tag'){!! $page_title !!}@endsection
+@endisset
+
 @section('content')
 <section class="margin-top-md">
     <div class="container max-width-adaptive-lg">

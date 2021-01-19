@@ -1,4 +1,16 @@
 @extends('site1.layouts.app')
+
+<?php $seo_page_title = ($settings_data['tag_page_title']) ? $settings_data['tag_page_title'] : $page_title; ?>
+<?php $seo_meta_title = ($settings_data['tag_meta_title']) ? $settings_data['tag_meta_title'] : $page_title; ?>
+
+@isset($seo_page_title)
+  @section('title-tag'){!! $seo_page_title !!}@endsection
+@endisset
+
+@isset($seo_meta_title)
+  @section('meta-title-tag'){!! $seo_meta_title !!}@endsection
+@endisset
+
 @section('content')
 <section class="margin-top-md">
     <div class="container max-width-adaptive-lg">
