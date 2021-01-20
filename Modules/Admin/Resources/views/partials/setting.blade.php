@@ -52,6 +52,19 @@
               </div>
 
               <div class="form-control-section">
+                <h4>Profile Page</h4>
+                <div class="floating-label margin-bottom-md margin-top-md">
+                  <label class="form-label" for="profile_page_title">Page Title</label>
+                  <input class="form-control width-100%" type="text" name="profile_page_title" id="profile_page_title" value="{{ !empty($settings_data['profile_page_title']) ? $settings_data['profile_page_title'] : '' }}" placeholder="Profile Page Title" required>
+                </div>
+
+                <div class="floating-label margin-bottom-md margin-top-xs">
+                  <label class="form-label" for="profile_meta_title">Meta Title</label>
+                  <input class="form-control width-100%" type="text" name="profile_meta_title" id="profile_meta_title" value="{{ !empty($settings_data['profile_meta_title']) ? $settings_data['profile_meta_title'] : '' }}" placeholder="Profile Meta Title" required>
+                </div>
+              </div>
+
+              <div class="form-control-section">
                 <h4>Post Page</h4>
                 <div class="floating-label margin-bottom-md margin-top-md">
                   <label class="form-label" for="post_page_title">Page Title</label>
