@@ -53,6 +53,11 @@ class DashboardPostsController extends Controller
                 'users.username as username'
             ])->orderBy('created_at', 'desc');
 
+        if (!auth()->user()->isAdmin()) {
+            // get user specific posts only
+            $posts = $posts->where('user_id', auth()->user()->id);
+        }
+
         if(request()->has('postsearch')){
             $posts->where('title', 'LIKE', '%' . request('postsearch') . '%')
             ->orWhere('users.name', 'LIKE', '%' . request('postsearch') . '%');
@@ -66,11 +71,6 @@ class DashboardPostsController extends Controller
             $posts = (request()->has('is_draft'))
                 ? $posts->where('is_published', 0)->where('is_pending', 0)
                 : (request()->has('is_pending') ? $posts->where('is_published', 0)->where('is_pending', 1) : $posts->where('is_published', 1));
-        }
-
-        if (!auth()->user()->isAdmin()) {
-            // get user specific posts only
-            $posts = $posts->where('user_id', auth()->user()->id);
         }
 
         $limit = request('limit') ? request('limit') : 25;
@@ -105,7 +105,8 @@ class DashboardPostsController extends Controller
         $request    = request();
         $is_trashed = request('is_trashed');
         $is_draft   = request('is_draft');
-        $is_pending   = request('is_pending');
+        $is_pending = request('is_pending');
+        $postsearch = request('postsearch');
 
         $tag_categories = TagCategory::all();
 
@@ -126,7 +127,7 @@ class DashboardPostsController extends Controller
 
         return view($view, compact(
             'posts', 'posts_published_count', 'posts_draft_count', 'posts_pending_count', 'posts_deleted_count',
-            'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'is_trashed', 'is_draft', 'is_pending', 'tag_categories'
+            'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'postsearch', 'is_trashed', 'is_draft', 'is_pending', 'tag_categories'
             )
         );
     }

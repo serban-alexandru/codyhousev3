@@ -49,7 +49,7 @@
               <input type="file" id="realThumbnail" class="is-hidden">
               <div class="ddf">
                 <div class="ddf__area padding-y-xl padding-x-md js-ddf__area">
-                  <input class="ddf__input sr-only js-ddf__input" type="file" id="upload-file" name="thumbnail" accept="image/*">
+                  <input class="ddf__input sr-only js-ddf__input" type="file" id="upload-file" name="thumbnail" accept="image/*" required>
 
                   <label class="ddf__label js-ddf__label" for="upload-file">
                     <i class="ddf__label-inner">
@@ -113,7 +113,7 @@
                       <label class="form-label margin-bottom-xxs" for="tag_category_{{ $tag_category->id }}">
                         Add {{ $tag_category->name }}
                       </label>
-                      <select name="tag_category_{{ $tag_category->id }}[]" id="tag_category_{{ $tag_category->id }}" class="site-tag-pills" multiple></select>
+                      <select name="tag_category_{{ $tag_category->id }}[]" id="tag_category_{{ $tag_category->id }}" class="site-tag-pills" multiple required></select>
                   <div>
                 @endforeach
 

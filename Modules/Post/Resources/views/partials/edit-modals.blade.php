@@ -55,7 +55,7 @@
                   <span class="file-upload__text file-upload__text--has-max-width">Edit Photo</span>
                 </label>
 
-                <input type="file" class="file-upload__input" name="thumbnail" id="editThumbnail">
+                <input type="file" class="file-upload__input" name="thumbnail" id="editThumbnail" required>
               </div>
             </section>
 
@@ -128,7 +128,7 @@
                         <label class="form-label margin-bottom-xxs" for="edit_tag_category_{{ $tag_category->id }}">
                           Edit {{ $tag_category->name }}
                         </label>
-                        <select name="tag_category_{{ $tag_category->id }}[]" id="edit_tag_category_{{ $tag_category->id }}" class="form-control site-tag-pills" multiple></select>
+                        <select name="tag_category_{{ $tag_category->id }}[]" id="edit_tag_category_{{ $tag_category->id }}" class="form-control site-tag-pills" multiple required></select>
                     <div>
                   @endforeach
 

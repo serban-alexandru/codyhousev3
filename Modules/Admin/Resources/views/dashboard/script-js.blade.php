@@ -216,7 +216,71 @@
 
     });
 
+    /** Form Fields Validation Module */
+    function validateItem(elem) {
+      var isValid = true;
+      switch ($(elem).prop('tagName')) {
+        case 'INPUT':
+          if ($(elem).prop('type') == 'file') {
+            // file control
+            if ($(elem).val() == '') {
+              $(elem).addClass('form-control--error');
+              $(elem).parent('.ddf__area').addClass('form-control--error');
+              isValid = false;
+
+            } else {
+              $(elem).removeClass('form-control--error');
+              $(elem).parent('.ddf__area').removeClass('form-control--error');
+            }
+            
+          } else if ($(elem).prop('type') == 'button' || $(elem).prop('type') == 'submit') {
+            // buttons, ignore this
+          } else {
+            if ($(elem).val() == '') {
+              $(elem).addClass('form-control--error');
+              isValid = false;
+            } else {
+              $(elem).removeClass('form-control--error');
+            }
+          }
+          break;
+
+        case 'SELECT':
+          if ($(elem).find('option').length == 0) {
+            $(elem).addClass('form-control--error');
+            $(elem).siblings('.select2').find('.select2-selection').addClass('form-control--error');
+            isValid = false;
+          } else {
+            $(elem).removeClass('form-control--error');
+            $(elem).siblings('.select2').find('.select2-selection').removeClass('form-control--error');
+          }
+          break;
+      }
+
+      return isValid;
+    }
+
+    $('form').find('[required]').each(function (idx, elem) {
+      $(elem).change(function() {
+        validateItem($(this));
+      });
+    });
+
+    function formDataValidation($form) {
+      var isValid = true;
+
+      $form.find('[required]').each(function (idx, elem) {
+        if (!validateItem(elem))
+          isValid = false;
+      });
+
+      return isValid;
+    }
+
     $(document).on('click', '#btnSave, #btnPublish', function(){
+        if (!formDataValidation($('#formAddPost')))
+          return;
+
         $(this).html('Please wait...');
         var isPublished = ($(this).attr('id') != 'btnSave') ? 1 : 0;
         var formData = new FormData($('#formAddPost')[0]);
@@ -328,6 +392,9 @@
     function savePost(e) {
 
       e.preventDefault();
+
+      if (!formDataValidation($('#formEditPost')))
+        return;
 
       var $this = $(this);
       var published = $this.data('toggle-published');

@@ -211,3 +211,9 @@ body {
   .sidenav__counter {
     margin-left: 0.5rem !important;
   }
+
+/* Form Validation */
+.select2 .form-control--error,
+.select2 .form-control[aria-invalid="true"] {
+  border-color: var(--color-error);
+}
