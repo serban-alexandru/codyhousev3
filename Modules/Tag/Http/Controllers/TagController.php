@@ -234,7 +234,8 @@ class TagController extends Controller
         $post_tag = PostsTag::firstWhere('tag_id', $tag->id);
 
         if ($post_tag) {
-            return back()->with('responseMessage', 'Cannot permanently delete tag because it is used on a post.');
+            // remove all post tags related with current tag
+            PostsTag::where('tag_id', $tag->id)->delete();
         }
 
         $media_items = $tag->getMedia('images');
@@ -271,6 +272,7 @@ class TagController extends Controller
         }
 
         $tag->is_trashed = true;
+        $tag->published = false;
         $deleted         = $tag->save();
 
         if ($deleted) {
@@ -330,6 +332,7 @@ class TagController extends Controller
 
             if ($tag) {
                 $tag->is_trashed = 1;
+                $tag->published = 0;
                 $tag->save();
 
                 $responseMessage .= 'Tag "' . $tag->name . '" has been moved to trash.';
@@ -394,6 +397,7 @@ class TagController extends Controller
         }
 
         $tag->published = false;
+        $tag->is_trashed = false;
         $saved          = $tag->save();
 
         if ($saved) {
