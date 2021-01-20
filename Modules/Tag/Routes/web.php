@@ -27,15 +27,13 @@ Route::middleware('auth', 'role:admin')->group(function(){
     });
 });
 
-Route::prefix('pages')->group(function(){
-    Route::get('/tag-archive/{tag}', [
-      'as'   => 'pages.tags',
-      'uses' => 'TagController@tags'
-    ]);
-  
-    Route::get('/tag-category-archive/{tagCategory}', [
-      'as'   => 'pages.tag-categories',
-      'uses' => 'TagCategoryController@tagCategories'
-    ]);
-});  
+Route::get('/tag/{tag}', [
+  'as'   => 'pages.tags',
+  'uses' => 'TagController@tags'
+]);
+
+Route::get('/tag-category/{tagCategory}', [
+  'as'   => 'pages.tag-categories',
+  'uses' => 'TagCategoryController@tagCategories'
+]);
   

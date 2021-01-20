@@ -61,11 +61,6 @@ class TagCategoryController extends Controller
 
         $posts = Post::getByTagCategoryName($tag_category_query);
 
-
-        $data['page_title'] = $tag_category_query;
-        $data['posts']      = $posts;
-
-
         $data['page_title'] = $tag_category_query;
         $data['posts']      = $posts;
 
