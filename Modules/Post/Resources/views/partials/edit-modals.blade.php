@@ -37,11 +37,11 @@
 
                 <div class="grid gap-sm">
                   <input class="form-control width-100%" type="text" name="title" id="editTitle" required>
-                <div>
 
                   <div id="editorjs2" data-target-input="#editDescription" class="form-control"></div>
                   <input type="hidden" name="description" id="editDescription"/>
                 </div>
+              </div>
             </section>
 
           <!--Tab2 Content-->
@@ -140,7 +140,7 @@
                                 Edit {{ $tag_category->name }}
                               </label>
                               <select name="tag_category_{{ $tag_category->id }}[]" id="edit_tag_category_{{ $tag_category->id }}" class="form-control site-tag-pills" multiple></select>
-                          <div>
+                          </div>
                         @endforeach
                       </div>
                     </div>

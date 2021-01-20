@@ -298,7 +298,6 @@ class DashboardPostsController extends Controller
             }
         }
 
-
         return response()->json([
             'status' => true,
             'message' => 'Post has been created!'
