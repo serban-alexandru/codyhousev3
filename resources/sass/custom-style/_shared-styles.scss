@@ -40,7 +40,7 @@ body {
 
 // fix for dropdown behind table content
 .int-table {
-    overflow: visible !important;
+    overflow: auto;
 }
 
 // admin sidebar border color
@@ -59,11 +59,6 @@ body {
     text-align: center;
     padding: 1rem;
     background-color: inherit;
-}
-
-// fix for dropdown behind table content
-.int-table {
-    overflow: visible !important;
 }
 
 // admin sidebar border color
