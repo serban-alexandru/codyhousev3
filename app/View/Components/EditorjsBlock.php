@@ -8,21 +8,19 @@ use Illuminate\View\Component;
 class EditorjsBlock extends Component
 {
     public $html;
-    public $dropcap;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($data = null, $excerpt = false, $dropcap = false)
+    public function __construct($data = null, $excerpt = false)
     {
         if (!$data) {
             return;
         }
 
         $excerpt = ($excerpt == true) ? true : false;
-        $this->dropcap = ($dropcap == true) ? true : false;
 
         $data   = json_decode($data);
         $html   = $excerpt ? $this->getExcerptHTML($data) : $this->getHTML($data);
@@ -40,8 +38,7 @@ class EditorjsBlock extends Component
             foreach ($blocks as $key => $block) {
                 switch ($block->type) {
                     case 'paragraph':
-                        $html .= $this->getParagraph($block->data, $this->dropcap);
-                        $this->dropcap = false; // only allow dropcap for the very first paragraph
+                        $html .= $this->getParagraph($block->data);
                         break;
                     case 'header':
                         $html .= $this->getHeader($block->data);
@@ -91,7 +88,7 @@ class EditorjsBlock extends Component
 
     }
 
-    public function getParagraph($block_data, $dropcap = false)
+    public function getParagraph($block_data)
     {
         if (!$block_data) {
             return;
@@ -107,16 +104,9 @@ class EditorjsBlock extends Component
         $block_text = str_replace('<i>', '<em>', $block_text);
         $block_text = str_replace('</i>', '</em>', $block_text);
 
-        if ($dropcap) {
-            $html = '
-                <p class="drop-cap">' . $block_text . '</p>
-            ';
-
-        } else {
-            $html = '
-                <p>' . $block_text . '</p>
-            ';
-        }
+        $html = '
+            <p>' . $block_text . '</p>
+        ';
 
         return $html;
     }

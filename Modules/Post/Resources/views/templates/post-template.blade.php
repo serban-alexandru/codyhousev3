@@ -41,7 +41,7 @@
   <div class="container max-width-adaptive-sm padding-y-md">
     <div class="text-component line-height-lg v-space-md">
       <section class="max-height-100vh bg-contrast-lower" id="sticky-banner-target"></section>
-      <x-editorjs-block :data="$post->description" :dropcap="true" />
+      <x-editorjs-block :data="$post->description" />
     </div>
   </div>
 
