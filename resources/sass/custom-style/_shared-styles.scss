@@ -220,3 +220,7 @@ body {
 
 /* Modal Content Style Update */
 .modal__content {overflow: inherit;}
+
+/* Sticky Bar Style */
+.sticky-title {overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.sticky-title h3 {overflow: hidden; text-overflow: ellipsis;}

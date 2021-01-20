@@ -2,14 +2,10 @@
   <div class="mega-nav__container">
     <!-- 👇 logo -->
     <a href="{{ url('/') }}" class="mega-nav__logo">
-      <div class="flex gap-xxs">
-          <div>
-          {!! !empty($settings_data['logo_svg']) ? $settings_data['logo_svg'] : '' !!}
-          </div>
-
+      <div class="flex">
+        {!! !empty($settings_data['logo_svg']) ? $settings_data['logo_svg'] : '' !!}
         <!-- 👇 Logo Text -->
-        <h1 class="logo">{{ !empty($settings_data['logo_title']) ? $settings_data['logo_title'] : '' }}</h1>
-
+        <h1 class="logo margin-left-xxs">{{ !empty($settings_data['logo_title']) ? $settings_data['logo_title'] : '' }}</h1>
       </div>
     </a>
 
