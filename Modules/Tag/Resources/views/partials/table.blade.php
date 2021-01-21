@@ -349,9 +349,8 @@
   <script>
     (function() {
       // event that watches interactive table checkboxes
-      $(document).on('click', '.int-table__table .custom-checkbox__input', function(){
+      $(document).on('change', '.int-table__table .custom-checkbox__input', function(){
         var checkedCheckboxes = $('.custom-checkbox__input:checked').length;
-
         if (checkedCheckboxes > 0) {
           // show menu-bar
           $('.menu-bar.js-int-table-actions__items-selected').removeClass('is-hidden');
@@ -361,7 +360,7 @@
 
         // hide menu-bar
         $('.menu-bar.js-int-table-actions__items-selected').addClass('is-hidden');
-          $('.menu-bar.js-int-table-actions__no-items-selected').removeClass('is-hidden');
+        $('.menu-bar.js-int-table-actions__no-items-selected').removeClass('is-hidden');
       });
     })();
   </script>

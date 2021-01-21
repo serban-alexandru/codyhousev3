@@ -40,7 +40,7 @@ body {
 
 // fix for dropdown behind table content
 .int-table {
-    overflow: visible !important;
+    overflow: auto;
 }
 
 // admin sidebar border color
@@ -59,11 +59,6 @@ body {
     text-align: center;
     padding: 1rem;
     background-color: inherit;
-}
-
-// fix for dropdown behind table content
-.int-table {
-    overflow: visible !important;
 }
 
 // admin sidebar border color
@@ -216,3 +211,16 @@ body {
   .sidenav__counter {
     margin-left: 0.5rem !important;
   }
+
+/* Form Validation */
+.select2 .form-control--error,
+.select2 .form-control[aria-invalid="true"] {
+  border-color: var(--color-error);
+}
+
+/* Modal Content Style Update */
+.modal__content {overflow: inherit;}
+
+/* Sticky Bar Style */
+.sticky-title {overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.sticky-title h3 {overflow: hidden; text-overflow: ellipsis;}

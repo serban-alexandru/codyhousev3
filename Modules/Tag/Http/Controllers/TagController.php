@@ -11,7 +11,7 @@ use DB;
 use Modules\Tag\Entities\Tag;
 use Modules\Tag\Entities\TagCategory;
 use Modules\Users\Entities\User;
-use Modules\Post\Entities\PostsTag;
+use Modules\Post\Entities\{PostsTag, Post};
 
 class TagController extends Controller
 {
@@ -234,7 +234,8 @@ class TagController extends Controller
         $post_tag = PostsTag::firstWhere('tag_id', $tag->id);
 
         if ($post_tag) {
-            return back()->with('responseMessage', 'Cannot permanently delete tag because it is used on a post.');
+            // remove all post tags related with current tag
+            PostsTag::where('tag_id', $tag->id)->delete();
         }
 
         $media_items = $tag->getMedia('images');
@@ -271,6 +272,7 @@ class TagController extends Controller
         }
 
         $tag->is_trashed = true;
+        $tag->published = false;
         $deleted         = $tag->save();
 
         if ($deleted) {
@@ -330,6 +332,7 @@ class TagController extends Controller
 
             if ($tag) {
                 $tag->is_trashed = 1;
+                $tag->published = 0;
                 $tag->save();
 
                 $responseMessage .= 'Tag "' . $tag->name . '" has been moved to trash.';
@@ -394,6 +397,7 @@ class TagController extends Controller
         }
 
         $tag->published = false;
+        $tag->is_trashed = false;
         $saved          = $tag->save();
 
         if ($saved) {
@@ -428,5 +432,25 @@ class TagController extends Controller
         return back()->with('responseMessage', $responseMessage);
     }
 
+    public function tags(Request $request, $tag_query = null)
+    {
 
+        // If tag is not found -> return 404 | Not Found
+        if (!$tag_query) {
+            abort(404);
+        }        
+
+        $posts = Post::getByTagNames([$tag_query]);
+
+        $tag = Tag::firstWhere('name', $tag_query);
+
+        $page_title = $tag_query;
+        if ($tag)
+            $page_title = $tag->name;
+
+        $data['page_title'] = $page_title;
+        $data['posts']      = $posts;
+
+        return view('tag::archive.tag-archive', $data);
+    }
 }

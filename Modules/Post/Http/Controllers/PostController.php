@@ -633,4 +633,53 @@ class PostController extends Controller
         return redirect('admin/posts');
     }
 
+    public function posts(Request $request)
+    {
+        $posts = Post::where(
+            [
+                'is_published' => true,
+                'is_pending'   => false,
+                'is_deleted'   => false
+            ]
+        )->orderBy('created_at', 'desc');
+
+        $posts = $posts->get();
+        $page_title = 'Posts';
+
+        // Set view data
+        $data['page_title'] = $page_title;
+        $data['posts']      = $posts;
+        $data['request']    = $request;
+
+        return view('post::archive.post-archive', $data);
+    }
+
+    public function searches(Request $request)
+    {
+        $q = $request->input('q');
+
+        $posts = Post::where(
+            [
+                'is_published' => true,
+                'is_pending'   => false,
+                'is_deleted'   => false
+            ]
+        )->orderBy('created_at', 'desc');
+
+        if($request->has('q')) {
+            $posts->where('title', 'LIKE', '%' . $q . '%')
+            ->orWhere('description', 'LIKE', '%' . $q . '%');
+        }
+
+        $posts = $posts->get();
+        $page_title = $q ?? 'Posts'; // If there's no search query -> set title to `Posts`
+
+        // Set view data
+        $data['page_title'] = $page_title;
+        $data['posts']      = $posts;
+        $data['q']          = $q;
+        $data['request']    = $request;
+
+        return view('post::archive.search-archive', $data);
+    }
 }

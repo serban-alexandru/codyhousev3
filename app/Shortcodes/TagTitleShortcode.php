@@ -11,11 +11,10 @@ class TagTitleShortcode {
     $url = parse_url(url()->current());
     $paths = explode("/", trim($url['path'], "/"));
     $tag_name = $paths[count($paths) - 1];
-    $path2 = $paths[count($paths) - 2];
-    $path1 = $paths[count($paths) - 3];
+    $path = $paths[count($paths) - 2];
 
     // validate $locale
-    if (count($paths) == 3 && $path1 == 'pages' && $path2 == 'tag-archive') {
+    if (count($paths) == 2 && $path == 'tag') {
       // get tag by name
       $tag = Tag::firstWhere('name', $tag_name);
 

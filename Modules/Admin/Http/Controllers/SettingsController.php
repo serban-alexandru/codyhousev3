@@ -33,6 +33,8 @@ class SettingsController extends Controller {
       'post_meta_title',
       'tag_page_title',
       'tag_meta_title',
+      'profile_page_title',
+      'profile_meta_title',
     );
 
     $validator = Validator::make($request->all(), [
@@ -42,7 +44,9 @@ class SettingsController extends Controller {
         'post_page_title' => 'required|max:70',
         'post_meta_title' => 'required|max:70',
         'tag_page_title' => 'required|max:70',
-        'tag_meta_title' => 'required|max:70',        
+        'tag_meta_title' => 'required|max:70',
+        'profile_page_title' => 'required|max:100',
+        'profile_meta_title' => 'required|max:100',
         'logo_svg' => 'required',
         'favicon' => 'required',
     ],
@@ -52,7 +56,6 @@ class SettingsController extends Controller {
     ]);
 
     if ($validator->fails()) {
-      // return redirect('admin/settings')->withErrors($validator)->withInput();
       return response()->json([
         'status' => false,
         'message' => 'Setting Data has been saved!',

@@ -82,6 +82,19 @@ Route::middleware('auth', 'role:admin')->group(function(){
     });
 });
 
+Route::prefix('pages')->group(function(){
+
+    Route::get('/post-archive', [
+      'as'   => 'pages.posts',
+      'uses' => 'PostController@posts'
+    ]);
+  
+    Route::get('/search-archive', [
+      'as'   => 'pages.searches',
+      'uses' => 'PostController@searches'
+    ]);
+});
+
 Route::group([
 	'prefix' => 'laravel-filemanager',
 	'middleware' => ['web', 'auth']

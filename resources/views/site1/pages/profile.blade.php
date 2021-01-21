@@ -1,5 +1,16 @@
 @extends('site1.layouts.app')
 
+<?php $page_title = ($settings_data['profile_page_title']) ? $settings_data['profile_page_title'] : auth()->user()->name; ?>
+<?php $meta_title = ($settings_data['profile_meta_title']) ? $settings_data['profile_meta_title'] : auth()->user()->name; ?>
+
+@isset($page_title)
+  @section('title-tag'){!! $page_title !!}@endsection
+@endisset
+
+@isset($meta_title)
+  @section('meta-title-tag'){!! $meta_title !!}@endsection
+@endisset
+
 @section('content')
 <section>
   <div class="container max-width-adaptive-lg" id="userProfile">

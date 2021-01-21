@@ -45,7 +45,7 @@
 
       });
 
-      $('.sidenav__item a').removeAttr('aria-current');
+      $('.subnav__item a').removeAttr('aria-current');
       $(this).attr('aria-current', 'page');
     });
 
@@ -97,12 +97,125 @@
       tinymce.init(editor_config);
   }
 
+  /** Form Fields Validation Module */
+  // post tag fields validation
+  function validatePostTagFields(form) {
+    var isValid = false;
+
+    console.log($(form).attr('id'));
+    $tag_elems_wrp = $(form).find('.post-tag-wrp');
+    $tag_elems_alert_wrp = $tag_elems_wrp.find('.alert');
+    $tag_elems = $tag_elems_wrp.find('select');
+
+    if ($tag_elems.length == 0)
+      return true;
+
+    $tag_elems.each(function(idx, elem) {
+      if ($(elem).select2('data').length > 0) {
+        isValid = true;
+      }
+    });
+
+    if (isValid) {
+      $tag_elems_alert_wrp.removeClass('alert--is-visible');
+      $tag_elems.each(function(idx, elem) {
+        $(elem).removeClass('form-control--error');
+        $(elem).siblings('.select2').find('.select2-selection').removeClass('form-control--error');
+      });
+
+    } else {
+      $tag_elems_alert_wrp.addClass('alert--is-visible');
+      $tag_elems.each(function(idx, elem) {
+        $(elem).addClass('form-control--error');
+        $(elem).siblings('.select2').find('.select2-selection').addClass('form-control--error');
+      });
+    }
+
+    return isValid;
+  }
+  
+  function validateCustomSelect(selector) {
+    if ($(selector).parents('.post-tag-wrp').length > 0) {
+      $form = $(selector).parents('form')[0];
+      validatePostTagFields($form);
+
+    } else {
+      if ($(selector).prop('required')) { // only when set as required field
+        if ($(selector).select2('data').length == 0) {
+          $(selector).addClass('form-control--error');
+          $(selector).siblings('.select2').find('.select2-selection').addClass('form-control--error');
+
+        } else {
+          $(selector).removeClass('form-control--error');
+          $(selector).siblings('.select2').find('.select2-selection').removeClass('form-control--error');
+        }
+      }
+    }
+  }
+
+  // form required fields validation
+  function validateItem(elem) {
+    var isValid = true;
+    switch ($(elem).prop('tagName')) {
+      case 'INPUT':
+        if ($(elem).prop('type') == 'file') {
+          // file control
+          if ($(elem).val() == '') {
+            $(elem).addClass('form-control--error');
+            $(elem).parent('.ddf__area').addClass('form-control--error');
+            isValid = false;
+
+          } else {
+            $(elem).removeClass('form-control--error');
+            $(elem).parent('.ddf__area').removeClass('form-control--error');
+          }
+          
+        } else if ($(elem).prop('type') == 'button' || $(elem).prop('type') == 'submit') {
+          // buttons, ignore this
+        } else {
+          if ($(elem).val() == '') {
+            $(elem).addClass('form-control--error');
+            isValid = false;
+          } else {
+            $(elem).removeClass('form-control--error');
+          }
+        }
+        break;
+    }
+
+    return isValid;
+  }
+
+  $('form').find('[required]').each(function (idx, elem) {
+    $(elem).change(function() {
+      validateItem($(this));
+    });
+  });
+
+  function formDataValidation($form) {
+    $form.find('[required]').each(function (idx, elem) {
+      validateItem(elem);
+    });
+
+    validatePostTagFields($form);
+
+    if ($form.find('.form-control--error').length > 0)
+      return false;
+
+    return true;
+  }  
+
   function select2ForTags(selector){
     $(selector).select2({
       tags: true,
       tokenSeparators: [","]
     }).on('select2:open', function(e){
       $('.select2-container--open .select2-dropdown--below').css('display','none');
+
+    }).on('select2:select', function(e) {
+      validateCustomSelect(selector);
+    }).on('select2:unselect', function(e) {
+      validateCustomSelect(selector);
     });
   }
 
@@ -217,29 +330,12 @@
     });
 
     $(document).on('click', '#btnSave, #btnPublish', function(){
-        $(this).html('Please wait...');
-        var isPublished = ($(this).attr('id') != 'btnSave') ? 1 : 0;
-        var formData = new FormData($('#formAddPost')[0]);
-        formData.append('is_published', isPublished);
-        // formData.append('description', tinyMCE.activeEditor.getContent());
+      if (!formDataValidation($('#formAddPost')))
+        return;
 
-        $.ajaxSetup({
-          headers: {
-            'X-CSRF-TOKEN': $('input[name="_token"]').val()
-          }
-        });
-
-        $.ajax({
-          url: "{{ route('dashboard.store') }}",
-          dataType: 'json',
-          type: 'post',
-          contentType: false,
-          processData: false,
-          data: formData,
-          success: function(response){
-            location.reload();
-          }
-        });
+      var isPublished = ($(this).attr('id') != 'btnSave') ? 1 : 0;
+      $('#formAddPost').find('input[name="is_published"]').val(isPublished);
+      $('#formAddPost').submit();
     });
 
     $(document).on('click', '#closeEditModal', function(){
@@ -326,38 +422,15 @@
     });
 
     function savePost(e) {
-
       e.preventDefault();
 
-      var $this = $(this);
-      var published = $this.data('toggle-published');
+      if (!formDataValidation($('#formEditPost')))
+        return;
 
-      $(this).html("Please wait...");
+      var published = $(this).data('toggle-published');
 
-      var formData = new FormData($('#formEditPost')[0]);
-      formData.append('id', $('#postId').val());
-
-      if (published != undefined) {
-        formData.append('is_published', published);
-      }
-
-      $.ajaxSetup({
-        headers: {
-          'X-CSRF-TOKEN': $('input[name="_token"]').val()
-        }
-      });
-
-      $.ajax({
-        url: "{{ route('dashboard.update') }}",
-        dataType: 'json',
-        type: 'post',
-        contentType: false,
-        processData: false,
-        data: formData,
-        success: function(response){
-          location.reload();
-        }
-      });
+      $('#formEditPost').find('input[name="is_published"]').val(published);
+      $('#formEditPost').submit();
     }
 
     $(document).on('click', '#btnEditSave', savePost);
