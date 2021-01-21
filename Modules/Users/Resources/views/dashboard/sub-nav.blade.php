@@ -1,6 +1,6 @@
 <div class="bg-contrast-lower">
   <div class="container max-width-lg flex items-center justify-between">
-    <div class="flex flex-wrap">
+    <div class="flex flex-wrap fl-align-center">
       <button class="btn btn--primary btn-new-post margin-right-md">Add</button>
             
       <form class="expandable-search js-expandable-search" action="{{ url('dashboard') }}" method="GET">
