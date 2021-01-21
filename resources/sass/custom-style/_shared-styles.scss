@@ -40,7 +40,7 @@ body {
 
 // fix for dropdown behind table content
 .int-table {
-    overflow: auto;
+    overflow: visible !important;
 }
 
 // admin sidebar border color
