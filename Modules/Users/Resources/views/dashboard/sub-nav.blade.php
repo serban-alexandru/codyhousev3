@@ -17,7 +17,7 @@
         </button>
       </form>
 
-      <div class="int-table-actions" data-table-controls="table-1">
+      <div class="flex int-table-actions" data-table-controls="table-1">
         <menu class="menu-bar js-int-table-actions__no-items-selected js-menu-bar" id="btnRefreshTable">
           <li class="menu-bar__item menu-bar__item--trigger js-menu-bar__trigger" role="menuitem" aria-label="More options">
             <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
