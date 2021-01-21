@@ -1,6 +1,7 @@
 <!-- 👇 Full Screen Modal -->
-<form action="#" id="formAddPost">
+<form action="{{ route('dashboard.store') }}" data-action="{{ route('dashboard.store') }}" id="formAddPost" method="POST" enctype="multipart/form-data" >
   @csrf
+  <input type="hidden" name="is_published"/>
   <div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll custom-disable-modal-close" id="modal-add-article">
     <div class="modal__content height-100% width-100% max-width-sm bg radius-md shadow-md flex flex-column">
       <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">

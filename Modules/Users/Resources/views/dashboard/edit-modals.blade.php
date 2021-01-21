@@ -1,7 +1,8 @@
 <!-- 👇 Full Screen Modal -->
-<form action="#" id="formEditPost">
+<form action="{{ route('dashboard.update') }}" data-action="{{ route('dashboard.update') }}" id="formEditPost" method="POST" enctype="multipart/form-data" >
   @csrf
-  <input type="hidden" id="postId" value="">
+  <input type="hidden" id="postId" name="post_id" value="">
+  <input type="hidden" name="is_published"/>
   <div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll custom-disable-modal-close" id="modal-edit-post">
     <div class="modal__content height-100% width-100% max-width-sm bg radius-md shadow-md flex flex-column">
         <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">

@@ -253,8 +253,8 @@ class DashboardPostsController extends Controller
             $slug .= '-2';
         }
 
-        $is_published = (request('is_published') && !auth()->user()->isRegisteredUser()) ?? $post->is_published;
-        $is_pending = (request('is_published') && auth()->user()->isRegisteredUser()) ?? $post->is_published;
+        $is_published = (request('is_published') && !auth()->user()->isRegisteredUser()) ?? 1;
+        $is_pending = (request('is_published') && auth()->user()->isRegisteredUser()) ?? 1;
 
         $post = Post::create([
             'user_id'          => auth()->user()->id,
@@ -298,10 +298,16 @@ class DashboardPostsController extends Controller
             }
         }
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Post has been created!'
-        ]);
+        $alert = [
+            'message' => 'Post has been created!',
+            'class'   => 'alert--success',
+        ];
+
+        if ($is_pending) {
+            $alert['message'] = 'Your post will be reviewed soon.';
+        }
+
+        return redirect()->back()->with('alert', $alert);
     }
 
     public function fetchDataAjax($id)
@@ -368,12 +374,14 @@ class DashboardPostsController extends Controller
 
     public function ajaxUpdate()
     {
-        $post = $this->getPost(request('id'));
+        $post = $this->getPost(request('post_id'));
         if (!$post) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Post does not exists!'
-            ]);            
+            $alert = [
+                'message' => 'Post does not exists!',
+                'class'   => 'alert--error',
+            ];
+    
+            return redirect()->back()->with('alert', $alert);    
         }
 
         if(request()->has('thumbnail')){
@@ -496,10 +504,16 @@ class DashboardPostsController extends Controller
             }
         }
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Post has been updated!'
-        ]);
+        $alert = [
+            'message' => 'Post has been updated!',
+            'class'   => 'alert--success',
+        ];
+
+        if ($is_pending) {
+            $alert['message'] = 'Your post will be reviewed soon.';
+        }
+
+        return redirect()->back()->with('alert', $alert);
     }
 
     public function delete()

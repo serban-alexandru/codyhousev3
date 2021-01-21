@@ -330,32 +330,12 @@
     });
 
     $(document).on('click', '#btnSave, #btnPublish', function(){
-        if (!formDataValidation($('#formAddPost')))
-          return;
+      if (!formDataValidation($('#formAddPost')))
+        return;
 
-        $(this).html('Please wait...');
-        var isPublished = ($(this).attr('id') != 'btnSave') ? 1 : 0;
-        var formData = new FormData($('#formAddPost')[0]);
-        formData.append('is_published', isPublished);
-        // formData.append('description', tinyMCE.activeEditor.getContent());
-
-        $.ajaxSetup({
-          headers: {
-            'X-CSRF-TOKEN': $('input[name="_token"]').val()
-          }
-        });
-
-        $.ajax({
-          url: "{{ route('dashboard.store') }}",
-          dataType: 'json',
-          type: 'post',
-          contentType: false,
-          processData: false,
-          data: formData,
-          success: function(response){
-            location.reload();
-          }
-        });
+      var isPublished = ($(this).attr('id') != 'btnSave') ? 1 : 0;
+      $('#formAddPost').find('input[name="is_published"]').val(isPublished);
+      $('#formAddPost').submit();
     });
 
     $(document).on('click', '#closeEditModal', function(){
@@ -442,41 +422,15 @@
     });
 
     function savePost(e) {
-
       e.preventDefault();
 
       if (!formDataValidation($('#formEditPost')))
         return;
 
-      var $this = $(this);
-      var published = $this.data('toggle-published');
+      var published = $(this).data('toggle-published');
 
-      $(this).html("Please wait...");
-
-      var formData = new FormData($('#formEditPost')[0]);
-      formData.append('id', $('#postId').val());
-
-      if (published != undefined) {
-        formData.append('is_published', published);
-      }
-
-      $.ajaxSetup({
-        headers: {
-          'X-CSRF-TOKEN': $('input[name="_token"]').val()
-        }
-      });
-
-      $.ajax({
-        url: "{{ route('dashboard.update') }}",
-        dataType: 'json',
-        type: 'post',
-        contentType: false,
-        processData: false,
-        data: formData,
-        success: function(response){
-          location.reload();
-        }
-      });
+      $('#formEditPost').find('input[name="is_published"]').val(published);
+      $('#formEditPost').submit();
     }
 
     $(document).on('click', '#btnEditSave', savePost);
