@@ -25,7 +25,7 @@
 @endif
 
 <div id="table-1" class="int-table text-sm js-int-table">
-    <div class="int-table__inner" id="site-table-container" style="overflow: unset;">
+    <div class="int-table__inner" id="site-table-container">
       <table class="int-table__table" aria-label="Interactive table example">
         <thead class="int-table__header js-int-table__header">
           <tr class="int-table__row">
