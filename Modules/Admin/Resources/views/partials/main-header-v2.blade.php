@@ -9,8 +9,9 @@
         </div>
       </a>
 
+    <a href="{{ url('/admin') }}">
       <h1 class="text-md items-start padding-right-xxl color-contrast-lower">Admin</h1>
-
+    </a>
       <button class="header-v2__nav-control reset anim-menu-btn js-anim-menu-btn js-tab-focus" aria-label="Toggle menu">
         <i class="anim-menu-btn__icon anim-menu-btn__icon--close" aria-hidden="true"></i>
       </button>
