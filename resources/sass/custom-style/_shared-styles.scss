@@ -224,3 +224,7 @@ body {
 /* Sticky Bar Style */
 .sticky-title {overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
 .sticky-title h3 {overflow: hidden; text-overflow: ellipsis;}
+
+/* Expandable Search Custom Style */
+.flex .expandable-search {display: flex; align-items: center;}
+.flex .expandable-search__btn {top:7px;}
