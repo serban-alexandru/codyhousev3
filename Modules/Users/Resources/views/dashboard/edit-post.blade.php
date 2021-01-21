@@ -1,3 +1,4 @@
+<div class="container max-width-sm">
 <div class="edit-post-wrp editorjs-fullwidth hidden">
   <form action="{{ route('dashboard.update') }}" data-action="{{ route('dashboard.update') }}" id="formEditPost" method="POST" enctype="multipart/form-data" >
     @csrf
@@ -70,4 +71,5 @@
       </div><!-- /.modal__content -->
     </div><!-- /.modal -->
   </form>
+</div>
 </div>
