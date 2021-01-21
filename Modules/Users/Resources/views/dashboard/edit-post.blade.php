@@ -5,11 +5,11 @@
     <input type="hidden" name="is_published"/>
     <div class="flex">
       <div class="height-100% width-100% bg radius-md flex flex-column">
-          <header class="padding-y-sm padding-x-md flex items-center justify-between">
+          <header class="padding-y-sm flex items-center justify-between">
             <h3>Edit Post</h3>
           </header>
 
-          <div class="padding-y-sm padding-x-md flex-grow overflow-auto">
+          <div class="padding-y-sm flex-grow overflow-auto">
             <div class="padding-top-xs">
               <div class="grid gap-sm">
                 <input class="form-control width-100%" type="text" name="title" id="editTitle" required>
@@ -56,9 +56,9 @@
                 @endforeach
               </div>
             </div>
-          </div><!-- /.padding-y-sm padding-x-md flex-grow overflow-auto -->
+          </div><!-- /.padding-y-sm flex-grow overflow-auto -->
 
-          <footer class="padding-y-sm padding-x-md bg flex-shrink-0">
+          <footer class="padding-y-sm bg flex-shrink-0">
             <div class="flex justify-end gap-xs">
               <button type="button" class="btn btn--subtle btn-cancel-post">Cancel</button>
               <a href="#" type="button" class="btn btn--primary is-hidden draft-post-link trigger-site-editor-save" data-target-input="#editDescription" id="btnEditSaveDraft" data-toggle-published="0">Draft</a>

@@ -44,7 +44,7 @@
         );
 
         $('.add-post-wrp').addClass('hidden'); // hide add post section
-        $('#site-table-with-pagination-container').removeClass('hidden'); // show post list section
+        $('.posts-wrp').removeClass('hidden'); // show post list section
         $('.edit-post-wrp').addClass('hidden'); // hide post edit section
 
       });
@@ -361,14 +361,14 @@
       clearError($('#formAddPost'));
 
       $('.add-post-wrp').removeClass('hidden'); // show add post section
-      $('#site-table-with-pagination-container').addClass('hidden'); // hide post list section
+      $('.posts-wrp').addClass('hidden'); // hide post list section
       $('.edit-post-wrp').addClass('hidden'); // hide post edit section
     });
 
     // cancel post add/edit link
     $(document).on('click', '.btn-cancel-post', function() {
       $('.add-post-wrp').addClass('hidden'); // hide add post section
-      $('#site-table-with-pagination-container').removeClass('hidden'); // show post list section
+      $('.posts-wrp').removeClass('hidden'); // show post list section
       $('.edit-post-wrp').addClass('hidden'); // hide post edit section
     });
     
@@ -448,7 +448,7 @@
           clearError($('#formEditPost'));
 
           $('.add-post-wrp').addClass('hidden'); // hide add post section
-          $('#site-table-with-pagination-container').addClass('hidden'); // hide post list section
+          $('.posts-wrp').addClass('hidden'); // hide post list section
           $('.edit-post-wrp').removeClass('hidden'); // show post edit section
 
           // getTiny('{{ URL::to('/') }}', '#editDescription');
