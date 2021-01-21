@@ -228,3 +228,12 @@ body {
 /* Expandable Search Custom Style */
 .flex .expandable-search {display: flex; align-items: center;}
 .flex .expandable-search__btn {top:7px;}
+
+/* Editor Block Custom Style */
+.editorjs-fullwidth {
+    .ce-block__content, .ce-toolbar__content {max-width: 100%;}   
+}
+
+@media (min-width: 651px) {
+    .editorjs-fullwidth .codex-editor--narrow .ce-toolbar__plus {left: -5px;}
+}

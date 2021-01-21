@@ -43,6 +43,10 @@
             $tablePaginationTop.html('')
         );
 
+        $('.add-post-wrp').addClass('hidden'); // hide add post section
+        $('#site-table-with-pagination-container').removeClass('hidden'); // show post list section
+        $('.edit-post-wrp').addClass('hidden'); // hide post edit section
+
       });
 
       $('.subnav__item a').removeAttr('aria-current');
@@ -151,6 +155,16 @@
         }
       }
     }
+  }
+
+  // remove validation error from form
+  function clearError($form) {
+    $form.find('.form-control--error').each(function(idx, elem) {
+      $(elem).removeClass('form-control--error');
+    });
+    $form.find('.alert--is-visible').each(function(idx, elem) {
+      $(elem).removeClass('alert--is-visible');
+    });
   }
 
   // form required fields validation
@@ -342,6 +356,22 @@
       $('#modal-edit-post').removeClass('modal--is-visible');
     });
 
+    // add new post link
+    $(document).on('click', '.btn-new-post', function() {
+      clearError($('#formAddPost'));
+
+      $('.add-post-wrp').removeClass('hidden'); // show add post section
+      $('#site-table-with-pagination-container').addClass('hidden'); // hide post list section
+      $('.edit-post-wrp').addClass('hidden'); // hide post edit section
+    });
+
+    // cancel post add/edit link
+    $(document).on('click', '.btn-cancel-post', function() {
+      $('.add-post-wrp').addClass('hidden'); // hide add post section
+      $('#site-table-with-pagination-container').removeClass('hidden'); // show post list section
+      $('.edit-post-wrp').addClass('hidden'); // hide post edit section
+    });
+    
     $(document).on('click', 'td[aria-controls="modal-edit-post"]', function(){
 
       var postId = $(this).attr('data-id');
@@ -414,6 +444,13 @@
           $('.site-tag-pills').each(function(){
             select2ForTags(this);
           });
+
+          clearError($('#formEditPost'));
+
+          $('.add-post-wrp').addClass('hidden'); // hide add post section
+          $('#site-table-with-pagination-container').addClass('hidden'); // hide post list section
+          $('.edit-post-wrp').removeClass('hidden'); // show post edit section
+
           // getTiny('{{ URL::to('/') }}', '#editDescription');
         }
       });
