@@ -31,8 +31,7 @@
 </head>
 <body>
 
-  @include('site1.partials.header')
-  @include('admin::partials.admin-bar')
+  @include('admin::partials.main-header-v2')
   @yield('content')
   @include('site1.partials.footer')
 

@@ -5,7 +5,7 @@
 	<div class="margin-bottom-xl"></div>
 	<div class="container max-width-lg">
 		<div class="flex justify-between">
-		  <p class="text-xl divider-title">Best of Saigon</p>
+		  <p class="text-xl text-white divider-title">Best of Saigon</p>
 		  	<div class="margin-left-sm">
 				<a href="{{ url('/') }}">
 					<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36"><title>ic_chevron_right_36px</title><rect data-element="frame" x="0" y="0" width="36" height="36" rx="18" ry="18" stroke="none" fill="#e5e5e5"></rect>
