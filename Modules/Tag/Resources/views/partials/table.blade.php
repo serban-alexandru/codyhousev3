@@ -35,7 +35,7 @@
 </form>
 
 <div id="table-1" class="int-table text-sm @if($tags->count() > 0) js-int-table @endif">
-    <div class="int-table__inner" style="overflow: unset;">
+    <div class="int-table__inner">
       <table class="int-table__table" aria-label="Interactive table example">
         @if($tags->count() > 0)
         <thead class="int-table__header js-int-table__header">

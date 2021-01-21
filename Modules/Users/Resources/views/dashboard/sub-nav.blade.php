@@ -1,11 +1,7 @@
 <div class="bg-contrast-lower">
   <div class="container max-width-lg flex items-center justify-between">
-    <div class="">
-      <button class="btn btn--primary margin-right-md" aria-controls="modal-add-article">Add</button>
-      <a class="margin-right-md" href="#0"><svg class="icon header-v2__nav-dropdown-ico" viewbox="0 0 32 32">
-        <title>single-01</title>
-        <g fill="#a8a8a8"><path d="M27.711,21.887C25.332,21.026,21.368,20,16,20s-9.332,1.026-11.711,1.887 C2.322,22.598,1,24.486,1,26.587V31c0,0.552,0.448,1,1,1h28c0.552,0,1-0.448,1-1v-4.413C31,24.486,29.678,22.598,27.711,21.887z"></path>
-        <path fill="#a8a8a8" d="M16,18c4.411,0,8-3.589,8-8V8c0-4.411-3.589-8-8-8S8,3.589,8,8v2C8,14.411,11.589,18,16,18z"></path></g></svg></a>
+    <div class="flex flex-wrap">
+      <button class="btn btn--primary btn-new-post margin-right-md">Add</button>
             
       <form class="expandable-search js-expandable-search" action="{{ url('dashboard') }}" method="GET">
         <label class="sr-only" for="expandable-search">Search</label>
@@ -20,6 +16,40 @@
           </svg>
         </button>
       </form>
+
+      <div class="int-table-actions" data-table-controls="table-1">
+        <menu class="menu-bar js-int-table-actions__no-items-selected js-menu-bar" id="btnRefreshTable">
+          <li class="menu-bar__item menu-bar__item--trigger js-menu-bar__trigger" role="menuitem" aria-label="More options">
+            <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
+              <circle cx="8" cy="7.5" r="1.5" />
+              <circle cx="1.5" cy="7.5" r="1.5" />
+              <circle cx="14.5" cy="7.5" r="1.5" /></svg>
+          </li>
+          <li class="menu-bar__item " role="menuitem">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>ic_refresh_48px</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f1f1f1"></rect>
+                <g transform="translate(12 12) scale(0.5)" fill="#666666">
+                    <path d="M35.3 12.7C32.41 9.8 28.42 8 24 8 15.16 8 8.02 15.16 8.02 24S15.16 40 24 40c7.45 0 13.69-5.1 15.46-12H35.3c-1.65 4.66-6.07 8-11.3 8-6.63 0-12-5.37-12-12s5.37-12 12-12c3.31 0 6.28 1.38 8.45 3.55L26 22h14V8l-4.7 4.7z"></path>
+                </g>
+            </svg>
+            <span class="menu-bar__label">Refresh</span>
+          </li>
+        </menu>
+        @if(!request()->has('is_trashed'))
+          <menu class="menu-bar is-hidden js-int-table-actions__items-selected js-menu-bar" id="btnDeleteMultiple">
+            <li class="menu-bar__item menu-bar__item--trigger js-menu-bar__trigger" role="menuitem" aria-label="More options">
+              <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
+                <circle cx="8" cy="7.5" r="1.5" />
+                <circle cx="1.5" cy="7.5" r="1.5" />
+                <circle cx="14.5" cy="7.5" r="1.5" /></svg>
+            </li>
+            <li class="menu-bar__item" role="menuitem">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>trash-simple</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f1f1f1"></rect><g transform="translate(12 12) scale(0.5)" fill="#666666"><path fill="#666666" d="M7,13v32c0,1.105,0.895,2,2,2h30c1.105,0,2-0.895,2-2V13H7z M17,38c0,0.552-0.447,1-1,1s-1-0.448-1-1V22 c0-0.552,0.447-1,1-1s1,0.448,1,1V38z M25,38c0,0.552-0.447,1-1,1s-1-0.448-1-1V22c0-0.552,0.447-1,1-1s1,0.448,1,1V38z M33,38 c0,0.552-0.447,1-1,1s-1-0.448-1-1V22c0-0.552,0.447-1,1-1s1,0.448,1,1V38z"></path> <path d="M46,9H33V2c0-0.552-0.447-1-1-1H16c-0.553,0-1,0.448-1,1v7H2c-0.553,0-1,0.448-1,1 s0.447,1,1,1h44c0.553,0,1-0.448,1-1S46.553,9,46,9z M31,9H17V3h14V9z"></path></g></svg>
+              <span class="menu-bar__label">Delete</span>
+              <span class="counter counter--critical counter--docked"><span id="deleteBadge">1</span> <i class="sr-only">Notifications</i></span>
+            </li>
+          </menu>
+        @endif
+      </div>      
     </div>
     <div class="subnav subnav--expanded@sm js-subnav">
       <button class="reset btn btn--subtle margin-y-sm subnav__control js-subnav__control">

@@ -49,7 +49,7 @@
 
   <div class="sticky-banner bg shadow-xs js-sticky-banner" data-target-in="#sticky-banner-target">
     <!--👇 sticky banner content -->
-    <div class="flex padding-sm margin-xs@md">
+    <div class="flex padding-xs margin-xs@md">
       <div>
         <a href="{{ url('/') }}"><div class="flex"><svg version="1.0" xmlns="http://www.w3.org/2000/svg"
         width="24.000000pt" height="24.000000pt" viewBox="0 0 200.000000 200.000000"
