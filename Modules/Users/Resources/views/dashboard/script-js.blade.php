@@ -363,6 +363,8 @@
       $('.add-post-wrp').removeClass('hidden'); // show add post section
       $('.posts-wrp').addClass('hidden'); // hide post list section
       $('.edit-post-wrp').addClass('hidden'); // hide post edit section
+
+      $('.subnav a[aria-current]').attr('aria-current', '');
     });
 
     // cancel post add/edit link
@@ -370,6 +372,8 @@
       $('.add-post-wrp').addClass('hidden'); // hide add post section
       $('.posts-wrp').removeClass('hidden'); // show post list section
       $('.edit-post-wrp').addClass('hidden'); // hide post edit section
+
+      $('.subnav a[aria-current]').attr('aria-current', 'page');
     });
     
     $(document).on('click', 'td[aria-controls="modal-edit-post"]', function(){
@@ -450,6 +454,8 @@
           $('.add-post-wrp').addClass('hidden'); // hide add post section
           $('.posts-wrp').addClass('hidden'); // hide post list section
           $('.edit-post-wrp').removeClass('hidden'); // show post edit section
+
+          $('.subnav a[aria-current]').attr('aria-current', '');
 
           // getTiny('{{ URL::to('/') }}', '#editDescription');
         }
