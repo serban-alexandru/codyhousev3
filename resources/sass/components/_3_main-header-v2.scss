@@ -37,9 +37,16 @@ Usage: codyhouse.co/license
   justify-content: space-between;
 }
 
+.header-v2__sub-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .header-v2__logo {
   flex-shrink: 0;
-
+  margin-right: var(--space-sm);
+  
   a, svg {
     display: block;
   }
@@ -195,10 +202,6 @@ Usage: codyhouse.co/license
 
   .header-v2__nav-control {
     display: none; // hide menu btn
-  }
-
-  .header-v2__logo {
-    margin-right: var(--space-sm);
   }
 
   .header-v2__nav {
