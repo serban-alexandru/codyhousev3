@@ -75,8 +75,10 @@
             </div>
           </li>
 
-          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="#0" class="color-contrast-lower">Settings</a></li>
-          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="#0" class="color-contrast-lower">SEO</a></li>
+          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="/admin/users" class="color-contrast-lower">Users</a></li>
+          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="/admin/posts" class="color-contrast-lower">Posts</a></li>
+          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="/admin/tag" class="color-contrast-lower">Tags</a></li>
+          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="/admin/settings/" class="color-contrast-lower">Settings & SEO</a></li>
         </ul>
 
         <ul class="header-v2__nav-list header-v2__nav-list--main">
@@ -88,11 +90,10 @@
             <div class="header-v2__nav-dropdown">
               <ul class="header-v2__nav-list">
                 <li class="header-v2__nav-item"><a href="/dashboard" class="header-v2__nav-link">Dashboard</a></li>
-                <li class="header-v2__nav-item"><a href="/dashboard" class="header-v2__nav-link">Profile</a></li>
-                <li class="header-v2__nav-item"><a href="/dashboard" class="header-v2__nav-link">Add Post</a></li>
+                <li class="header-v2__nav-item"><a href="/profile" class="header-v2__nav-link">Profile</a></li>
                 <li class="header-v2__nav-item">
                   <a href="#0" class="header-v2__nav-link justify-between">
-                    <span>Sub Item Two <i class="sr-only">(opens in new window)</i></span>
+                    <span>Add Post <i class="sr-only">(opens in new window)</i></span>
                     <svg class="icon icon--xxs" aria-hidden="true" viewBox="0 0 12 12">
                       <g stroke-width="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none">
                         <path d="M11.5,8.5v2a1,1,0,0,1-1,1h-9a1,1,0,0,1-1-1v-9a1,1,0,0,1,1-1h2"></path>
@@ -105,7 +106,7 @@
                 
                 <li class="header-v2__nav-item header-v2__nav-item--divider" role="separator"></li>
                 <li class="header-v2__nav-item header-v2__nav-item--label">Settings</li>
-                <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Edit Profile</a></li>
+                <li class="header-v2__nav-item"><a href="/users/settings" class="header-v2__nav-link">Edit Profile</a></li>
                 <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Logout</a></li>
               </ul>
             </div>
