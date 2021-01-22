@@ -46,7 +46,7 @@ Usage: codyhouse.co/license
 .header-v2__logo {
   flex-shrink: 0;
   margin-right: var(--space-sm);
-  
+
   a, svg {
     display: block;
   }
@@ -104,9 +104,10 @@ Usage: codyhouse.co/license
   }
 }
 
+/*
 .header-v2__nav-item--main {
   margin-bottom: var(--space-sm);
-}
+}*/
 
 .header-v2__nav-item--label {
   text-transform: uppercase;
@@ -137,9 +138,40 @@ Usage: codyhouse.co/license
   padding: var(--space-xs) 0;
   text-decoration: none;
   color: var(--color-contrast-high); // nav links color
+  border: 3px solid transparent; // border-width
+  border-right-width: 0;
+  border-left-width: 0;
 
-  &:hover, &[aria-current] {
+  /*&:hover, &[aria-current] {
     color: var(--color-primary);
+  }*/
+
+  span {
+    color: var(--color-contrast-high); // nav links color
+  }
+
+  &:hover, &:hover span {
+    color: var(--color-primary);
+  }
+
+  &[aria-current] {
+    span {
+      color: var(--color-primary);
+    }
+  }
+
+  &.header-v2__nav-hide-mobile {display:none;}
+}
+
+.header-v2__nav-item--main > .header-v2__nav-link {
+  &:hover, &:hover span {
+    color: var(--color-primary);
+  }
+}
+
+.header-v2__nav-item--has-children > .header-v2__nav-link {
+  &:hover, &:hover span {
+    color: var(--color-contrast-high);
   }
 }
 
@@ -265,6 +297,29 @@ Usage: codyhouse.co/license
     padding-top: 0;
   }
 
+  .header-v2__nav-item--main > .header-v2__nav-link {
+    span {
+      color: var(--color-contrast-lower);
+    }
+  }
+
+  .header-v2__nav-link {
+    &[aria-current] {
+      border-bottom-color: var(--color-primary); // border color
+  
+      span {
+        color: var(--color-primary);
+      }
+    }
+    &.header-v2__nav-hide-mobile {display:flex;}
+  }
+
+  .header-v2__nav-item--has-children > .header-v2__nav-link {
+    &:hover, &:hover span {
+      color: var(--color-primary);
+    }
+  }
+  
   .header-v2__nav-dropdown-icon {
     display: block; // arrow icon = visible
   }
@@ -366,5 +421,18 @@ Usage: codyhouse.co/license
   .header-v2__nav-item--has-children:hover > .header-v2__nav-dropdown { // show dropdown
     visibility: visible;
     opacity: 1;
+  }
+
+  .header-v2__nav-full-height {
+    height:100%;
+
+    .header-v2__nav-item--main {
+      display: flex;
+      height: 100%;
+    }
+  }
+
+  .header-v2__nav-align-right {
+    justify-content: flex-end;
   }
 }
