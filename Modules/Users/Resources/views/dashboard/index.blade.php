@@ -10,6 +10,7 @@
       </div><!-- /.bg radius-md padding-md shadow-sm -->
       @include('users::dashboard.add-post')
       @include('users::dashboard.edit-post')
+      @include('users::dashboard.no-post')
 
     </div><!-- /.container -->
   </section>
