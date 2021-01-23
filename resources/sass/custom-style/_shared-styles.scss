@@ -218,9 +218,6 @@ body {
   border-color: var(--color-error);
 }
 
-/* Modal Content Style Update */
-.modal__content {overflow: inherit;}
-
 /* Sticky Bar Style */
 .sticky-title {overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
 .sticky-title h3 {overflow: hidden; text-overflow: ellipsis;}
@@ -241,3 +238,17 @@ body {
 
 /* Centering Element */
 .mg-auto {margin:0 auto;}
+
+/* custom select style */
+.custom-select {
+    .select2-container {width:100% !important;}
+
+    .select2-selection {
+        height:auto;
+        padding: 5px 0;
+        border-width: 2px;
+        border-color: var(--color-contrast-lower);
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {height:36px;}
+}

@@ -13,8 +13,9 @@ use Illuminate\Support\Facades\Validator;
 class SettingsController extends Controller {
   public function index() {
     $settings_data = Settings::getSiteSettings();
+    $google_fonts = Settings::getGoogleFontsList();
     $disable_shortcode = true;
-    return view('admin::partials\setting', compact('settings_data', 'disable_shortcode'))->withoutShortcodes();
+    return view('admin::partials\setting', compact('settings_data', 'google_fonts', 'disable_shortcode'))->withoutShortcodes();
   }
 
   /**
@@ -35,6 +36,8 @@ class SettingsController extends Controller {
       'tag_meta_title',
       'profile_page_title',
       'profile_meta_title',
+      'font_primary',
+      'font_secondary',
     );
 
     $validator = Validator::make($request->all(), [
@@ -49,6 +52,8 @@ class SettingsController extends Controller {
         'profile_meta_title' => 'required|max:100',
         'logo_svg' => 'required',
         'favicon' => 'required',
+        'font_primary' => 'required',
+        'font_secondary' => 'required'
     ],
     $messages = [
       'required' => 'The :attribute field is required.',

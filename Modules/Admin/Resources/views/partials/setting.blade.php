@@ -90,6 +90,43 @@
                 </div>
               </div>
 
+              <div class="form-control-section">
+                <h4>Font Setting</h4>
+                <div class="floating-label margin-bottom-md margin-top-md">
+                  <label class="form-label" for="font_primary">Primary Font</label>
+                  <div class="grid gap-sm custom-select">
+                    <?php $font_primary = ($settings_data['font_primary']) ? $settings_data['font_primary'] : ''; ?>
+                    <select name="font_primary" id="font_primary" data-placeholder="Select Primary Font">
+                    @foreach($google_fonts as $font_name)
+                      <option
+                        value="{{ $font_name }}"
+                        @if($font_name == $font_primary)
+                          selected
+                        @endif
+                      >{{ $font_name }}</option>
+                    @endforeach
+                    </select>
+                  </div>
+                </div>
+
+                <div class="floating-label margin-bottom-md margin-top-xs">
+                  <label class="form-label" for="font_secondary">Secondary Font</label>
+                  <div class="grid gap-sm custom-select">
+                    <?php $font_secondary = ($settings_data['font_secondary']) ? $settings_data['font_secondary'] : ''; ?>
+                    <select name="font_secondary" id="font_secondary" data-placeholder="Select Secondary Font">
+                    @foreach($google_fonts as $font_name)
+                      <option
+                        value="{{ $font_name }}"
+                        @if($font_name == $font_secondary)
+                          selected
+                        @endif
+                      >{{ $font_name }}</option>
+                    @endforeach
+                    </select>
+                  </div>
+                </div>
+              </div>
+
               <button id="btnSave" class="btn btn--primary">Save</button>
 
             </fieldset>
