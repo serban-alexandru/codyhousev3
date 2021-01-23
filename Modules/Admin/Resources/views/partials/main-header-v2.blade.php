@@ -126,16 +126,15 @@
 
             <div class="header-v2__nav-dropdown">
               <ul class="header-v2__nav-list">
+                <li class="header-v2__nav-item header-v2__nav-item--label">My Post Panel</li>
                 <li class="header-v2__nav-item"><a href="{{ url('dashboard') }}" class="header-v2__nav-link">Dashboard</a></li>
-                <li class="header-v2__nav-item"><a href="{{ url('profile') }}" class="header-v2__nav-link">Profile</a></li>
                 <li class="header-v2__nav-item">
                   <a href="#0" class="header-v2__nav-link justify-between">
                     <span>Add Post <i class="sr-only">(opens in new window)</i></span>
                     <svg class="icon icon--xxs" aria-hidden="true" viewBox="0 0 12 12">
-                      <g stroke-width="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                        fill="none">
-                        <path d="M11.5,8.5v2a1,1,0,0,1-1,1h-9a1,1,0,0,1-1-1v-9a1,1,0,0,1,1-1h2"></path>
-                        <polyline points="6.5 0.5 11.5 0.5 11.5 5.5"></polyline>
+                      <g stroke-width="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                        <path d="M10.5,8.5v2a1,1,0,0,1-1,1h-8a1,1,0,0,1-1-1v-8a1,1,0,0,1,1-1h2"></path>
+                        <polygon points="9.5 0.5 11.5 2.5 6.5 7.5 3.5 8.5 4.5 5.5 9.5 0.5"></polyline>
                         <line x1="11.5" y1="0.5" x2="5.5" y2="6.5"></line>
                       </g>
                     </svg>
@@ -143,9 +142,12 @@
                 </li>
 
                 <li class="header-v2__nav-item header-v2__nav-item--divider" role="separator"></li>
-                <li class="header-v2__nav-item header-v2__nav-item--label">Settings</li>
-                <li class="header-v2__nav-item"><a href="{{ url('users/settings') }}" class="header-v2__nav-link">Edit Profile</a>
-                </li>
+                <li class="header-v2__nav-item header-v2__nav-item--label">Admin</li>
+                <li class="header-v2__nav-item"><a href="{{ url('admin/dashboard') }}" class="header-v2__nav-link">Admin Dashboard</a></li>
+                <li class="header-v2__nav-item header-v2__nav-item--divider" role="separator"></li>
+                <li class="header-v2__nav-item header-v2__nav-item--label">Profile settings</li>
+                <li class="header-v2__nav-item"><a href="{{ url('profile') }}" class="header-v2__nav-link">Profile</a></li>
+                <li class="header-v2__nav-item"><a href="{{ url('users/settings') }}" class="header-v2__nav-link">Edit Profile</a></li>
                 <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Logout</a></li>
               </ul>
             </div>
