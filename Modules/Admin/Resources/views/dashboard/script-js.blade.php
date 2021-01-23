@@ -267,13 +267,17 @@
     return true;
   }  
 
+  var tags_by_category = {!! $tags_by_category !!};
+
   function select2ForTags(selector){
     $(selector).select2({
       tags: true,
+      createSearchChoice:function(term, data) { if ($(data).filter(function() { return this.text.localeCompare(term)===0; }).length===0) {return {id:term, text:term};} },
+      multiple: true,
+      data: tags_by_category[$(selector).attr("data-id")],
       tokenSeparators: [","]
     }).on('select2:open', function(e){
-      $('.select2-container--open .select2-dropdown--below').css('display','none');
-
+      // $('.select2-container--open .select2-dropdown--below').css('display','none');
     }).on('select2:select', function(e) {
       validateCustomSelect(selector);
     }).on('select2:unselect', function(e) {

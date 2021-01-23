@@ -53,7 +53,7 @@
                         <label class="form-label margin-bottom-xxs" for="edit_tag_category_{{ $tag_category->id }}">
                           Edit {{ $tag_category->name }}
                         </label>
-                        <select name="tag_category_{{ $tag_category->id }}[]" id="edit_tag_category_{{ $tag_category->id }}" class="form-control site-tag-pills" multiple></select>
+                        <select name="tag_category_{{ $tag_category->id }}[]" id="edit_tag_category_{{ $tag_category->id }}" class="form-control site-tag-pills" data-id="{{ $tag_category->id }}" multiple></select>
                     </div>
                   @endforeach
                 </div>

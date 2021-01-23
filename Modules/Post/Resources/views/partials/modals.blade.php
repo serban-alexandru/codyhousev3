@@ -125,7 +125,7 @@
                           <label class="form-label margin-bottom-xxs" for="tag_category_{{ $tag_category->id }}">
                             Add {{ $tag_category->name }}
                           </label>
-                          <select name="tag_category_{{ $tag_category->id }}[]" id="tag_category_{{ $tag_category->id }}" class="site-tag-pills" multiple></select>
+                          <select name="tag_category_{{ $tag_category->id }}[]" id="tag_category_{{ $tag_category->id }}" class="site-tag-pills" data-id="{{ $tag_category->id }}" multiple></select>
                       </div>
                     @endforeach
                     </div>

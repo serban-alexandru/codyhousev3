@@ -94,6 +94,16 @@ class PostController extends Controller
 
         $tag_categories = TagCategory::all();
 
+        // get all tags
+        $tags_by_category = array();
+        $tags = Tag::where('published', true)->orderBy('name', 'asc')->get();
+        foreach($tags as $tag) {
+            if (!isset($tags_by_category[$tag->tag_category_id]))
+                $tags_by_category[$tag->tag_category_id] = array();
+            $tags_by_category[$tag->tag_category_id][] = $tag->name;
+        }
+        $tags_by_category = json_encode($tags_by_category);
+
         // Generate `slug` if it's not yet set
         foreach ($posts as $post) {
             if (!$post->slug) {
@@ -111,7 +121,7 @@ class PostController extends Controller
 
         return view($view, compact(
             'posts', 'posts_published_count', 'posts_draft_count', 'posts_pending_count', 'posts_deleted_count',
-            'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'is_trashed', 'is_draft', 'is_pending', 'tag_categories'
+            'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'is_trashed', 'is_draft', 'is_pending', 'tag_categories', 'tags_by_category'
             )
         );
     }
