@@ -324,10 +324,8 @@ class DashboardPostsController extends Controller
 
         $data['id']           = $post->id;
         $data['title']        = $post->title;
-        $data['slug']         = $post->slug;
         $data['description']  = html_entity_decode($post->description);
         $data['thumbnail']    = asset("storage/posts/original/{$post->thumbnail}");
-        $data['page_title']   = $post->seo_page_title;
         $data['post_date']    = Date('d/m/Y', strtotime($post->created_at));
         $data['is_published'] = $post->is_published;
         $data['is_deleted']   = $post->is_deleted;
@@ -424,14 +422,6 @@ class DashboardPostsController extends Controller
         $is_published = (request('is_published') && !auth()->user()->isRegisteredUser())?? $post->is_published;
         $is_pending = (request('is_published') && auth()->user()->isRegisteredUser()) ?? $post->is_published;
 
-        // Generate slug
-        $slug                = Str::slug(request('slug'), '-');
-        $post_with_same_slug = Post::where('slug', $slug)->where('id', '<>', $post->id)->first();
-
-        if ($post_with_same_slug) {
-            $slug .= '-2';
-        }
-
         // change Post Created Time "created_at"
         $created_time = strtotime($post->created_at);
         $created_h = date("H", $created_time);
@@ -456,11 +446,9 @@ class DashboardPostsController extends Controller
 
         $post->update([
             'title' => request('title'),
-            'slug' => $slug,
             'description' => request('description'),
             'thumbnail' => (request()->has('thumbnail')) ? $thumbnail_name : $post->thumbnail,
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : $post->thumbnail_medium,
-            'seo_page_title' => request('page_title') ?: NULL,
             'tags' => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
             'created_at' => $post_date,
             'is_published' => $is_published,

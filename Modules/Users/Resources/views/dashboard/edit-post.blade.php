@@ -12,10 +12,11 @@
 
             <div class="padding-y-sm flex-grow overflow-auto">
               <div class="padding-top-xs">
-                <div class="grid gap-sm">
-                  <input class="form-control width-100%" type="text" name="title" id="editTitle" required>
+                <h1 id="editTitleElem" class="js-input custom-input custom-input__title" placeholder="Title" target="editTitle" required></h1>
+                <input type="hidden" id="editTitle" name="title" value="">
 
-                  <div id="editorjs2" data-target-input="#editDescription" class="form-control"></div>
+                <div class="grid gap-sm">
+                  <div id="editorjs2" data-target-input="#editDescription"></div>
                   <input type="hidden" name="description" id="editDescription"/>
                 </div>
               </div>

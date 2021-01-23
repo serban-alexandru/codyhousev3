@@ -228,10 +228,8 @@ body {
 /* Editor Block Custom Style */
 .editorjs-fullwidth {
     .ce-block__content, .ce-toolbar__content {max-width: 100%;}   
-}
-
-@media (min-width: 651px) {
-    .editorjs-fullwidth .codex-editor--narrow .ce-toolbar__plus {left: -5px;}
+    .ce-toolbar__plus {left: -5px;}
+    .ce-toolbar__actions {top: 15px; right:-5px;}
 }
 
 .fl-align-center {align-items: center;}
@@ -251,4 +249,23 @@ body {
     }
 
     .select2-container--default .select2-selection--single .select2-selection__arrow {height:36px;}
+}
+
+/* Custom Input Element */
+.custom-input {
+    position: relative;
+    font-weight: normal;
+    border:1px solid transparent;
+
+    padding: 5px 0;
+    margin-top: -5px;
+    margin-bottom: 15px;
+    outline: none;
+}
+
+[contenteditable][placeholder]:empty:before {
+    content: attr(placeholder);
+    position:absolute;
+    color: #707684;
+    background-color: transparent;
 }

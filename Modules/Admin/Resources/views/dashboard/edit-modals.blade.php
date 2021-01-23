@@ -34,11 +34,11 @@
           <div class="js-tabs__panels">
             <section id="tab1Panel1" class="padding-top-xs js-tabs__panel">
               <div>
+                <h1 id="editTitleElem" class="js-input custom-input custom-input__title" placeholder="Title" target="editTitle" required></h1>
+                <input type="hidden" id="editTitle" name="title" value="">
 
-                <div class="grid gap-sm">
-                  <input class="form-control width-100%" type="text" name="title" id="editTitle" required>
-
-                  <div id="editorjs2" data-target-input="#editDescription" class="form-control"></div>
+                <div class="grid gap-sm editorjs-fullwidth">
+                  <div id="editorjs2" data-target-input="#editDescription"></div>
                   <input type="hidden" name="description" id="editDescription"/>
                 </div>
               </div>
