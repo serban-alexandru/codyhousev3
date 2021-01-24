@@ -269,3 +269,13 @@ body {
     color: #707684;
     background-color: transparent;
 }
+
+/* Select2 tag badge style */
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: var(--color-success);
+    color: var(--color-white);
+
+    .select2-selection__choice__remove {
+        color: var(--color-white);
+    }
+}
