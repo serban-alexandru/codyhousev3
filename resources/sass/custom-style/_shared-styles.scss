@@ -241,3 +241,9 @@ body {
 
 /* Centering Element */
 .mg-auto {margin:0 auto;}
+
+/* Interactive Table Bottom Border */
+.int-table {
+    overflow: hidden;
+    border-bottom: 0px solid var(--color-contrast-low);
+  }
