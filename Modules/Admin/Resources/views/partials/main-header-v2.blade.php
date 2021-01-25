@@ -36,6 +36,8 @@
 
       <nav class="header-v2__nav color-contrast-low header-v2__nav-full-height" role="navigation">
         <ul class="header-v2__nav-list header-v2__nav-list--main">
+          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/') }}"
+            class="header-v2__nav-link" {{ Request::path() == 'admin/' ? 'aria-current' : '' }}><span>Home</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main header-v2__nav-item--has-children">
             <a href="#0" class="header-v2__nav-link">
               <span class="color-contrast-lower">Templates</span>
@@ -148,12 +150,12 @@
                 <li class="header-v2__nav-item header-v2__nav-item--label">Profile settings</li>
                 <li class="header-v2__nav-item"><a href="{{ url('profile') }}" class="header-v2__nav-link">Profile</a></li>
                 <li class="header-v2__nav-item"><a href="{{ url('users/settings') }}" class="header-v2__nav-link">Edit Profile</a></li>
-                <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Logout</a></li>
+                <li class="header-v2__nav-item"><a href="{{ url('/logout') }}" class="header-v2__nav-link">Logout</a></li>
               </ul>
             </div>
           </li>
           <li class="header-v2__nav-item header-v2__nav-item--main header-v2__nav-item--divider" role="separator"></li>
-          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="#0" class="btn btn--primary">Log out</a>
+          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('/logout') }}" class="btn btn--primary">Log out</a>
           </li>
 
         </ul>      
