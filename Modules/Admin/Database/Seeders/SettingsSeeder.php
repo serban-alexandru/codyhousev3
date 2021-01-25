@@ -67,6 +67,14 @@ class SettingsSeeder extends Seeder
                 'key'           => 'profile_meta_title',
                 'value'         => '[username] | [sitetitle]'
             ],
+            [
+                'key'           => 'font_primary',
+                'value'         => 'Roboto Slab'
+            ],
+            [
+                'key'           => 'font_secondary',
+                'value'         => 'Inter'
+            ],
         ];
 
 		foreach ($records as $record) {

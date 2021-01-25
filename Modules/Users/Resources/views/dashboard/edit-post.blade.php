@@ -12,10 +12,11 @@
 
             <div class="padding-y-sm flex-grow overflow-auto">
               <div class="padding-top-xs">
-                <div class="grid gap-sm">
-                  <input class="form-control width-100%" type="text" name="title" id="editTitle" required>
+                <h1 id="editTitleElem" class="js-input custom-input custom-input__title" placeholder="Title" target="editTitle" required></h1>
+                <input type="hidden" id="editTitle" name="title" value="">
 
-                  <div id="editorjs2" data-target-input="#editDescription" class="form-control"></div>
+                <div class="grid gap-sm">
+                  <div id="editorjs2" data-target-input="#editDescription"></div>
                   <input type="hidden" name="description" id="editDescription"/>
                 </div>
               </div>
@@ -52,7 +53,7 @@
                         <label class="form-label margin-bottom-xxs" for="edit_tag_category_{{ $tag_category->id }}">
                           Edit {{ $tag_category->name }}
                         </label>
-                        <select name="tag_category_{{ $tag_category->id }}[]" id="edit_tag_category_{{ $tag_category->id }}" class="form-control site-tag-pills" multiple></select>
+                        <select name="tag_category_{{ $tag_category->id }}[]" id="edit_tag_category_{{ $tag_category->id }}" class="form-control site-tag-pills" data-id="{{ $tag_category->id }}" multiple></select>
                     </div>
                   @endforeach
                 </div>

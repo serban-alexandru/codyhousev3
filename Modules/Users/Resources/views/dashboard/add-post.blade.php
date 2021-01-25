@@ -8,12 +8,13 @@
           <header class="padding-y-sm flex items-center justify-between">
             <h3>Add New Post</h3>
           </header>
-
           <div class="padding-y-sm flex-grow overflow-auto">
             <div class="padding-top-xs">
+              <h1 class="js-input custom-input custom-input__title" placeholder="Title" target="title" required></h1>
+              <input type="hidden" id="title" name="title" value="">
+              
               <div class="grid gap-sm">
-                <input class="form-control width-100%" type="text" name="title" id="title" placeholder="Enter Your Title" required>
-                <div id="editorjs" data-target-input="#description" class="site-editor form-control"></div>
+                <div id="editorjs" data-target-input="#description" class="site-editor"></div>
                 <input type="hidden" name="description" id="description"/>
               </div>
             </div>
@@ -84,35 +85,12 @@
                     <label class="form-label margin-bottom-xxs" for="tag_category_{{ $tag_category->id }}">
                       Add {{ $tag_category->name }}
                     </label>
-                    <select name="tag_category_{{ $tag_category->id }}[]" id="tag_category_{{ $tag_category->id }}" class="site-tag-pills" multiple></select>
+                    <select name="tag_category_{{ $tag_category->id }}[]" id="tag_category_{{ $tag_category->id }}" class="site-tag-pills" data-id="{{ $tag_category->id }}" multiple></select>
                 </div>
                 @endforeach
               </div>
             </div>
           </div><!-- /.padding-y-sm flex-grow overflow-auto -->
-
-          <div class="autocomplete position-relative  js-autocomplete" data-autocomplete-dropdown-visible-class="autocomplete--results-visible">
-            <label class="form-label margin-bottom-xxs" for="autocomplete-input">Start typing Sam:</label>
-          
-            <div class="position-relative">
-              <input class="form-control width-100% js-autocomplete__input" type="text" name="autocomplete-input" id="autocomplete-input" placeholder="Sam" autocomplete="off">
-          
-              <div class="autocomplete__loader position-absolute top-0 right-0 padding-right-sm height-100% flex items-center" aria-hidden="true">
-                <div class="circle-loader circle-loader--v1">
-                  <div class="circle-loader__circle"></div>
-                </div>
-              </div>
-            </div>
-          
-            <!-- dropdown -->
-            <div class="autocomplete__results  js-autocomplete__results">
-              <ul id="autocomplete1" class="autocomplete__list js-autocomplete__list">
-                <li class="autocomplete__item padding-y-xs padding-x-sm text-truncate js-autocomplete__item is-hidden"></li>
-              </ul>
-            </div>
-          
-            <p class="sr-only" aria-live="polite" aria-atomic="true"><span class="js-autocomplete__aria-results">0</span> results found.</p>
-          </div>
 
           <footer class="padding-y-sm bg flex-shrink-0">
             <div class="flex justify-end gap-xs">

@@ -121,6 +121,31 @@
       $form.submit();
     });
 
+    // trigger for second menu
+    $('.js-anim-second-menu').on('click', function() {
+      var target = $(this).attr('data-target');
+
+      if (target) {
+        // close already opened sub menu
+        $('.header-v2__nav--is-visible').each(function(idx, elem) {
+          if ($(elem).attr('id') !== target) {
+            $(elem).removeClass('header-v2__nav--is-visible');
+          }
+        });
+
+        // change mobile toggle menu status
+        $('.anim-menu-btn--state-b').prop('aria-expanded', false).removeClass('anim-menu-btn--state-b');
+
+        var targetMenu = document.getElementById(target);
+        $(targetMenu).toggleClass('header-v2__nav--is-visible');
+      }
+    });
+
+    $('.js-anim-menu-btn').on('click', function() {
+      // check if second menu is already opened
+      if ($('#second-menu').hasClass('header-v2__nav--is-visible'))
+        $('#second-menu').removeClass('header-v2__nav--is-visible');
+    });
   })();
 </script>
 @endauth

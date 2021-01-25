@@ -52,6 +52,58 @@
   })();
 </script>
 
+<script>
+(function() {
+  // initialize js custom input element event
+  var CustomJSInput = function (element)  {
+    this.element = element;
+    this.target = this.element.getAttribute('target');
+    this.targetElement = document.getElementById(this.target);
+
+    initCustomJSInput(this);
+    initCustomJSInputEvent(this);
+  }
+
+  // initialize element
+  function initCustomJSInput(input) {
+    input.element.setAttribute('contenteditable', true);
+  }
+
+  // initialize event
+  function initCustomJSInputEvent(input) {
+    // keyboard navigation
+    input.element.addEventListener('keydown', function(event){
+      if (event.keyCode === 13)
+        event.preventDefault();
+    });
+
+    input.element.addEventListener('input', function(event){
+      if (getCustomInputElementConent(input) === '')
+        input.element.innerHTML = '';
+      
+      if (input.element.hasAttribute('required') && getCustomInputElementConent(input) === '') {
+        Util.addClass(input.element, 'form-control--error');
+      } else {
+        Util.removeClass(input.element, 'form-control--error');
+      }
+
+      input.targetElement.value = getCustomInputElementConent(input);
+    });
+  }
+
+  function getCustomInputElementConent(input) {
+    return input.element.innerHTML.replace('<br>', '').trim();
+  }
+
+  //initialize the Custom JS Input objects
+  var customJSInputElem = document.getElementsByClassName('js-input');
+  if( customJSInputElem.length > 0 ) {
+    for( var i = 0; i < customJSInputElem.length; i++) {
+      (function(i){new CustomJSInput(customJSInputElem[i]);})(i);
+    }
+  }
+}());
+</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.6.1/tinymce.min.js"></script>
@@ -181,6 +233,16 @@
           }
         }
         break;
+      
+      default:
+        if ($(elem).hasClass('custom-input')) {
+          if ($(elem).html().trim() == '') {
+            $(elem).addClass('form-control--error');
+            isValid = false;
+          } else {
+            $(elem).removeClass('form-control--error');
+          }
+        }
     }
 
     return isValid;
@@ -205,13 +267,17 @@
     return true;
   }  
 
+  var tags_by_category = {!! $tags_by_category !!};
+
   function select2ForTags(selector){
     $(selector).select2({
       tags: true,
+      createSearchChoice:function(term, data) { if ($(data).filter(function() { return this.text.localeCompare(term)===0; }).length===0) {return {id:term, text:term};} },
+      multiple: true,
+      data: tags_by_category[$(selector).attr("data-id")],
       tokenSeparators: [","]
     }).on('select2:open', function(e){
-      $('.select2-container--open .select2-dropdown--below').css('display','none');
-
+      // $('.select2-container--open .select2-dropdown--below').css('display','none');
     }).on('select2:select', function(e) {
       validateCustomSelect(selector);
     }).on('select2:unselect', function(e) {
@@ -234,6 +300,7 @@
       * Id of Element that should contain Editor instance
       */
       holder: 'editorjs',
+      placeholder: 'Tell your story...',
       tools: {
         header: Header,
         raw: RawTool,
@@ -266,6 +333,7 @@
       * Id of Element that should contain Editor instance
       */
       holder: 'editorjs2',
+      placeholder: 'Tell your story...',
       tools: {
         header: Header,
         raw: RawTool,
@@ -395,6 +463,7 @@
           }
 
           $('#editTitle').val(response.title);
+          $('#editTitleElem').html(response.title);
           $('#editSlug').val(response.slug);
           $('#editDescription').val(response.description);
           $('#thumbnailPreview').attr('src', response.thumbnail);
