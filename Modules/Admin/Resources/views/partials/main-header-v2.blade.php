@@ -36,6 +36,8 @@
 
       <nav class="header-v2__nav color-contrast-low header-v2__nav-full-height" role="navigation">
         <ul class="header-v2__nav-list header-v2__nav-list--main">
+          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/') }}"
+            class="header-v2__nav-link" {{ Request::path() == 'admin/' ? 'aria-current' : '' }}><span>Home</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main header-v2__nav-item--has-children">
             <a href="#0" class="header-v2__nav-link">
               <span class="color-contrast-lower">Templates</span>
