@@ -16,6 +16,18 @@
                 <input type="hidden" name="description" id="description"/>
               </div>
 
+              <div class="file-upload inline-block">
+                <label for="upload2" class="file-upload__label btn btn--primary">
+                  <span class="flex items-center">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2"><path  stroke-linecap="square" stroke-linejoin="miter" d="M2 16v6h20v-6"></path><path stroke-linejoin="miter" stroke-linecap="butt" d="M12 17V2"></path><path stroke-linecap="square" stroke-linejoin="miter" d="M18 8l-6-6-6 6"></path></g></svg>
+                    
+                    <span class="margin-left-xxs file-upload__text file-upload__text--has-max-width">Upload Feature Image</span>
+                  </span>
+                </label> 
+              
+                <input type="file" class="file-upload__input" name="upload2" id="upload2" multiple>
+              </div>
+
 
             <div class="padding-top-xs">
               <input type="file" id="realThumbnail" class="is-hidden">
