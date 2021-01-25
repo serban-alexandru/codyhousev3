@@ -227,9 +227,18 @@ body {
 
 /* Editor Block Custom Style */
 .editorjs-fullwidth {
-    .ce-block__content, .ce-toolbar__content {max-width: 100%;}   
+    .ce-block__content, .ce-toolbar__content {max-width:100%;width:100%;}   
+    .ce-toolbox {margin-right:30px;}
     .ce-toolbar__plus {left: -5px;}
-    .ce-toolbar__actions {top: 15px; right:5px;}
+    .ce-toolbar__actions {
+        top: 15px; right:5px;
+    }
+}
+
+@media (min-width:651px) {
+    .editorjs-fullwidth {
+        .ce-toolbox {margin-left:30px;}
+    }
 }
 
 .fl-align-center {align-items: center;}
