@@ -279,3 +279,8 @@ body {
         color: var(--color-white);
     }
 }
+/* Interactive Table Bottom Border */
+.int-table {
+    overflow: hidden;
+    border-bottom: 0px solid var(--color-contrast-low);
+}
