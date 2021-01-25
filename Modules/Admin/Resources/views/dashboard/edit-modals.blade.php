@@ -69,7 +69,7 @@
                   </div><!-- /.margin-bottom-sm -->
                   <div class="grid gap-sm">
                       <label class="form-label margin-bottom-xxs" for="editPageTitle">Edit SEO Page Title</label>
-                      <input class="form-control width-100%" type="text" name="page_title" id="editPageTitle" required>
+                      <input class="form-control width-100%" type="text" name="page_title" id="editPageTitle">
                     <div>
 
                       <div class="date-input js-date-input">
