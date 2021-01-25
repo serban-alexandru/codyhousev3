@@ -155,7 +155,7 @@
             </div>
           </li>
           <li class="header-v2__nav-item header-v2__nav-item--main header-v2__nav-item--divider" role="separator"></li>
-          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="#0" class="btn btn--primary">Log out</a>
+          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('/logout') }}" class="btn btn--primary">Log out</a>
           </li>
 
         </ul>      
