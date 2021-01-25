@@ -100,7 +100,7 @@
 
                 <div class="grid gap-sm">
                     <label class="form-label margin-bottom-xxs" for="pageTitle">SEO Page Title <small>(Optional)</small></label>
-                    <input class="form-control width-100%" type="text" name="page_title" id="pageTitle" required>
+                    <input class="form-control width-100%" type="text" name="page_title" id="pageTitle">
                   <div>
 
                 <!-- <div class="grid gap-sm">
