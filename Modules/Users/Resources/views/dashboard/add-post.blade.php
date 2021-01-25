@@ -5,11 +5,9 @@
       <input type="hidden" name="is_published"/>
       <div class="flex">
         <div class="height-100% width-100% bg radius-md flex flex-column">
-          <header class="padding-y-sm flex items-center justify-between">
-            <h3>Add New Post</h3>
-          </header>
+
           <div class="padding-y-sm flex-grow overflow-auto">
-            <div class="padding-top-xs">
+
               <h1 class="js-input custom-input custom-input__title" placeholder="Title" target="title" required></h1>
               <input type="hidden" id="title" name="title" value="">
               
@@ -17,7 +15,7 @@
                 <div id="editorjs" data-target-input="#description" class="site-editor"></div>
                 <input type="hidden" name="description" id="description"/>
               </div>
-            </div>
+
 
             <div class="padding-top-xs">
               <input type="file" id="realThumbnail" class="is-hidden">
