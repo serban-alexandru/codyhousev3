@@ -150,7 +150,7 @@
                 <li class="header-v2__nav-item header-v2__nav-item--label">Profile settings</li>
                 <li class="header-v2__nav-item"><a href="{{ url('profile') }}" class="header-v2__nav-link">Profile</a></li>
                 <li class="header-v2__nav-item"><a href="{{ url('users/settings') }}" class="header-v2__nav-link">Edit Profile</a></li>
-                <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Logout</a></li>
+                <li class="header-v2__nav-item"><a href="{{ url('/logout') }}" class="header-v2__nav-link">Logout</a></li>
               </ul>
             </div>
           </li>
