@@ -19,6 +19,11 @@ Route::middleware('auth', 'role:admin')->group(function(){
         $settings_data = Settings::getSiteSettings();
         View::share('settings_data', $settings_data);
 
+        $font_primary = Settings::getPrimaryFontInfo();
+        View::share('font_primary', $font_primary);
+        $font_secondary = Settings::getSecondaryFontInfo();
+        View::share('font_secondary', $font_secondary);
+
         Route::get('/', 'AdminController@index');
 
         // Settings Page

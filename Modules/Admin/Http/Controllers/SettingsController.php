@@ -13,9 +13,10 @@ use Illuminate\Support\Facades\Validator;
 class SettingsController extends Controller {
   public function index() {
     $settings_data = Settings::getSiteSettings();
-    $google_fonts = Settings::getGoogleFontsList();
+    $fonts = Settings::getFontsList();
     $disable_shortcode = true;
-    return view('admin::partials\setting', compact('settings_data', 'google_fonts', 'disable_shortcode'))->withoutShortcodes();
+    
+    return view('admin::partials\setting', compact('settings_data', 'fonts', 'disable_shortcode'))->withoutShortcodes();
   }
 
   /**
