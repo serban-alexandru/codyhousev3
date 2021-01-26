@@ -7,6 +7,14 @@
   </div>
 @endif
 
+<template id="selected-id-template">
+  <input type="hidden" name="selectedIDs[]" value="@{{value}}">
+</template><!-- /#selected-id-template -->
+<form action="{{route('dashboard.delete.multiple')}}"
+  method="POST" id="form-bulk-delete"> @csrf
+  <div class="bulk-selected-ids"></div><!-- /.bulk-selected-ids -->
+</form>
+
 <div id="table-1" class="int-table text-sm js-int-table">
     <div class="int-table__inner" id="site-table-container">
       <table class="int-table__table" aria-label="Interactive table example">

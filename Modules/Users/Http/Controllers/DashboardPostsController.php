@@ -585,19 +585,22 @@ class DashboardPostsController extends Controller
 
     }
 
-    public function deleteMultiple()
+    public function deleteMultiple(Request $request)
     {
-        $this->validate(request(), [
-            'post_ids' => 'required|array'
-        ]);
+        $selectedIDs     = $request->input('selectedIDs');
 
-        Post::where('user_id', auth()->user()->id)->whereIn('id', request('post_ids'))->update(['is_deleted' => 1]);
+        // if nothing is selected just return
+        if ($selectedIDs == null) {
+            return back();
+        }
+
+        Post::where('user_id', auth()->user()->id)->whereIn('id', $selectedIDs)->update(['is_deleted' => 1]);
 
         $alert = [
             'message' => 'Posts has been deleted!',
             'class'   => '',
-        ];            
-        return redirect()->back()->with('alert', $alert);
+        ];
+        return back()->with('alert', $alert);
     }
 
     public function emptyTrash()
