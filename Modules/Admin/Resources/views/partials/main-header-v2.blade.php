@@ -104,7 +104,7 @@
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/tag') }}"
               class="header-v2__nav-link" {{ Request::path() == 'admin/tag' ? 'aria-current' : '' }}><span>Tags</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/settings') }}"
-              class="header-v2__nav-link" {{ Request::path() == 'admin/settings' ? 'aria-current' : '' }}><span>Settings & SEO</span></a></li>
+              class="header-v2__nav-link" {{ Request::path() == 'admin/settings' ? 'aria-current' : '' }}><span>Settings</span></a></li>
         </ul>
       </nav>
       <nav id="second-menu" class="header-v2__nav header-v2__nav-align-right color-contrast-low">
@@ -144,17 +144,18 @@
                 </li>
 
                 <li class="header-v2__nav-item header-v2__nav-item--divider" role="separator"></li>
-                <li class="header-v2__nav-item header-v2__nav-item--label">Admin</li>
-                <li class="header-v2__nav-item"><a href="{{ url('admin/dashboard') }}" class="header-v2__nav-link">Admin Dashboard</a></li>
-                <li class="header-v2__nav-item header-v2__nav-item--divider" role="separator"></li>
                 <li class="header-v2__nav-item header-v2__nav-item--label">Profile settings</li>
                 <li class="header-v2__nav-item"><a href="{{ url('profile') }}" class="header-v2__nav-link">Profile</a></li>
                 <li class="header-v2__nav-item"><a href="{{ url('users/settings') }}" class="header-v2__nav-link">Edit Profile</a></li>
                 <li class="header-v2__nav-item"><a href="{{ url('/logout') }}" class="header-v2__nav-link">Logout</a></li>
+
+                <li class="header-v2__nav-item header-v2__nav-item--divider" role="separator"></li>
+                <li class="header-v2__nav-item header-v2__nav-item--label">Admin</li>
+                <li class="header-v2__nav-item"><a href="{{ url('admin/dashboard') }}" class="header-v2__nav-link">Admin Dashboard</a></li>
               </ul>
             </div>
           </li>
-          <li class="header-v2__nav-item header-v2__nav-item--main header-v2__nav-item--divider" role="separator"></li>
+
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('/logout') }}" class="btn btn--primary">Log out</a>
           </li>
 

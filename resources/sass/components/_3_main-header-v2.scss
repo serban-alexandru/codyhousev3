@@ -275,7 +275,7 @@ Usage: codyhouse.co/license
   .header-v2__nav-item--main { // main nav items
     display: inline-block;
     margin-bottom: 0; // reset
-    margin-left: var(--space-md); // margin between main nav items
+    margin-left: var(--space-lg); // margin between main nav items
 
     > .header-v2__nav-link {
       padding: var(--space-xxs) 0;
