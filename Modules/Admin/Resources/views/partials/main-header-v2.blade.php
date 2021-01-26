@@ -8,7 +8,7 @@
           </div>
         </a>
         <a href="{{ url('/admin') }}">
-          <h1 class="text-md items-start padding-right-xxl color-contrast-lower">Admin</h1>
+          <h1 class="text-md items-start color-contrast-lower">Admin</h1>
         </a>
       </div>
 
@@ -34,7 +34,7 @@
         </button>
       </div>
 
-      <nav class="header-v2__nav color-contrast-low header-v2__nav-full-height" role="navigation">
+      <nav class="header-v2__nav color-contrast-low header-v2__nav-full-height margin-left-xxl@md" role="navigation">
         <ul class="header-v2__nav-list header-v2__nav-list--main">
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/') }}"
             class="header-v2__nav-link" {{ Request::path() == 'admin' ? 'aria-current' : '' }}><span>Home</span></a></li>
