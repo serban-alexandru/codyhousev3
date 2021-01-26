@@ -45,8 +45,11 @@
               class="header-v2__nav-link" {{ Request::path() == 'admin/posts' ? 'aria-current' : '' }}><span>Posts</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/tag') }}"
               class="header-v2__nav-link" {{ Request::path() == 'admin/tag' ? 'aria-current' : '' }}><span>Tags</span></a></li>
+          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/menus') }}"
+                class="header-v2__nav-link" {{ Request::path() == 'admin/settings' ? 'aria-current' : '' }}><span>Menus</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/settings') }}"
               class="header-v2__nav-link" {{ Request::path() == 'admin/settings' ? 'aria-current' : '' }}><span>Settings</span></a></li>
+
 
               <li class="header-v2__nav-item header-v2__nav-item--main header-v2__nav-item--has-children">
                 <a href="#0" class="header-v2__nav-link">
