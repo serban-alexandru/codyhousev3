@@ -554,35 +554,9 @@
 
     // Multiple post delete
     $(document).on('click', '#btnDeleteMultiple', function(){
-
       if(confirm("Are you sure you want to delete these posts?")){
-        $.ajaxSetup({
-          headers: {
-            'X-CSRF-TOKEN': $('input[name="_token"]').val()
-          }
-        });
-
-        var postIds = [];
-
-        $('.checkbox-delete').each(function(){
-          if($(this).is(':checked')){
-            postIds.push($(this).attr('value'));
-          }
-        });
-
-        $.ajax({
-          url: "{{ route('dashboard.delete.multiple') }}",
-          dataType: 'json',
-          type: 'post',
-          data: {
-            post_ids: postIds
-          },
-          success: function(response){
-            location.reload();
-          }
-        });
+        $('#form-bulk-delete').submit();
       }
-
     });
 
     // Trash icon badge update
