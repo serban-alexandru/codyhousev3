@@ -95,12 +95,12 @@
                 <div class="floating-label margin-bottom-md margin-top-md">
                   <label class="form-label" for="font_primary">Primary Font</label>
                   <div class="grid gap-sm custom-select">
-                    <?php $font_primary = ($settings_data['font_primary']) ? $settings_data['font_primary'] : ''; ?>
+                    <?php $primaryfont = ($settings_data['font_primary']) ? $settings_data['font_primary'] : ''; ?>
                     <select name="font_primary" id="font_primary" data-placeholder="Select Primary Font">
-                    @foreach($google_fonts as $font_name)
+                    @foreach($fonts as $font_name)
                       <option
                         value="{{ $font_name }}"
-                        @if($font_name == $font_primary)
+                        @if($font_name == $primaryfont)
                           selected
                         @endif
                       >{{ $font_name }}</option>
@@ -112,12 +112,12 @@
                 <div class="floating-label margin-bottom-md margin-top-xs">
                   <label class="form-label" for="font_secondary">Secondary Font</label>
                   <div class="grid gap-sm custom-select">
-                    <?php $font_secondary = ($settings_data['font_secondary']) ? $settings_data['font_secondary'] : ''; ?>
+                    <?php $secondaryfont = ($settings_data['font_secondary']) ? $settings_data['font_secondary'] : ''; ?>
                     <select name="font_secondary" id="font_secondary" data-placeholder="Select Secondary Font">
-                    @foreach($google_fonts as $font_name)
+                    @foreach($fonts as $font_name)
                       <option
                         value="{{ $font_name }}"
-                        @if($font_name == $font_secondary)
+                        @if($font_name == $secondaryfont)
                           selected
                         @endif
                       >{{ $font_name }}</option>

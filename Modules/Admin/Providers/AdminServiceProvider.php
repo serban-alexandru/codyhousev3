@@ -18,55 +18,6 @@ class AdminServiceProvider extends ServiceProvider
     protected $moduleNameLower = 'admin';
 
     /**
-     * The default google fonts list to be used on settings page
-     * @var array $gFonts
-     */
-    public const GOOGLE_FONTS = array (
-        'Alegreya',
-        'Alegreya Sans',
-        'Anonymous Pro',
-        'Archivo Narrow',
-        'Arvo',
-        'BioRhyme',
-        'Cabin',
-        'Cardo',
-        'Chivo',
-        'Cormorant',
-        'Crimson Text',
-        'Eczar',
-        'Fira Sans',
-        'IBM Plex Sans',
-        'Inconsolata',
-        'Inknut Antiqua',
-        'Inter',
-        'Karla',
-        'Lato',
-        'Libre Baskerville',
-        'Libre Franklin',
-        'Lora',
-        'Merriweather',
-        'Montserrat',
-        'Neuton',
-        'Open Sans',
-        'Oswald',
-        'PT Sans',
-        'PT Serif',
-        'Playfair Display',
-        'Poppins',
-        'Proza Libre',
-        'Raleway',
-        'Roboto',
-        'Roboto Condensed',
-        'Roboto Slab',
-        'Rubik',
-        'Source Sans Pro',
-        'Source Serif Pro',
-        'Space Mono',
-        'Spectral',
-        'Work Sans'    
-    );
-    
-    /**
      * Primary Font
      * @var string $primary_font
      */
