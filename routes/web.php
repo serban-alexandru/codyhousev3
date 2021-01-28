@@ -53,7 +53,7 @@ Route::get('/site1/home',function(){
 });
 
 Route::get('/site2',function(){
-  return view('site2.index');
+  return view('templates.blog.site2.index');
 });
 
 Route::group([
