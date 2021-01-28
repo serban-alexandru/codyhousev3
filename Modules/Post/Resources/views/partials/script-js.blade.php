@@ -105,7 +105,7 @@
 }());
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script src="{{ asset('assets/js/select2.min.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.6.1/tinymce.min.js"></script>
 <script>
   function getTiny(urls, sltr){
@@ -269,13 +269,46 @@
 
   var tags_by_category = {!! $tags_by_category !!};
 
+  function matchCustom(params, data) {
+    // If there are no search terms, return null to prevent show all tags
+    if ($.trim(params.term) === '') {
+      return null;
+    }
+
+    // Do not display the item if there is no 'text' property
+    if (typeof data.text === 'undefined') {
+      return null;
+    }
+
+    // `params.term` should be the term that is used for searching
+    // `data.text` is the text that is displayed for the data object
+    if (data.text.toLowerCase().indexOf(params.term) > -1) {
+      var modifiedData = $.extend({}, data, true);
+
+      // You can return modified objects from here
+      // This includes matching the `children` how you want in nested data sets
+      return modifiedData;
+    }
+
+    // Return `null` if the term should not be displayed
+    return null;
+  } 
+
   function select2ForTags(selector){
     $(selector).select2({
       tags: true,
-      createSearchChoice:function(term, data) { if ($(data).filter(function() { return this.text.localeCompare(term)===0; }).length===0) {return {id:term, text:term};} },
-      multiple: true,
+      hideAdded: true,
       data: tags_by_category[$(selector).attr("data-id")],
-      tokenSeparators: [","]
+      tokenSeparators: [","],
+      matcher: matchCustom,
+      minimumInputLength: 2
+    }).on('select2:opening', function(e){
+      var $searchfield = $(selector).parent().find('.select2-search__field');
+
+      if ($searchfield.val() == '')
+        return false;
+      else
+        return true;
     }).on('select2:open', function(e){
       // $('.select2-container--open .select2-dropdown--below').css('display','none');
     }).on('select2:select', function(e) {
