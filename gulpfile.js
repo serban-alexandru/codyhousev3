@@ -16,7 +16,9 @@ var purgecss = require('gulp-purgecss');
 // js file paths
 var utilJsPath = "node_modules/codyhouse-framework/main/assets/js"; // util.js path - you may need to update this if including the framework as external node module
 var componentsJsPath = "resources/js/components/*.js"; // component js files
+var select2JsPath = "resources/js/select2/"; // custom select js file
 var scriptsJsPath = "public/assets/js"; //folder for final scripts.js/scripts.min.js files
+
 
 // css file paths
 var cssFolder = "public/assets/css"; // folder for final style.css/style-custom-prop-fallbac.css files
@@ -68,6 +70,27 @@ gulp.task("scripts", function() {
         );
 });
 
+gulp.task("customselect", function() {
+  return gulp
+      .src([
+        select2JsPath + "/select2.js"
+      ])
+      .pipe(gulp.dest(scriptsJsPath))
+      .pipe(
+          browserSync.reload({
+              stream: true
+          })
+      )
+      .pipe(rename("select2.min.js"))
+      .pipe(uglify())
+      .pipe(gulp.dest(scriptsJsPath))
+      .pipe(
+          browserSync.reload({
+              stream: true
+          })
+      );
+});
+
 gulp.task(
     "browserSync",
     gulp.series(function(done) {
@@ -87,7 +110,7 @@ gulp.task(
 );
 
 
-gulp.task('watch', gulp.series(['sass', 'scripts', 'browserSync'], function () {
+gulp.task('watch', gulp.series(['sass', 'scripts', 'customselect', 'browserSync'], function () {
     connect.server({}, function (){
       browserSync.reload({
         proxy: projectPath,
@@ -99,7 +122,7 @@ gulp.task('watch', gulp.series(['sass', 'scripts', 'browserSync'], function () {
     gulp.watch("resources/views/**/*.php", gulp.series(reload));
     gulp.watch("resources/views/**/*.html", gulp.series(reload));
     gulp.watch("resources/sass/**/*.scss", gulp.series(["sass"]));
-    gulp.watch(componentsJsPath, gulp.series(['scripts']));
+    gulp.watch(componentsJsPath, gulp.series(['scripts', 'customselect']));
   }));
 
   /* Gulp dist task */
