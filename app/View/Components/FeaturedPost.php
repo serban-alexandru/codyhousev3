@@ -51,6 +51,6 @@ class FeaturedPost extends Component
      */
     public function render()
     {
-        return view('components.featured-post');
+        return view('components.posts.lists.featured-post');
     }
 }
