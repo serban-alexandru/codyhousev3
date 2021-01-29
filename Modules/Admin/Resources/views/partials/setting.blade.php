@@ -94,6 +94,7 @@
                 <h4>Font Setting</h4>
                 <div class="floating-label margin-bottom-md margin-top-md">
                   <label class="form-label" for="font_primary">Primary Font</label>
+                  
                   <div class="grid gap-sm custom-select">
                     <?php $primaryfont = ($settings_data['font_primary']) ? $settings_data['font_primary'] : ''; ?>
                     <select name="font_primary" id="font_primary" data-placeholder="Select Primary Font">
@@ -127,11 +128,34 @@
                 </div>
               </div>
 
+              <div class="flex flex-column items-start">
+                <label class="form-label margin-bottom-xxxs" for="selectThis">Select:</label>
+                
+                <div class="select inline-block js-select" data-trigger-class="btn btn--subtle">
+                  <select name="selectThis" id="selectThis">
+                    <optgroup label="Group 1">
+                      <option value="0" selected>Select option</option>
+                      <option value="1">Option 1</option>
+                      <option value="2">Option 2</option>
+                    </optgroup>
+                
+                    <optgroup label="Group 2">
+                      <option value="3">Option 3</option>
+                      <option value="4">Option 4</option>
+                      <option value="5">Option 5</option>
+                    </optgroup>
+                  </select>
+                  
+                  <svg class="icon icon--xs margin-left-xxxs" aria-hidden="true" viewBox="0 0 16 16"><polygon points="3,5 8,11 13,5 "></polygon></svg>
+                </div>
+              </div>
+
               <button id="btnSave" class="btn btn--primary">Save</button>
 
             </fieldset>
           </form>
   </section>
+
 @endsection
 
 @push('module-scripts')
