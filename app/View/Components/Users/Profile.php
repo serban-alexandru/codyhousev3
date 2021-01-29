@@ -27,4 +27,5 @@ class Profile extends Component
     {
         return view('components.users.profile');
     }
+
 }
