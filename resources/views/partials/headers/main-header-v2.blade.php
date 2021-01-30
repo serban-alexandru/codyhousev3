@@ -116,7 +116,7 @@
 <!-- END-->
 
 <!-- Search Form -->
-      <div class="search-input search-input--icon-right padding-left-xl hide@xs">
+      <div class="search-input search-input--icon-right padding-left-xxl">
         <input class="search-input__input form-control" type="search" name="search-input" id="search-input" placeholder="Search..." aria-label="Search">
         <button class="search-input__btn">
           <svg class="icon" viewBox="0 0 24 24"><title>Submit</title><g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" stroke="currentColor" fill="none" stroke-miterlimit="10"><line x1="22" y1="22" x2="15.656" y2="15.656"></line><circle cx="10" cy="10" r="8"></circle></g></svg>
