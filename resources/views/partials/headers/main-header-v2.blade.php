@@ -2,16 +2,23 @@
   <div class="header-v2__wrapper">
     <div class="header-v2__container container max-width-lg">
       <div class="header-v2__sub-container">
+
+<!-- LOGO-->
         <a class="header-v2__logo" href="{{ url('/') }}">
           <div class="flex">
             {!! !empty($settings_data['logo_svg']) ? $settings_data['logo_svg'] : '' !!}
           </div>
         </a>
+<!-- END-->
+
+<!-- Logo Text-->
         <a href="{{ url('/') }}">
           <h1 class="logo">{{ !empty($settings_data['logo_title']) ? $settings_data['logo_title'] : '' }}</h1>
         </a>
       </div>
+<!-- END-->
 
+<!-- User Icon and Drop-down Desktop-->
       <div class="mobile-btn flex">
         <button class="header-v2__nav-control reset anim-menu-btn js-anim-second-menu" data-target="second-menu">
           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
@@ -106,6 +113,18 @@
 
         </ul>
       </nav>
+<!-- END-->
+
+<!-- Search Form -->
+      <div class="search-input search-input--icon-right padding-left-xl hide@xs">
+        <input class="search-input__input form-control" type="search" name="search-input" id="search-input" placeholder="Search..." aria-label="Search">
+        <button class="search-input__btn">
+          <svg class="icon" viewBox="0 0 24 24"><title>Submit</title><g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" stroke="currentColor" fill="none" stroke-miterlimit="10"><line x1="22" y1="22" x2="15.656" y2="15.656"></line><circle cx="10" cy="10" r="8"></circle></g></svg>
+        </button>
+      </div>
+<!-- END -->
+
+<!-- User Icon and Drop-down Mobile-->
       <nav id="second-menu" class="header-v2__nav header-v2__nav-align-right color-contrast-low">
         <ul class="header-v2__nav-list header-v2__nav-list--main">
           <li class="header-v2__nav-item header-v2__nav-item--main header-v2__nav-item--has-children">
@@ -154,10 +173,13 @@
               </ul>
             </div>
           </li>
+<!-- END -->
 
+<!-- Login and Sign-up buttons -->
           <li class="header-v2__nav-item padding-right-sm padding-left-md"><a href="{{ url('/logout') }}" class="btn btn--subtle">Login</a>
           <li class="header-v2__nav-item"><a href="{{ url('/logout') }}" class="btn btn--primary">Signup</a>
           </li>
+<!-- END -->
 
         </ul>      
       </nav>      
