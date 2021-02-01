@@ -75,6 +75,9 @@
             <li><a href="{{ url('profile') }}" class="dropdown__item">Profile</a></li>
             <li class="dropdown__separator" role="separator"></li>
             <li><a href="{{ url('users/settings') }}" class="dropdown__item">Account Settings</a></li>
+            @if(auth()->user()->isAdmin())
+            <li><a href="{{ url('admin') }}" class="dropdown__item">Admin Dashboard</a></li>
+            @endif
             <li><a href="{{ url('/logout') }}" class="dropdown__item">Log out</a></li>
           </ul>
         </div><!-- /.mega-nav__icon-btn dropdown__wrapper inline-block -->
@@ -166,6 +169,9 @@
                   <li><a href="{{ url('profile') }}" class="dropdown__item">Profile</a></li>
                   <li class="dropdown__separator" role="separator"></li>
                   <li><a href="{{ url('users/settings') }}" class="dropdown__item">Account Settings</a></li>
+                  @if(auth()->user()->isAdmin())
+                  <li><a href="{{ url('admin') }}" class="dropdown__item">Admin Dashboard</a></li>
+                  @endif
                   <li><a href="{{ url('/logout') }}" class="dropdown__item">Log out</a></li>
                 </ul>
               </div><!-- /.mega-nav__icon-btn dropdown__wrapper inline-block -->
