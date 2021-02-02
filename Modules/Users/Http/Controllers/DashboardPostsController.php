@@ -142,6 +142,40 @@ class DashboardPostsController extends Controller
         );
     }
 
+    public function addPost() {
+        if (auth()->user()->isAdmin()) {
+            // get all posts count
+            $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->count();
+            $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
+            $posts_pending_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
+            $posts_deleted_count = Post::where('is_deleted', 1)->count();
+
+        } else {
+            // get user specific posts count
+            $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->where('user_id', auth()->user()->id)->count();
+            $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->where('user_id', auth()->user()->id)->count();
+            $posts_pending_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->where('user_id', auth()->user()->id)->count();
+            $posts_deleted_count = Post::where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();    
+        }
+
+        $tag_categories = TagCategory::all();
+
+        // get all tags
+        $tags_by_category = array();
+        $tags = Tag::where('published', true)->orderBy('name', 'asc')->get();
+        foreach($tags as $tag) {
+            if (!isset($tags_by_category[$tag->tag_category_id]))
+                $tags_by_category[$tag->tag_category_id] = array();
+            $tags_by_category[$tag->tag_category_id][] = $tag->name;
+        }
+        $tags_by_category = json_encode($tags_by_category);
+
+        return view('users::dashboard.new-post-page', compact(
+            'posts_published_count', 'posts_draft_count', 'posts_pending_count', 'posts_deleted_count', 'tag_categories', 'tags_by_category'
+            )
+        );
+    }
+
     public function settings()
     {
         if (auth()->user()->isAdmin()) {
@@ -317,7 +351,10 @@ class DashboardPostsController extends Controller
             $alert['message'] = 'Your post will be reviewed soon.';
         }
 
-        return redirect()->back()->with('alert', $alert);
+        if (request()->has('redirect'))
+            return redirect('dashboard')->with('alert', $alert);
+        else
+            return redirect()->back()->with('alert', $alert);
     }
 
     public function fetchDataAjax($id)

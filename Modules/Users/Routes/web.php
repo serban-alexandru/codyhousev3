@@ -85,6 +85,8 @@ Route::group([
   Route::get('/', 'DashboardPostsController@index');
   Route::get('/settings', 'DashboardPostsController@settings');
 
+  Route::get('/add-post', 'DashboardPostsController@addPost');
+
   Route::post('/store', [
     'as' => 'dashboard.store',
     'uses' => 'DashboardPostsController@store'
