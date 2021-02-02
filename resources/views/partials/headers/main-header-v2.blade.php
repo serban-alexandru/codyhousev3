@@ -169,7 +169,7 @@
 
                 <li class="header-v2__nav-item header-v2__nav-item--divider" role="separator"></li>
                 <li class="header-v2__nav-item header-v2__nav-item--label">Admin</li>
-                <li class="header-v2__nav-item"><a href="{{ url('admin/dashboard') }}" class="header-v2__nav-link">Admin Dashboard</a></li>
+                <li class="header-v2__nav-item"><a href="{{ url('admin') }}" class="header-v2__nav-link">Admin Dashboard</a></li>
               </ul>
             </div>
           </li>

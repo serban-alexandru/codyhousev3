@@ -1,18 +1,7 @@
 @auth
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-
 <script>
   $(function(){
-
-    function select2ForTags(selector){
-      $(selector).select2();
-    }
-
-    $('select').each(function(){
-      select2ForTags(this);
-    });
-
     function showErrorMsg(errors) {
       $('.alert').addClass('alert-danger').removeClass('alert-success');
       $('.alert .msg-container').html("");

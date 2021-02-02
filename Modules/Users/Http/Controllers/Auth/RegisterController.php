@@ -90,7 +90,7 @@ class RegisterController extends Controller
 
         Auth::loginUsingId($user->id);
 
-        $redirect_url = $user->permission === Role::where('key', 'admin')->first()->permission ? url('/admin/dashboard') : RouteServiceProvider::HOME;
+        $redirect_url = $user->permission === Role::where('key', 'admin')->first()->permission ? url('/admin') : RouteServiceProvider::HOME;
 
         return response()->json([
             'status'  => 'success',
