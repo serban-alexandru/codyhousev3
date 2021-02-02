@@ -234,12 +234,15 @@
       case 'INPUT':
         if ($(elem).prop('type') == 'file') {
           // file control
+          $upload_alert_wrp = $('.file-upload .alert');
           if ($(elem).val() == '') {
+            $upload_alert_wrp.addClass('alert--is-visible');
             $(elem).addClass('form-control--error');
             $(elem).parent('.ddf__area').addClass('form-control--error');
             isValid = false;
 
           } else {
+            $upload_alert_wrp.removeClass('alert--is-visible');
             $(elem).removeClass('form-control--error');
             $(elem).parent('.ddf__area').removeClass('form-control--error');
           }
