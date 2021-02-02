@@ -13,7 +13,6 @@
 
 <script>
   (function(){
-
     // Close modal trigger
     $('[data-toggle="close-modal"]').on('click', function(){
       var $this = $(this);
@@ -22,7 +21,6 @@
       closeModalBtn.click();
     });
 
-
     // load content when user clicked on sidebar links
     $(document).on('click', '.ajax-link', function (e) {
       e.preventDefault();
@@ -30,6 +28,8 @@
       var url = $this.attr('href');
 
       $('meta[name="current-url"]').attr('content', url);
+
+      localStorage.setItem("cs_user_dashboard_init_tab", $(this).attr('data-tab'));
 
       // loads page content inside this element
       $('#site-table-with-pagination-container').load(url, function(){
@@ -51,6 +51,16 @@
 
       $('.subnav__item a').removeAttr('aria-current');
       $(this).attr('aria-current', 'page');
+    });
+
+    $(document).ready(function() {
+      // init reload previous tab logic
+      var init_tab = localStorage.getItem("cs_user_dashboard_init_tab");
+      if (init_tab != null && document.referrer == document.location) {
+        $('[data-tab="' + init_tab + '"]').trigger('click');
+      } else {
+        localStorage.setItem("cs_admin_post_init_tab", ""); // clear
+      }
     });
   })();
 </script>
@@ -157,7 +167,6 @@
   function validatePostTagFields(form) {
     var isValid = false;
 
-    console.log($(form).attr('id'));
     $tag_elems_wrp = $(form).find('.post-tag-wrp');
     $tag_elems_alert_wrp = $tag_elems_wrp.find('.alert');
     $tag_elems = $tag_elems_wrp.find('select');
@@ -339,71 +348,77 @@
 
     const ImageTool = window.ImageTool;
 
-    var editor = new EditorJS({
-      /**
-      * Id of Element that should contain Editor instance
-      */
-      holder: 'editorjs',
-      placeholder: 'Tell your story...',
-      tools: {
-        header: Header,
-        raw: RawTool,
-        image: {
-          class: ImageTool,
-          config: {
-            endpoints: {
-              byFile: window.location.origin + '/editorjs/upload-image'
-            },
-            additionalRequestHeaders : {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    var editor = null;
+    if ($('#editorjs').length > 0) {
+      editor = new EditorJS({
+        /**
+        * Id of Element that should contain Editor instance
+        */
+        holder: 'editorjs',
+        placeholder: 'Tell your story...',
+        tools: {
+          header: Header,
+          raw: RawTool,
+          image: {
+            class: ImageTool,
+            config: {
+              endpoints: {
+                byFile: window.location.origin + '/editorjs/upload-image'
+              },
+              additionalRequestHeaders : {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
             }
+          },
+          embed: Embed,
+          quote: Quote,
+          checklist: {
+            class: Checklist,
+            inlineToolbar: true,
+          },
+          list: {
+            class: List,
+            inlineToolbar: true,
           }
-        },
-        embed: Embed,
-        quote: Quote,
-        checklist: {
-          class: Checklist,
-          inlineToolbar: true,
-        },
-        list: {
-          class: List,
-          inlineToolbar: true,
         }
-      }
-    });
+      });
+    }
 
-    var editor2 = new EditorJS({
-      /**
-      * Id of Element that should contain Editor instance
-      */
-      holder: 'editorjs2',
-      placeholder: 'Tell your story...',
-      tools: {
-        header: Header,
-        raw: RawTool,
-        image: {
-          class: ImageTool,
-          config: {
-            endpoints: {
-              byFile: window.location.origin + '/editorjs/upload-image'
-            },
-            additionalRequestHeaders : {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    var editor2 = null;
+    if ($('#editorjs2').length > 0) {
+      editor2 = new EditorJS({
+        /**
+        * Id of Element that should contain Editor instance
+        */
+        holder: 'editorjs2',
+        placeholder: 'Tell your story...',
+        tools: {
+          header: Header,
+          raw: RawTool,
+          image: {
+            class: ImageTool,
+            config: {
+              endpoints: {
+                byFile: window.location.origin + '/editorjs/upload-image'
+              },
+              additionalRequestHeaders : {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
             }
+          },
+          embed: Embed,
+          quote: Quote,
+          checklist: {
+            class: Checklist,
+            inlineToolbar: true,
+          },
+          list: {
+            class: List,
+            inlineToolbar: true,
           }
-        },
-        embed: Embed,
-        quote: Quote,
-        checklist: {
-          class: Checklist,
-          inlineToolbar: true,
-        },
-        list: {
-          class: List,
-          inlineToolbar: true,
         }
-      }
-    });
+      });
+    }
 
     // used editorjs for add post form
     $('.site-editor').on('input click', function(){
