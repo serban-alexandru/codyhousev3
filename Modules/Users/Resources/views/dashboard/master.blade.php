@@ -32,9 +32,6 @@
 <body>
 
   @include('site1.partials.header')
-  @include('users::dashboard.sub-nav')
-
-
   @yield('content')
   @include('site1.partials.footer')
 
