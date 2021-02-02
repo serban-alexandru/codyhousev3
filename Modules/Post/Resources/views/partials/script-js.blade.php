@@ -31,6 +31,8 @@
 
       $('meta[name="current-url"]').attr('content', url);
 
+      localStorage.setItem("cs_admin_post_init_tab", $(this).attr('data-tab'));
+
       // loads page content inside this element
       $('#site-table-with-pagination-container').load(url, function(){
         // Apply pagination dynamically
@@ -47,6 +49,16 @@
 
       $('.sidenav__item a').removeAttr('aria-current');
       $(this).attr('aria-current', 'page');
+    });
+
+    $(document).ready(function() {
+      // init reload previous tab logic
+      var init_tab = localStorage.getItem("cs_admin_post_init_tab");
+      if (init_tab != null && document.referrer == document.location) {
+        $('[data-tab="' + init_tab + '"]').trigger('click');
+      } else {
+        localStorage.setItem("cs_admin_post_init_tab", ""); // clear
+      }
     });
 
   })();
