@@ -97,7 +97,7 @@ class LoginController extends Controller
 
     public function ajaxShowForm(Request $request)
     {
-        return view('users::forms.signin');
+        return view('components.auth.login-form');
     }
 
 }

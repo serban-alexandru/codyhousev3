@@ -1,4 +1,3 @@
-
     <div class="alert js-alert margin-bottom-lg" role="alert"> <!-- /.alert--is-visible -->
       <div class="flex items-center justify-between">
         <div class="flex items-center">
@@ -9,32 +8,29 @@
     </div>
 
     <div class="margin-bottom-sm">
-      <input class="form-control width-100%" type="text" name="name" id="name" placeholder="Enter Full Name">
+      <input class="form-control width-100%" type="text" name="name" id="name" value="{{$user->name}}" @error('name') aria-invalid="true" @enderror placeholder="Name">
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
 
     <div class="margin-bottom-sm">
-      <input class="form-control width-100%" type="email" name="email" id="email" placeholder="email@myemail.com">
+      <input class="form-control width-100%" type="email" name="email" id="email" value="{{$user->email}}" placeholder="email@myemail.com" @error('email') aria-invalid="true" @enderror>
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
 
     <div class="margin-bottom-sm">
-      <input class="form-control width-100%" type="text" name="username" id="username" placeholder="Enter username">
+      <input class="form-control width-100%" type="text" name="username" id="username" value="{{$user->username}}" @error('username') aria-invalid="true" @enderror placeholder="Username">
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
 
     <div class="margin-bottom-sm">
-      <input class="form-control width-100%" type="text" name="password" id="password" placeholder="Enter Password">
-      <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
-    </div>
-
-    <div class="margin-bottom-sm">
+      <label class="form-label margin-bottom-xxxs" for="role">Select role</label>
       <div class="select">
-        <select class="select__input form-control" name="role" id="role">
+        <select class="select__input form-control" name="role" id="role" @if(auth()->user()->id == $user->id) disabled @endif>
           @php
             foreach($roles as $role){
+              $permission = ($user->permission == 0) ? $user->previous_permission : $user->permission;
           @endphp
-            <option value="{{$role->key}}">{{$role->name}}</option>
+            <option value="{{$role->key}}" @if($permission === $role->permission) selected @endif>{{$role->name}}</option>
           @php
             }
           @endphp
@@ -42,24 +38,30 @@
 
         <svg class="icon select__icon" aria-hidden="true" viewBox="0 0 16 16"><g stroke-width="1" stroke="currentColor"><polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="15.5,4.5 8,12 0.5,4.5 "></polyline></g></svg>
       </div><!-- /.select -->
+      @if(auth()->user()->id == $user->id)
+        <p class="text-xs color-contrast-medium margin-top-xxs">You cannot change your role while logged in.</p>
+      @endif
     </div>
 
     <div class="margin-bottom-sm">
-      <textarea class="form-control width-100%" type="text" name="bio" id="bio" @error('bio') aria-invalid="true" @enderror placeholder="Enter Bio (Optional)"></textarea>
+      <textarea class="form-control width-100%" type="text" name="bio" id="bio" @error('bio') aria-invalid="true" @enderror placeholder="Bio (optional)">{{ ($user->account_setting) ? $user->account_setting->bio : '' }}</textarea>
       <div role="alert" class="form-error-msg"></div>
     </div>
 
     <div class="margin-bottom-sm">
-      <input class="form-control width-100%" type="text" name="twitter_link" id="twitterLink" @error('twitter_link') aria-invalid="true" @enderror placeholder="Twitter link (Optional)">
+      <input class="form-control width-100%" type="text" name="twitter_link" id="twitterLink" value="{{ ($user->account_setting) ? $user->account_setting->twitter_link : '' }}" @error('twitter_link') aria-invalid="true" @enderror placeholder="Twitter link (optional)">
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
 
     <div class="margin-bottom-sm">
-      <input class="form-control width-100%" type="text" name="facebook_link" id="facebookLink" @error('facebook_link') aria-invalid="true" @enderror placeholder="Facebook link (Optional)">
+      <input class="form-control width-100%" type="text" name="facebook_link" id="facebookLink" value="{{ ($user->account_setting) ? $user->account_setting->facebook_link : '' }}" @error('facebook_link') aria-invalid="true" @enderror placeholder="Facebook link (optional)">
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
 
     <div class="margin-bottom-sm">
-      <input class="form-control width-100%" type="text" name="instagram_link" id="instagramLink" @error('instagram_link') aria-invalid="true" @enderror placeholder="Instagram link (Optional)">
+      <input class="form-control width-100%" type="text" name="instagram_link" id="instagramLink" value="{{ ($user->account_setting) ? $user->account_setting->instagram_link : '' }}" @error('instagram_link') aria-invalid="true" @enderror placeholder="Instagram link (optional)">
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
+
+    <input type="hidden" class="user-id" value="{{ $user->id }}">
+    <input type="hidden" value="{{ $user->getAvatar() }}" class="input-user-avatar" data-avatar="{{ $user->avatar }}">

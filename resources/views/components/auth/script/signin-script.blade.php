@@ -1,7 +1,7 @@
 @guest
 <script>
   (function(){
-
+    console.log('signin script2');
     // toggle hide/ show password
     // use this only on dynamically loaded content
     // remove this block of code when not using dynamically loaded content

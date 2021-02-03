@@ -130,7 +130,7 @@ class UsersController extends Controller
     public function create()
     {
         $roles = DB::table('roles')->orderBy('id', 'desc')->get();
-        return view('users::forms.add-user', compact('roles'));
+        return view('components.users.add-user-form', compact('roles'));
     }
 
     /**
@@ -222,7 +222,7 @@ class UsersController extends Controller
             return redirect('admin/users')->with('responseMessage', 'User not found.');
         }
 
-        return view('users::forms.edit-user', compact('user', 'roles'))->withoutShortcodes();
+        return view('components.users.edit-user-form', compact('user', 'roles'))->withoutShortcodes();
     }
 
     /**

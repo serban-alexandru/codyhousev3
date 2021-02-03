@@ -108,6 +108,6 @@ class RegisterController extends Controller
 
     public function ajaxShowForm(Request $request)
     {
-        return view('users::forms.signup');
+        return view('components.auth.register-form');
     }
 }

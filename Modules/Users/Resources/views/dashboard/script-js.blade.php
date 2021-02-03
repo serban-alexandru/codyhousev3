@@ -53,15 +53,13 @@
       $(this).attr('aria-current', 'page');
     });
 
-    $(document).ready(function() {
-      // init reload previous tab logic
-      var init_tab = localStorage.getItem("cs_user_dashboard_init_tab");
-      if (init_tab != null && document.referrer == document.location) {
-        $('[data-tab="' + init_tab + '"]').trigger('click');
-      } else {
-        localStorage.setItem("cs_admin_post_init_tab", ""); // clear
-      }
-    });
+    // init reload previous tab logic
+    var init_tab = localStorage.getItem("cs_user_dashboard_init_tab");
+    if (init_tab != null && document.referrer == document.location) {
+      $('[data-tab="' + init_tab + '"]').trigger('click');
+    } else {
+      localStorage.setItem("cs_admin_post_init_tab", ""); // clear
+    }
   })();
 </script>
 
