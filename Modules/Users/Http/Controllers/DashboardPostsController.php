@@ -370,7 +370,7 @@ class DashboardPostsController extends Controller
         if (!auth()->user()->isAdmin() && $post->is_published && !$post->is_deleted) {
             $alert = [
                 'status' => false,
-                'message' => 'You are not authorized to edit published post',
+                'message' => 'Published post cannot be edited. Please email us if there is a mistake on your post',
                 'class'   => 'alert--error',
             ];
     
