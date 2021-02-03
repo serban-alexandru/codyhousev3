@@ -160,6 +160,13 @@
       tinymce.init(editor_config);
   }
 
+  function showNotificationBox(data) {
+    $('#notification-box').removeClass('alert--error').removeClass('alert--success');
+    $('#notification-box').addClass(data.class);
+    $('#notification-box .message').html(data.message);
+    $('#notification-box').addClass('alert--is-visible');
+  }
+
   /** Form Fields Validation Module */
   // post tag fields validation
   function validatePostTagFields(form) {
@@ -509,7 +516,12 @@
         url: editUrl,
         dataType: 'json',
         type: 'get',
-        success: function(response){
+        success: function(response) {
+          if (response.status === false) {
+            showNotificationBox(response);
+            return;
+          }
+          
           var allTagsPerCategory = JSON.parse(response.tags);
 
           for (let i = 0; i < allTagsPerCategory.length; i++) {
