@@ -367,6 +367,16 @@ class DashboardPostsController extends Controller
             ]);
         }
 
+        if (!auth()->user()->isAdmin() && $post->is_published && !$post->is_deleted) {
+            $alert = [
+                'status' => false,
+                'message' => 'You are not authorized to edit published post',
+                'class'   => 'alert--error',
+            ];
+    
+            return json_encode($alert);
+        }
+
         $data = [];
 
         $data['id']           = $post->id;
@@ -423,6 +433,15 @@ class DashboardPostsController extends Controller
         if (!$post) {
             $alert = [
                 'message' => 'Post does not exists!',
+                'class'   => 'alert--error',
+            ];
+    
+            return redirect()->back()->with('alert', $alert);    
+        }
+
+        if (!auth()->user()->isAdmin() && $post->is_published && !$post->is_deleted) {
+            $alert = [
+                'message' => 'You are not authorized to edit published post',
                 'class'   => 'alert--error',
             ];
     

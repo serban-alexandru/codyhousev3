@@ -178,11 +178,17 @@
                 @endif
               </td>
 
-              <td class="int-table__cell cursor-pointer" aria-controls="modal-edit-post" data-id="{{ $post->id }}">
-                <a href="#0">
+                @if (!auth()->user()->isAdmin() && $post->is_published && !$post->is_deleted)
+                <td class="int-table__cell cursor-pointer" data-id="{{ $post->id }}">
                   {{ Str::limit($post->title, 47) }}
-                </a>
-              </td>
+                </td>
+                @else
+                <td class="int-table__cell cursor-pointer" aria-controls="modal-edit-post" data-id="{{ $post->id }}">
+                  <a href="#0">
+                    {{ Str::limit($post->title, 47) }}
+                  </a>
+                </td>
+                @endif
 
               @if ( auth()->user()->isAdmin() ) 
               <td class="int-table__cell">{{ $post->username }}</td>
