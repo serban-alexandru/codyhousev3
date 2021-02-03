@@ -213,9 +213,9 @@ body {
   }
 
 /* Form Validation */
-.select2 .form-control--error,
-.select2 .form-control[aria-invalid="true"] {
-  border-color: var(--color-error);
+.select2-container--default .form-control--error,
+.select2-container--default .form-control[aria-invalid="true"] {
+  border-color: var(--color-error) !important;
 }
 
 /* Sticky Bar Style */
