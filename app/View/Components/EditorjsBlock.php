@@ -205,12 +205,15 @@ class EditorjsBlock extends Component
         $alignment     = $block_data->alignment;
 
         $html = '
-            <blockquote style="text-align: ' . $alignment . '">
-                <p>' . $block_text . '</p>
-                <footer>
-                    <cite title="' . $block_caption . '">' . $block_caption . '</cite>
-                </footer>
-            </blockquote>
+            <blockquote class="position-relative z-index-1 bg-contrast-lower text-center padding-y-xxl" style="text-align: ' . $alignment . '">
+            <div class="container max-width-adaptive-sm">
+              <svg class="icon icon--xxl color-contrast-low" aria-hidden="true" viewBox="0 0 64 64"><polygon fill="currentColor" points="2 36 17 2 26 2 15 36 26 36 26 62 2 62 2 36"/><polygon fill="currentColor" points="38 36 53 2 62 2 51 36 62 36 62 62 38 62 38 36"/></svg>
+              <div class="text-component margin-top-lg">
+                <p class="text-xl">' . $block_text . '</p>
+              </div>
+              <footer class="margin-top-lg">&mdash; ' . $block_caption . '</footer>
+            </div>
+          </blockquote>          
         ';
 
         return $html;
