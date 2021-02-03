@@ -485,8 +485,8 @@ class DashboardPostsController extends Controller
             }
         }
 
-        $is_published = (request('is_published') && !auth()->user()->isRegisteredUser())?? $post->is_published;
-        $is_pending = (request('is_published') && auth()->user()->isRegisteredUser()) ?? $post->is_published;
+        $is_published = ($post->is_published && auth()->user()->isAdmin()) ? 1 : ((request('is_published') && !auth()->user()->isRegisteredUser()) ? 1 : 0);
+        $is_pending = (request('is_published') && auth()->user()->isRegisteredUser()) ? 1 : 0;
 
         // change Post Created Time "created_at"
         $created_time = strtotime($post->created_at);
