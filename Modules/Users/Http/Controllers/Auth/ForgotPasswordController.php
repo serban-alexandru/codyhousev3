@@ -68,6 +68,6 @@ class ForgotPasswordController extends Controller
 
     public function ajaxShowForm(Request $request)
     {
-        return view('users::forms.resetpassword');
+        return view('components.auth.reset-password-form');
     }
 }

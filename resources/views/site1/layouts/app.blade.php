@@ -32,11 +32,14 @@
 
     @include('site1.partials.external-fonts-v1')
     @include('site1.partials.header')
-    @include('forms.signin-modal')
+    
+    <x-auth.signin-modal />
+
     @yield('content')
     @include('site1.partials.footer')
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
-    @include('custom-scripts.signin-js')
+    <x-auth.script.signin-script />
+
     @yield('before-end')
   </body>
   </html>
