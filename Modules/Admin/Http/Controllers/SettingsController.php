@@ -37,6 +37,7 @@ class SettingsController extends Controller {
       'tag_meta_title',
       'profile_page_title',
       'profile_meta_title',
+      'font_logo',
       'font_primary',
       'font_secondary',
     );
@@ -53,6 +54,7 @@ class SettingsController extends Controller {
         'profile_meta_title' => 'required|max:100',
         'logo_svg' => 'required',
         'favicon' => 'required',
+        'font_logo' => 'required',
         'font_primary' => 'required',
         'font_secondary' => 'required'
     ],

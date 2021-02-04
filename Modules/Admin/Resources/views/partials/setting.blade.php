@@ -93,8 +93,28 @@
               <div class="form-control-section">
                 <h4>Font Setting</h4>
                 <div class="floating-label margin-bottom-md margin-top-md">
+                  <label class="form-label margin-bottom-xxxs" for="font_logo">Logo Font:</label>
+
+                  <?php $logofont = ($settings_data['font_logo']) ? $settings_data['font_logo'] : ''; ?>
+                  <div class="select inline-block js-select" data-trigger-class="btn btn--subtle">
+                    <select name="font_logo" id="font_logo" data-placeholder="Select Logo Font">
+                    @foreach($fonts as $font_name)
+                      <option
+                        value="{{ $font_name }}"
+                        @if($font_name == $logofont)
+                          selected
+                        @endif
+                      >{{ $font_name }}</option>
+                    @endforeach
+                    </select>
+
+                    <svg class="icon icon--xs margin-left-xxxs" aria-hidden="true" viewBox="0 0 16 16"><polygon points="3,5 8,11 13,5 "></polygon></svg>
+                  </div>
+                </div>
+
+                <div class="floating-label margin-bottom-md margin-top-md">
                   <label class="form-label margin-bottom-xxxs" for="font_primary">Primary Font:</label>
-                  
+
                   <?php $primaryfont = ($settings_data['font_primary']) ? $settings_data['font_primary'] : ''; ?>
                   <div class="select inline-block js-select" data-trigger-class="btn btn--subtle">
                     <select name="font_primary" id="font_primary" data-placeholder="Select Primary Font">
