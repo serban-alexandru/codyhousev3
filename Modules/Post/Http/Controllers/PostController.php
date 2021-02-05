@@ -695,4 +695,20 @@ class PostController extends Controller
 
         return view('post::archive.search-archive', $data);
     }
+
+    public function singlePost($locale, $slug)
+    {
+
+        $post = Post::firstWhere('slug', $slug);
+
+        if (!$post) {
+            abort(404);
+        }
+
+        $data['post']       = $post;
+        $data['page_title'] = $post->title;
+
+        return view('templates.post.post-template', $data);
+    }
+
 }

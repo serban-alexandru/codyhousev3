@@ -101,3 +101,14 @@ Route::group([
 ], function () {
 	\UniSharp\LaravelFilemanager\Lfm::routes();
 });
+
+Route::group([
+    'prefix' => '{locale}',
+    'where'  => ['locale' => '[a-zA-Z]{2}']
+  ], function(){
+    Route::get('{slug}', [
+      'as'   => 'pages.post',
+      'uses' => 'PostController@singlePost'
+    ]);
+  });
+  
