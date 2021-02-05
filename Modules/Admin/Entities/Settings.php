@@ -9,6 +9,7 @@ use Modules\Admin\Providers\AdminServiceProvider;
 
 class Settings extends Model
 {
+  public static $logo_font = AdminServiceProvider::LOGO_FONT;
   public static $primary_font = AdminServiceProvider::PRIMARY_FONT;
   public static $secondary_font = AdminServiceProvider::SECONDARY_FONT;
 
@@ -24,6 +25,9 @@ class Settings extends Model
     }
     
     // set default fonts if not exist
+    if (empty($setting_data['font_logo']))
+      $setting_data['font_logo'] = self::$logo_font;
+
     if (empty($setting_data['font_primary']))
       $setting_data['font_primary'] = self::$primary_font;
 
@@ -43,6 +47,10 @@ class Settings extends Model
     }
 
     return $fonts;
+  }
+
+  public static function getLogoFontInfo() {
+    return self::getFontInfo('font_logo');
   }
 
   public static function getPrimaryFontInfo() {
@@ -115,8 +123,11 @@ class Settings extends Model
     }
 
     $font_info['status'] = 'google'; // indicate to load google fonts
-    $font_info['font-family'] = self::$primary_font;
-    if ($font_type == 'font_secondary')
+    if ($font_type == 'font_logo')
+      $font_info['font-family'] = self::$logo_font;
+    else if ($font_type == 'font_primary')
+      $font_info['font-family'] = self::$primary_font;
+    else if ($font_type == 'font_secondary')
       $font_info['font-family'] = self::$secondary_font;
 
     return $font_info;

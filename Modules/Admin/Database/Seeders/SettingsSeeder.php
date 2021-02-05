@@ -75,6 +75,10 @@ class SettingsSeeder extends Seeder
                 'key'           => 'font_secondary',
                 'value'         => 'Inter'
             ],
+            [
+                'key'           => 'font_logo',
+                'value'         => 'Libre Caslon Display'
+            ],
         ];
 
 		foreach ($records as $record) {

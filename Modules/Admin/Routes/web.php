@@ -19,6 +19,8 @@ Route::middleware('auth', 'role:admin')->group(function(){
         $settings_data = Settings::getSiteSettings();
         View::share('settings_data', $settings_data);
 
+        $font_logo = Settings::getLogoFontInfo();
+        View::share('font_logo', $font_logo);
         $font_primary = Settings::getPrimaryFontInfo();
         View::share('font_primary', $font_primary);
         $font_secondary = Settings::getSecondaryFontInfo();
