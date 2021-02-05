@@ -849,4 +849,20 @@ class UsersController extends Controller
         ]);
     }
 
+    public function getProfile($username = null)
+    {
+        $user = ($username) ? User::where('username', $username)->first()
+                : auth()->user();
+
+        if (!$user) {
+            abort(403);
+        }
+
+        $posts = $user->posts()->where('is_published', true)->latest()->get();
+
+        $data['user']  = $user;
+        $data['posts'] = $posts;
+
+        return view('site1.pages.profile', $data);
+    }
 }

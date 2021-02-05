@@ -148,3 +148,13 @@ Route::group([
   ]);
 
 });
+
+Route::get('/profile', [
+  'as'   => 'pages.profile',
+  'uses' => 'UsersController@getProfile'
+]);
+
+Route::get('/profile/{username}', [
+  'as'   => 'pages.profile.user',
+  'uses' => 'UsersController@getProfile'
+]);
