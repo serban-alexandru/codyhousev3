@@ -152,6 +152,14 @@
                 </div>
               </div>
 
+              <div class="form-control-section">
+                <h4>Tracking Script</h4>
+                <div class="floating-label margin-bottom-md">
+                  <label class="form-label" for="tracker_script">Paste your Matomo Tracker Script</label>
+                  <textarea class="form-control width-100%" name="tracker_script" id="tracker_script" placeholder="Paste your Matomo Tracker Script">{{ !empty($settings_data['tracker_script']) ? $settings_data['tracker_script'] : '' }}</textarea>
+                </div>
+              </div>
+
               <button id="btnSave" class="btn btn--primary">Save</button>
 
             </fieldset>

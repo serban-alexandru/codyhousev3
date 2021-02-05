@@ -40,6 +40,7 @@ class SettingsController extends Controller {
       'font_logo',
       'font_primary',
       'font_secondary',
+      'tracker_script'
     );
 
     $validator = Validator::make($request->all(), [

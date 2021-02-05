@@ -23,6 +23,7 @@
       <link rel="stylesheet" href="{{ asset('assets/css/style-fallback.css') }}">
     </noscript>
 
+    {!! !empty($settings_data['tracker_script']) ? $settings_data['tracker_script'] : '' !!}
   </head>
   <body>
     

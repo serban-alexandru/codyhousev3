@@ -79,6 +79,10 @@ class SettingsSeeder extends Seeder
                 'key'           => 'font_logo',
                 'value'         => 'Libre Caslon Display'
             ],
+            [
+                'key'           => 'tracker_script',
+                'value'         => ''
+            ],
         ];
 
 		foreach ($records as $record) {
