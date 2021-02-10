@@ -36,6 +36,6 @@ class SinglePost extends Component
      */
     public function render()
     {
-        return view('components.posts.single-post');
+        return view('components.posts.single.single-post');
     }
 }

@@ -13,7 +13,7 @@
 
 @section('content')
 
-<x-posts.single-post id='{{ $post->id }}' />
+<x-posts.single.single-post id='{{ $post->id }}' />
 
 <div class="margin-top-md container max-width-xl">
   <div class="flex justify-between">
