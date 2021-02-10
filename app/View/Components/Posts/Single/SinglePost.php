@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\Posts;
+namespace App\View\Components\Posts\Single;
 
 use Illuminate\View\Component;
 
