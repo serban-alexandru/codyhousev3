@@ -38,6 +38,10 @@ class DraggableGallery extends Component
             $posts = $posts->get();
         }
 
+        foreach($posts as &$post) {
+            $post['description'] = Post::parseContent($post['description'], true);
+        }
+
         $this->posts = $posts;
     }
 
@@ -48,6 +52,6 @@ class DraggableGallery extends Component
      */
     public function render()
     {
-        return view('components.draggable-gallery');
+        return view('components.posts.lists.draggable-gallery');
     }
 }
