@@ -41,7 +41,7 @@
                         </h4>
                         @if($post->description)
                             <div class="text-sm color-contrast-medium">
-                                <x-editorjs-block :data="$post->description" :excerpt="true" />
+                            {!! $post->description !!}
                             </div>
                         @else
                         <p>&nbsp;</p>
