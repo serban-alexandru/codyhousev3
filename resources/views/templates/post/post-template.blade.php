@@ -31,6 +31,6 @@
   </div>
 </div>
 
-<x-draggable-gallery-simple-itag :tags="['Best of', 'test']"/>
+<x-posts.lists.draggable-gallery-simple-itag :tags="['Best of', 'test']"/>
 
 @endsection
