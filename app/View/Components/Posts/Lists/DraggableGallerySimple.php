@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Posts\Lists;
 
 use Illuminate\View\Component;
 
@@ -48,6 +48,6 @@ class DraggableGallerySimple extends Component
      */
     public function render()
     {
-        return view('components.draggable-gallery-simple');
+        return view('components.posts.lists.draggable-gallery-simple');
     }
 }

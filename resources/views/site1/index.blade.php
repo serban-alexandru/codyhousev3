@@ -1,7 +1,7 @@
 @extends('site1.layouts.home')
 @section('content')
 	<!-- NEW via blade component -->
-	<x-featured-post />
+	<x-posts.lists.featured-post />
 	<div class="margin-bottom-xl"></div>
 	<div class="container max-width-lg">
 		<div class="flex justify-between">
@@ -17,7 +17,7 @@
 			</div>
 		</div>
 	  </div>
-	  <x-draggable-gallery-simple-itag :tags="['Best of', 'test']"/>
+	  <x-posts.lists.draggable-gallery-simple-itag :tags="['Best of', 'test']"/>
 	  <div class="margin-top-md container max-width-lg">
 		<div class="flex justify-between">
 		  <p class="text-xl divider-title">News</p>
@@ -32,7 +32,7 @@
 			</div>
 		</div>
 	  </div>
-	  <x-draggable-gallery-simple />
+	  <x-posts.lists.draggable-gallery-simple />
 
 	  <div class="margin-top-md container max-width-lg">
 		<div class="flex justify-between">
@@ -48,7 +48,7 @@
 			</div>
 		</div>
 	  </div>
-	  <x-draggable-gallery-simple />
+	  <x-posts.lists.draggable-gallery-simple />
 @endsection
 
 @section('before-end')
