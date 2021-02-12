@@ -1,10 +1,10 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Users\Loginv2;
 
 use Illuminate\View\Component;
 
-class Register-v2 extends Component
+class Login2 extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class Register-v2 extends Component
      */
     public function render()
     {
-        return view('components.register-v2');
+        return view('components.users.loginv2.loginv2');
     }
 }

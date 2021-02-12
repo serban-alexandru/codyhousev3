@@ -13,6 +13,14 @@ Route::get('/site2',function(){
   return view('templates.blog.site2.index');
 });
 
+Route::get('/site2/login',function(){
+  return view('templates.blog.site2.pages.login');
+});
+
+Route::get('/site2/register',function(){
+  return view('templates.blog.site2.pages.register');
+});
+
 // Editor JS
 
 Route::group(['middleware' => 'auth'], function(){
