@@ -14,7 +14,7 @@
           <figure aria-hidden="true"><img class="user-cell__img" src="../../../assets/img/user-cell-img-1.jpg" alt="User profile image"></figure>
           <div class="user-cell__content text-component line-height-sm v-space-xxs">
             <p><a class="color-contrast-high" href="#0"><strong>User Name</strong></a></p>
-            <p class="color-contrast-medium">Lorem ipsum dolor sit</p>
+            <p class="color-contrast-medium">January 25, 2021</p>
           </div>
         </div>
       </div>
@@ -25,7 +25,7 @@
           <figure aria-hidden="true"><img class="user-cell__img" src="../../../assets/img/user-cell-img-1.jpg" alt="User profile image"></figure>
           <div class="user-cell__content text-component line-height-sm v-space-xxs">
             <p><a class="color-contrast-high" href="#0"><strong>User Name</strong></a></p>
-            <p class="color-contrast-medium">Lorem ipsum dolor sit</p>
+            <p class="color-contrast-medium">January 25, 2021</p>
           </div>
         </div>
       </div>
