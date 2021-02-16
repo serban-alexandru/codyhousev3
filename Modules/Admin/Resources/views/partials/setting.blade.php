@@ -152,6 +152,69 @@
                 </div>
               </div>
 
+              <div class="tbl settings-tbl text-sm margin-bottom-lg">
+                <table class="tbl__table border-bottom border-2" aria-label="Table Example">
+                  <thead class="tbl__header border-bottom border-2">
+                    <tr class="tbl__row">
+                      <th class="tbl__cell text-left" scope="col">
+                        <h1>Registration Setting</h1>
+                      </th>
+              
+                      <th class="sr-only" scope="col">Enable/disable option</span></th>
+                    </tr>
+                  </thead>
+              
+                  <tbody class="tbl__body">
+                    <tr class="tbl__row">
+                      <td class="tbl__cell" role="cell">
+                        <p>First name and last name</p>
+                      </td>
+              
+                      <td class="tbl__cell" role="cell">
+                        <div class="flex justify-end">
+              
+                          <div class="switch ">
+                            <input class="switch__input" type="checkbox" id="switch-push-notifications">
+                            <label class="switch__label" for="switch-push-notifications" aria-hidden="true">First name and last name</label>
+                            <div class="switch__marker" aria-hidden="true"></div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+              
+                    <tr class="tbl__row">
+                      <td class="tbl__cell" role="cell">
+                        <p>Email Confirmation</p>
+                      </td>
+              
+                      <td class="tbl__cell" role="cell">
+                        <div class="flex justify-end">
+              
+                          <div class="switch ">
+                            <input class="switch__input" type="checkbox" id="switch-sms-notifications" checked>
+                            <label class="switch__label" for="switch-sms-notifications" aria-hidden="true">Email Confirmation</label>
+                            <div class="switch__marker" aria-hidden="true"></div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="margin-bottom-md">
+                <textarea class="form-control width-100%" name="textarea" id="textarea" placeholder="Email Confirmation Template"></textarea>
+              </div>
+
+              <div class="margin-bottom-md">
+                <textarea class="form-control width-100%" name="textarea" id="textarea" placeholder="Forgot Email Template"></textarea>
+              </div>
+
               <div class="form-control-section">
                 <h4>Tracking Script</h4>
                 <div class="floating-label margin-bottom-md">
