@@ -207,6 +207,11 @@
                 </table>
               </div>
 
+              <div class="floating-label margin-bottom-md margin-top-md">
+                <label class="form-label" for="page_title">Master Email</label>
+                <input class="form-control width-100%" type="text" name="page_title" id="page_title" placeholder="Main email for templates" required>
+              </div>
+
               <div class="margin-bottom-md">
                 <textarea class="form-control width-100%" name="textarea" id="textarea" placeholder="Email Confirmation Template"></textarea>
               </div>
