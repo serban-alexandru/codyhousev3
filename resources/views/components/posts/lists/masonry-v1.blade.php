@@ -50,3 +50,69 @@
     <li class="masonry__item js-masonry__item"><img class="block width-100%" src="../../../assets/img/masonry-img-4.jpg" alt="Image Description"></li>
   </ul>
 </div>
+
+<div class="js-infinite-scroll" data-path="/app/components/source/infinite-scroll/infinite-scroll-{n}.txt" data-container=".js-infinite-scroll__content">
+  <ul class="js-infinite-scroll__content grid gap-xs" aria-live="true">
+    <li class="col-6 col-4@sm">
+      <figure>
+        <img class="block width-100%" src="../../../app/assets/img/infinite-scroll-img-1.svg" alt="Image Description">
+      </figure>
+    </li>
+
+    <li class="col-6 col-4@sm">
+      <figure>
+        <img class="block width-100%" src="../../../app/assets/img/infinite-scroll-img-1.svg" alt="Image Description">
+      </figure>
+    </li>
+
+    <li class="col-6 col-4@sm">
+      <figure>
+        <img class="block width-100%" src="../../../app/assets/img/infinite-scroll-img-1.svg" alt="Image Description">
+      </figure>
+    </li>
+
+    <li class="col-6 col-4@sm">
+      <figure>
+        <img class="block width-100%" src="../../../app/assets/img/infinite-scroll-img-1.svg" alt="Image Description">
+      </figure>
+    </li>
+
+    <li class="col-6 col-4@sm">
+      <figure>
+        <img class="block width-100%" src="../../../app/assets/img/infinite-scroll-img-1.svg" alt="Image Description">
+      </figure>
+    </li>
+
+    <li class="col-6 col-4@sm">
+      <figure>
+        <img class="block width-100%" src="../../../app/assets/img/infinite-scroll-img-1.svg" alt="Image Description">
+      </figure>
+    </li>
+
+    <li class="col-6 col-4@sm">
+      <figure>
+        <img class="block width-100%" src="../../../app/assets/img/infinite-scroll-img-1.svg" alt="Image Description">
+      </figure>
+    </li>
+
+    <li class="col-6 col-4@sm">
+      <figure>
+        <img class="block width-100%" src="../../../app/assets/img/infinite-scroll-img-1.svg" alt="Image Description">
+      </figure>
+    </li>
+
+    <li class="col-6 col-4@sm">
+      <figure>
+        <img class="block width-100%" src="../../../app/assets/img/infinite-scroll-img-1.svg" alt="Image Description">
+      </figure>
+    </li>
+  </ul>
+
+  <div class="text-center margin-y-md is-hidden js-infinite-scroll__loader" aria-hidden="true">
+    <svg class="icon icon--md icon--is-spinning" viewBox="0 0 32 32"><g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" stroke="currentColor" fill="none"><circle cx="16" cy="16" r="15" opacity="0.4"></circle><path d="M16,1A15,15,0,0,1,31,16" stroke-linecap="butt"></path></g></svg>
+  </div>
+
+  <div class="margin-top-md flex justify-center">
+    <button class="btn btn--primary js-infinite-scroll__btn">Load More</button>
+  </div>
+</div>
