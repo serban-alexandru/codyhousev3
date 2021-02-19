@@ -20,8 +20,8 @@
 
 <!-- User Icon and Drop-down Desktop-->
       <div class="mobile-btn flex">
-        <button class="header-v2__nav-control reset anim-menu-btn js-anim-second-menu" data-target="second-menu">
-          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
+        <button class="header-v2__nav-control reset anim-menu-btn js-anim-second-menu switch-icon switch-icon--flip js-switch-icon js-tab-focus" aria-label="Toggle icon">
+          <svg class="switch-icon__icon switch-icon__icon--a" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
             <title>face-man</title>
             <g stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" transform="translate(0.5 0.5)"
               fill="#a8a8a8" stroke="#a8a8a8">
@@ -32,6 +32,12 @@
               <circle data-stroke="none" fill="#a8a8a8" cx="16.5" cy="14.5" r="1.5" stroke-linejoin="miter"
                 stroke-linecap="square" stroke="none"></circle>
               <circle fill="none" stroke="#a8a8a8" stroke-miterlimit="10" cx="12" cy="12" r="11"></circle>
+            </g>
+          </svg>
+          <svg class="switch-icon__icon switch-icon__icon--b" viewBox="0 0 32 32">
+            <g fill="none" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="#a8a8a8">
+              <line x1="27" y1="5" x2="5" y2="27"></line>
+              <line x1="27" y1="27" x2="5" y2="5"></line>
             </g>
           </svg>
         </button>
@@ -117,17 +123,6 @@
 
 <!-- END-->
 
-<!-- Search Form -->
-<div class="btn btn--icon" aria-controls="modal-search">
-  <svg class="icon" viewBox="0 0 24 24">
-    <title>Toggle search</title>
-    <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" stroke="#a8a8a8" fill="none" stroke-miterlimit="10">
-      <line x1="22" y1="22" x2="15.656" y2="15.656"></line>
-      <circle cx="10" cy="10" r="8"></circle>
-    </g>
-  </svg>
-</div>
-
 <div class="modal modal--search modal--animate-fade flex flex-center padding-md js-modal" id="modal-search">
   <div class="modal__content width-100% max-width-sm max-height-100% overflow-auto" role="alertdialog" aria-labelledby="modal-search-title" aria-describedby="">
     <form class="full-screen-search">
@@ -160,8 +155,24 @@
 <!-- User Icon and Drop-down Mobile-->
       <nav id="second-menu" class="header-v2__nav header-v2__nav-align-right color-contrast-low">
         <ul class="header-v2__nav-list header-v2__nav-list--main">
-          <li class="header-v2__nav-item header-v2__nav-item--main header-v2__nav-item--has-children">
+          <li class="header-v2__nav-item header-v2__nav-item--main">
+            <!-- Search Form -->
+            <div class="btn btn--icon" aria-controls="modal-search">
+              <svg class="icon" viewBox="0 0 24 24">
+                <title>Toggle search</title>
+                <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" stroke="#a8a8a8" fill="none" stroke-miterlimit="10">
+                  <line x1="22" y1="22" x2="15.656" y2="15.656"></line>
+                  <circle cx="10" cy="10" r="8"></circle>
+                </g>
+              </svg>
+            </div>
+          </li>
+          <li class="header-v2__nav-item header-v2__nav-item--main header-v2__nav-item--has-children margin-left-sm">
+            @auth
             <a href="#0" class="header-v2__nav-link header-v2__nav-hide-mobile">
+              @if(auth()->user()->avatar)
+                <img src="{{ auth()->user()->getAvatar() }}" alt="Logged in user avatar,">
+              @else              
               <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
                 <title>face-man</title>
                 <g stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" transform="translate(0.5 0.5)"
@@ -175,6 +186,7 @@
                   <circle fill="none" stroke="#a8a8a8" stroke-miterlimit="10" cx="12" cy="12" r="11"></circle>
                 </g>
               </svg>
+              @endif
             </a>
 
             <div class="header-v2__nav-dropdown">
@@ -205,15 +217,20 @@
                 <li class="header-v2__nav-item"><a href="{{ url('admin') }}" class="header-v2__nav-link">Admin Dashboard</a></li>
               </ul>
             </div>
+            @endauth
           </li>
 <!-- END -->
 
-<!-- Login and Sign-up buttons -->
-          <li class="header-v2__nav-item padding-right-sm padding-left-md"><a href="{{ url('/logout') }}" class="btn btn--subtle">Login</a>
-          <li class="header-v2__nav-item"><a href="{{ url('/logout') }}" class="btn btn--primary">Signup</a>
-          </li>
-<!-- END -->
+          @guest
+          <!-- Login and Sign-up buttons -->
+          <li class="header-v2__nav-item padding-right-sm padding-left-sm"><a href="{{ url('/logout') }}" class="btn btn--subtle">Login</a>
+          <li class="header-v2__nav-item"><a href="{{ url('/logout') }}" class="btn btn--primary">Signup</a></li>
+          <!-- END -->
+          @endguest
 
+          @auth
+          <li class="header-v2__nav-item padding-left-sm"><a href="{{ url('/logout') }}" class="btn btn--subtle">Log out</a></li>
+          @endauth
         </ul>      
       </nav>      
     </div>
