@@ -297,6 +297,123 @@ Math.easeOutElastic = function (t, b, c, d) {
   };
   window.addEventListener('mousedown', detectClick);
 }());
+// File#: _1_accordion
+// Usage: codyhouse.co/license
+(function() {
+    var Accordion = function(element) {
+      this.element = element;
+      this.items = Util.getChildrenByClassName(this.element, 'js-accordion__item');
+      this.version = this.element.getAttribute('data-version') ? '-'+this.element.getAttribute('data-version') : '';
+      this.showClass = 'accordion'+this.version+'__item--is-open';
+      this.animateHeight = (this.element.getAttribute('data-animation') == 'on');
+      this.multiItems = !(this.element.getAttribute('data-multi-items') == 'off'); 
+      // deep linking options
+      this.deepLinkOn = this.element.getAttribute('data-deep-link') == 'on';
+      // init accordion
+      this.initAccordion();
+    };
+  
+    Accordion.prototype.initAccordion = function() {
+      //set initial aria attributes
+      for( var i = 0; i < this.items.length; i++) {
+        var button = this.items[i].getElementsByTagName('button')[0],
+          content = this.items[i].getElementsByClassName('js-accordion__panel')[0],
+          isOpen = Util.hasClass(this.items[i], this.showClass) ? 'true' : 'false';
+        Util.setAttributes(button, {'aria-expanded': isOpen, 'aria-controls': 'accordion-content-'+i, 'id': 'accordion-header-'+i});
+        Util.addClass(button, 'js-accordion__trigger');
+        Util.setAttributes(content, {'aria-labelledby': 'accordion-header-'+i, 'id': 'accordion-content-'+i});
+      }
+  
+      //listen for Accordion events
+      this.initAccordionEvents();
+  
+      // check deep linking option
+      this.initDeepLink();
+    };
+  
+    Accordion.prototype.initAccordionEvents = function() {
+      var self = this;
+  
+      this.element.addEventListener('click', function(event) {
+        var trigger = event.target.closest('.js-accordion__trigger');
+        //check index to make sure the click didn't happen inside a children accordion
+        if( trigger && Util.getIndexInArray(self.items, trigger.parentElement) >= 0) self.triggerAccordion(trigger);
+      });
+    };
+  
+    Accordion.prototype.triggerAccordion = function(trigger) {
+      var bool = (trigger.getAttribute('aria-expanded') === 'true');
+  
+      this.animateAccordion(trigger, bool, false);
+  
+      if(!bool && this.deepLinkOn) {
+        history.replaceState(null, '', '#'+trigger.getAttribute('aria-controls'));
+      }
+    };
+  
+    Accordion.prototype.animateAccordion = function(trigger, bool, deepLink) {
+      var self = this;
+      var item = trigger.closest('.js-accordion__item'),
+        content = item.getElementsByClassName('js-accordion__panel')[0],
+        ariaValue = bool ? 'false' : 'true';
+  
+      if(!bool) Util.addClass(item, this.showClass);
+      trigger.setAttribute('aria-expanded', ariaValue);
+      self.resetContentVisibility(item, content, bool);
+  
+      if( !this.multiItems && !bool || deepLink) this.closeSiblings(item);
+    };
+  
+    Accordion.prototype.resetContentVisibility = function(item, content, bool) {
+      Util.toggleClass(item, this.showClass, !bool);
+      content.removeAttribute("style");
+      if(bool && !this.multiItems) { // accordion item has been closed -> check if there's one open to move inside viewport 
+        this.moveContent();
+      }
+    };
+  
+    Accordion.prototype.closeSiblings = function(item) {
+      //if only one accordion can be open -> search if there's another one open
+      var index = Util.getIndexInArray(this.items, item);
+      for( var i = 0; i < this.items.length; i++) {
+        if(Util.hasClass(this.items[i], this.showClass) && i != index) {
+          this.animateAccordion(this.items[i].getElementsByClassName('js-accordion__trigger')[0], true, false);
+          return false;
+        }
+      }
+    };
+  
+    Accordion.prototype.moveContent = function() { // make sure title of the accordion just opened is inside the viewport
+      var openAccordion = this.element.getElementsByClassName(this.showClass);
+      if(openAccordion.length == 0) return;
+      var boundingRect = openAccordion[0].getBoundingClientRect();
+      if(boundingRect.top < 0 || boundingRect.top > window.innerHeight) {
+        var windowScrollTop = window.scrollY || document.documentElement.scrollTop;
+        window.scrollTo(0, boundingRect.top + windowScrollTop);
+      }
+    };
+  
+    Accordion.prototype.initDeepLink = function() {
+      if(!this.deepLinkOn) return;
+      var hash = window.location.hash.substr(1);
+      if(!hash || hash == '') return;
+      var trigger = this.element.querySelector('.js-accordion__trigger[aria-controls="'+hash+'"]');
+      if(trigger && trigger.getAttribute('aria-expanded') !== 'true') {
+        this.animateAccordion(trigger, false, true);
+        setTimeout(function(){trigger.scrollIntoView(true);});
+      }
+    };
+  
+    window.Accordion = Accordion;
+    
+    //initialize the Accordion objects
+    var accordions = document.getElementsByClassName('js-accordion');
+    if( accordions.length > 0 ) {
+      for( var i = 0; i < accordions.length; i++) {
+        (function(i){new Accordion(accordions[i]);})(i);
+      }
+    }
+  }());
 // File#: _1_alert-card
 // Usage: codyhouse.co/license
 (function() {
@@ -1764,6 +1881,294 @@ function initAlertEvent(element) {
       };
     }
   }());
+// File#: _1_infinite-scroll
+// Usage: codyhouse.co/license
+(function() {
+    var InfiniteScroll = function(opts) {
+      this.options = Util.extend(InfiniteScroll.defaults, opts);
+      this.element = this.options.element;
+      this.loader = document.getElementsByClassName('js-infinite-scroll__loader');
+      this.loadBtn = document.getElementsByClassName('js-infinite-scroll__btn');
+      this.loading = false;
+      this.currentPageIndex = this.element.getAttribute('data-current-page') ? parseInt(this.element.getAttribute('data-current-page')) : 0;
+      this.index = this.currentPageIndex;
+      initLoad(this);
+    };
+  
+    function initLoad(infiniteScroll) {
+      setPathValues(infiniteScroll); // get dynamic content paths
+  
+      getTresholdPixel(infiniteScroll);
+      
+      if(infiniteScroll.options.container) { // get container of dynamic content
+        infiniteScroll.container = infiniteScroll.element.querySelector(infiniteScroll.options.container);
+      }
+      
+      if((!infiniteScroll.options.loadBtn || infiniteScroll.options.loadBtnDelay) && infiniteScroll.loadBtn.length > 0) { // hide load more btn
+        Util.addClass(infiniteScroll.loadBtn[0], 'sr-only');
+      }
+  
+      if(!infiniteScroll.options.loadBtn || infiniteScroll.options.loadBtnDelay) {
+        if(intersectionObserverSupported) { // check element scrolling
+          initObserver(infiniteScroll);
+        } else {
+          infiniteScroll.scrollEvent = handleEvent.bind(infiniteScroll);
+          window.addEventListener('scroll', infiniteScroll.scrollEvent);
+        }
+      }
+      
+      initBtnEvents(infiniteScroll); // listen for click on load Btn
+      
+      if(!infiniteScroll.options.path) { // content has been loaded using a custom function
+        infiniteScroll.element.addEventListener('loaded-new', function(event){
+          contentWasLoaded(infiniteScroll, event.detail.path, event.detail.checkNext); // reset element
+          // emit 'content-loaded' event -> this could be useful when new content needs to be initialized
+        infiniteScroll.element.dispatchEvent(new CustomEvent('content-loaded', {detail: event.detail.path}));
+        });
+      }
+    };
+  
+    function setPathValues(infiniteScroll) { // path can be strin or comma-separated list
+      if(!infiniteScroll.options.path) return;
+      var split = infiniteScroll.options.path.split(',');
+      if(split.length > 1) {
+        infiniteScroll.options.path = [];
+        for(var i = 0; i < split.length; i++) infiniteScroll.options.path.push(split[i].trim());
+      }
+    };
+  
+    function getTresholdPixel(infiniteScroll) { // get the threshold value in pixels - will be used only if intersection observer is not supported
+      infiniteScroll.thresholdPixel = infiniteScroll.options.threshold.indexOf('px') > -1 ? parseInt(infiniteScroll.options.threshold.replace('px', '')) : parseInt(window.innerHeight*parseInt(infiniteScroll.options.threshold.replace('%', ''))/100);
+    };
+  
+    function initObserver(infiniteScroll) { // intersection observer supported
+      // append an element to the bottom of the container that will be observed
+      var observed = document.createElement("div");
+      Util.setAttributes(observed, {'aria-hidden': 'true', 'class': 'js-infinite-scroll__observed', 'style': 'width: 100%; height: 1px; margin-top: -1px; visibility: hidden;'});
+      infiniteScroll.element.appendChild(observed);
+  
+      infiniteScroll.observed = infiniteScroll.element.getElementsByClassName('js-infinite-scroll__observed')[0];
+  
+      var config = {rootMargin: '0px 0px '+infiniteScroll.options.threshold+' 0px'};
+      infiniteScroll.observer = new IntersectionObserver(observerLoadContent.bind(infiniteScroll), config);
+      infiniteScroll.observer.observe(infiniteScroll.observed);
+    };
+  
+    function observerLoadContent(entry) { 
+      if(this.loading) return;
+      if(entry[0].intersectionRatio > 0) loadMore(this);
+    };
+  
+    function handleEvent(event) { // handle click/scroll events
+      switch(event.type) {
+        case 'click': {
+          initClick(this, event); // click on load more button
+          break;
+        }
+        case 'scroll': { // triggered only if intersection onserver is not supported
+          initScroll(this);
+          break;
+        }
+      }
+    };
+  
+    function initScroll(infiniteScroll) { // listen to scroll event (only if intersectionObserver is not supported)
+      (!window.requestAnimationFrame) ? setTimeout(checkLoad.bind(infiniteScroll)) : window.requestAnimationFrame(checkLoad.bind(infiniteScroll));
+    };
+  
+    function initBtnEvents(infiniteScroll) { // load more button events - click + focus (for keyboard accessibility)
+      if(infiniteScroll.loadBtn.length == 0) return;
+      infiniteScroll.clickEvent = handleEvent.bind(infiniteScroll);
+      infiniteScroll.loadBtn[0].addEventListener('click', infiniteScroll.clickEvent);
+      
+      if(infiniteScroll.options.loadBtn && !infiniteScroll.options.loadBtnDelay) {
+        Util.removeClass(infiniteScroll.loadBtn[0], 'sr-only');
+        if(infiniteScroll.loader.length > 0 ) Util.addClass(infiniteScroll.loader[0], 'is-hidden');
+      }
+  
+      // toggle class sr-only if link is in focus/loses focus
+      infiniteScroll.loadBtn[0].addEventListener('focusin', function(){
+        if(Util.hasClass(infiniteScroll.loadBtn[0], 'sr-only')) {
+          Util.addClass(infiniteScroll.loadBtn[0], 'js-infinite-scroll__btn-focus');
+          Util.removeClass(infiniteScroll.loadBtn[0], 'sr-only');
+        }
+      });
+      infiniteScroll.loadBtn[0].addEventListener('focusout', function(){
+        if(Util.hasClass(infiniteScroll.loadBtn[0], 'js-infinite-scroll__btn-focus')) {
+          Util.removeClass(infiniteScroll.loadBtn[0], 'js-infinite-scroll__btn-focus');
+          Util.addClass(infiniteScroll.loadBtn[0], 'sr-only');
+        }
+      });
+    };
+  
+    function initClick(infiniteScroll, event) { // click on 'Load More' button
+      event.preventDefault();
+      Util.addClass(infiniteScroll.loadBtn[0], 'sr-only');
+      loadMore(infiniteScroll);
+    };
+  
+    function checkLoad() { // while scrolling -> check if we need to load new content (only if intersectionObserver is not supported)
+      if(this.loading) return;
+      if(!needLoad(this)) return;
+      loadMore(this);
+    };
+  
+    function loadMore(infiniteScroll) { // new conten needs to be loaded
+      infiniteScroll.loading = true;
+      if(infiniteScroll.loader.length > 0) Util.removeClass(infiniteScroll.loader[0], 'is-hidden');
+      var moveFocus = false;
+      if(infiniteScroll.loadBtn.length > 0 ) moveFocus = Util.hasClass(infiniteScroll.loadBtn[0], 'js-infinite-scroll__btn-focus');
+      // check if need to add content or user has custom load function
+      if(infiniteScroll.options.path) {
+        contentBasicLoad(infiniteScroll, moveFocus); // load content
+      } else {
+        emitCustomEvents(infiniteScroll, 'load-new', moveFocus); // user takes care of loading content
+      }
+    };
+  
+    function contentBasicLoad(infiniteScroll, moveFocus) {
+      var filePath = getFilePath(infiniteScroll);
+      // load file content
+      getNewContent(filePath, function(content){
+        var checkNext = insertNewContent(infiniteScroll, content, moveFocus);
+        contentWasLoaded(infiniteScroll, filePath, checkNextPageAvailable(infiniteScroll, checkNext));
+        // emit 'content-loaded' event -> this could be useful when new content needs to be initialized
+        infiniteScroll.element.dispatchEvent(new CustomEvent('content-loaded', {detail: filePath}));
+      });
+    };
+  
+    function getFilePath(infiniteScroll) { // get path of the file to load
+      return (Array.isArray(infiniteScroll.options.path)) 
+        ? infiniteScroll.options.path[infiniteScroll.index]
+        : infiniteScroll.options.path.replace('{n}', infiniteScroll.index+1);
+    };
+  
+    function getNewContent(path, cb) {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) cb(this.responseText);
+      };
+      xhttp.open("GET", path, true);
+      xhttp.send();
+    };
+  
+    function insertNewContent(infiniteScroll, content, moveFocus) {
+      var next = false;
+      if(infiniteScroll.options.container) {
+        var div = document.createElement("div");
+        div.innerHTML = content;
+        var wrapper = div.querySelector(infiniteScroll.options.container);
+        if(wrapper) {
+          content = wrapper.innerHTML;
+          next = wrapper.getAttribute('data-path');
+        }
+      }
+      var lastItem = false;
+      if(moveFocus) lastItem = getLastChild(infiniteScroll);
+      if(infiniteScroll.container) {
+        infiniteScroll.container.insertAdjacentHTML('beforeend', content);
+      } else {
+        (infiniteScroll.loader.length > 0) 
+          ? infiniteScroll.loader[0].insertAdjacentHTML('beforebegin', content)
+          : infiniteScroll.element.insertAdjacentHTML('beforeend', content);
+      }
+      if(moveFocus && lastItem) Util.moveFocus(lastItem);
+  
+      return next;
+    };
+  
+    function getLastChild(infiniteScroll) {
+      if(infiniteScroll.container) return infiniteScroll.container.lastElementChild;
+      if(infiniteScroll.loader.length > 0) return infiniteScroll.loader[0].previousElementSibling;
+      return infiniteScroll.element.lastElementChild;
+    };
+  
+    function checkNextPageAvailable(infiniteScroll, checkNext) { // check if there's still content to be loaded
+      if(Array.isArray(infiniteScroll.options.path)) {
+        return infiniteScroll.options.path.length > infiniteScroll.index + 1;
+      }
+      return checkNext;
+    };
+  
+    function contentWasLoaded(infiniteScroll, url, checkNext) { // new content has been loaded - reset status 
+      if(infiniteScroll.loader.length > 0) Util.addClass(infiniteScroll.loader[0], 'is-hidden'); // hide loader
+      
+      if(infiniteScroll.options.updateHistory && url) { // update browser history
+        var pageArray = location.pathname.split('/'),
+          actualPage = pageArray[pageArray.length - 1] ;
+        if( actualPage != url && history.pushState ) window.history.replaceState({path: url},'',url);
+      }
+      
+      if(!checkNext) { // no need to load additional pages - remove scroll listening and/or click listening
+        removeScrollEvents(infiniteScroll);
+        if(infiniteScroll.clickEvent) {
+          infiniteScroll.loadBtn[0].removeEventListener('click', infiniteScroll.clickEvent);
+          Util.addClass(infiniteScroll.loadBtn[0], 'is-hidden');
+          Util.removeClass(infiniteScroll.loadBtn[0], 'sr-only');
+        }
+      }
+      
+      if(checkNext && infiniteScroll.options.loadBtn) { // check if we need to switch from scrolling to click -> add/remove proper listener
+        if(!infiniteScroll.options.loadBtnDelay) {
+          Util.removeClass(infiniteScroll.loadBtn[0], 'sr-only');
+        } else if(infiniteScroll.index - infiniteScroll.currentPageIndex + 1 >= infiniteScroll.options.loadBtnDelay && infiniteScroll.loadBtn.length > 0) {
+          removeScrollEvents(infiniteScroll);
+          Util.removeClass(infiniteScroll.loadBtn[0], 'sr-only');
+        }
+      }
+  
+      if(checkNext && infiniteScroll.loadBtn.length > 0 && Util.hasClass(infiniteScroll.loadBtn[0], 'js-infinite-scroll__btn-focus')) { // keyboard accessibility
+        Util.removeClass(infiniteScroll.loadBtn[0], 'sr-only');
+      }
+  
+      infiniteScroll.index = infiniteScroll.index + 1;
+      infiniteScroll.loading = false;
+    };
+  
+    function removeScrollEvents(infiniteScroll) {
+      if(infiniteScroll.scrollEvent) window.removeEventListener('scroll', infiniteScroll.scrollEvent);
+      if(infiniteScroll.observer) infiniteScroll.observer.unobserve(infiniteScroll.observed);
+    };
+  
+    function needLoad(infiniteScroll) { // intersectionObserverSupported not supported -> check if threshold has been reached
+      return infiniteScroll.element.getBoundingClientRect().bottom - window.innerHeight <= infiniteScroll.thresholdPixel;
+    };
+  
+    function emitCustomEvents(infiniteScroll, eventName, moveFocus) { // applicable when user takes care of loading new content
+      var event = new CustomEvent(eventName, {detail: {index: infiniteScroll.index+1, moveFocus: moveFocus}});
+      infiniteScroll.element.dispatchEvent(event);
+    };
+  
+    InfiniteScroll.defaults = {
+      element : '',
+      path : false, // path of files to be loaded: set to comma-separated list or string (should include {n} to be replaced by integer index). If not set, user will take care of loading new content
+      container: false, // Append new content to this element. Additionally, when loaded a new page, only content of the element will be appended
+      threshold: '200px', // distance between viewport and scroll area for loading new content
+      updateHistory: false, // push new url to browser history
+      loadBtn: false, // use a button to load more content
+      loadBtnDelay: false // set to an integer if you want the load more button to be visible only after a number of loads on scroll - loadBtn needs to be 'on'
+    };
+  
+    window.InfiniteScroll = InfiniteScroll;
+  
+    //initialize the InfiniteScroll objects
+    var infiniteScroll = document.getElementsByClassName('js-infinite-scroll'),
+      intersectionObserverSupported = ('IntersectionObserver' in window && 'IntersectionObserverEntry' in window && 'intersectionRatio' in window.IntersectionObserverEntry.prototype);
+  
+    if( infiniteScroll.length > 0) {
+      for( var i = 0; i < infiniteScroll.length; i++) {
+        (function(i){
+          var path = infiniteScroll[i].getAttribute('data-path') ? infiniteScroll[i].getAttribute('data-path') : false,
+          container = infiniteScroll[i].getAttribute('data-container') ? infiniteScroll[i].getAttribute('data-container') : false,
+          updateHistory = ( infiniteScroll[i].getAttribute('data-history') && infiniteScroll[i].getAttribute('data-history') == 'on') ? true : false,
+          loadBtn = ( infiniteScroll[i].getAttribute('data-load-btn') && infiniteScroll[i].getAttribute('data-load-btn') == 'on') ? true : false,
+          loadBtnDelay = infiniteScroll[i].getAttribute('data-load-btn-delay') ? infiniteScroll[i].getAttribute('data-load-btn-delay') : false,
+          threshold = infiniteScroll[i].getAttribute('data-threshold') ? infiniteScroll[i].getAttribute('data-threshold') : '200px';
+          new InfiniteScroll({element: infiniteScroll[i], path : path, container : container, updateHistory: updateHistory, loadBtn: loadBtn, loadBtnDelay: loadBtnDelay, threshold: threshold});
+        })(i);
+      }
+    };
+  }());
 // File#: _1_language-picker
 // Usage: codyhouse.co/license
 (function() {
@@ -3014,6 +3419,105 @@ function initAlertEvent(element) {
     if( sideNavs.length > 0 ) {
       for( var i = 0; i < sideNavs.length; i++) {
         (function(i){initSideNav(sideNavs[i]);})(i);
+      }
+    }
+  }());
+// File#: _1_smooth-scrolling
+// Usage: codyhouse.co/license
+(function() {
+    var SmoothScroll = function(element) {
+      if(!('CSS' in window) || !CSS.supports('color', 'var(--color-var)')) return;
+      this.element = element;
+      this.scrollDuration = parseInt(this.element.getAttribute('data-duration')) || 300;
+      this.dataElementY = this.element.getAttribute('data-scrollable-element-y') || this.element.getAttribute('data-scrollable-element') || this.element.getAttribute('data-element');
+      this.scrollElementY = this.dataElementY ? document.querySelector(this.dataElementY) : window;
+      this.dataElementX = this.element.getAttribute('data-scrollable-element-x');
+      this.scrollElementX = this.dataElementY ? document.querySelector(this.dataElementX) : window;
+      this.initScroll();
+    };
+  
+    SmoothScroll.prototype.initScroll = function() {
+      var self = this;
+  
+      //detect click on link
+      this.element.addEventListener('click', function(event){
+        event.preventDefault();
+        var targetId = event.target.closest('.js-smooth-scroll').getAttribute('href').replace('#', ''),
+          target = document.getElementById(targetId),
+          targetTabIndex = target.getAttribute('tabindex'),
+          windowScrollTop = self.scrollElementY.scrollTop || document.documentElement.scrollTop;
+  
+        // scroll vertically
+        if(!self.dataElementY) windowScrollTop = window.scrollY || document.documentElement.scrollTop;
+  
+        var scrollElementY = self.dataElementY ? self.scrollElementY : false;
+  
+        var fixedHeight = self.getFixedElementHeight(); // check if there's a fixed element on the page
+        Util.scrollTo(target.getBoundingClientRect().top + windowScrollTop - fixedHeight, self.scrollDuration, function() {
+          // scroll horizontally
+          self.scrollHorizontally(target, fixedHeight);
+          //move the focus to the target element - don't break keyboard navigation
+          Util.moveFocus(target);
+          history.pushState(false, false, '#'+targetId);
+          self.resetTarget(target, targetTabIndex);
+        }, scrollElementY);
+      });
+    };
+  
+    SmoothScroll.prototype.scrollHorizontally = function(target, delta) {
+      var scrollEl = this.dataElementX ? this.scrollElementX : false;
+      var windowScrollLeft = this.scrollElementX ? this.scrollElementX.scrollLeft : document.documentElement.scrollLeft;
+      var final = target.getBoundingClientRect().left + windowScrollLeft - delta,
+        duration = this.scrollDuration;
+  
+      var element = scrollEl || window;
+      var start = element.scrollLeft || document.documentElement.scrollLeft,
+        currentTime = null;
+  
+      if(!scrollEl) start = window.scrollX || document.documentElement.scrollLeft;
+      // return if there's no need to scroll
+      if(Math.abs(start - final) < 5) return;
+          
+      var animateScroll = function(timestamp){
+        if (!currentTime) currentTime = timestamp;        
+        var progress = timestamp - currentTime;
+        if(progress > duration) progress = duration;
+        var val = Math.easeInOutQuad(progress, start, final-start, duration);
+        element.scrollTo({
+          left: val,
+        });
+        if(progress < duration) {
+          window.requestAnimationFrame(animateScroll);
+        }
+      };
+  
+      window.requestAnimationFrame(animateScroll);
+    };
+  
+    SmoothScroll.prototype.resetTarget = function(target, tabindex) {
+      if( parseInt(target.getAttribute('tabindex')) < 0) {
+        target.style.outline = 'none';
+        !tabindex && target.removeAttribute('tabindex');
+      }	
+    };
+  
+    SmoothScroll.prototype.getFixedElementHeight = function() {
+      var scrollElementY = this.dataElementY ? this.scrollElementY : document.documentElement;
+      var fixedElementDelta = parseInt(getComputedStyle(scrollElementY).getPropertyValue('scroll-padding'));
+      if(isNaN(fixedElementDelta) ) { // scroll-padding not supported
+        fixedElementDelta = 0;
+        var fixedElement = document.querySelector(this.element.getAttribute('data-fixed-element'));
+        if(fixedElement) fixedElementDelta = parseInt(fixedElement.getBoundingClientRect().height);
+      }
+      return fixedElementDelta;
+    };
+    
+    //initialize the Smooth Scroll objects
+    var smoothScrollLinks = document.getElementsByClassName('js-smooth-scroll');
+    if( smoothScrollLinks.length > 0 && !Util.cssSupports('scroll-behavior', 'smooth') && window.requestAnimationFrame) {
+      // you need javascript only if css scroll-behavior is not supported
+      for( var i = 0; i < smoothScrollLinks.length; i++) {
+        (function(i){new SmoothScroll(smoothScrollLinks[i]);})(i);
       }
     }
   }());
@@ -5294,6 +5798,113 @@ function initAlertEvent(element) {
           checkCustomSelectClick(element, event.target);
         });
       });
+    }
+  }());
+// File#: _2_table-of-contents
+// Usage: codyhouse.co/license
+(function() {
+    var Toc = function(element) {
+      this.element = element;
+      this.list = this.element.getElementsByClassName('js-toc__list')[0];
+      this.anchors = this.list.querySelectorAll('a[href^="#"]');
+      this.sections = getSections(this);
+      this.clickScrolling = false;
+      this.intervalID = false;
+      initToc(this);
+    };
+  
+    function getSections(toc) {
+      var sections = [];
+      // get all content sections
+      for(var i = 0; i < toc.anchors.length; i++) {
+        var section = document.getElementById(toc.anchors[i].getAttribute('href').replace('#', ''));
+        if(section) sections.push(section);
+      }
+      return sections;
+    };
+  
+    function initToc(toc) {
+      // listen for click on anchors
+      toc.list.addEventListener('click', function(event){
+        var anchor = event.target.closest('a[href^="#"]');
+        if(!anchor) return;
+        // reset link apperance 
+        toc.clickScrolling = true;
+        resetAnchors(toc, anchor);
+      });
+  
+      // check when a new section enters the viewport
+      var observer = new IntersectionObserver(
+        function(entries, observer) { 
+          entries.forEach(function(entry){
+            if(!toc.clickScrolling) { // do not update classes if user clicked on a link
+              getVisibleSection(toc);
+            }
+          });
+        }, 
+        {
+          threshold: [0, 0.1],
+          rootMargin: "0px 0px -70% 0px"
+        }
+      );
+  
+      for(var i = 0; i < toc.sections.length; i++) {
+        observer.observe(toc.sections[i]);
+      }
+  
+      // detect the end of scrolling -> reactivate IntersectionObserver on scroll
+      toc.element.addEventListener('toc-scroll', function(event){
+        toc.clickScrolling = false;
+      });
+    };
+  
+    function resetAnchors(toc, anchor) {
+      if(!anchor) return;
+      for(var i = 0; i < toc.anchors.length; i++) Util.removeClass(toc.anchors[i], 'toc__link--selected');
+      Util.addClass(anchor, 'toc__link--selected');
+    };
+  
+    function getVisibleSection(toc) {
+      if(toc.intervalID) {
+        clearInterval(toc.intervalID);
+      }
+      toc.intervalID = setTimeout(function(){
+        var halfWindowHeight = window.innerHeight/2,
+        index = -1;
+        for(var i = 0; i < toc.sections.length; i++) {
+          var top = toc.sections[i].getBoundingClientRect().top;
+          if(top < halfWindowHeight) index = i;
+        }
+        if(index > -1) {
+          resetAnchors(toc, toc.anchors[index]);
+        }
+        toc.intervalID = false;
+      }, 100);
+    };
+    
+    var tocs = document.getElementsByClassName('js-toc'),
+      intersectionObserverSupported = ('IntersectionObserver' in window && 'IntersectionObserverEntry' in window && 'intersectionRatio' in window.IntersectionObserverEntry.prototype);
+  
+    var tocsArray = [];
+    if( tocs.length > 0 && intersectionObserverSupported) {
+      for( var i = 0; i < tocs.length; i++) {
+        (function(i){ tocsArray.push(new Toc(tocs[i])); })(i);
+      }
+  
+      // listen to window scroll -> reset clickScrolling property
+      var scrollId = false,
+        customEvent = new CustomEvent('toc-scroll');
+        
+      window.addEventListener('scroll', function() {
+        clearTimeout(scrollId);
+        scrollId = setTimeout(doneScrolling, 100);
+      });
+  
+      function doneScrolling() {
+        for( var i = 0; i < tocsArray.length; i++) {
+          (function(i){tocsArray[i].element.dispatchEvent(customEvent)})(i);
+        };
+      };
     }
   }());
 // File#: _3_dashboard-navigation
