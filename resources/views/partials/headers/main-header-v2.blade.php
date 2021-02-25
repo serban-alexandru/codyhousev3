@@ -20,24 +20,45 @@
 
 <!-- User Icon and Drop-down Desktop-->
       <div class="mobile-btn flex">
-        <button class="header-v2__nav-control reset anim-menu-btn js-anim-second-menu switch-icon switch-icon--flip js-switch-icon js-tab-focus" aria-label="Toggle icon">
-          <svg class="switch-icon__icon switch-icon__icon--a" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
-            <title>face-man</title>
-            <g stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" transform="translate(0.5 0.5)"
-              fill="#a8a8a8" stroke="#a8a8a8">
-              <path fill="none" stroke-miterlimit="10"
-                d="M1.051,10.933 C4.239,6.683,9.875,11.542,16,6c3,4.75,6.955,4.996,6.955,4.996"></path>
-              <circle data-stroke="none" fill="#a8a8a8" cx="7.5" cy="14.5" r="1.5" stroke-linejoin="miter"
-                stroke-linecap="square" stroke="none"></circle>
-              <circle data-stroke="none" fill="#a8a8a8" cx="16.5" cy="14.5" r="1.5" stroke-linejoin="miter"
-                stroke-linecap="square" stroke="none"></circle>
-              <circle fill="none" stroke="#a8a8a8" stroke-miterlimit="10" cx="12" cy="12" r="11"></circle>
+        <!-- Search Form -->
+        <div class="btn btn--icon" aria-controls="modal-search">
+          <svg class="icon" viewBox="0 0 24 24">
+            <title>Toggle search</title>
+            <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" stroke="#a8a8a8" fill="none" stroke-miterlimit="10">
+              <line x1="22" y1="22" x2="15.656" y2="15.656"></line>
+              <circle cx="10" cy="10" r="8"></circle>
             </g>
           </svg>
-          <svg class="switch-icon__icon switch-icon__icon--b" viewBox="0 0 32 32">
-            <g fill="none" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="#a8a8a8">
-              <line x1="27" y1="5" x2="5" y2="27"></line>
-              <line x1="27" y1="27" x2="5" y2="5"></line>
+        </div>
+
+        <button class="header-v2__nav-control reset anim-menu-btn js-anim-second-menu switch-icon switch-icon--flip js-switch-icon js-tab-focus" aria-label="Toggle icon">
+        @auth
+          <div class="mega-nav__icon-btn dropdown__wrapper inline-block author author--minimal-mobile switch-icon__icon switch-icon__icon--a">
+            @if(auth()->user()->avatar)
+            <div class="author__img-wrapper author--minimal dropdown__trigger">
+              <img src="{{ auth()->user()->getAvatar() }}" alt="Logged in user avatar,">
+            </div>
+            @else              
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
+              <title>face-man</title>
+              <g stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" transform="translate(0.5 0.5)"
+                fill="#a8a8a8" stroke="#a8a8a8">
+                <path fill="none" stroke-miterlimit="10"
+                  d="M1.051,10.933 C4.239,6.683,9.875,11.542,16,6c3,4.75,6.955,4.996,6.955,4.996"></path>
+                <circle data-stroke="none" fill="#a8a8a8" cx="7.5" cy="14.5" r="1.5" stroke-linejoin="miter"
+                  stroke-linecap="square" stroke="none"></circle>
+                <circle data-stroke="none" fill="#a8a8a8" cx="16.5" cy="14.5" r="1.5" stroke-linejoin="miter"
+                  stroke-linecap="square" stroke="none"></circle>
+                <circle fill="none" stroke="#a8a8a8" stroke-miterlimit="10" cx="12" cy="12" r="11"></circle>
+              </g>
+            </svg>
+            @endif
+          </div>
+        @endauth
+          <svg class="switch-icon__icon switch-icon__icon--b" viewBox="0 0 25 25">
+            <g fill="none" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" stroke="#a8a8a8">
+              <line x1="20" y1="5" x2="5" y2="20"></line>
+              <line x1="20" y1="20" x2="5" y2="5"></line>
             </g>
           </svg>
         </button>
@@ -169,53 +190,55 @@
           </li>
           <li class="header-v2__nav-item header-v2__nav-item--main header-v2__nav-item--has-children margin-left-sm">
             @auth
-            <a href="#0" class="header-v2__nav-link header-v2__nav-hide-mobile">
-              @if(auth()->user()->avatar)
-                <img src="{{ auth()->user()->getAvatar() }}" alt="Logged in user avatar,">
-              @else              
-              <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
-                <title>face-man</title>
-                <g stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" transform="translate(0.5 0.5)"
-                  fill="#a8a8a8" stroke="#a8a8a8">
-                  <path fill="none" stroke-miterlimit="10"
-                    d="M1.051,10.933 C4.239,6.683,9.875,11.542,16,6c3,4.75,6.955,4.996,6.955,4.996"></path>
-                  <circle data-stroke="none" fill="#a8a8a8" cx="7.5" cy="14.5" r="1.5" stroke-linejoin="miter"
-                    stroke-linecap="square" stroke="none"></circle>
-                  <circle data-stroke="none" fill="#a8a8a8" cx="16.5" cy="14.5" r="1.5" stroke-linejoin="miter"
-                    stroke-linecap="square" stroke="none"></circle>
-                  <circle fill="none" stroke="#a8a8a8" stroke-miterlimit="10" cx="12" cy="12" r="11"></circle>
-                </g>
-              </svg>
-              @endif
-            </a>
+            <div class="mega-nav__icon-btn dropdown__wrapper inline-block author author--minimal-mobile ">
+              <a href="#0" class="author__img-wrapper author--minimal dropdown__trigger">
+                @if(auth()->user()->avatar)
+                  <img src="{{ auth()->user()->getAvatar() }}" alt="Logged in user avatar,">
+                @else              
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
+                  <title>face-man</title>
+                  <g stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" transform="translate(0.5 0.5)"
+                    fill="#a8a8a8" stroke="#a8a8a8">
+                    <path fill="none" stroke-miterlimit="10"
+                      d="M1.051,10.933 C4.239,6.683,9.875,11.542,16,6c3,4.75,6.955,4.996,6.955,4.996"></path>
+                    <circle data-stroke="none" fill="#a8a8a8" cx="7.5" cy="14.5" r="1.5" stroke-linejoin="miter"
+                      stroke-linecap="square" stroke="none"></circle>
+                    <circle data-stroke="none" fill="#a8a8a8" cx="16.5" cy="14.5" r="1.5" stroke-linejoin="miter"
+                      stroke-linecap="square" stroke="none"></circle>
+                    <circle fill="none" stroke="#a8a8a8" stroke-miterlimit="10" cx="12" cy="12" r="11"></circle>
+                  </g>
+                </svg>
+                @endif
+              </a>
 
-            <div class="header-v2__nav-dropdown">
-              <ul class="header-v2__nav-list">
-                <li class="header-v2__nav-item header-v2__nav-item--label">My Post Panel</li>
-                <li class="header-v2__nav-item"><a href="{{ url('dashboard') }}" class="header-v2__nav-link">Dashboard</a></li>
-                <li class="header-v2__nav-item">
-                  <a href="#0" class="header-v2__nav-link justify-between">
-                    <span>Add Post <i class="sr-only">(opens in new window)</i></span>
-                    <svg class="icon icon--xxs" aria-hidden="true" viewBox="0 0 12 12">
-                      <g stroke-width="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none">
-                        <path d="M10.5,8.5v2a1,1,0,0,1-1,1h-8a1,1,0,0,1-1-1v-8a1,1,0,0,1,1-1h2"></path>
-                        <polygon points="9.5 0.5 11.5 2.5 6.5 7.5 3.5 8.5 4.5 5.5 9.5 0.5"></polyline>
-                        <line x1="11.5" y1="0.5" x2="5.5" y2="6.5"></line>
-                      </g>
-                    </svg>
-                  </a>
-                </li>
+              <div class="header-v2__nav-dropdown">
+                <ul class="header-v2__nav-list">
+                  <li class="header-v2__nav-item header-v2__nav-item--label">My Post Panel</li>
+                  <li class="header-v2__nav-item"><a href="{{ url('dashboard') }}" class="header-v2__nav-link">Dashboard</a></li>
+                  <li class="header-v2__nav-item">
+                    <a href="#0" class="header-v2__nav-link justify-between">
+                      <span>Add Post <i class="sr-only">(opens in new window)</i></span>
+                      <svg class="icon icon--xxs" aria-hidden="true" viewBox="0 0 12 12">
+                        <g stroke-width="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                          <path d="M10.5,8.5v2a1,1,0,0,1-1,1h-8a1,1,0,0,1-1-1v-8a1,1,0,0,1,1-1h2"></path>
+                          <polygon points="9.5 0.5 11.5 2.5 6.5 7.5 3.5 8.5 4.5 5.5 9.5 0.5"></polyline>
+                          <line x1="11.5" y1="0.5" x2="5.5" y2="6.5"></line>
+                        </g>
+                      </svg>
+                    </a>
+                  </li>
 
-                <li class="header-v2__nav-item header-v2__nav-item--divider" role="separator"></li>
-                <li class="header-v2__nav-item header-v2__nav-item--label">Profile settings</li>
-                <li class="header-v2__nav-item"><a href="{{ url('profile') }}" class="header-v2__nav-link">Profile</a></li>
-                <li class="header-v2__nav-item"><a href="{{ url('users/settings') }}" class="header-v2__nav-link">Edit Profile</a></li>
-                <li class="header-v2__nav-item"><a href="{{ url('/logout') }}" class="header-v2__nav-link">Logout</a></li>
+                  <li class="header-v2__nav-item header-v2__nav-item--divider" role="separator"></li>
+                  <li class="header-v2__nav-item header-v2__nav-item--label">Profile settings</li>
+                  <li class="header-v2__nav-item"><a href="{{ url('profile') }}" class="header-v2__nav-link">Profile</a></li>
+                  <li class="header-v2__nav-item"><a href="{{ url('users/settings') }}" class="header-v2__nav-link">Edit Profile</a></li>
+                  <li class="header-v2__nav-item"><a href="{{ url('/logout') }}" class="header-v2__nav-link">Logout</a></li>
 
-                <li class="header-v2__nav-item header-v2__nav-item--divider" role="separator"></li>
-                <li class="header-v2__nav-item header-v2__nav-item--label">Admin</li>
-                <li class="header-v2__nav-item"><a href="{{ url('admin') }}" class="header-v2__nav-link">Admin Dashboard</a></li>
-              </ul>
+                  <li class="header-v2__nav-item header-v2__nav-item--divider" role="separator"></li>
+                  <li class="header-v2__nav-item header-v2__nav-item--label">Admin</li>
+                  <li class="header-v2__nav-item"><a href="{{ url('admin') }}" class="header-v2__nav-link">Admin Dashboard</a></li>
+                </ul>
+              </div>
             </div>
             @endauth
           </li>
