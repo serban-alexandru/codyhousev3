@@ -30,6 +30,8 @@ Usage: codyhouse.co/license
     width: var(--masonry-col-auto-size); // this will be updated using JS
     margin-right: var(--masonry-grid-gap);
     margin-bottom: var(--masonry-grid-gap);
+
+    .thumb img {width:100%;}
   }
   
   .js {

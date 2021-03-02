@@ -25,7 +25,8 @@ class MasonryV1 extends Component
                 'posts.created_at as created_at',
                 'thumbnail',
                 'thumbnail_medium',
-                'users.name as username',
+                'users.name',
+                'users.username',
                 'users.avatar as avatar'
             ])->where(
                 [

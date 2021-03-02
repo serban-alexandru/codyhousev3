@@ -12,7 +12,7 @@
 @endisset
 
 @section('content')
-<x-users.profile />
+<x-users.profile id='{{ $user->id }}' />
 
 <div class="text-divider padding-bottom-xs text-lg max-width-adaptive-lg">
     <span>

@@ -4,6 +4,8 @@ namespace App\View\Components\Users;
 
 use Illuminate\View\Component;
 
+use Modules\Users\Entities\User;
+
 class Profile extends Component
 {
     public $user;
@@ -13,9 +15,13 @@ class Profile extends Component
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($id = null)
     {
-        $this->user = auth()->user();
+        if ($id) {
+            $this->user = User::where('id', $id)->first();
+        } else {
+            $this->user = auth()->user();
+        }
     }
 
     /**
