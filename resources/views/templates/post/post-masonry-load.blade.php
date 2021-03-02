@@ -36,7 +36,7 @@
           </a>
         </figure>
         <div class="user-cell__content text-component line-height-sm v-space-xxs">
-          <p><a class="color-contrast-high" href="#0"><strong>{{ $post->id }}</strong></a></p>
+          <p><a class="color-contrast-high" href="#0"><strong>{{ $post->name }}</strong></a></p>
           <p class="color-contrast-medium">{{ $post->created_at->format('F j, Y') }}</p>
         </div>
       </div>
