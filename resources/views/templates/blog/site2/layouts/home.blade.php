@@ -34,6 +34,9 @@
     @yield('before-end')
     @include('partials.footers.footer')
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
+
+    <!-- MODULE SCRIPTS -->
+    @stack('module-scripts')
   </body>
   </html>
 

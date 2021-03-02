@@ -40,6 +40,8 @@
       grid.colWidth = parseFloat((containerWidth - (grid.activeColumns - 1)*grid.colGap)/grid.activeColumns);
       for(var i = 0; i < grid.items.length; i++) {
         grid.items[i].style.width = grid.colWidth+'px'; // reset items width
+        // Integrate with Infinite scroll (Show all elements)
+        grid.items[i].style.display = 'inline-block'; // reset items width
       }
     };
   

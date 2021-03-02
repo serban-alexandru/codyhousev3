@@ -711,4 +711,44 @@ class PostController extends Controller
         return view('templates.post.post-template', $data);
     }
 
+    public function ajaxShowPosts($page_num)
+    {
+        $perpage = 12;
+        $offset = ($page_num - 1) * $perpage;
+        $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
+            ->select([
+                'posts.id',
+                'title',
+                'slug',
+                'posts.created_at as created_at',
+                'thumbnail',
+                'thumbnail_medium',
+                'users.name as username',
+                'users.avatar as avatar'
+            ])->where(
+                [
+                    'is_published' => true,
+                    'is_pending'   => false,
+                    'is_deleted'   => false
+                ]    
+            )
+            ->orderBy('created_at', 'desc')
+            ->offset($offset)
+            ->limit($perpage)
+            ->offset(0);
+
+        $posts = $posts->get();
+
+        $posts_count = Post::where([
+            'is_published' => true,
+            'is_pending'   => false,
+            'is_deleted'   => false
+        ])->count();
+
+        $data['total'] = $posts_count;
+        $data['posts'] = $posts;
+        $data['nextpage'] = ($posts_count - $offset - $perpage) > 0 ? ($page_num + 1) : 0;
+
+        return view('templates.post.post-masonry-load', $data);
+    }
 }

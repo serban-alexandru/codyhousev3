@@ -26,7 +26,7 @@ Usage: codyhouse.co/license
   }
   
   .masonry__item {
-    display: inline-block; // flex fallback
+    display: none; // For integrating with infinite scroll (Original: inline-block)
     width: var(--masonry-col-auto-size); // this will be updated using JS
     margin-right: var(--masonry-grid-gap);
     margin-bottom: var(--masonry-grid-gap);

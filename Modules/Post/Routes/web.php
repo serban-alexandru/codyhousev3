@@ -111,4 +111,3 @@ Route::group([
       'uses' => 'PostController@singlePost'
     ]);
   });
-  
