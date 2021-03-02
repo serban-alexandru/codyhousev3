@@ -723,7 +723,8 @@ class PostController extends Controller
                 'posts.created_at as created_at',
                 'thumbnail',
                 'thumbnail_medium',
-                'users.name as username',
+                'users.name',
+                'users.username',
                 'users.avatar as avatar'
             ])->where(
                 [
@@ -734,8 +735,7 @@ class PostController extends Controller
             )
             ->orderBy('created_at', 'desc')
             ->offset($offset)
-            ->limit($perpage)
-            ->offset(0);
+            ->limit($perpage);
 
         $posts = $posts->get();
 

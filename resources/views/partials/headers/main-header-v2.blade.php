@@ -21,7 +21,7 @@
       <!-- User Icon and Drop-down Desktop-->
       <div class="mobile-btn flex">
         <!-- Search Form -->
-        <div class="btn btn--icon" aria-controls="modal-search">
+        <div class="header-v2__nav-control btn btn--icon" aria-controls="modal-search">
           <svg class="icon" viewBox="0 0 24 24">
             <title>Toggle search</title>
             <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" stroke="#a8a8a8" fill="none" stroke-miterlimit="10">
@@ -31,10 +31,10 @@
           </svg>
         </div>
 
+        @auth
         <button
           class="header-v2__nav-control reset anim-menu-btn js-anim-menu-btn switch-icon switch-icon--flip js-switch-icon js-tab-focus"
           aria-label="Toggle icon" menu-target="user-menu">
-          @auth
           <div
             class="mega-nav__icon-btn dropdown__wrapper inline-block author author--minimal-mobile switch-icon__icon switch-icon__icon--a">
             @if(auth()->user()->avatar)
@@ -56,7 +56,6 @@
             </svg>
             @endif
           </div>
-          @endauth
           <svg class="switch-icon__icon switch-icon__icon--b" viewBox="0 0 25 25">
             <g fill="none" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" stroke="#a8a8a8">
               <line x1="20" y1="5" x2="5" y2="20"></line>
@@ -64,6 +63,7 @@
             </g>
           </svg>
         </button>
+        @endauth
 
         <button class="header-v2__nav-control reset anim-menu-btn js-anim-menu-btn js-tab-focus" aria-label="Toggle menu" menu-target="main-menu">
           <i class="anim-menu-btn__icon anim-menu-btn__icon--close" aria-hidden="true"></i>
