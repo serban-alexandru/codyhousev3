@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $verify = DB::table('settings')->where('key', 'reg_en_verify_email')->first();
         
-        config(['settings.need_verify_email' => $verify->value === 'on' ? true : false]);
+        config(['settings.need_verify_email' => ( isset($verify->value) && $verify->value === 'on' ) ? true : false]);
     }
 
     /**
