@@ -10,8 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+$middleware = 'auth';
+if (config('settings.need_verify_email') === true) {
+  $middleware = ['auth','verified'];
+}
 
-Route::middleware('auth', 'role:admin')->group(function(){
+Route::middleware($middleware, 'role:admin')->group(function(){
     Route::group([
         'prefix' => 'admin',
         'middleware' => 'auth'
@@ -95,9 +99,14 @@ Route::prefix('pages')->group(function(){
     ]);
 });
 
+$middleware1 = ['web', 'auth'];
+if (config('settings.need_verify_email') === true) {
+  $middleware1 = ['web', 'auth', 'verified'];
+}
+
 Route::group([
 	'prefix' => 'laravel-filemanager',
-	'middleware' => ['web', 'auth']
+	'middleware' => $middleware1
 ], function () {
 	\UniSharp\LaravelFilemanager\Lfm::routes();
 });

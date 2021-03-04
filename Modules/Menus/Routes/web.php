@@ -10,8 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+$middleware = 'auth';
+if (config('settings.need_verify_email') === true) {
+  $middleware = ['auth','verified'];
+}
 
-Route::middleware('auth', 'role:admin')->group(function(){
+Route::middleware($middleware, 'role:admin')->group(function(){
     Route::prefix('admin')->group(function() {
         Route::get('/menus', 'MenusController@index');
     });

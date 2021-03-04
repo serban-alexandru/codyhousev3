@@ -11,7 +11,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class User extends Authenticatable implements HasMedia
+use Modules\Admin\Entities\Settings;
+
+use App\Notifications\PasswordReset;
+use App\Notifications\VerifyEmail;
+
+class User extends Authenticatable implements HasMedia, MustVerifyEmail
 {
     use Notifiable;
     use HasMediaTrait;
@@ -174,5 +179,40 @@ class User extends Authenticatable implements HasMedia
 
     public function isRegisteredUser() {
         return ($this->getUserRole() == 'registered') ? true : false;
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $settings = Settings::getSiteSettings();
+        
+        $data = [
+            'token' => $token,
+            'from_email' => !empty($settings['notify_from_email']) ? $settings['notify_from_email'] : env('MAIL_FROM_ADDRESS'),
+            'template' => !empty($settings['template_forgot_password']) ? $settings['template_forgot_password'] : '',
+        ];
+
+        $this->notify(new PasswordReset($data));
+    }
+
+    /**
+     * Send the email verification notification.
+     *
+     * @return void
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $settings = Settings::getSiteSettings();
+        
+        $data = [
+            'from_email' => !empty($settings['notify_from_email']) ? $settings['notify_from_email'] : env('MAIL_FROM_ADDRESS'),
+            'template' => !empty($settings['template_email_confirm']) ? $settings['template_email_confirm'] : '',
+        ];
+        $this->notify(new VerifyEmail($data));
     }
 }

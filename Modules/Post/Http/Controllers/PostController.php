@@ -708,7 +708,7 @@ class PostController extends Controller
         $data['post']       = $post;
         $data['page_title'] = $post->title;
 
-        return view('templates.post.post-template', $data);
+        return view('post::templates.post-template', $data);
     }
 
     public function ajaxShowPosts($page_num)
@@ -749,6 +749,6 @@ class PostController extends Controller
         $data['posts'] = $posts;
         $data['nextpage'] = ($posts_count - $offset - $perpage) > 0 ? ($page_num + 1) : 0;
 
-        return view('templates.post.post-masonry-load', $data);
+        return view('post::templates.post-masonry-load', $data);
     }
 }
