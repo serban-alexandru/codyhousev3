@@ -25,7 +25,7 @@ class SettingsController extends Controller {
    * @return Renderable
    */
   public function store(Request $request) {
-    $setting_keys = array (
+    $setting_keys = [
       'logo_title',
       'logo_svg',
       'favicon',
@@ -40,8 +40,18 @@ class SettingsController extends Controller {
       'font_logo',
       'font_primary',
       'font_secondary',
-      'tracker_script'
-    );
+      'tracker_script',
+      'reg_en_fullname',
+      'reg_en_verify_email',
+      'notify_from_email',
+      'template_email_confirm',
+      'template_forgot_password'
+    ];
+
+    $checkbox_keys = [
+      'reg_en_fullname',
+      'reg_en_verify_email'
+    ];
 
     $validator = Validator::make($request->all(), [
         'logo_title' => 'required|max:30',
@@ -81,10 +91,16 @@ class SettingsController extends Controller {
     $insert_data = array();
     $update_data = array();
     foreach ($setting_keys as $key) {
+      $default_val = '';
+      if (in_array($key, $checkbox_keys)) {
+        $default_val = 'off';
+      }
+      $req_param = !empty($request->input($key)) ? $request->input($key) : $default_val;
+
       if (isset($settings_data[$key]))
-        $update_data[$key] = $request->input($key);
+        $update_data[$key] = $req_param;
       else
-        $insert_data[] = array('key' => $key, 'value' => $request->input($key), 'created_at' => $dateNow, 'updated_at' => $dateNow);
+        $insert_data[] = array('key' => $key, 'value' => $req_param, 'created_at' => $dateNow, 'updated_at' => $dateNow);
     }
 
     if (count($insert_data) > 0) {

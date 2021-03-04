@@ -25,7 +25,7 @@
 
   <p class="cd-signin-modal__fieldset">
     <input
-      class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding"
+      class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding btn-reset-password"
       type="submit"
       value="Reset password"
     />
@@ -45,6 +45,8 @@
 
       var $feedback = $this.find('.newsletter-card__feedback');
 
+      $('.btn-reset-password').val("Requesting...");
+
       $.ajax({
         url: url,
         type: method,
@@ -52,6 +54,7 @@
         data: $this.serialize(),
         success:function(response){
           // console.log(response);
+          $('.btn-reset-password').val("Reset Password");
 
           if (response.status === 'success') {
             $feedback.removeClass('newsletter-card__feedback--error').addClass('newsletter-card__feedback--success newsletter-card__feedback--is-visible').html('<strong>Success!</strong> ' + response.message);
@@ -69,6 +72,8 @@
           }
         },
         error: function(response){
+          $('.btn-reset-password').val("Reset Password");
+          
           console.log(response.responseText);
           var jsonResponse = response.responseJSON;
           var errors = jsonResponse.errors;
@@ -87,7 +92,7 @@
           });
 
         }
-        });
+      });
     });
   })();
 </script>

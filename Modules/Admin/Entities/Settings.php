@@ -20,6 +20,7 @@ class Settings extends Model
       $settings = Settings::all();
 
       foreach($settings as $data) {
+        if (empty($data['value'])) $data['value'] = '';
         $setting_data[$data['key']] = $data['value'];
       }
     }

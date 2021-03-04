@@ -83,6 +83,26 @@ class SettingsSeeder extends Seeder
                 'key'           => 'tracker_script',
                 'value'         => ''
             ],
+            [
+                'key'           => 'reg_en_fullname',
+                'value'         => 'on'
+            ],
+            [
+                'key'           => 'reg_en_verify_email',
+                'value'         => 'on'
+            ],
+            [
+                'key'           => 'notify_from_email',
+                'value'         => ''
+            ],
+            [
+                'key'           => 'template_email_confirm',
+                'value'         => '<p>Please click the button below to verify your email address.</p><p><a href="{{URL}}">Verify Email Address</a></p><p>If you did not create an account, no further action is required.</p>'
+            ],
+            [
+                'key'           => 'template_forgot_password',
+                'value'         => '<p>You are receiving this email because we received a password reset request for your account.</p><p><a href="{{URL}}">Reset Password</a></p><p>This password reset link will expire in 1 hour.</p><p>If you did not request a password rest, no further action is required.</p>'
+            ],
         ];
 
 		foreach ($records as $record) {

@@ -11,7 +11,13 @@
 |
 */
 
-Auth::routes();
+$middleware = 'auth';
+if (config('settings.need_verify_email') === true) {
+  $middleware = ['auth','verified'];
+}
+
+// Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/login/ajax',[
     'as'   => 'login.ajax',
@@ -30,7 +36,7 @@ Route::get('/resetpassword',[
   'uses' => 'Auth\ForgotPasswordController@ajaxShowForm'
 ]);
 
-Route::middleware('auth', 'role:admin')->group(function(){
+Route::middleware($middleware, 'role:admin')->group(function(){
 
   Route::prefix('admin')->group(function(){
     Route::get('users', 'UsersController@index');
@@ -57,7 +63,7 @@ Route::middleware('auth', 'role:admin')->group(function(){
 
 });
 
-Route::middleware('auth')->group(function(){
+Route::middleware($middleware)->group(function(){
   Route::get('users/settings', 'UsersController@settings');
   Route::post('users/settings/save', 'UsersController@saveSettings');
   Route::post('users/settings/cover-photo/update/ajax', [
@@ -80,7 +86,7 @@ Route::middleware('auth')->group(function(){
 
 Route::group([
   'prefix' => 'dashboard',
-  'middleware' => 'auth'
+  'middleware' => $middleware
 ], function() {
   Route::get('/', 'DashboardPostsController@index');
   Route::get('/settings', 'DashboardPostsController@settings');

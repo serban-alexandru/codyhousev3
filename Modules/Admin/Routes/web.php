@@ -12,7 +12,12 @@
 */
 use Modules\Admin\Entities\Settings;
 
-Route::middleware('auth', 'role:admin')->group(function(){
+$middleware = 'auth';
+if (config('settings.need_verify_email') === true) {
+  $middleware = ['auth','verified'];
+}
+
+Route::middleware($middleware, 'role:admin')->group(function(){
 
     Route::prefix('admin')->group(function() {
         // Share Site Setting Data

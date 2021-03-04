@@ -97,7 +97,7 @@
 
                   <?php $logofont = ($settings_data['font_logo']) ? $settings_data['font_logo'] : ''; ?>
                   <div class="select inline-block js-select" data-trigger-class="btn btn--subtle">
-                    <select name="font_logo" id="font_logo" data-placeholder="Select Logo Font">
+                    <select class="form-control" name="font_logo" id="font_logo" data-placeholder="Select Logo Font">
                     @foreach($fonts as $font_name)
                       <option
                         value="{{ $font_name }}"
@@ -117,7 +117,7 @@
 
                   <?php $primaryfont = ($settings_data['font_primary']) ? $settings_data['font_primary'] : ''; ?>
                   <div class="select inline-block js-select" data-trigger-class="btn btn--subtle">
-                    <select name="font_primary" id="font_primary" data-placeholder="Select Primary Font">
+                    <select class="form-control" name="font_primary" id="font_primary" data-placeholder="Select Primary Font">
                     @foreach($fonts as $font_name)
                       <option
                         value="{{ $font_name }}"
@@ -136,7 +136,7 @@
                   <label class="form-label margin-bottom-xxxs" for="font_secondary">Secondary Font:</label>
                   <?php $secondaryfont = ($settings_data['font_secondary']) ? $settings_data['font_secondary'] : ''; ?>
                   <div class="select inline-block js-select" data-trigger-class="btn btn--subtle">
-                    <select name="font_secondary" id="font_secondary" data-placeholder="Select Secondary Font">
+                    <select class="form-control" name="font_secondary" id="font_secondary" data-placeholder="Select Secondary Font">
                     @foreach($fonts as $font_name)
                       <option
                         value="{{ $font_name }}"
@@ -152,79 +152,51 @@
                 </div>
               </div>
 
-              <div class="tbl settings-tbl text-sm margin-bottom-lg">
-                <table class="tbl__table border-bottom border-2" aria-label="Table Example">
-                  <thead class="tbl__header border-bottom border-2">
-                    <tr class="tbl__row">
-                      <th class="tbl__cell text-left" scope="col">
-                        <h1>Registration Setting</h1>
-                      </th>
-              
-                      <th class="sr-only" scope="col">Enable/disable option</span></th>
-                    </tr>
-                  </thead>
-              
-                  <tbody class="tbl__body">
-                    <tr class="tbl__row">
-                      <td class="tbl__cell" role="cell">
-                        <p>First name and last name</p>
-                      </td>
-              
-                      <td class="tbl__cell" role="cell">
-                        <div class="flex justify-end">
-              
-                          <div class="switch ">
-                            <input class="switch__input" type="checkbox" id="switch-push-notifications">
-                            <label class="switch__label" for="switch-push-notifications" aria-hidden="true">First name and last name</label>
-                            <div class="switch__marker" aria-hidden="true"></div>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-              
-                    <tr class="tbl__row">
-                      <td class="tbl__cell" role="cell">
-                        <p>Email Confirmation</p>
-                      </td>
-              
-                      <td class="tbl__cell" role="cell">
-                        <div class="flex justify-end">
-              
-                          <div class="switch ">
-                            <input class="switch__input" type="checkbox" id="switch-sms-notifications" checked>
-                            <label class="switch__label" for="switch-sms-notifications" aria-hidden="true">Email Confirmation</label>
-                            <div class="switch__marker" aria-hidden="true"></div>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div class="form-control-section">
+                <h4>Registration Setting</h4>
+                <div class="flex justify-between margin-bottom-md margin-top-xs">
+                  <label class="form-label margin-bottom-xxxs" for="reg_en_fullname">First name and last name:</label>
+                  <div class="flex justify-end">              
+                    <div class="switch ">
+                      <input class="switch__input" type="checkbox" name="reg_en_fullname" id="reg_en_fullname" {{ !empty($settings_data['reg_en_fullname']) && $settings_data['reg_en_fullname'] === 'on' ? 'checked' : '' }}>
+                      <label class="switch__label" for="reg_en_fullname" aria-hidden="true">First name and last name</label>
+                      <div class="switch__marker" aria-hidden="true"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex justify-between margin-bottom-md margin-top-xs">
+                  <label class="form-label margin-bottom-xxxs" for="reg_en_verify_email">Email Confirmation:</label>
+                  <div class="flex justify-end">              
+                    <div class="switch ">
+                      <input class="switch__input" type="checkbox" name="reg_en_verify_email" id="reg_en_verify_email" {{ !empty($settings_data['reg_en_verify_email']) && $settings_data['reg_en_verify_email'] === 'on' ? 'checked' : '' }}>
+                      <label class="switch__label" for="reg_en_verify_email" aria-hidden="true">Email Confirmation</label>
+                      <div class="switch__marker" aria-hidden="true"></div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              <div class="floating-label margin-bottom-md margin-top-md">
-                <label class="form-label" for="page_title">Master Email</label>
-                <input class="form-control width-100%" type="text" name="page_title" id="page_title" placeholder="Main email for templates" required>
-              </div>
+              <div class="form-control-section">
+                <h4>Email Templates Setting</h4>
+                <div class="floating-label margin-bottom-md margin-top-md">
+                  <label class="form-label" for="notify_from_email">Master Email</label>
+                  <input class="form-control width-100%" type="text" name="notify_from_email" id="notify_from_email" value="{{ !empty($settings_data['notify_from_email']) ? $settings_data['notify_from_email'] : '' }}" placeholder="Main email for templates" required>
+                </div>
 
-              <div class="margin-bottom-md">
-                <textarea class="form-control width-100%" name="textarea" id="textarea" placeholder="Email Confirmation Template"></textarea>
-              </div>
+                <div class="margin-bottom-md">
+                  <textarea class="form-control width-100%" name="template_email_confirm" id="template_email_confirm" placeholder="Email Confirmation Template">{!! !empty($settings_data['template_email_confirm']) ? $settings_data['template_email_confirm'] : '' !!}</textarea>
+                </div>
 
-              <div class="margin-bottom-md">
-                <textarea class="form-control width-100%" name="textarea" id="textarea" placeholder="Forgot Email Template"></textarea>
+                <div class="margin-bottom-md">
+                  <textarea class="form-control width-100%" name="template_forgot_password" id="template_forgot_password" placeholder="Forgot Password Email Template">{!! !empty($settings_data['template_forgot_password']) ? $settings_data['template_forgot_password'] : '' !!}</textarea>
+                </div>
               </div>
 
               <div class="form-control-section">
                 <h4>Tracking Script</h4>
                 <div class="floating-label margin-bottom-md">
                   <label class="form-label" for="tracker_script">Paste your Matomo Tracker Script</label>
-                  <textarea class="form-control width-100%" name="tracker_script" id="tracker_script" placeholder="Paste your Matomo Tracker Script">{{ !empty($settings_data['tracker_script']) ? $settings_data['tracker_script'] : '' }}</textarea>
+                  <textarea class="form-control width-100%" name="tracker_script" id="tracker_script" placeholder="Paste your Matomo Tracker Script">{!! !empty($settings_data['tracker_script']) ? $settings_data['tracker_script'] : '' !!}</textarea>
                 </div>
               </div>
 

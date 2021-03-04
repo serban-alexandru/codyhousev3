@@ -33,7 +33,7 @@
     />
     <span class="cd-signin-modal__error">Error message here!</span>
   </p>
-
+  @if (!empty($settings_data['reg_en_fullname']) && $settings_data['reg_en_fullname'] === 'on')
   <p class="cd-signin-modal__fieldset">
     <label
       class="cd-signin-modal__label cd-signin-modal__label--username cd-signin-modal__label--image-replace"
@@ -49,6 +49,7 @@
     />
     <span class="cd-signin-modal__error">Error message here!</span>
   </p>
+  @endif
 
   <p class="cd-signin-modal__fieldset">
     <label
@@ -108,7 +109,7 @@
 
   <p class="cd-signin-modal__fieldset">
     <input
-      class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding"
+      class="cd-signin-modal__input cd-signin-modal__input--full-width cd-signin-modal__input--has-padding btn-register"
       type="submit"
       value="Create account"
     />
@@ -133,6 +134,8 @@
 
       var $feedback = $this.find('.newsletter-card__feedback');
 
+      $('.btn-register').val("Registering...");
+
       $.ajax({
         url: url,
         type: method,
@@ -140,6 +143,7 @@
         data: $this.serialize(),
         success:function(response){
           // console.log(response);
+          $('.btn-register').val("Create account");
 
           if (response.status === 'success') {
             $feedback.removeClass('newsletter-card__feedback--error').addClass('newsletter-card__feedback--success newsletter-card__feedback--is-visible').html('<strong>Success!</strong> ' + response.message);
@@ -154,6 +158,8 @@
           }
         },
         error: function(response){
+          $('.btn-register').val("Create account");
+
           var jsonResponse = response.responseJSON;
           var errors = jsonResponse.errors;
           var errorsHTML = '';

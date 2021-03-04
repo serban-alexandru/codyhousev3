@@ -3,6 +3,13 @@
 // enable shortcode globally
 Shortcode::enable();
 
+$middleware = 'auth';
+if (config('settings.need_verify_email') === true) {
+  $middleware = ['auth','verified'];
+}
+
+Auth::routes(['verify' => true]);
+
 Route::get('/',function(){
   return view('/site1/index');
 });
@@ -23,7 +30,7 @@ Route::get('/site2/register',function(){
 
 // Editor JS
 
-Route::group(['middleware' => 'auth'], function(){
+Route::group(['middleware' => $middleware], function(){
   Route::post('editorjs/upload-image', [
       'as'   => 'editorjs.upload-image',
       'uses' => 'EditorjsController@uploadImage'

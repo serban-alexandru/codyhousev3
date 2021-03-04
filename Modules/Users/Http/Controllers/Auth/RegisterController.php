@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 
+use Modules\Admin\Entities\Settings;
+
 class RegisterController extends Controller
 {
     /*
@@ -38,12 +40,37 @@ class RegisterController extends Controller
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
+     * Site global settings data
+     *
+     * @var array
+     */
+    protected $settings = [];
+
+    /**
+     * Enable/Disable full name field when register
+     *
+     * @var bool
+     */
+    protected $enable_fullname = true;
+
+    /**
+     * Enable/Disable email verification
+     *
+     * @var bool
+     */
+    protected $enable_verification = false;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
      */
     public function __construct()
     {
+        $this->settings = Settings::getSiteSettings();
+        $this->enable_fullname = !empty($this->settings['reg_en_fullname']) && $this->settings['reg_en_fullname'] === 'on';
+        $this->enable_verification = !empty($this->settings['reg_en_verify_email']) && $this->settings['reg_en_verify_email'] === 'on';
+
         $this->middleware('guest');
     }
 
@@ -55,13 +82,18 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
+        $validate_data = [
             'username'              => ['required', 'string', 'max:255', 'unique:users', 'alpha_dash'],
             'email'                 => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'full_name'             => ['required', 'string', 'max:255'],
             'password'              => ['required', 'string', 'min:8', 'confirmed'],
             'terms'                 => ['accepted']
-        ]);
+        ];
+
+        if ($this->enable_fullname) {
+            $validate_data['full_name'] = ['required', 'string', 'max:255'];
+        }
+
+        return Validator::make($data, $validate_data);
     }
 
     /**
@@ -74,10 +106,11 @@ class RegisterController extends Controller
     {
         $permission = Role::where('key', 'registered')->first()->permission;
 
+
         return User::create([
             'username'   => $data['username'],
             'email'      => $data['email'],
-            'name'       => $data['full_name'],
+            'name'       => isset($data['full_name']) ? $data['full_name'] : "",
             'password'   => Hash::make($data['password']),
             'permission' => $permission
         ]);
@@ -89,6 +122,9 @@ class RegisterController extends Controller
         $user = $this->create($request->all());
 
         Auth::loginUsingId($user->id);
+
+        if ($this->enable_verification)
+            $user->sendEmailVerificationNotification();
 
         $redirect_url = $user->permission === Role::where('key', 'admin')->first()->permission ? url('/admin') : RouteServiceProvider::HOME;
 
