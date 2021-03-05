@@ -193,7 +193,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         
         $data = [
             'token' => $token,
-            'from_email' => !empty($settings['notify_from_email']) ? $settings['notify_from_email'] : env('MAIL_FROM_ADDRESS'),
+            'from_email' => !empty($settings['notify_from_email']) ? $settings['notify_from_email'] : config('mail.from.address'),
             'template' => !empty($settings['template_forgot_password']) ? $settings['template_forgot_password'] : '',
         ];
 
@@ -210,7 +210,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
         $settings = Settings::getSiteSettings();
         
         $data = [
-            'from_email' => !empty($settings['notify_from_email']) ? $settings['notify_from_email'] : env('MAIL_FROM_ADDRESS'),
+            'from_email' => !empty($settings['notify_from_email']) ? $settings['notify_from_email'] : config('mail.from.address'),
             'template' => !empty($settings['template_email_confirm']) ? $settings['template_email_confirm'] : '',
         ];
         $this->notify(new VerifyEmail($data));
