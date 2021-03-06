@@ -9,8 +9,8 @@
 
                 <div>
                     @if (session('resent'))
-                        <div class="alert alert-success" role="alert">
-                            {{ __('A fresh verification link has been sent to your email address.') }}
+                        <div class="alert alert--is-visible alert-success" role="alert">
+                            {{ __('Request completed. Please check your email to verify your email address.') }}
                         </div>
                     @endif
 
