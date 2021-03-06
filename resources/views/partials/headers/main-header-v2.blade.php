@@ -250,8 +250,8 @@
 
           @guest
           <!-- Login and Sign-up buttons -->
-          <li class="header-v2__nav-item padding-right-sm padding-left-sm"><a href="{{ url('/logout') }}" class="btn btn--subtle">Login</a>
-          <li class="header-v2__nav-item"><a href="{{ url('/logout') }}" class="btn btn--primary">Signup</a></li>
+          <li class="header-v2__nav-item padding-right-sm padding-left-sm"><a href="{{ url('/site2/login') }}" class="btn btn--subtle">Login</a>
+          <li class="header-v2__nav-item"><a href="{{ url('/site2/register') }}" class="btn btn--primary">Signup</a></li>
           <!-- END -->
           @endguest
 
