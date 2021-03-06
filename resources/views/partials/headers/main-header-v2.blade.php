@@ -18,10 +18,10 @@
       </div>
       <!-- END-->
 
-      <!-- User Icon and Drop-down Desktop-->
-      <div class="mobile-btn flex">
+      <!-- User Icon and Drop-down Mobile-->
+      <div class="mobile-btn flex gap-xs">
         <!-- Search Form -->
-        <div class="header-v2__nav-control btn btn--icon" aria-controls="modal-search">
+        <div class="header-v2__nav-control btn btn--icon shadow-none" aria-controls="modal-search">
           <svg class="icon" viewBox="0 0 24 24">
             <title>Toggle search</title>
             <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" stroke="#a8a8a8" fill="none" stroke-miterlimit="10">
@@ -181,7 +181,7 @@
         <ul class="header-v2__nav-list header-v2__nav-list--main">
           <li class="header-v2__nav-item header-v2__nav-item--main">
             <!-- Search Form -->
-            <div class="btn btn--icon" aria-controls="modal-search">
+            <div class="btn btn--icon shadow-none" aria-controls="modal-search">
               <svg class="icon" viewBox="0 0 24 24">
                 <title>Toggle search</title>
                 <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" stroke="#a8a8a8" fill="none"
