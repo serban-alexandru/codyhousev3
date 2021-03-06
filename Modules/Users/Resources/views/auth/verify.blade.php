@@ -12,14 +12,14 @@
                         <div class="alert alert--is-visible alert-success" role="alert">
                             {{ __('Request completed. Please check your email to verify your email address.') }}
                         </div>
+                    @else
+                        {{ __('Before proceeding, please check your email for a verification link.') }}
+                        {{ __('If you did not receive the email') }},
+                        <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+                            @csrf
+                            <button type="submit" class="btn btn--primary btn-link p-0 m-0 align-baseline">{{ __('click here') }}</button>{{ __(' to request another') }}.
+                        </form>
                     @endif
-
-                    {{ __('Before proceeding, please check your email for a verification link.') }}
-                    {{ __('If you did not receive the email') }},
-                    <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
-                        @csrf
-                        <button type="submit" class="btn btn--primary btn-link p-0 m-0 align-baseline">{{ __('click here') }}</button>{{ __(' to request another') }}.
-                    </form>
                 </div>
             </div>
         </div>
