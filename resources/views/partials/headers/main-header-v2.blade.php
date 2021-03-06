@@ -19,12 +19,12 @@
       <!-- END-->
 
       <!-- User Icon and Drop-down Mobile-->
-      <div class="mobile-btn flex gap-xs">
+      <div class="mobile-btn flex gap-xxs">
         <!-- Search Form -->
         <div class="header-v2__nav-control btn btn--icon shadow-none" aria-controls="modal-search">
           <svg class="icon" viewBox="0 0 24 24">
             <title>Toggle search</title>
-            <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" stroke="#a8a8a8" fill="none" stroke-miterlimit="10">
+            <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" stroke="white" fill="none" stroke-miterlimit="10">
               <line x1="22" y1="22" x2="15.656" y2="15.656"></line>
               <circle cx="10" cy="10" r="8"></circle>
             </g>
@@ -44,14 +44,14 @@
             @else
             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
               <title>face-man</title>
-              <g stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" transform="translate(0.5 0.5)" fill="#a8a8a8" stroke="#a8a8a8">
+              <g stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" transform="translate(0.5 0.5)" fill="white" stroke="white">
                 <path fill="none" stroke-miterlimit="10"
                   d="M1.051,10.933 C4.239,6.683,9.875,11.542,16,6c3,4.75,6.955,4.996,6.955,4.996"></path>
-                <circle data-stroke="none" fill="#a8a8a8" cx="7.5" cy="14.5" r="1.5" stroke-linejoin="miter"
+                <circle data-stroke="none" fill="white" cx="7.5" cy="14.5" r="1.5" stroke-linejoin="miter"
                   stroke-linecap="square" stroke="none"></circle>
-                <circle data-stroke="none" fill="#a8a8a8" cx="16.5" cy="14.5" r="1.5" stroke-linejoin="miter"
+                <circle data-stroke="none" fill="white" cx="16.5" cy="14.5" r="1.5" stroke-linejoin="miter"
                   stroke-linecap="square" stroke="none"></circle>
-                <circle fill="none" stroke="#a8a8a8" stroke-miterlimit="10" cx="12" cy="12" r="11"></circle>
+                <circle fill="none" stroke="white" stroke-miterlimit="10" cx="12" cy="12" r="11"></circle>
               </g>
             </svg>
             @endif
@@ -184,7 +184,7 @@
             <div class="btn btn--icon shadow-none" aria-controls="modal-search">
               <svg class="icon" viewBox="0 0 24 24">
                 <title>Toggle search</title>
-                <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" stroke="#a8a8a8" fill="none"
+                <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" stroke="white" fill="none"
                   stroke-miterlimit="10">
                   <line x1="22" y1="22" x2="15.656" y2="15.656"></line>
                   <circle cx="10" cy="10" r="8"></circle>
@@ -202,14 +202,14 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
                   <title>face-man</title>
                   <g stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" transform="translate(0.5 0.5)"
-                    fill="#a8a8a8" stroke="#a8a8a8">
+                    fill="white" stroke="white">
                     <path fill="none" stroke-miterlimit="10"
                       d="M1.051,10.933 C4.239,6.683,9.875,11.542,16,6c3,4.75,6.955,4.996,6.955,4.996"></path>
-                    <circle data-stroke="none" fill="#a8a8a8" cx="7.5" cy="14.5" r="1.5" stroke-linejoin="miter"
+                    <circle data-stroke="none" fill="white" cx="7.5" cy="14.5" r="1.5" stroke-linejoin="miter"
                       stroke-linecap="square" stroke="none"></circle>
-                    <circle data-stroke="none" fill="#a8a8a8" cx="16.5" cy="14.5" r="1.5" stroke-linejoin="miter"
+                    <circle data-stroke="none" fill="white" cx="16.5" cy="14.5" r="1.5" stroke-linejoin="miter"
                       stroke-linecap="square" stroke="none"></circle>
-                    <circle fill="none" stroke="#a8a8a8" stroke-miterlimit="10" cx="12" cy="12" r="11"></circle>
+                    <circle fill="none" stroke="white" stroke-miterlimit="10" cx="12" cy="12" r="11"></circle>
                   </g>
                 </svg>
                 @endif
