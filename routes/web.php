@@ -10,13 +10,11 @@ if (config('settings.need_verify_email') === true) {
 
 Auth::routes(['verify' => true]);
 
-Route::get('/',function(){
-  return view('/site1/index');
-});
+
 
 // Site 2
 
-Route::get('/site2',function(){
+Route::get('/',function(){
   return view('templates.blog.site2.index');
 });
 
