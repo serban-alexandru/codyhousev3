@@ -2389,7 +2389,7 @@ function initAlertEvent(element) {
     function setGridLayout(grid) { // set width of items in the grid
       var containerWidth = parseFloat(window.getComputedStyle(grid.element).getPropertyValue('width'));
       grid.activeColumns = parseInt((containerWidth + grid.colGap)/(grid.colStartWidth+grid.colGap));
-      if(grid.activeColumns == 0) grid.activeColumns = 1;
+      if(grid.activeColumns < 2) grid.activeColumns = 2; // Set minimum column size
       grid.colWidth = parseFloat((containerWidth - (grid.activeColumns - 1)*grid.colGap)/grid.activeColumns);
       for(var i = 0; i < grid.items.length; i++) {
         grid.items[i].style.width = grid.colWidth+'px'; // reset items width

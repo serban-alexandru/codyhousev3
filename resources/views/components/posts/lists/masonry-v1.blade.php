@@ -7,7 +7,7 @@
       </g>
     </svg>
   </div>
-  <ul class="masonry__list js-masonry__list js-infinite-scroll__content gap-xs">
+  <ul class="masonry__list js-masonry__list js-infinite-scroll__content">
   @foreach($posts as $post)
     <li class="masonry__item js-masonry__item padding-bottom-xs">
     @if($post->thumbnail)
