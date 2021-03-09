@@ -9,7 +9,7 @@
   </div>
   <ul class="masonry__list js-masonry__list js-infinite-scroll__content">
   @foreach($posts as $post)
-    <li class="masonry__item js-masonry__item padding-bottom-xs">
+    <li class="masonry__item js-masonry__item">
     @if($post->thumbnail)
       <a class="thumb" href="{{ route('pages.post', ['locale' => config('app.locale'), 'slug'   => $post->slug]) }}">
         <img class="block width-500% radius-md radius-bottom-right-0 radius-bottom-left-0" src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
