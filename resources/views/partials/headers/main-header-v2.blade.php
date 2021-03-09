@@ -94,45 +94,16 @@
 
             <div class="header-v2__nav-dropdown header-v2__nav-dropdown--md">
               <ul class="header-v2__nav-list">
-                <li class="header-v2__nav-item header-v2__nav-col-2">
-                  <ul class="header-v2__nav-list">
-                    <li class="header-v2__nav-item header-v2__nav-item--label">Portal sites</li>
-                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Link One</a></li>
-                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Link Two</a></li>
-                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Link Three</a></li>
-                  </ul>
-
-                  <ul class="header-v2__nav-list">
-                    <li class="header-v2__nav-item header-v2__nav-item--label">Services</li>
-                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Link One</a></li>
-                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Link Two</a></li>
-                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Link Three</a></li>
-                  </ul>
-
-                  <ul class="header-v2__nav-list">
-                    <li class="header-v2__nav-item header-v2__nav-item--label">Services</li>
-                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Link One</a></li>
-                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Link Two</a></li>
-                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Link Three</a></li>
-                  </ul>
-                </li>
-
-                <li class="header-v2__nav-item header-v2__nav-item--divider" role="separator"></li>
 
                 <li class="header-v2__nav-item">
                   <ul class="header-v2__nav-list header-v2__nav-list--title-desc">
                     <li class="header-v2__nav-item">
                       <a href="#0" class="header-v2__nav-link">
-                        <svg class="header-v2__nav-icon" aria-hidden="true" width="32" height="32" viewBox="0 0 32 32">
-                          <circle fill="var(--color-accent)" opacity="0.2" cx="16" cy="16" r="16" />
-                          <circle cx="11.5" cy="10.5" r="3.5" fill="var(--color-accent)" />
-                          <path d="M22,12,4.729,27.352a15.982,15.982,0,0,0,26.24-5.742Z" fill="var(--color-accent)" />
-                        </svg>
 
                         <div>
-                          <strong>Sub nav item</strong>
-                          <small>Lorem ipsum dolor sit amet.</small>
+                          <medium>Sub nav item</medium>
                         </div>
+                        
                       </a>
                     </li>
                   </ul>
