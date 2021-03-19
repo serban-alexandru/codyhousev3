@@ -9,8 +9,11 @@
     this.dropdownFocus = false;
     this.hideInterval = false;
     this.prevFocus = false; // nested dropdown - store element that was in focus before focus changed
-    initSubmenu(this);
-    initNestedDropdown(this);
+    
+    if (typeof this.trigger !== 'undefined' && typeof this.dropdown !== 'undefined') {
+      initSubmenu(this);
+      initNestedDropdown(this);
+    }
   };
 
   function initSubmenu(list) {

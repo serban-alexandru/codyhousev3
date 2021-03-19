@@ -18,6 +18,11 @@ Route::get('/',function(){
   return view('templates.blog.site2.index');
 });
 
+Route::get('/sticky',function(){
+  return view('templates.blog.site2.pages.sticky-hamburger');
+});
+
+
 Route::get('/site2/login',function(){
   return view('templates.blog.site2.pages.login');
 });

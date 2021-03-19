@@ -41,4 +41,11 @@
   @include defineColorHSL(--color-contrast-medium, 240, 1%, 48%);
   @include defineColorHSL(--color-contrast-high, 240, 4%, 20%);
   @include defineColorHSL(--color-contrast-higher, 240, 8%, 12%);
+
+  // Sticky Menu colors
+  @include defineColorHSL(--cd-color-1, 210, 31%, 24%);   // Pickled Bluewood
+  @include defineColorHSL(--cd-color-2, 204, 73%, 52%);   // Curious Blue
+  @include defineColorHSL(--cd-color-3, 0, 0%, 100%);     // White
+  @include defineColorHSL(--cd-color-4, 192, 15%, 94%);   // Porcelain
+  @include defineColorHSL(--cd-color-5, 7, 80%, 56%);     // Cinnabar
 }
