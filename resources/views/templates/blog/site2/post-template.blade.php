@@ -24,6 +24,12 @@
     <figure class="container max-width-lg margin-bottom-lg">
       <img src="https://codyhouse.co/app/assets/img/article-img-1.jpg" alt="Image description">
     </figure>
-  
+
+    <div class="container max-width-xs margin-bottom-lg text-component text-center">
+        <h1>Tags</h1>
+            <button class="btn btn--basic">Tag 1</button>
+            <button class="btn btn--basic">Tag 2</button>
+    </div>
+
   </article>
 @endsection
