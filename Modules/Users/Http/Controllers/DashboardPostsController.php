@@ -70,7 +70,7 @@ class DashboardPostsController extends Controller
         if(!request()->has('is_trashed')){
             $posts = (request()->has('is_draft'))
                 ? $posts->where('is_published', 0)->where('is_pending', 0)
-                : (request()->has('is_pending') ? $posts->where('is_published', 0)->where('is_pending', 1) : $posts->where('is_published', 1));
+                : (request()->has('is_pending') ? $posts->where('is_published', 0)->where('is_pending', 1)->where('is_rejected', 0) : $posts->where('is_published', 1));
         }
 
         $limit = request('limit') ? request('limit') : 25;
@@ -135,8 +135,14 @@ class DashboardPostsController extends Controller
             }
         }
 
+        // get rejected posts
+        $rejected_posts = [];
+        if ($is_pending) {
+            $rejected_posts = $this->getRejectedPosts();
+        }
+
         return view($view, compact(
-            'posts', 'posts_published_count', 'posts_draft_count', 'posts_pending_count', 'posts_deleted_count',
+            'posts', 'rejected_posts', 'posts_published_count', 'posts_draft_count', 'posts_pending_count', 'posts_deleted_count',
             'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'postsearch', 'is_trashed', 'is_draft', 'is_pending', 'tag_categories', 'tags_by_category'
             )
         );
@@ -487,6 +493,7 @@ class DashboardPostsController extends Controller
 
         $is_published = ($post->is_published && auth()->user()->isAdmin()) ? 1 : ((request('is_published') && !auth()->user()->isRegisteredUser()) ? 1 : 0);
         $is_pending = (request('is_published') && auth()->user()->isRegisteredUser()) ? 1 : 0;
+        $is_rejected = 0;
 
         // change Post Created Time "created_at"
         $created_time = strtotime($post->created_at);
@@ -518,7 +525,8 @@ class DashboardPostsController extends Controller
             'tags' => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
             'created_at' => $post_date,
             'is_published' => $is_published,
-            'is_pending' => $is_pending
+            'is_pending' => $is_pending,
+            'is_rejected' => $is_rejected
         ]);
 
         $tag_categories = TagCategory::all();
@@ -581,7 +589,7 @@ class DashboardPostsController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $post->update(['is_deleted' => 1, 'is_published' => 0, 'is_pending' => 0]);
+        $post->update(['is_deleted' => 1, 'is_published' => 0, 'is_pending' => 0, 'is_rejected' => 0, 'reject_reason' => '']);
 
         return redirect('dashboard');
     }
@@ -650,7 +658,11 @@ class DashboardPostsController extends Controller
             return back();
         }
 
-        Post::where('user_id', auth()->user()->id)->whereIn('id', $selectedIDs)->update(['is_deleted' => 1]);
+        if ( auth()->user()->isAdmin() ) {
+            Post::whereIn('id', $selectedIDs)->update(['is_deleted' => 1, 'is_rejected' => 0, 'reject_reason' => '']);
+        } else {
+            Post::where('user_id', auth()->user()->id)->whereIn('id', $selectedIDs)->update(['is_deleted' => 1, 'is_rejected' => 0, 'reject_reason' => '']);
+        }
 
         $alert = [
             'message' => 'Posts has been deleted!',
@@ -662,7 +674,11 @@ class DashboardPostsController extends Controller
     public function emptyTrash()
     {
         // Get posts on trash
-        $trashed_posts = Post::where('user_id', auth()->user()->id)->where('is_deleted', 1)->get();
+        if ( auth()->user()->isAdmin() ) {
+            $trashed_posts = Post::where('is_deleted', 1)->get();
+        } else {
+            $trashed_posts = Post::where('user_id', auth()->user()->id)->where('is_deleted', 1)->get();
+        }
 
         foreach ($trashed_posts as $post) {
             $this->deletePost($post);
@@ -717,7 +733,7 @@ class DashboardPostsController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $post->update(['is_published' => 0, 'is_pending' => 0]);
+        $post->update(['is_published' => 0, 'is_pending' => 0, 'is_rejected' => 0, 'reject_reason' => '']);
 
         return redirect('dashboard');
     }
@@ -733,12 +749,40 @@ class DashboardPostsController extends Controller
         }
 
         if (auth()->user()->isRegisteredUser()) {
-            $post->update(['is_published' => 0, 'is_pending' => 1]);
+            $post->update(['is_published' => 0, 'is_pending' => 1, 'is_rejected' => 0, 'reject_reason' => '']);
         } else {
-            $post->update(['is_published' => 1, 'is_pending' => 0]);
+            $post->update(['is_published' => 1, 'is_pending' => 0, 'is_rejected' => 0, 'reject_reason' => '']);
         }
         
         return redirect('dashboard');
+    }
+
+    public function makePostReject() {
+        $post = $this->getPost(request('id'));
+        if (!$post) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Post does not exists!'
+            ]);
+    
+            return redirect()->back()->with('alert', $alert);    
+        }
+
+        if (!auth()->user()->isAdmin() && ! $post->is_pending) {
+            return response()->json([
+                'status' => false,
+                'message' => 'You are not authorized to edit published post'
+            ]);
+    
+            return redirect()->back()->with('alert', $alert);    
+        }
+
+        $post->update(['is_rejected' => 1, 'reject_reason' => request('message')]);
+        
+        return response()->json([
+            'status' => true,
+            'message' => 'Post has been rejected.'
+        ]);
     }
 
     public function getPost($id) {
@@ -752,5 +796,42 @@ class DashboardPostsController extends Controller
         }
 
         return $post;
+    }
+
+    public function getRejectedPosts()
+    {
+        $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
+            ->select([
+                'posts.id',
+                'title',
+                'slug',
+                'posts.created_at as created_at',
+                'thumbnail',
+                'thumbnail_medium',
+                'is_deleted',
+                'is_pending',
+                'is_published',
+                'is_rejected',
+                'reject_reason',
+                'users.username as username'
+            ])->orderBy('created_at', 'desc');
+
+        if (!auth()->user()->isAdmin()) {
+            // get user specific posts only
+            $posts = $posts->where('user_id', auth()->user()->id);
+        }
+
+        if(request()->has('postsearch')){
+            $posts->where('title', 'LIKE', '%' . request('postsearch') . '%')
+            ->orWhere('users.name', 'LIKE', '%' . request('postsearch') . '%');
+        }
+
+        $posts = $posts->where('is_published', 0)->where('is_pending', 1)->where('is_rejected', 1);
+
+        $limit = request('limit') ? request('limit') : 25;
+
+        $posts = $posts->paginate($limit, ['*'], 'r_page');
+
+        return $posts;
     }
 }

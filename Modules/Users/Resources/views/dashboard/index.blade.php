@@ -20,6 +20,7 @@
         @include('users::dashboard.edit-post')
       </div><!-- /.container -->
     </section>
+    @include('users::dashboard.reject-modal')
   @endif
 @endsection
 

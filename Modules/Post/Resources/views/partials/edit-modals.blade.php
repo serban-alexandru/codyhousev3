@@ -38,7 +38,7 @@
                 <input type="hidden" id="editTitle" name="title" value="">
 
                 <div class="grid gap-sm editorjs-fullwidth">
-                  <div id="editorjs2" data-target-input="#editDescription"></div>
+                  <div id="editorjs2" data-target-input="#editDescription" class="site-editor"></div>
                   <input type="hidden" name="description" id="editDescription"/>
                 </div>
               </div>

@@ -83,6 +83,10 @@ Route::middleware($middleware, 'role:admin')->group(function(){
             'uses' => 'PostController@restore'
         ]);
 
+        Route::post('posts/reject', [
+            'as' => 'posts.reject',
+            'uses' => 'PostController@makePostReject'
+        ]);        
     });
 });
 
