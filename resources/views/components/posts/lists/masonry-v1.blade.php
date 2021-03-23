@@ -15,7 +15,7 @@
         <img class="block width-500% radius-md radius-bottom-right-0 radius-bottom-left-0" src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
       </a>
     @else
-      <span class="card__img card__img-cropped bg-black bg-opacity-50%"></span>
+      <span class="card__img card__img-cropped bg-opacity-50%"></span>
     @endif
       <div class="user-cell">
         <div class="user-cell__body">
@@ -41,7 +41,7 @@
             </a>
           </figure>
           <div class="user-cell__content text-component line-height-xs v-space-xxs text-sm line-height-md">
-            <p><a class="color-contrast-high" href="{{ route('pages.profile.user', $post->username) }}">{{ $post->username }}</a></p>
+            <p><a class="color-contrast-low" href="{{ route('pages.profile.user', $post->username) }}">{{ $post->username }}</a></p>
             <p class="color-contrast-medium text-xs">{{ $post->created_at->format('F j, Y') }}</p>
           </div>
         </div>
