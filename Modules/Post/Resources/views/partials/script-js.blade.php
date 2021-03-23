@@ -609,6 +609,52 @@
         $('#form-bulk-delete').submit();
       }
     });
+    $(document).on('click', '#closeRejectModal', function(){
+      $('#modal-reject-post').removeClass('modal--is-visible');
+    });
+
+    // Reject Post
+    $(document).on('click', 'td[aria-controls="modal-reject-post"]', function(){
+      $('#modal-reject-post').addClass('modal--is-visible');
+
+      var postId = $(this).attr('data-id');
+      $('#postId').val(postId);
+      $('#rejectMsg').val("").focus();
+    });
+
+    function rejectPost(e) {
+      e.preventDefault();
+
+      if (!formDataValidation($('#formRejectPost')))
+        return;
+
+      var $this = $(this);
+
+      $(this).html("Please wait...");
+
+      var formData = new FormData($('#formRejectPost')[0]);
+      formData.append('id', $('#postId').val());
+      formData.append('message', $('#rejectMsg').val());
+
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('input[name="_token"]').val()
+        }
+      });
+
+      $.ajax({
+        url: "{{ route('posts.reject') }}",
+        dataType: 'json',
+        type: 'post',
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function(response){
+          location.reload();
+        }
+      });
+    }
+    $(document).on('click', '#btnReject', rejectPost);
 
     // Trash icon badge update
     $(document).on('click', '.checkbox-delete', function(){
@@ -633,16 +679,16 @@
 
     // Check all boxes when the checkall box checkbox is checked
     $(document).on('click', '#checkboxDeleteAll', function(){
-
+      var table = $(this).parents('table')[0];
       if($(this).is(':checked')){
-        $('.checkbox-delete').prop('checked', true);
+        $(table).find('.checkbox-delete').prop('checked', true);
       } else {
-        $('.checkbox-delete').prop('checked', false);
+        $(table).find('.checkbox-delete').prop('checked', false);
       }
 
       var checkPostCount = 0;
 
-      $('.checkbox-delete').each(function(){
+      $(table).find('.checkbox-delete').each(function(){
         if($(this).is(':checked')){
           checkPostCount++
         }
@@ -650,7 +696,7 @@
 
       $('#deleteBadge').html(checkPostCount);
 
-      if($('.checkbox-delete:checked').length){
+      if($(table).find('.checkbox-delete:checked').length){
         $(document).find('#btnRefreshTable').addClass('is-hidden');
         $(document).find('#btnDeleteMultiple').removeClass('is-hidden');
       } else {
@@ -687,11 +733,13 @@
         $(this).html('Full Screen');
         $('#modal-add-article').removeClass('padding-0');
         $('#modal-edit-post').removeClass('padding-0');
+        $('#modal-reject-post').removeClass('padding-0');
         modalContent.removeClass('radius-0');
       } else {
         $(this).html('Shrink Screen');
         $('#modal-add-article').addClass('padding-0');
         $('#modal-edit-post').addClass('padding-0');
+        $('#modal-reject-post').addClass('padding-0');
         modalContent.addClass('radius-0');
       }
 

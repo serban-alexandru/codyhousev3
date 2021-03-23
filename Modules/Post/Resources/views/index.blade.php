@@ -2,6 +2,7 @@
 @section('content')
   @include('post::partials.modals')
   @include('post::partials.edit-modals')
+  @include('post::partials.reject-modal')
   <section>
     <div class="container max-width-lg margin-top-xs">
       <div class="grid gap-md@md">

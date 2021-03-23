@@ -65,7 +65,7 @@ class PostController extends Controller
         if(!request()->has('is_trashed')){
             $posts = (request()->has('is_draft'))
                 ? $posts->where('is_published', 0)->where('is_pending', 0)
-                : (request()->has('is_pending') ? $posts->where('is_published', 0)->where('is_pending', 1) : $posts->where('is_published', 1));
+                : (request()->has('is_pending') ? $posts->where('is_published', 0)->where('is_pending', 1)->where('is_rejected', 0) : $posts->where('is_published', 1));
         }
 
         $limit = request('limit') ? request('limit') : 25;
@@ -119,8 +119,14 @@ class PostController extends Controller
             }
         }
 
+        // get rejected posts
+        $rejected_posts = [];
+        if ($is_pending) {
+            $rejected_posts = $this->getRejectedPosts();
+        }
+
         return view($view, compact(
-            'posts', 'posts_published_count', 'posts_draft_count', 'posts_pending_count', 'posts_deleted_count',
+            'posts', 'rejected_posts', 'posts_published_count', 'posts_draft_count', 'posts_pending_count', 'posts_deleted_count',
             'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'is_trashed', 'is_draft', 'is_pending', 'tag_categories', 'tags_by_category'
             )
         );
@@ -246,6 +252,7 @@ class PostController extends Controller
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : NULL,
             'seo_page_title'   => request('page_title') ?: NULL,
             'tags'             => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
+            'is_pending'       => 0,
             'is_published'     => request('is_published')
         ]);
 
@@ -397,6 +404,8 @@ class PostController extends Controller
         }
 
         $is_published = request('is_published') ?? $post->is_published;
+	$is_pending = 0;
+	$is_rejected = 0;
 
         // Generate slug
         $slug                = Str::slug(request('slug'), '-');
@@ -437,7 +446,9 @@ class PostController extends Controller
             'seo_page_title' => request('page_title') ?: NULL,
             'tags' => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
             'created_at' => $post_date,
-            'is_published' => $is_published
+            'is_published' => $is_published,
+            'is_pending' => $is_pending,
+            'is_rejected' => $is_rejected
         ]);
 
         $tag_categories = TagCategory::all();
@@ -495,7 +506,7 @@ class PostController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $post->update(['is_deleted' => 1, 'is_published' => 0, 'is_pending' => 0]);
+        $post->update(['is_deleted' => 1, 'is_published' => 0, 'is_pending' => 0, 'is_rejected' => 0, 'reject_reason' => '']);
 
         return redirect('admin/posts');
     }
@@ -556,7 +567,7 @@ class PostController extends Controller
             return back();
         }
         
-        Post::whereIn('id', $selectedIDs)->update(['is_deleted' => 1]);
+        Post::whereIn('id', $selectedIDs)->update(['is_deleted' => 1, 'is_rejected' => 0, 'reject_reason' => '']);
 
         $alert = [
             'message' => 'Posts has been deleted!',
@@ -626,7 +637,7 @@ class PostController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $post->update(['is_published' => 0, 'is_pending' => 0]);
+        $post->update(['is_published' => 0, 'is_pending' => 0, 'is_rejected' => 0, 'reject_reason' => '']);
 
         return redirect('admin/posts');
     }
@@ -641,7 +652,7 @@ class PostController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $post->update(['is_published' => 1, 'is_pending' => 0]);
+        $post->update(['is_published' => 1, 'is_pending' => 0, 'is_rejected' => 0, 'reject_reason' => '']);
 
         return redirect('admin/posts');
     }
@@ -711,6 +722,20 @@ class PostController extends Controller
         return view('post::templates.post-template', $data);
     }
 
+    public function singlePostbyTheme($theme, $locale, $slug)
+    {
+        $post = Post::firstWhere('slug', $slug);
+
+        if (!$post) {
+            abort(404);
+        }
+
+        $data['post']       = $post;
+        $data['page_title'] = $post->title;
+
+        return view('post::templates.post-template', $data);
+    }
+
     public function ajaxShowPosts($page_num)
     {
         $perpage = 12;
@@ -751,4 +776,64 @@ class PostController extends Controller
 
         return view('post::templates.post-masonry-load', $data);
     }
+
+    public function makePostReject() {
+        $post = $this->getPost(request('id'));
+        if (!$post) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Post does not exists!'
+            ]);
+    
+            return redirect()->back()->with('alert', $alert);    
+        }
+
+        if (! $post->is_pending) {
+            return response()->json([
+                'status' => false,
+                'message' => 'The post is not pending post'
+            ]);
+    
+            return redirect()->back()->with('alert', $alert);    
+        }
+
+        $post->update(['is_rejected' => 1, 'reject_reason' => request('message')]);
+        
+        return response()->json([
+            'status' => true,
+            'message' => 'Post has been rejected.'
+        ]);
+    }
+    
+    public function getRejectedPosts()
+    {
+        $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
+            ->select([
+                'posts.id',
+                'title',
+                'slug',
+                'posts.created_at as created_at',
+                'thumbnail',
+                'thumbnail_medium',
+                'is_deleted',
+                'is_pending',
+                'is_published',
+                'is_rejected',
+                'reject_reason',
+                'users.username as username'
+            ])->orderBy('created_at', 'desc');
+
+        if(request()->has('postsearch')){
+            $posts->where('title', 'LIKE', '%' . request('postsearch') . '%')
+            ->orWhere('users.name', 'LIKE', '%' . request('postsearch') . '%');
+        }
+
+        $posts = $posts->where('is_published', 0)->where('is_pending', 1)->where('is_rejected', 1);
+
+        $limit = request('limit') ? request('limit') : 25;
+
+        $posts = $posts->paginate($limit, ['*'], 'r_page');
+
+        return $posts;
+    }    
 }

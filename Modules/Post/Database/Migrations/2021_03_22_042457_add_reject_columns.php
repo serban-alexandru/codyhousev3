@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIsPendingColumn extends Migration
+class AddRejectColumns extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,8 @@ class AddIsPendingColumn extends Migration
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->boolean('is_pending')->default(0);
+            $table->boolean('is_rejected')->default(0);
+            $table->string('reject_reason')->default("");
         });
     }
 
@@ -26,7 +27,8 @@ class AddIsPendingColumn extends Migration
     public function down()
     {
         Schema::table('posts', function (Blueprint $table) {
-            $table->dropColumn('is_pending');
+            $table->dropColumn('is_rejected');
+            $table->dropColumn('reject_reason');
         });
     }
 }

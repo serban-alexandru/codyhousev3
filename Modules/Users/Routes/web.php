@@ -153,6 +153,11 @@ Route::group([
       'uses' => 'DashboardPostsController@restore'
   ]);
 
+  Route::post('posts/reject', [
+    'as' => 'posts.reject',
+    'uses' => 'DashboardPostsController@makePostReject'
+  ]);
+
 });
 
 Route::get('/profile', [
