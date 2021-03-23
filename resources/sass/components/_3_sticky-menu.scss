@@ -173,10 +173,25 @@
 }
 
 .cs-sticky-menu__footer {
+  position: relative;
   width: 100%;
   border-radius: 0 0 var(--radius) var(--radius);
-  box-shadow: inset 0 8px 10px -10px rgba(#000, .3);
   background: var(--cd-color-3);
+} 
+
+.cs-sticky-menu--open .cs-sticky-menu__footer {
+  padding-top:6px;
+
+  &:before {
+    content:"";
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(180deg, rgb(2, 0, 36) 0%, rgb(255, 255, 255) 0%, rgb(231, 231, 231) 100%);
+    z-index: 10;
+  }
 } 
 
 .cs-sticky-menu__bottom_items {
