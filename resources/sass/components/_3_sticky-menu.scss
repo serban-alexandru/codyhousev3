@@ -455,7 +455,6 @@
 
 @include breakpoint(sm) {
   .cs-sticky-submenu {
-    border-radius: var(--radius-md);
 
     &::before {
       content: 'desktop';
