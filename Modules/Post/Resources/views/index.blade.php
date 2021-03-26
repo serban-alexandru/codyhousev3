@@ -9,11 +9,9 @@
         @include('post::partials.sidebar')
         <main class="position-relative padding-top-md z-index-1 col-12@md">
           @include('post::partials.control')
-          <div class="bg radius-md padding-md shadow-sm">
-            <div id="site-table-with-pagination-container">
-              @include('post::partials.table')
-            </div><!-- /#site-table-with-pagination-container -->
-          </div><!-- /.bg radius-md padding-md shadow-sm -->
+          <div id="site-table-with-pagination-container">
+            @include('post::partials.table')
+          </div><!-- /#site-table-with-pagination-container -->
         </main>
       </div><!-- /.grid -->
     </div><!-- /.container -->
