@@ -15,7 +15,7 @@
         <img class="block width-500% radius-md radius-bottom-right-0 radius-bottom-left-0" src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
       </a>
     @else
-      <span class="card__img card__img-cropped bg-black bg-opacity-50%"></span>
+      <span class="card__img card__img-cropped bg-opacity-50%"></span>
     @endif
       <div class="user-cell">
         <div class="user-cell__body">
