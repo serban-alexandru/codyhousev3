@@ -15,7 +15,7 @@ class PostTitleShortcode {
 
     // validate $locale
     preg_match('/[a-zA-Z]{2}/', $locale, $matches);
-    if (count($matches) > 0 && count($paths) == 2) {
+    if (count($matches) > 0 && count($paths) >= 2) {
       // get post by slug
       $post = Post::firstWhere('slug', $post_slug);
 
