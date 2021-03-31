@@ -56,10 +56,10 @@
             </svg>
             @endif
           </div>
-          <svg class="switch-icon__icon switch-icon__icon--b" viewBox="0 0 25 25">
-            <g fill="none" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" stroke="#a8a8a8">
-              <line x1="20" y1="5" x2="5" y2="20"></line>
-              <line x1="20" y1="20" x2="5" y2="5"></line>
+          <svg class="switch-icon__icon switch-icon__icon--b" viewBox="0 0 20 20">
+            <g fill="none" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" stroke="#efefef">
+              <line x1="15" y1="5" x2="5" y2="15"></line>
+              <line x1="15" y1="15" x2="5" y2="5"></line>
             </g>
           </svg>
         </button>
