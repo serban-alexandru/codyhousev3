@@ -17,6 +17,9 @@
     @else
       <span class="card__img card__img-cropped bg-opacity-50%"></span>
     @endif
+      <div class="post-cell text-component line-height-xs v-space-xxs text-sm line-height-md">
+        <p><a class="color-contrast-low" href="{{ route('pages.post', ['locale' => config('app.locale'), 'slug' => $post->slug]) }}">{{ $post->title }}</a></p>
+      </div>
       <div class="user-cell">
         <div class="user-cell__body">
           <figure aria-hidden="true">
@@ -41,7 +44,7 @@
             </a>
           </figure>
           <div class="user-cell__content text-component line-height-xs v-space-xxs text-sm line-height-md">
-            <p><a class="color-contrast-high" href="{{ route('pages.profile.user', $post->username) }}">{{ $post->name }}</a></p>
+            <p><a class="color-contrast-low" href="{{ route('pages.profile.user', $post->username) }}">{{ $post->name }}</a></p>
             <p class="color-contrast-medium text-xs">{{ $post->created_at->format('F j, Y') }}</p>
           </div>
         </div>
