@@ -1,4 +1,4 @@
-<header class="header-v2 js-header-v2 bg-contrast-high" data-animation="off" data-animation-offset="400">
+<header class="header-v2 js-header-v2 bg-contrast-high hide-nav js-hide-nav js-hide-nav--main" data-animation="off" data-animation-offset="400">
   <div class="header-v2__wrapper">
     <div class="header-v2__container container max-width-lg">
       <div class="header-v2__sub-container">
@@ -71,48 +71,13 @@
       </div>
 
       <nav id="main-menu" class="header-v2__nav color-contrast-low header-v2__nav-full-height margin-left-xxl@md" role="navigation">
+        <?php 
+          $shortcode = app('shortcode');
+          echo $shortcode->compile('[menu name="Primary Menu" version=2]');
 
-        <ul class="header-v2__nav-list header-v2__nav-list--main">
-
-          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/') }}"
-              class="header-v2__nav-link" {{ Request::path() == 'admin' ? 'aria-current' : '' }}><span>Home</span></a>
-          </li>
-          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/users') }}" class="header-v2__nav-link"
-              {{ Request::path() == 'admin/users' ? 'aria-current' : '' }}><span>Users</span></a></li>
-          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/settings') }}" class="header-v2__nav-link"
-              {{ Request::path() == 'admin/settings' ? 'aria-current' : '' }}><span>Settings</span></a></li>
-
-          <li class="header-v2__nav-item header-v2__nav-item--main header-v2__nav-item--has-children">
-            <a href="#0" class="header-v2__nav-link">
-              <span class="color-contrast-lower">Templates</span>
-              <svg class="header-v2__nav-dropdown-icon icon margin-left-xxxs color-contrast-lower" aria-hidden="true"
-                viewBox="0 0 16 16">
-                <polyline fill="none" stroke-width="1" stroke="currentColor" stroke-linecap="round"
-                  stroke-linejoin="round" stroke-miterlimit="10" points="3.5,6.5 8,11 12.5,6.5 "></polyline>
-              </svg>
-            </a>
-
-            <div class="header-v2__nav-dropdown header-v2__nav-dropdown--md">
-              <ul class="header-v2__nav-list">
-
-                <li class="header-v2__nav-item">
-                  <ul class="header-v2__nav-list header-v2__nav-list--title-desc">
-                    <li class="header-v2__nav-item">
-                      <a href="#0" class="header-v2__nav-link">
-
-                        <div>
-                          <medium>Sub nav item</medium>
-                        </div>
-                        
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-          </li>
-
-        </ul>
+          if (isset($disable_shortcode) && $disable_shortcode)
+            $shortcode->disable();
+        ?>
       </nav>
       <!-- END-->
 
