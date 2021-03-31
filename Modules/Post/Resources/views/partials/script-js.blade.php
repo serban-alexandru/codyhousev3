@@ -35,6 +35,14 @@
 
       // loads page content inside this element
       $('#site-table-with-pagination-container').load(url, function(){
+        // Apply pagination dynamically
+        var $tablePaginationBottom = $('#table-pagination-bottom');
+        var $tablePaginationTop = $('#table-pagination-top');
+        $tablePaginationTop.html(
+          ($tablePaginationBottom.length > 0) ?
+            $tablePaginationBottom.html() :
+            $tablePaginationTop.html('')
+        );
       });
 
       $('.sidenav__item a').removeAttr('aria-current');

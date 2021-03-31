@@ -342,8 +342,8 @@
   </div><!-- /.flex items-center justify-between padding-top-sm -->
 </div>
 
+@if ( request()->has('is_pending') )
 <div class="bg radius-md padding-md margin-top-lg shadow-sm">
-  @if ( request()->has('is_pending') )
   <h4 class="margin-bottom-sm">Rejected</h4>
   <div id="table-2" class="int-table text-sm js-int-table">
     <div class="int-table__inner" id="site-table-container">
@@ -613,5 +613,5 @@
     </nav>
     @endif
   </div><!-- /.flex items-center justify-between padding-top-sm -->
-  @endif
 </div><!-- /.bg radius-md padding-md shadow-sm -->
+@endif
