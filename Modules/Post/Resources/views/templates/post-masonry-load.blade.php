@@ -7,14 +7,19 @@
   <li class="masonry__item js-masonry__item">
   @if($post->thumbnail)
     <a class="thumb" href="{{ route('pages.post', ['locale' => config('app.locale'), 'slug'   => $post->slug]) }}">
-      <img class="block width-500%" src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
+      <figure class="card-v2">
+        <img class="block width-500%" src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
+        <figcaption class="card-v2__caption padding-x-sm padding-top-md padding-bottom-sm text-center">
+          <div class="text-md text-base@md"><a class="color-contrast-low" href="{{ route('pages.post', ['locale' => config('app.locale'), 'slug' => $post->slug]) }}">{{ $post->title }}</a></div>
+        </figcaption>
+      </figure>
     </a>
   @else
     <span class="card__img card__img-cropped bg-black bg-opacity-50%"></span>
-  @endif
     <div class="post-cell text-component line-height-xs v-space-xxs text-sm line-height-md">
       <p><a class="color-contrast-low" href="{{ route('pages.post', ['locale' => config('app.locale'), 'slug' => $post->slug]) }}">{{ $post->title }}</a></p>
     </div>
+  @endif
     <div class="user-cell">
       <div class="user-cell__body">
         <figure aria-hidden="true">
