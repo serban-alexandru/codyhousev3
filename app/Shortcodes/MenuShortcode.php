@@ -23,6 +23,21 @@ class MenuShortcode {
 
     $menus = $menu_info->items->toArray();
 
+    $version = 1;
+    if ($shortcode->version) {
+      $version = $shortcode->version;
+    }
+
+    if ($version == 1) {
+      $menu_template = self::getMenuTemplateV1($menus);
+    } else {
+      $menu_template = self::getMenuTemplateV2($menus);   
+    }
+        
+    return $menu_template;
+  }
+
+  private static function getMenuTemplateV1($menus) {
     $menu_template = '<ul class="mega-nav__items js">';
 
     foreach ($menus as $menu) {
@@ -51,7 +66,40 @@ class MenuShortcode {
     }
 
     $menu_template .= '</ul>';
+
+    return $menu_template;
+  }
+
+  private static function getMenuTemplateV2($menus) {
+    $menu_template = '<ul class="header-v2__nav-list header-v2__nav-list--main">';
+
+    foreach ($menus as $menu) {
+      if ($menu['child']) {
+        $menu_template .= '<li class="header-v2__nav-item header-v2__nav-item--main header-v2__nav-item--has-children">';
+        $menu_template .= '  <a href="' . $menu['link'] . '" class="header-v2__nav-link"><span class="color-contrast-lower">' . $menu['label'] . '</span><svg class="header-v2__nav-dropdown-icon icon margin-left-xxxs color-contrast-lower" aria-hidden="true" viewBox="0 0 16 16"><polyline fill="none" stroke-width="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="3.5,6.5 8,11 12.5,6.5 "></polyline></svg></a>';
+
+      } else {
+        $menu_template .= '<li class="header-v2__nav-item header-v2__nav-item--main">';
+        $menu_template .= '  <a href="' . $menu['link'] . '" class="header-v2__nav-link"><span>' . $menu['label'] . '</span></a>';
+      }
+
+      if ($menu['child']) {
+        $menu_template .= '<div class="header-v2__nav-dropdown header-v2__nav-dropdown--md"><ul class="header-v2__nav-list header-v2__nav-list--title-desc">';
+
+        foreach ($menu['child'] as $child) {
+          $menu_template .= '<li class="header-v2__nav-item">';
+          $menu_template .= '  <a href="' . $child['link'] . '" class="header-v2__nav-link"><div><medium>' . $child['label'] . '</medium></div></a>';
+          $menu_template .= '</li>';    
+        }
         
+        $menu_template .= '</ul></div>';
+      }
+
+      $menu_template .= '</li>';
+    }
+
+    $menu_template .= '</ul>';
+
     return $menu_template;
   }
 }

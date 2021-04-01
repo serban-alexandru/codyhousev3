@@ -5,3 +5,7 @@
     <x-auth.register-form />
 </section>
 @endsection
+
+@push('module-scripts')
+<x-auth.script.signin-script />
+@endpush

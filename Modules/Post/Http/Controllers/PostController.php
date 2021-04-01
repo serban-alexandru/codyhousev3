@@ -732,8 +732,9 @@ class PostController extends Controller
 
         $data['post']       = $post;
         $data['page_title'] = $post->title;
+        $data['theme'] = $theme;
 
-        return view('post::templates.post-template', $data);
+        return view('post::templates.post-template-v1', $data);
     }
 
     public function ajaxShowPosts($page_num)

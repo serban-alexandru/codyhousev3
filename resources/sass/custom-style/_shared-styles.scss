@@ -339,3 +339,10 @@ body {
     overflow: hidden;
     border-bottom: 0px solid var(--color-contrast-low);
 }
+
+/* Masonry Post title section */
+.post-cell {
+    background: var(--color-contrast-high);
+    padding: var(--space-sm);
+    padding-bottom: 0;
+}
