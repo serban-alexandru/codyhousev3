@@ -11,7 +11,7 @@
     <section>
       <div class="container max-width-lg margin-top-lg">
         @include('users::dashboard.notification')
-        <div id="site-table-with-pagination-container">
+        <div id="site-table-with-pagination-container" class="posts-wrp">
         @include('users::dashboard.table')
         </div><!-- /#site-table-with-pagination-container -->
         @include('users::dashboard.add-post')
