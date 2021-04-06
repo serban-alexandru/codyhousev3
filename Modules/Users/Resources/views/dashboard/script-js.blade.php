@@ -48,7 +48,7 @@
     if (init_tab != null && document.referrer == document.location) {
       $('[data-tab="' + init_tab + '"]').trigger('click');
     } else {
-      localStorage.setItem("cs_admin_post_init_tab", ""); // clear
+      localStorage.setItem("cs_user_dashboard_init_tab", ""); // clear
     }
   })();
 </script>
@@ -730,13 +730,9 @@
 
       if(hasClass){
         $(this).html('Full Screen');
-        $('#modal-add-article').removeClass('padding-0');
-        $('#modal-reject-post').removeClass('padding-0');
         modalContent.removeClass('radius-0');
       } else {
         $(this).html('Shrink Screen');
-        $('#modal-add-article').addClass('padding-0');
-        $('#modal-reject-post').addClass('padding-0');
         modalContent.addClass('radius-0');
       }
 

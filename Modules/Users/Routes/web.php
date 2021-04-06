@@ -91,7 +91,10 @@ Route::group([
   Route::get('/', 'DashboardPostsController@index');
   Route::get('/settings', 'DashboardPostsController@settings');
 
-  Route::get('/add-post', 'DashboardPostsController@addPost');
+  Route::get('/add-post', [
+    'as' => 'dashboard.add-post',
+    'uses' => 'DashboardPostsController@addPost'
+  ]);
 
   Route::post('/store', [
     'as' => 'dashboard.store',
@@ -157,7 +160,84 @@ Route::group([
     'as' => 'posts.reject',
     'uses' => 'DashboardPostsController@makePostReject'
   ]);
+});
 
+Route::group([
+  'prefix' => 'pages',
+  'middleware' => $middleware
+], function() {
+  Route::get('/', 'DashboardPagesController@index');
+  Route::get('/settings', 'DashboardPagesController@settings');
+
+  Route::get('/add-page', [
+    'as' => 'pages.add-page',
+    'uses' => 'DashboardPagesController@addPage'
+  ]);
+
+  Route::post('/store', [
+    'as' => 'pages.store',
+    'uses' => 'DashboardPagesController@store'
+  ]);
+
+  Route::get('{id}/fetch-data', [
+    'as' => 'pages.fetch-data',
+    'uses' => 'DashboardPagesController@fetchDataAjax'
+  ]);
+
+  Route::post('/update', [
+    'as' => 'pages.update',
+    'uses' => 'DashboardPagesController@ajaxUpdate'
+  ]);
+
+  Route::post('/delete', [
+    'as' => 'pages.delete',
+    'uses' => 'DashboardPagesController@delete'
+  ]);
+
+  Route::post('/delete-permanently', [
+    'as' => 'pages.delete-permanently',
+    'uses' => 'DashboardPagesController@deletePermanently'
+  ]);
+
+  Route::post('/delete/multiple', [
+    'as' => 'pages.delete.multiple',
+    'uses' => 'DashboardPagesController@deleteMultiple'
+  ]);
+
+  Route::post('/trash/empty', [
+    'as' => 'pages.trash.empty',
+    'uses' => 'DashboardPagesController@emptyTrash'
+  ]);
+
+  Route::post('/settings/store', [
+      'as' => 'pages.settings.store',
+      'uses' => 'DashboardPagesController@settingsStore'
+  ]);
+
+  Route::post('/settings/update', [
+      'as' => 'pages.settings.update',
+      'uses' => 'DashboardPpagesController@settingsUpdate'
+  ]);
+
+  Route::get('/{id}/make-draft', [
+      'as' => 'pages.make-draft',
+      'uses' => 'DashboardPagesController@makePageDraft'
+  ]);
+
+  Route::get('/{id}/publish', [
+      'as' => 'pages.publish',
+      'uses' => 'DashboardPagesController@makePagePublish'
+  ]);
+
+  Route::get('/{id}/restore', [
+      'as' => 'pages.restore',
+      'uses' => 'DashboardPagesController@restore'
+  ]);
+
+  Route::post('/reject', [
+    'as' => 'pages.reject',
+    'uses' => 'DashboardPagesController@makePageReject'
+  ]);
 });
 
 Route::get('/profile', [

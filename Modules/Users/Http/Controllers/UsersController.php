@@ -25,7 +25,7 @@ class UsersController extends Controller
 
     public function adminsettings()
     {
-        return view('users::pages.adminsettings');
+        return view('users::settings.adminsettings');
     }
     /**
      * Display a listing of the resource.

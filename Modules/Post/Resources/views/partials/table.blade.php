@@ -166,29 +166,29 @@
                 @if(is_null($post->thumbnail_medium))
                   <a href="
                     {{
-                        route(
-                            'pages.post',
-                            [
-                                'locale' => config('app.locale'),
-                                'slug'   => $post->slug
-                            ]
-                        )
+                      route(
+                        'single-view',
+                        [
+                          'locale' => config('app.locale'),
+                          'slug'   => $post->slug
+                        ]
+                      )
                     }}
                   " target="_blank" class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%"></a>
                 @else
-                <a href="
-                    {{
+                  <a href="
+                      {{
                         route(
-                            'pages.post',
-                            [
-                                'locale' => config('app.locale'),
-                                'slug'   => $post->slug
-                            ]
+                          'single-view',
+                          [
+                            'locale' => config('app.locale'),
+                            'slug'   => $post->slug
+                          ]
                         )
-                    }}
-                " target="_blank" class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%">
-                  <img src="{{ $post->showThumbnail('medium') }}">
-                </a>
+                      }}
+                  " target="_blank" class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%">
+                    <img src="{{ $post->showThumbnail('medium') }}">
+                  </a>
                 @endif
               </td>
 
@@ -474,29 +474,29 @@
                 @if(is_null($post->thumbnail_medium))
                   <a href="
                     {{
-                        route(
-                            'pages.post',
-                            [
-                                'locale' => config('app.locale'),
-                                'slug'   => $post->slug
-                            ]
-                        )
+                      route(
+                        'single-view',
+                        [
+                          'locale' => config('app.locale'),
+                          'slug'   => $post->slug
+                        ]
+                      )
                     }}
                   " target="_blank" class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%"></a>
                 @else
-                <a href="
+                  <a href="
                     {{
-                        route(
-                            'pages.post',
-                            [
-                                'locale' => config('app.locale'),
-                                'slug'   => $post->slug
-                            ]
-                        )
+                      route(
+                        'single-view',
+                        [
+                          'locale' => config('app.locale'),
+                          'slug'   => $post->slug
+                        ]
+                      )
                     }}
-                " target="_blank" class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%">
-                  <img src="{{ $post->showThumbnail('medium') }}">
-                </a>
+                  " target="_blank" class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%">
+                    <img src="{{ $post->showThumbnail('medium') }}">
+                  </a>
                 @endif
               </td>
 

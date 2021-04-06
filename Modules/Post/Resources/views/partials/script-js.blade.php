@@ -437,6 +437,11 @@
 
     });
 
+    $(document).on('click', '[aria-controls="modal-add-article"]', function(){
+      // Clear form
+      $('#formAddPost').get(0).reset();
+    });
+
     $(document).on('click', '#btnSave, #btnPublish', function(){
         if (!formDataValidation($('#formAddPost')))
           return;

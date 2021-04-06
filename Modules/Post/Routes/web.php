@@ -114,23 +114,3 @@ Route::group([
 ], function () {
 	\UniSharp\LaravelFilemanager\Lfm::routes();
 });
-
-Route::group([
-    'prefix' => '{locale}',
-    'where'  => ['locale' => '[a-zA-Z]{2}']
-], function(){
-    Route::get('{slug}', [
-      'as'   => 'pages.post',
-      'uses' => 'PostController@singlePost'
-    ]);
-});
-
-Route::group([
-    'prefix' => '{theme}/{locale}',
-    'where'  => ['theme' => 'site1|site2', 'locale' => '[a-zA-Z]{2}']
-], function(){
-    Route::get('{slug}', [
-        'as'   => 'theme.pages.post',
-        'uses' => 'PostController@singlePostbyTheme'
-    ]);
-});

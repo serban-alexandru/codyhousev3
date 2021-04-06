@@ -43,3 +43,23 @@ Route::group(['middleware' => $middleware], function(){
       'uses' => 'EditorjsController@uploadImage'
   ]);
 });
+
+Route::group([
+  'prefix' => '{locale}',
+  'where'  => ['locale' => '[a-zA-Z]{2}']
+], function(){
+  Route::get('{slug}', [
+    'as'   => 'single-view',
+    'uses' => '\Modules\Users\Http\Controllers\SingleViewController@singleView'
+  ]);
+});
+
+Route::group([
+  'prefix' => '{theme}/{locale}',
+  'where'  => ['theme' => 'site1|site2', 'locale' => '[a-zA-Z]{2}']
+], function(){
+  Route::get('{slug}', [
+    'as'   => 'theme.pages.post',
+    'uses' => '\Modules\Users\Http\Controllers\SingleViewController@singleViewbyTheme'
+  ]);
+});

@@ -22,7 +22,7 @@
             <a href="
               {{
                   route(
-                      'pages.post',
+                      'single-view',
                       [
                           'locale' => config('app.locale'),
                           'slug'   => $post->slug
@@ -63,7 +63,7 @@
                 <h4>
                   <a href="{{
                     route(
-                        'pages.post',
+                        'single-view',
                         [
                             'locale' => config('app.locale'),
                             'slug'   => $post->slug

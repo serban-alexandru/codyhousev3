@@ -8,7 +8,7 @@
                 <a src="
                   {{
                       route(
-                          'pages.post',
+                          'single-view',
                           [
                               'locale' => config('app.locale'),
                               'slug'   => $post->slug
@@ -48,7 +48,7 @@
                       src="
                         {{
                             route(
-                                'pages.post',
+                                'single-view',
                                 [
                                     'locale' => config('app.locale'),
                                     'slug'   => $post->slug
