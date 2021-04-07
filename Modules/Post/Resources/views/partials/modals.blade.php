@@ -151,8 +151,6 @@
 <!-- Full Screen Modal End -->
 </form>
 
-</form>
-
 <div class="modal modal--search modal--animate-fade flex flex-center padding-md js-modal" id="modal-search">
   <div class="modal__content width-100% max-width-sm" role="alertdialog" aria-labelledby="modal-search-title" aria-describedby="">
     <form class="full-screen-search" action="{{ url('admin/posts') }}" method="GET">

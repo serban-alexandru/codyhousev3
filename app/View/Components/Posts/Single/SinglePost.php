@@ -26,7 +26,9 @@ class SinglePost extends Component
             ]
         )->first();
 
-        $post['description'] = Post::parseContent($post['description']);
+        if ($post) {
+            $post['description'] = Post::parseContent($post['description']);
+        }
 
         $this->post = $post;
     }

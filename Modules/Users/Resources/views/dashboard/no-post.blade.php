@@ -10,7 +10,7 @@
       <div class="col-6@md">
         <div class="flex gap-xs flex-column flex-row@xs justify-end@md">
           <a href="#0" class="btn btn--subtle">Rules</a>
-          <a href="#0" class="btn btn--primary">Start Writing</a>
+          <a href="{{ route('dashboard.add-post') }}" class="btn btn--primary">Start Writing</a>
         </div>
       </div>
     </div>

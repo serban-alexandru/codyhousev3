@@ -709,7 +709,6 @@ class PostController extends Controller
 
     public function singlePost($locale, $slug)
     {
-
         $post = Post::firstWhere('slug', $slug);
 
         if (!$post) {
@@ -779,7 +778,7 @@ class PostController extends Controller
     }
 
     public function makePostReject() {
-        $post = $this->getPost(request('id'));
+        $post = Post::find($id);
         if (!$post) {
             return response()->json([
                 'status' => false,
