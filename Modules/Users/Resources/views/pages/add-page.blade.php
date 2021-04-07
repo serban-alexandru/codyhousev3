@@ -35,7 +35,7 @@
                 </span>
               </label> 
             
-              <input type="file" class="file-upload__input" name="thumbnail" id="upload2" required>
+              <input type="file" class="file-upload__input" name="thumbnail" id="upload2">
             </div>
           </div><!-- /.padding-y-sm flex-grow overflow-auto -->
 
