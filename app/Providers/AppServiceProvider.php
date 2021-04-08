@@ -18,9 +18,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $verify = DB::table('settings')->where('key', 'reg_en_verify_email')->first();
-        
-        config(['settings.need_verify_email' => ( isset($verify->value) && $verify->value === 'on' ) ? true : false]);
+		if (Schema::hasTable('settings')) {
+			$verify = DB::table('settings')->where('key', 'reg_en_verify_email')->first();
+			
+			config(['settings.need_verify_email' => ( isset($verify->value) && $verify->value === 'on' ) ? true : false]);
+		}
     }
 
     /**

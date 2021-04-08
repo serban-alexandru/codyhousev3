@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+use Illuminate\Support\Facades\Schema;
 use Modules\Admin\Entities\Settings;
 
 $middleware = 'auth';
@@ -20,17 +21,19 @@ if (config('settings.need_verify_email') === true) {
 Route::middleware($middleware, 'role:admin')->group(function(){
 
     Route::prefix('admin')->group(function() {
-        // Share Site Setting Data
-        $settings_data = Settings::getSiteSettings();
-        View::share('settings_data', $settings_data);
+        if (Schema::hasTable('settings')) {
+            // Share Site Setting Data
+            $settings_data = Settings::getSiteSettings();
+            View::share('settings_data', $settings_data);
 
-        $font_logo = Settings::getLogoFontInfo();
-        View::share('font_logo', $font_logo);
-        $font_primary = Settings::getPrimaryFontInfo();
-        View::share('font_primary', $font_primary);
-        $font_secondary = Settings::getSecondaryFontInfo();
-        View::share('font_secondary', $font_secondary);
-
+            $font_logo = Settings::getLogoFontInfo();
+            View::share('font_logo', $font_logo);
+            $font_primary = Settings::getPrimaryFontInfo();
+            View::share('font_primary', $font_primary);
+            $font_secondary = Settings::getSecondaryFontInfo();
+            View::share('font_secondary', $font_secondary);
+        }
+        
         Route::get('/', 'AdminController@index');
 
         // Settings Page

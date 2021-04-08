@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Component\Auth\Script;
+namespace App\View\Components\Auth\Script;
 
 use Illuminate\View\Component;
 

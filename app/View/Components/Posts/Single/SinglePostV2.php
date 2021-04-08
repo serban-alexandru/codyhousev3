@@ -1,10 +1,10 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Posts\Single;
 
 use Illuminate\View\Component;
 
-class single-post-v2 extends Component
+class SinglePostV2 extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class single-post-v2 extends Component
      */
     public function render()
     {
-        return view('components.single-post-v2');
+        return view('components.posts.single.single-post-v2');
     }
 }
