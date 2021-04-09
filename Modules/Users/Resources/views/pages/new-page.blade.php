@@ -40,7 +40,7 @@
                             <span class="margin-left-xxs file-upload__text file-upload__text--has-max-width">Upload Feature Image</span>
                           </span>
                         </label> 
-                        <input type="file" class="file-upload__input" name="thumbnail" id="upload2" required>
+                        <input type="file" class="file-upload__input" name="thumbnail" id="upload2">
                       </div>                    
                   </div><!-- /.padding-y-sm flex-grow overflow-auto -->
 

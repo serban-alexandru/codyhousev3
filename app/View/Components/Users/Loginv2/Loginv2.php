@@ -4,7 +4,7 @@ namespace App\View\Components\Users\Loginv2;
 
 use Illuminate\View\Component;
 
-class Login2 extends Component
+class Loginv2 extends Component
 {
     /**
      * Create a new component instance.
