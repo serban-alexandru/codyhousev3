@@ -16,7 +16,7 @@ class SettingsController extends Controller {
     $fonts = Settings::getFontsList();
     $disable_shortcode = true;
     
-    return view('admin::partials\setting', compact('settings_data', 'fonts', 'disable_shortcode'))->withoutShortcodes();
+    return view('admin::partials.setting', compact('settings_data', 'fonts', 'disable_shortcode'))->withoutShortcodes();
   }
 
   /**

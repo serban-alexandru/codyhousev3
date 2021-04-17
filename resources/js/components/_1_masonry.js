@@ -96,7 +96,9 @@
         }
         // change flex-basis of last element of each column, so that next element shifts to next col
         var lastItemCol = grid.items[grid.colItems[i][grid.colItems[i].length - 1]];
-        lastItemCol.style.flexBasis = masonryHeight - grid.colHeights[i] + lastItemCol.getBoundingClientRect().height - 5 + 'px';
+        if (typeof lastItemCol !== 'undefined') {
+          lastItemCol.style.flexBasis = masonryHeight - grid.colHeights[i] + lastItemCol.getBoundingClientRect().height - 5 + 'px';
+        }
       }
   
       // emit custom event when grid has been reset
