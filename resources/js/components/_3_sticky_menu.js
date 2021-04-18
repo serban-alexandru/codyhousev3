@@ -13,7 +13,7 @@
 				event.preventDefault();
 				toggleMenu();
 			});
-			
+
 			stickyMenu[0].addEventListener('click', function(event) {
 				if(event.target == stickyMenu[0]) { // close stickyMenu when clicking on bg layer
 					stickyMenu[0].getElementsByClassName('cs-sticky-menu__trigger')[0].click();
@@ -84,8 +84,9 @@
     if(!menu.trigger) return;
     // actions to be performed when closing the drop menu
     menu.stickySubMenuClosed = function(event) {
-      if(event.propertyName != 'visibility') return;
-      if(getComputedStyle(menu.element).getPropertyValue('visibility') != 'hidden') return;
+      // if(event.propertyName != 'visibility') return;
+      // if(getComputedStyle(menu.element).getPropertyValue('visibility') != 'hidden') return;
+      if(event.propertyName != 'color') return;
       menu.element.removeEventListener('transitionend', menu.stickySubMenuClosed);
       menu.element.removeAttribute('style');
       resetAllLevels(menu); // go back to main list
@@ -103,7 +104,7 @@
       } else {
         menu.element.addEventListener('transitionend', function cb(){
           menu.element.removeEventListener('transitionend', cb);
-          focusFirstElement(menu, menu.element);
+          // focusFirstElement(menu, menu.element);
         });
         getLayoutValue(menu);
         placeStickySubMenu(menu); // desktop only

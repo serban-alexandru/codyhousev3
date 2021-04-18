@@ -1,7 +1,11 @@
 @extends('site1.layouts.app')
 
-<?php $page_title = ($settings_data['profile_page_title']) ? $settings_data['profile_page_title'] : auth()->user()->name; ?>
-<?php $meta_title = ($settings_data['profile_meta_title']) ? $settings_data['profile_meta_title'] : auth()->user()->name; ?>
+<?php 
+  $is_authorized = auth()->user() ? true : false;
+  $username = $user ? $user->name : ($is_authorized ? auth()->user()->name : '');
+  $page_title = ($is_authorized && $settings_data['profile_page_title']) ? $settings_data['profile_page_title'] : $username;
+  $meta_title = ($is_authorized && $settings_data['profile_meta_title']) ? $settings_data['profile_meta_title'] : $username;
+?>
 
 @isset($page_title)
   @section('title-tag'){!! $page_title !!}@endsection
