@@ -22,9 +22,15 @@ class Settings extends Model
       foreach($settings as $data) {
         if (empty($data['value'])) $data['value'] = '';
         $setting_data[$data['key']] = $data['value'];
+
+        if ($data['key'] == 'app_template') {
+          if (!file_exists(resource_path('views/templates/apps/' . $data['value'] . '.blade.php'))) {
+            $setting_data[$data['key']] = 'default';
+          }      
+        }
       }
     }
-    
+
     // set default fonts if not exist
     if (empty($setting_data['font_logo']))
       $setting_data['font_logo'] = self::$logo_font;
