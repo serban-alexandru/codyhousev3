@@ -15,8 +15,28 @@ class SettingsController extends Controller {
     $settings_data = Settings::getSiteSettings();
     $fonts = Settings::getFontsList();
     $disable_shortcode = true;
-    
-    return view('admin::partials.setting', compact('settings_data', 'fonts', 'disable_shortcode'))->withoutShortcodes();
+
+    // Get all available templates.
+    $current_template = $settings_data['app_template'];
+
+    $template_files = File::allFiles(resource_path('views/templates/apps'));
+    $templates = [];
+    array_push($templates, [
+      "name" => "default",
+      "checked" => $current_template === "default" ? "checked" : ""
+    ]);
+    foreach($template_files as $file) {
+      $filename = basename($file, ".blade.php");
+
+      if ($filename !== 'default') {
+        array_push($templates, [
+          "name" => $filename,
+          "checked" => $current_template === $filename ? "checked" : ""
+        ]);
+      }
+    }
+
+    return view('admin::partials.setting', compact('settings_data', 'fonts', 'disable_shortcode', 'templates'))->withoutShortcodes();
   }
 
   /**
@@ -45,7 +65,8 @@ class SettingsController extends Controller {
       'reg_en_verify_email',
       'notify_from_email',
       'template_email_confirm',
-      'template_forgot_password'
+      'template_forgot_password',
+      'app_template'
     ];
 
     $checkbox_keys = [
@@ -114,7 +135,7 @@ class SettingsController extends Controller {
         $row->update(['value' => $value]);
       }
     }
-    
+
     return response()->json([
       'status' => true,
       'message' => 'Setting Data has been saved!',

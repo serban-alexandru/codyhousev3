@@ -16,11 +16,11 @@
           </div>
         </div>
 
-        <h1>Site Settings</h1>
         <form id="formSetting" method="POST">
             @csrf
             <fieldset class="margin-bottom-md margin-top-md">
                 
+              <h1>Site Settings</h1>
               <div class="floating-label margin-bottom-md">
                 <label class="form-label" for="logo_title">Enter Logo Title</label>
                 <input class="form-control width-100%" type="text" name="logo_title" id="logo_title" value="{{ !empty($settings_data['logo_title']) ? $settings_data['logo_title'] : '' }}" placeholder="Enter Logo Title" required>
@@ -36,8 +36,36 @@
                 <input class="form-control width-100%" name="favicon" id="favicon" value="{{ !empty($settings_data['favicon']) ? $settings_data['favicon'] : '' }}" placeholder="Paste your favicon path" required>
               </div>
 
-              <h1>SEO Settings</h1>
+              <h1>App Templates</h1>
+              <div class="form-control-section margin-bottom-md">
+                <div class="choice-btns choice-inline gap-xxs js-choice-btns">
+                  @foreach($templates as $template)
+                  <div class="choice-btn padding-sm js-choice-btn">
+                    <!-- fallback -->
+                    <div class="choice-btn__fallback">
+                      <input type="radio" name="app_template" id="app_template_{{$template['name']}}" value="{{$template['name']}}" {{$template['checked']}}>
+                      <label for="choice-radio-button-1">{{$template['name']}}</label>
+                    </div>
 
+                    <!-- custom input -->
+                    <div class="choice-btn__grid" aria-hidden="true">
+                      <div class="choice-btn__input choice-btn__input--radio">
+                        <svg class="icon" viewBox="0 0 16 16">
+                          <circle fill="currentColor" cx="8" cy="8" r="4" /></svg>
+                      </div>
+
+                      <div class="flex flex-wrap gap-xs justify-between">
+                        <div>
+                          <p class="color-contrast-higher">{{$template['name']}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>                  
+                  @endforeach
+                </div>
+              </div>
+
+              <h1>SEO Settings</h1>
               <div class="form-control-section">
                 <h4>Home Page</h4>
                 <div class="floating-label margin-bottom-md margin-top-md">

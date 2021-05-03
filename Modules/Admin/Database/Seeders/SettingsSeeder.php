@@ -103,6 +103,10 @@ class SettingsSeeder extends Seeder
                 'key'           => 'template_forgot_password',
                 'value'         => '<p>You are receiving this email because we received a password reset request for your account.</p><p><a href="{{URL}}">Reset Password</a></p><p>This password reset link will expire in 1 hour.</p><p>If you did not request a password rest, no further action is required.</p>'
             ],
+            [
+                'key'           => 'app_template',
+                'value'         => 'default'
+            ],
         ];
 
 		foreach ($records as $record) {
