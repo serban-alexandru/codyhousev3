@@ -22,8 +22,10 @@ class SettingsController extends Controller {
     $app_templates = Settings::getTemplates('app_template', $settings_data['app_template']);
     $blog_templates = Settings::getTemplates('blog_template', $settings_data['blog_template']);
     $post_templates = Settings::getTemplates('post_template', $settings_data['post_template']);
+    $page_templates = Settings::getTemplates('page_template', $settings_data['page_template']);
+    $profile_templates = Settings::getTemplates('profile_template', $settings_data['profile_template']);
 
-    return view('admin::partials.setting', compact('settings_data', 'fonts', 'disable_shortcode', 'app_templates', 'blog_templates', 'post_templates'))->withoutShortcodes();
+    return view('admin::partials.setting', compact('settings_data', 'fonts', 'disable_shortcode', 'app_templates', 'blog_templates', 'post_templates', 'page_templates', 'profile_templates'))->withoutShortcodes();
   }
 
   /**
@@ -55,7 +57,9 @@ class SettingsController extends Controller {
       'template_forgot_password',
       'app_template',
       'blog_template',
-      'post_template'
+      'post_template',
+      'page_template',
+      'profile_template'
     ];
 
     $checkbox_keys = [

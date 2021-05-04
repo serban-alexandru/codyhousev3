@@ -115,6 +115,14 @@ class SettingsSeeder extends Seeder
                 'key'           => 'post_template',
                 'value'         => 'default'
             ],
+            [
+                'key'           => 'page_template',
+                'value'         => 'default'
+            ],
+            [
+                'key'           => 'profile_template',
+                'value'         => 'default'
+            ],
         ];
 
 		foreach ($records as $record) {

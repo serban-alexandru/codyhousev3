@@ -18,7 +18,7 @@ class SingleViewController extends Controller
       $data['page']       = $page;
       $data['page_title'] = $page->title;
 
-      return view('page::templates.page-template', $data);
+      return view('templates.layouts.page', $data);
     }
 
     // Get Post by slug

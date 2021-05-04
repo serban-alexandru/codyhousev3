@@ -12,11 +12,13 @@ class Settings extends Model
   public static $logo_font = AdminServiceProvider::LOGO_FONT;
   public static $primary_font = AdminServiceProvider::PRIMARY_FONT;
   public static $secondary_font = AdminServiceProvider::SECONDARY_FONT;
-  public static $available_templates = ['app_template', 'blog_template', 'post_template'];
+  public static $available_templates = ['app_template', 'blog_template', 'post_template', 'page_template', 'profile_template'];
   public static $templates_subdir = [
     'app_template' => 'apps', 
     'blog_template' => 'posts', 
-    'post_template' => 'post'
+    'post_template' => 'post',
+    'page_template' => 'page',
+    'profile_template' => 'profile'
   ];
 
   public static function getSiteSettings()
@@ -29,18 +31,8 @@ class Settings extends Model
         if (empty($data['value'])) $data['value'] = '';
         $setting_data[$data['key']] = $data['value'];
 
-        if ($data['key'] == 'app_template') {
-          if (!file_exists(resource_path('views/templates/apps/' . $data['value'] . '.blade.php'))) {
-            $setting_data[$data['key']] = 'default';
-          }
-        }
-        if ($data['key'] == 'blog_template') {
-          if (!file_exists(resource_path('views/templates/posts/' . $data['value'] . '.blade.php'))) {
-            $setting_data[$data['key']] = 'default';
-          }
-        }
-        if ($data['key'] == 'post_template') {
-          if (!file_exists(resource_path('views/templates/post/' . $data['value'] . '.blade.php'))) {
+        if (in_array($data['key'], self::$available_templates)) {
+          if (!file_exists(resource_path('views/templates/' . self::$templates_subdir[$data['key']] . '/' . $data['value'] . '.blade.php'))) {
             $setting_data[$data['key']] = 'default';
           }
         }
