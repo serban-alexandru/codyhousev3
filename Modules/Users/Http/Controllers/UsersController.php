@@ -863,6 +863,6 @@ class UsersController extends Controller
         $data['user']  = $user;
         $data['posts'] = $posts;
 
-        return view('site1.pages.profile', $data);
+        return view('templates.profile.default', $data);
     }
 }

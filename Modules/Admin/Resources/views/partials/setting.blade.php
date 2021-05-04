@@ -125,6 +125,64 @@
                 </div>
               </div>
 
+              <div class="form-control-section margin-bottom-md">
+                <h4>Page Templates</h4>
+                <div class="choice-btns choice-inline gap-xxs js-choice-btns margin-top-md">
+                  @foreach($page_templates as $template)
+                  <div class="choice-btn padding-sm js-choice-btn">
+                    <!-- fallback -->
+                    <div class="choice-btn__fallback">
+                      <input type="radio" name="page_template" id="page_template_{{$template['name']}}" value="{{$template['name']}}" {{$template['checked']}}>
+                      <label for="choice-radio-button-1">{{$template['name']}}</label>
+                    </div>
+
+                    <!-- custom input -->
+                    <div class="choice-btn__grid" aria-hidden="true">
+                      <div class="choice-btn__input choice-btn__input--radio">
+                        <svg class="icon" viewBox="0 0 16 16">
+                          <circle fill="currentColor" cx="8" cy="8" r="4" /></svg>
+                      </div>
+
+                      <div class="flex flex-wrap gap-xs justify-between">
+                        <div>
+                          <p class="color-contrast-higher">{{$template['name']}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  @endforeach
+                </div>
+              </div>
+
+              <div class="form-control-section margin-bottom-md">
+                <h4>Profile Templates</h4>
+                <div class="choice-btns choice-inline gap-xxs js-choice-btns margin-top-md">
+                  @foreach($profile_templates as $template)
+                  <div class="choice-btn padding-sm js-choice-btn">
+                    <!-- fallback -->
+                    <div class="choice-btn__fallback">
+                      <input type="radio" name="profile_template" id="profile_template_{{$template['name']}}" value="{{$template['name']}}" {{$template['checked']}}>
+                      <label for="choice-radio-button-1">{{$template['name']}}</label>
+                    </div>
+
+                    <!-- custom input -->
+                    <div class="choice-btn__grid" aria-hidden="true">
+                      <div class="choice-btn__input choice-btn__input--radio">
+                        <svg class="icon" viewBox="0 0 16 16">
+                          <circle fill="currentColor" cx="8" cy="8" r="4" /></svg>
+                      </div>
+
+                      <div class="flex flex-wrap gap-xs justify-between">
+                        <div>
+                          <p class="color-contrast-higher">{{$template['name']}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  @endforeach
+                </div>
+              </div>
+
               <h1>SEO Settings</h1>
               <div class="form-control-section">
                 <h4>Home Page</h4>
