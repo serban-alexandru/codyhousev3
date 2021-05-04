@@ -107,6 +107,14 @@ class SettingsSeeder extends Seeder
                 'key'           => 'app_template',
                 'value'         => 'default'
             ],
+            [
+                'key'           => 'blog_template',
+                'value'         => 'default'
+            ],
+            [
+                'key'           => 'post_template',
+                'value'         => 'default'
+            ],
         ];
 
 		foreach ($records as $record) {

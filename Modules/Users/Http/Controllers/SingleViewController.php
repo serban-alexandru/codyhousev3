@@ -31,7 +31,7 @@ class SingleViewController extends Controller
     $data['post']       = $post;
     $data['page_title'] = $post->title;
 
-    return view('post::templates.post-template', $data);
+    return view('templates.layouts.post', $data);
   }
 
   public function singleViewbyTheme($theme, $locale, $slug)

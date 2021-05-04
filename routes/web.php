@@ -15,7 +15,7 @@ Auth::routes(['verify' => true]);
 // Site 2
 
 Route::get('/',function(){
-  return view('templates.blog.site2.index');
+  return view('templates.layouts.blog');
 });
 
 Route::get('/post-template',function(){

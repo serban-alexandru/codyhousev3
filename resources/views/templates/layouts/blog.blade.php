@@ -1,0 +1,2 @@
+<?php $layout_template = (isset($settings_data['blog_template']) && !empty($settings_data['blog_template'])) ? "templates.posts.{$settings_data['blog_template']}" : 'templates.posts.default'; ?>
+@extends($layout_template)
