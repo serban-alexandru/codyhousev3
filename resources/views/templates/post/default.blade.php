@@ -1,4 +1,4 @@
-@extends('site1.layouts.app')
+@extends('templates.layouts.index')
 
 <?php $page_title = ($settings_data['post_page_title']) ? $settings_data['post_page_title'] : $post->title; ?>
 <?php $meta_title = ($settings_data['post_meta_title']) ? $settings_data['post_meta_title'] : $post->title; ?>
