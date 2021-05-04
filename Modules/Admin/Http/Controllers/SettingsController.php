@@ -19,24 +19,11 @@ class SettingsController extends Controller {
     // Get all available templates.
     $current_template = $settings_data['app_template'];
 
-    $template_files = File::allFiles(resource_path('views/templates/apps'));
-    $templates = [];
-    array_push($templates, [
-      "name" => "default",
-      "checked" => $current_template === "default" ? "checked" : ""
-    ]);
-    foreach($template_files as $file) {
-      $filename = basename($file, ".blade.php");
+    $app_templates = Settings::getTemplates('app_template', $settings_data['app_template']);
+    $blog_templates = Settings::getTemplates('blog_template', $settings_data['blog_template']);
+    $post_templates = Settings::getTemplates('post_template', $settings_data['post_template']);
 
-      if ($filename !== 'default') {
-        array_push($templates, [
-          "name" => $filename,
-          "checked" => $current_template === $filename ? "checked" : ""
-        ]);
-      }
-    }
-
-    return view('admin::partials.setting', compact('settings_data', 'fonts', 'disable_shortcode', 'templates'))->withoutShortcodes();
+    return view('admin::partials.setting', compact('settings_data', 'fonts', 'disable_shortcode', 'app_templates', 'blog_templates', 'post_templates'))->withoutShortcodes();
   }
 
   /**
@@ -66,7 +53,9 @@ class SettingsController extends Controller {
       'notify_from_email',
       'template_email_confirm',
       'template_forgot_password',
-      'app_template'
+      'app_template',
+      'blog_template',
+      'post_template'
     ];
 
     $checkbox_keys = [

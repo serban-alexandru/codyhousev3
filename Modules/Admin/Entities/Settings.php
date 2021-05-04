@@ -12,6 +12,12 @@ class Settings extends Model
   public static $logo_font = AdminServiceProvider::LOGO_FONT;
   public static $primary_font = AdminServiceProvider::PRIMARY_FONT;
   public static $secondary_font = AdminServiceProvider::SECONDARY_FONT;
+  public static $available_templates = ['app_template', 'blog_template', 'post_template'];
+  public static $templates_subdir = [
+    'app_template' => 'apps', 
+    'blog_template' => 'posts', 
+    'post_template' => 'post'
+  ];
 
   public static function getSiteSettings()
   {
@@ -26,7 +32,17 @@ class Settings extends Model
         if ($data['key'] == 'app_template') {
           if (!file_exists(resource_path('views/templates/apps/' . $data['value'] . '.blade.php'))) {
             $setting_data[$data['key']] = 'default';
-          }      
+          }
+        }
+        if ($data['key'] == 'blog_template') {
+          if (!file_exists(resource_path('views/templates/posts/' . $data['value'] . '.blade.php'))) {
+            $setting_data[$data['key']] = 'default';
+          }
+        }
+        if ($data['key'] == 'post_template') {
+          if (!file_exists(resource_path('views/templates/post/' . $data['value'] . '.blade.php'))) {
+            $setting_data[$data['key']] = 'default';
+          }
         }
       }
     }
@@ -178,5 +194,30 @@ class Settings extends Model
     $fontCSSTemplate = sprintf("@font-face { font-family: '%s'; font-style: normal; font-weight: %d; %s; %s} ", $fontFamily, intval($fontData['size']), $font_src_template1, $font_src_template2);
 
     return $fontCSSTemplate;
+  }
+
+  public static function getTemplates($type, $value) {
+    if (!in_array($type, self::$available_templates)) {
+      return [];
+    }
+
+    $template_files = File::allFiles(resource_path('views/templates/') . self::$templates_subdir[$type]);
+    $templates = [];
+    array_push($templates, [
+      "name" => "default",
+      "checked" => $value === "default" ? "checked" : ""
+    ]);
+    foreach($template_files as $file) {
+      $filename = basename($file, ".blade.php");
+
+      if ($filename !== 'default') {
+        array_push($templates, [
+          "name" => $filename,
+          "checked" => $value === $filename ? "checked" : ""
+        ]);
+      }
+    }
+
+    return $templates;
   }
 }

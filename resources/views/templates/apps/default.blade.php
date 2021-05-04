@@ -31,11 +31,12 @@
     @include('site1.partials.external-fonts-v1')
     @include('partials.headers.main-header-v2')
     @yield('content')
-    @yield('before-end')
     @include('partials.footers.footer')
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
 
     <!-- MODULE SCRIPTS -->
     @stack('module-scripts')
+
+    @yield('before-end')
   </body>
   </html>
