@@ -70,10 +70,6 @@
           </li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/users') }}" class="header-v2__nav-link"
               {{ Request::path() == 'admin/users' ? 'aria-current' : '' }}><span>Users</span></a></li>
-          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/posts') }}" class="header-v2__nav-link"
-              {{ Request::path() == 'admin/posts' ? 'aria-current' : '' }}><span>Posts</span></a></li>
-            <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/pages') }}" class="header-v2__nav-link"
-              {{ Request::path() == 'admin/pages' ? 'aria-current' : '' }}><span>Pages</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/tag') }}" class="header-v2__nav-link"
               {{ Request::path() == 'admin/tag' ? 'aria-current' : '' }}><span>Tags</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/menus') }}" class="header-v2__nav-link"
@@ -83,7 +79,7 @@
 
           <li class="header-v2__nav-item header-v2__nav-item--main header-v2__nav-item--has-children">
             <a href="#0" class="header-v2__nav-link">
-              <span class="color-contrast-lower">Templates</span>
+              <span class="color-contrast-lower">Content</span>
               <svg class="header-v2__nav-dropdown-icon icon margin-left-xxxs color-contrast-lower" aria-hidden="true"
                 viewBox="0 0 16 16">
                 <polyline fill="none" stroke-width="1" stroke="currentColor" stroke-linecap="round"
@@ -95,25 +91,33 @@
               <ul class="header-v2__nav-list">
                 <li class="header-v2__nav-item header-v2__nav-col-2">
                   <ul class="header-v2__nav-list">
-                    <li class="header-v2__nav-item header-v2__nav-item--label">Portal sites</li>
-                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Link One</a></li>
-                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Link Two</a></li>
+                    <li class="header-v2__nav-item header-v2__nav-item--label">Main Type</li>
+                    <li class="header-v2__nav-item"><a href="{{ url('admin/posts') }}" class="header-v2__nav-link">Posts</a></li>
+                    <li class="header-v2__nav-item"><a href="{{ url('admin/pages') }}" class="header-v2__nav-link">Pages</a></li>
                     <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Link Three</a></li>
                   </ul>
 
                   <ul class="header-v2__nav-list">
-                    <li class="header-v2__nav-item header-v2__nav-item--label">Services</li>
-                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Link One</a></li>
+                    <li class="header-v2__nav-item header-v2__nav-item--label">Niche Type</li>
+                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Images</a></li>
+                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Galleries</a></li>
+                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Videos</a></li>
+                  </ul>
+
+                  <ul class="header-v2__nav-list">
+                    <li class="header-v2__nav-item header-v2__nav-item--label">Interactions</li>
+                    <li class="header-v2__nav-item"><a href="admin/posts" class="header-v2__nav-link">Comments</a></li>
+                    <li class="header-v2__nav-item"><a href="admin/pages" class="header-v2__nav-link">Content flags</a></li>
+                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Notifications</a></li>
+                  </ul>
+
+                  <ul class="header-v2__nav-list">
+                    <li class="header-v2__nav-item header-v2__nav-item--label">Archives</li>
+                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Tags</a></li>
                     <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Link Two</a></li>
                     <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Link Three</a></li>
                   </ul>
 
-                  <ul class="header-v2__nav-list">
-                    <li class="header-v2__nav-item header-v2__nav-item--label">Services</li>
-                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Link One</a></li>
-                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Link Two</a></li>
-                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Link Three</a></li>
-                  </ul>
                 </li>
 
                 <li class="header-v2__nav-item header-v2__nav-item--divider" role="separator"></li>
