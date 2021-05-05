@@ -1,4 +1,4 @@
-@extends('site1.layouts.app')
+@extends('templates.layouts.index')
 
 <?php 
   $is_authorized = auth()->user() ? true : false;
