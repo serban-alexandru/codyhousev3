@@ -57,7 +57,7 @@
             @csrf
             <fieldset class="margin-bottom-md margin-top-md">
                 
-              <h1 class="margin-bottom-sm">Site Settings</h1>
+              <h1 class="margin-bottom-sm">Settings</h1>
               <div class="floating-label margin-bottom-md">
                 <label class="form-label" for="logo_title">Enter Logo Title</label>
                 <input class="form-control width-100%" type="text" name="logo_title" id="logo_title" value="{{ !empty($settings_data['logo_title']) ? $settings_data['logo_title'] : '' }}" placeholder="Enter Logo Title" required>
@@ -76,7 +76,7 @@
               <div class="form-control-section">
                 <h4>Font Setting</h4>
                 <div class="floating-label margin-bottom-md margin-top-md">
-                  <span>Logo</span>
+                  <span>Logo:</span>
                   <label class="form-label margin-bottom-xxxs" for="font_logo">Logo Font:</label>
 
                   <?php $logofont = ($settings_data['font_logo']) ? $settings_data['font_logo'] : ''; ?>
@@ -97,7 +97,7 @@
                 </div>
 
                 <div class="floating-label margin-bottom-md margin-top-md">
-                  <span>Primary</span>
+                  <span>Primary:</span>
                   <label class="form-label margin-bottom-xxxs" for="font_primary">Primary Font:</label>
 
                   <?php $primaryfont = ($settings_data['font_primary']) ? $settings_data['font_primary'] : ''; ?>
@@ -118,7 +118,7 @@
                 </div>
 
                 <div class="floating-label margin-bottom-md margin-top-xs">
-                  <span>Secondary</span>
+                  <span>Secondary:</span>
                   <label class="form-label margin-bottom-xxxs" for="font_secondary">Secondary Font:</label>
                   <?php $secondaryfont = ($settings_data['font_secondary']) ? $settings_data['font_secondary'] : ''; ?>
                   <div class="select inline-block js-select" data-trigger-class="btn btn--subtle">

@@ -1,4 +1,4 @@
-@extends('users::dashboard.master')
+@extends('templates.layouts.index')
 @section('content')
   @if ($posts_published_count == 0 && $posts_draft_count == 0 && $posts_pending_count == 0 && $posts_deleted_count == 0)
     <section>
