@@ -1,4 +1,4 @@
-@extends('site1.layouts.app')
+@extends('templates.layouts.index')
 
 @isset($page_title)
   @section('title-tag'){!! $page_title !!}@endsection

@@ -1,4 +1,4 @@
-@extends('site1.layouts.app')
+@extends('templates.layouts.index')
 
 <?php $seo_page_title = ($settings_data['tag_page_title']) ? $settings_data['tag_page_title'] : $page_title; ?>
 <?php $seo_meta_title = ($settings_data['tag_meta_title']) ? $settings_data['tag_meta_title'] : $page_title; ?>
