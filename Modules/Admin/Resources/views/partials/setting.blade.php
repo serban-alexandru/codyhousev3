@@ -24,11 +24,11 @@
           </button>
 
           <ul class="subnav__list">
-            <li class="subnav__item"><a href="#0" class="subnav__link" aria-current=page>Settings</a></li>
-            <li class="subnav__item"><a href="#0" class="subnav__link">Fonts</a></li>
+            <li class="subnav__item"><a href="#0" class="subnav__link" aria-current=page>Site Settings</a></li>
             <li class="subnav__item"><a href="#0" class="subnav__link">Templates</a></li>
             <li class="subnav__item"><a href="#0" class="subnav__link">SEO</a></li>
             <li class="subnav__item"><a href="#0" class="subnav__link">Registration</a></li>
+            <li class="subnav__item"><a href="#0" class="subnav__link">Tracking</a></li>
           </ul>
         </nav>
       </div>
@@ -58,7 +58,7 @@
             <fieldset class="margin-bottom-md margin-top-md">
                 
               <h1 class="margin-bottom-sm">Site Settings</h1>
-              <div class="floating-label">
+              <div class="floating-label margin-bottom-md">
                 <label class="form-label" for="logo_title">Enter Logo Title</label>
                 <input class="form-control width-100%" type="text" name="logo_title" id="logo_title" value="{{ !empty($settings_data['logo_title']) ? $settings_data['logo_title'] : '' }}" placeholder="Enter Logo Title" required>
               </div>
@@ -76,6 +76,7 @@
               <div class="form-control-section">
                 <h4>Font Setting</h4>
                 <div class="floating-label margin-bottom-md margin-top-md">
+                  <span>Logo</span>
                   <label class="form-label margin-bottom-xxxs" for="font_logo">Logo Font:</label>
 
                   <?php $logofont = ($settings_data['font_logo']) ? $settings_data['font_logo'] : ''; ?>
@@ -96,6 +97,7 @@
                 </div>
 
                 <div class="floating-label margin-bottom-md margin-top-md">
+                  <span>Primary</span>
                   <label class="form-label margin-bottom-xxxs" for="font_primary">Primary Font:</label>
 
                   <?php $primaryfont = ($settings_data['font_primary']) ? $settings_data['font_primary'] : ''; ?>
@@ -116,6 +118,7 @@
                 </div>
 
                 <div class="floating-label margin-bottom-md margin-top-xs">
+                  <span>Secondary</span>
                   <label class="form-label margin-bottom-xxxs" for="font_secondary">Secondary Font:</label>
                   <?php $secondaryfont = ($settings_data['font_secondary']) ? $settings_data['font_secondary'] : ''; ?>
                   <div class="select inline-block js-select" data-trigger-class="btn btn--subtle">
@@ -338,7 +341,7 @@
               </div>
 
               <div class="form-control-section">
-                <h4>Registration Setting</h4>
+                <h1 class="margin-bottom-sm">Regisration Settings</h1>
                 <div class="flex justify-between margin-bottom-md margin-top-xs">
                   <label class="form-label margin-bottom-xxxs" for="reg_en_fullname">First name and last name:</label>
                   <div class="flex justify-end">              
@@ -378,7 +381,7 @@
               </div>
 
               <div class="form-control-section">
-                <h4>Tracking Script</h4>
+                <h1 class="margin-bottom-xs">Tracking</h1>
                 <div class="floating-label margin-bottom-md">
                   <label class="form-label" for="tracker_script">Paste your Matomo Tracker Script</label>
                   <textarea class="form-control width-100%" name="tracker_script" id="tracker_script" placeholder="Paste your Matomo Tracker Script">{!! !empty($settings_data['tracker_script']) ? $settings_data['tracker_script'] : '' !!}</textarea>
