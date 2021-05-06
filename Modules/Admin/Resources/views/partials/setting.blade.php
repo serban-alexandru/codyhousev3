@@ -1,5 +1,6 @@
 @extends('admin::layouts.master')
 @section('content')
+
 <!-- Sub-navigation -->
 <div class="bg-contrast-lower hide-nav z-index-2 js-hide-nav js-hide-nav--sub">
   <div class="container max-width-lg flex items-center justify-between">
@@ -23,14 +24,11 @@
           </button>
 
           <ul class="subnav__list">
-            <li class="subnav__item"><a href="#0" class="subnav__link" aria-current=page>Intro</a></li>
-            <li class="subnav__item"><a href="#0" class="subnav__link">Features</a></li>
-            <li class="subnav__item"><a href="#0" class="subnav__link">Photos</a></li>
-            <li class="subnav__item"><a href="#0" class="subnav__link">Videos</a></li>
-            <li class="subnav__item"><a href="#0" class="subnav__link">Specs</a></li>
-            <li class="subnav__item"><a href="#0" class="subnav__link">Support</a></li>
-            <li class="subnav__item"><a href="#0" class="subnav__link">Compare</a></li>
-            <li class="subnav__item"><a href="#0" class="subnav__link">Buy</a></li>
+            <li class="subnav__item"><a href="#0" class="subnav__link" aria-current=page>Settings</a></li>
+            <li class="subnav__item"><a href="#0" class="subnav__link">Fonts</a></li>
+            <li class="subnav__item"><a href="#0" class="subnav__link">Templates</a></li>
+            <li class="subnav__item"><a href="#0" class="subnav__link">SEO</a></li>
+            <li class="subnav__item"><a href="#0" class="subnav__link">Registration</a></li>
           </ul>
         </nav>
       </div>
@@ -54,12 +52,13 @@
           </div>
         </div>
 
+<!-- Site-settings -->
         <form id="formSetting" method="POST">
             @csrf
             <fieldset class="margin-bottom-md margin-top-md">
                 
-              <h1>Site Settings</h1>
-              <div class="floating-label margin-bottom-md">
+              <h1 class="margin-bottom-sm">Site Settings</h1>
+              <div class="floating-label">
                 <label class="form-label" for="logo_title">Enter Logo Title</label>
                 <input class="form-control width-100%" type="text" name="logo_title" id="logo_title" value="{{ !empty($settings_data['logo_title']) ? $settings_data['logo_title'] : '' }}" placeholder="Enter Logo Title" required>
               </div>
@@ -74,8 +73,71 @@
                 <input class="form-control width-100%" name="favicon" id="favicon" value="{{ !empty($settings_data['favicon']) ? $settings_data['favicon'] : '' }}" placeholder="Paste your favicon path" required>
               </div>
 
-              <h1>Templates Setting</h1>
-              <div class="form-control-section margin-bottom-md">
+              <div class="form-control-section">
+                <h4>Font Setting</h4>
+                <div class="floating-label margin-bottom-md margin-top-md">
+                  <label class="form-label margin-bottom-xxxs" for="font_logo">Logo Font:</label>
+
+                  <?php $logofont = ($settings_data['font_logo']) ? $settings_data['font_logo'] : ''; ?>
+                  <div class="select inline-block js-select" data-trigger-class="btn btn--subtle">
+                    <select class="form-control" name="font_logo" id="font_logo" data-placeholder="Select Logo Font">
+                    @foreach($fonts as $font_name)
+                      <option
+                        value="{{ $font_name }}"
+                        @if($font_name == $logofont)
+                          selected
+                        @endif
+                      >{{ $font_name }}</option>
+                    @endforeach
+                    </select>
+
+                    <svg class="icon icon--xs margin-left-xxxs" aria-hidden="true" viewBox="0 0 16 16"><polygon points="3,5 8,11 13,5 "></polygon></svg>
+                  </div>
+                </div>
+
+                <div class="floating-label margin-bottom-md margin-top-md">
+                  <label class="form-label margin-bottom-xxxs" for="font_primary">Primary Font:</label>
+
+                  <?php $primaryfont = ($settings_data['font_primary']) ? $settings_data['font_primary'] : ''; ?>
+                  <div class="select inline-block js-select" data-trigger-class="btn btn--subtle">
+                    <select class="form-control" name="font_primary" id="font_primary" data-placeholder="Select Primary Font">
+                    @foreach($fonts as $font_name)
+                      <option
+                        value="{{ $font_name }}"
+                        @if($font_name == $primaryfont)
+                          selected
+                        @endif
+                      >{{ $font_name }}</option>
+                    @endforeach
+                    </select>
+
+                    <svg class="icon icon--xs margin-left-xxxs" aria-hidden="true" viewBox="0 0 16 16"><polygon points="3,5 8,11 13,5 "></polygon></svg>
+                  </div>
+                </div>
+
+                <div class="floating-label margin-bottom-md margin-top-xs">
+                  <label class="form-label margin-bottom-xxxs" for="font_secondary">Secondary Font:</label>
+                  <?php $secondaryfont = ($settings_data['font_secondary']) ? $settings_data['font_secondary'] : ''; ?>
+                  <div class="select inline-block js-select" data-trigger-class="btn btn--subtle">
+                    <select class="form-control" name="font_secondary" id="font_secondary" data-placeholder="Select Secondary Font">
+                    @foreach($fonts as $font_name)
+                      <option
+                        value="{{ $font_name }}"
+                        @if($font_name == $secondaryfont)
+                          selected
+                        @endif
+                      >{{ $font_name }}</option>
+                    @endforeach
+                    </select>
+
+                    <svg class="icon icon--xs margin-left-xxxs" aria-hidden="true" viewBox="0 0 16 16"><polygon points="3,5 8,11 13,5 "></polygon></svg>
+                  </div>
+                </div>
+              </div>
+
+<!-- Template Settings -->
+              <h1 class="margin-bottom-xs margin-top-md">Template Settings</h1>
+              <div class="form-control-section">
                 <h4>App Templates</h4>
                 <div class="choice-btns choice-inline gap-xxs js-choice-btns margin-top-md">
                   @foreach($app_templates as $template)
@@ -221,7 +283,8 @@
                 </div>
               </div>
 
-              <h1>SEO Settings</h1>
+<!-- SEO Settings -->
+              <h1 class="margin-bottom-sm margin-top-md">SEO Settings</h1>
               <div class="form-control-section">
                 <h4>Home Page</h4>
                 <div class="floating-label margin-bottom-md margin-top-md">
@@ -271,68 +334,6 @@
                 <div class="floating-label margin-bottom-md margin-top-xs">
                   <label class="form-label" for="tag_meta_title">Meta Title</label>
                   <input class="form-control width-100%" type="text" name="tag_meta_title" id="tag_meta_title" value="{{ !empty($settings_data['tag_meta_title']) ? $settings_data['tag_meta_title'] : '' }}" placeholder="Tag Meta Title" required>
-                </div>
-              </div>
-
-              <div class="form-control-section">
-                <h4>Font Setting</h4>
-                <div class="floating-label margin-bottom-md margin-top-md">
-                  <label class="form-label margin-bottom-xxxs" for="font_logo">Logo Font:</label>
-
-                  <?php $logofont = ($settings_data['font_logo']) ? $settings_data['font_logo'] : ''; ?>
-                  <div class="select inline-block js-select" data-trigger-class="btn btn--subtle">
-                    <select class="form-control" name="font_logo" id="font_logo" data-placeholder="Select Logo Font">
-                    @foreach($fonts as $font_name)
-                      <option
-                        value="{{ $font_name }}"
-                        @if($font_name == $logofont)
-                          selected
-                        @endif
-                      >{{ $font_name }}</option>
-                    @endforeach
-                    </select>
-
-                    <svg class="icon icon--xs margin-left-xxxs" aria-hidden="true" viewBox="0 0 16 16"><polygon points="3,5 8,11 13,5 "></polygon></svg>
-                  </div>
-                </div>
-
-                <div class="floating-label margin-bottom-md margin-top-md">
-                  <label class="form-label margin-bottom-xxxs" for="font_primary">Primary Font:</label>
-
-                  <?php $primaryfont = ($settings_data['font_primary']) ? $settings_data['font_primary'] : ''; ?>
-                  <div class="select inline-block js-select" data-trigger-class="btn btn--subtle">
-                    <select class="form-control" name="font_primary" id="font_primary" data-placeholder="Select Primary Font">
-                    @foreach($fonts as $font_name)
-                      <option
-                        value="{{ $font_name }}"
-                        @if($font_name == $primaryfont)
-                          selected
-                        @endif
-                      >{{ $font_name }}</option>
-                    @endforeach
-                    </select>
-
-                    <svg class="icon icon--xs margin-left-xxxs" aria-hidden="true" viewBox="0 0 16 16"><polygon points="3,5 8,11 13,5 "></polygon></svg>
-                  </div>
-                </div>
-
-                <div class="floating-label margin-bottom-md margin-top-xs">
-                  <label class="form-label margin-bottom-xxxs" for="font_secondary">Secondary Font:</label>
-                  <?php $secondaryfont = ($settings_data['font_secondary']) ? $settings_data['font_secondary'] : ''; ?>
-                  <div class="select inline-block js-select" data-trigger-class="btn btn--subtle">
-                    <select class="form-control" name="font_secondary" id="font_secondary" data-placeholder="Select Secondary Font">
-                    @foreach($fonts as $font_name)
-                      <option
-                        value="{{ $font_name }}"
-                        @if($font_name == $secondaryfont)
-                          selected
-                        @endif
-                      >{{ $font_name }}</option>
-                    @endforeach
-                    </select>
-
-                    <svg class="icon icon--xs margin-left-xxxs" aria-hidden="true" viewBox="0 0 16 16"><polygon points="3,5 8,11 13,5 "></polygon></svg>
-                  </div>
                 </div>
               </div>
 
