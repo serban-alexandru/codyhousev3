@@ -195,6 +195,7 @@
               <td class="int-table__cell cursor-pointer" aria-controls="modal-edit-post" data-id="{{ $post->id }}">
                 <a href="#0">
                   {{ Str::limit($post->title, 47) }}
+                  <p class="text-component text-xs color-contrast-medium">By: {{ $post->username }}</p>
                 </a>
               </td>
               <td class="int-table__cell">{{ $post->username }}</td>
