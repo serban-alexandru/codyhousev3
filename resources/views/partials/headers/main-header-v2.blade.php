@@ -21,7 +21,7 @@
       <!-- User Icon and Drop-down Mobile-->
       <div class="mobile-btn flex flex-center gap-xxs">
         <!-- Search Form -->
-        <button class="reset mega-nav__icon-btn mega-nav__icon-btn--search js-tab-focus" aria-label="Toggle search" aria-controls="mega-nav-search">
+        <button class="header-v2__nav-control reset mega-nav__icon-btn mega-nav__icon-btn--search js-tab-focus" aria-label="Toggle search" aria-controls="mega-nav-search">
           <svg class="icon" viewBox="0 0 24 24">
             <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
               <path d="M4.222 4.222l15.556 15.556" />
