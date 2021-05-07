@@ -1,4 +1,4 @@
-<header class="header-v2 js-header-v2 bg-contrast-high hide-nav js-hide-nav js-hide-nav--main" data-animation="off" data-animation-offset="400">
+<header class="header-v2 js-header-v2 bg-contrast-high js-mega-nav mega-nav--mobile hide-nav js-hide-nav js-hide-nav--main" data-animation="off" data-animation-offset="400">
   <div class="header-v2__wrapper">
     <div class="header-v2__container container max-width-lg">
       <div class="header-v2__sub-container">
@@ -19,17 +19,17 @@
       <!-- END-->
 
       <!-- User Icon and Drop-down Mobile-->
-      <div class="mobile-btn flex gap-xxs">
+      <div class="mobile-btn flex flex-center gap-xxs">
         <!-- Search Form -->
-        <div class="header-v2__nav-control btn btn--icon shadow-none" aria-controls="modal-search">
+        <button class="reset mega-nav__icon-btn mega-nav__icon-btn--search js-tab-focus" aria-label="Toggle search" aria-controls="mega-nav-search">
           <svg class="icon" viewBox="0 0 24 24">
-            <title>Toggle search</title>
-            <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" stroke="white" fill="none" stroke-miterlimit="10">
-              <line x1="22" y1="22" x2="15.656" y2="15.656"></line>
-              <circle cx="10" cy="10" r="8"></circle>
+            <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
+              <path d="M4.222 4.222l15.556 15.556" />
+              <path d="M19.778 4.222L4.222 19.778" />
+              <circle cx="9.5" cy="9.5" r="6.5" />
             </g>
           </svg>
-        </div>
+        </button>
 
         @auth
         <button
@@ -86,16 +86,15 @@
         <ul class="header-v2__nav-list header-v2__nav-list--main">
           <li class="header-v2__nav-item header-v2__nav-item--main">
             <!-- Search Form -->
-            <div class="btn btn--icon shadow-none" aria-controls="modal-search">
+            <button class="reset mega-nav__icon-btn mega-nav__icon-btn--search js-tab-focus" aria-label="Toggle search" aria-controls="mega-nav-search">
               <svg class="icon" viewBox="0 0 24 24">
-                <title>Toggle search</title>
-                <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="1.5" stroke="white" fill="none"
-                  stroke-miterlimit="10">
-                  <line x1="22" y1="22" x2="15.656" y2="15.656"></line>
-                  <circle cx="10" cy="10" r="8"></circle>
+                <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
+                  <path d="M4.222 4.222l15.556 15.556" />
+                  <path d="M19.778 4.222L4.222 19.778" />
+                  <circle cx="9.5" cy="9.5" r="6.5" />
                 </g>
               </svg>
-            </div>
+            </button>
           </li>
           <li class="header-v2__nav-item header-v2__nav-item--main header-v2__nav-item--has-children margin-left-sm">
             @auth
@@ -194,36 +193,29 @@
           <li class="header-v2__nav-item header-v2__nav-item--label">Admin</li>
           <li class="header-v2__nav-item"><a href="{{ url('admin') }}" class="header-v2__nav-link">Admin Dashboard</a></li>
         </ul>
-      </nav>      
+      </nav>
+
+      <!-- Search Box -->
+      <div class="js-mega-nav__nav" style="display:none"></div> <!-- need this snippet to avoid error on using mega nav -->
+      <div class="mega-nav__search js-mega-nav__search" id="mega-nav-search">
+        <div class="mega-nav__search-inner">
+          <form action="{{ route('pages.posts') }}" method="GET">
+            <input type="hidden" name="limit" value="{{$limit ?? ''}}">
+            <input type="hidden" name="sort" value="{{$sort ?? ''}}">
+            <input type="hidden" name="order" value="{{$order ?? ''}}">
+
+            <input class="form-control width-100%" type="reset search" name="q" value="{{ $q ?? '' }}" id="megasite-search" placeholder="Search..." aria-label="Search">
+          </form>
+          <div class="margin-top-lg">
+            <p class="mega-nav__label">Quick Links</p>
+            <ul>
+              <li><a href="https://www.facebook.com/saigonfinest" class="mega-nav__quick-link">Visit us on Facebook</a></li>
+              <li><a href="https://www.instagram.com/saigon_finest/" class="mega-nav__quick-link">Visit us on Instagram</a></li>
+              <li><a href="https://saigonfinest.com/contact" class="mega-nav__quick-link">Contact Us</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </header>
-<div class="modal modal--search modal--animate-fade flex flex-center padding-md js-modal" id="modal-search">
-  <div class="modal__content width-100% max-width-sm max-height-100% overflow-auto" role="alertdialog"
-    aria-labelledby="modal-search-title" aria-describedby="">
-    <form class="full-screen-search">
-      <label for="search-input-x" id="modal-search-title" class="sr-only">Search</label>
-      <input class="reset full-screen-search__input" type="search" name="search-input-x" id="search-input-x" placeholder="Search...">
-      <button class="reset full-screen-search__btn">
-        <svg class="icon" viewBox="0 0 24 24">
-          <title>Search</title>
-          <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" stroke="currentColor" fill="none" stroke-miterlimit="10">
-            <line x1="22" y1="22" x2="15.656" y2="15.656"></line>
-            <circle cx="10" cy="10" r="8"></circle>
-          </g>
-        </svg>
-      </button>
-    </form>
-  </div>
-
-  <button class="reset modal__close-btn modal__close-btn--outer  js-modal__close js-tab-focus">
-    <svg class="icon icon--sm" viewBox="0 0 24 24">
-      <title>Close modal window</title>
-      <g fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2" stroke-linecap="round"
-        stroke-linejoin="round">
-        <line x1="3" y1="3" x2="21" y2="21" />
-        <line x1="21" y1="3" x2="3" y2="21" />
-      </g>
-    </svg>
-  </button>
-</div>
