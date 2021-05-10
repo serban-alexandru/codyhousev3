@@ -256,7 +256,7 @@ Usage: codyhouse.co/license
   }
 
   .header-v2__nav-control {
-    display: none; // hide menu btn
+    display: none !important; // hide menu btn
   }
 
   .header-v2__nav {
