@@ -8,14 +8,14 @@ Usage: codyhouse.co/license
 -------------------------------- */
 
 :root {
-    --user-cell-img-size: 34px;
+    --user-cell-img-size: 30px;
   }
   
   .user-cell {
     @include spaceUnit(1rem); // spacing not affected by em units
     font-size: 1rem; // children font size not affected by global change of body font-size
   
-    background: var(--color-contrast-high);
+    background: var(--color-contrast-higher);
     padding: var(--space-sm);
     border-radius: var(--radius-md);
     border-top-right-radius: 0px;
