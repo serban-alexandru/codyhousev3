@@ -164,6 +164,11 @@ Usage: codyhouse.co/license
       transform: rotate(0deg);
       transition: transform 0.3s var(--ease-out);
 
+      > * {
+        transition: transform 0.3s var(--ease-in-out),
+            stroke-dashoffset 0.3s, opacity 0.3s;
+      }
+
       > *:nth-child(5) {
           stroke-dashoffset: 24;
           stroke-dasharray: 24;
