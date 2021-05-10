@@ -4,7 +4,7 @@
     <!-- favicon 👇 -->
     <link rel="icon" type="image/svg+xml" href="{{ !empty($settings_data['favicon']) ? asset($settings_data['favicon']) : asset('assets/img/favicon.svg') }}">
 
-    <title>{!! !empty($settings_data['page_title']) ? $settings_data['page_title'] : '' !!}</title>
+    <title>@yield('title-tag')</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
