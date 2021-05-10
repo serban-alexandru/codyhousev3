@@ -156,3 +156,39 @@ Usage: codyhouse.co/license
     transform: rotate(-90deg);
   }
 }
+
+// animated avatar icon
+.anim-menu-btn--avatar {
+  .icon__group {
+      transform-origin: 12px 12px;
+      transform: rotate(0deg);
+      transition: transform 0.3s var(--ease-out);
+
+      > *:nth-child(5) {
+          stroke-dashoffset: 24;
+          stroke-dasharray: 24;
+      }
+
+      > *:nth-child(6) {
+          stroke-dashoffset: 24;
+          stroke-dasharray: 24;
+      }
+  }
+
+  &.anim-menu-btn--state-b {
+      .icon__group {
+          transform: rotate(-90deg);
+
+          > *:nth-child(1), > *:nth-child(2), > *:nth-child(3), > *:nth-child(4) {
+            opacity: 0;
+          }
+
+          > *:nth-child(5) {
+            stroke-dashoffset: 48;
+          }
+          > *:nth-child(6) {
+            stroke-dashoffset: 48;
+          }
+      }
+  }
+}
