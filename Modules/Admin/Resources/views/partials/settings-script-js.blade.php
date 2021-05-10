@@ -54,6 +54,25 @@
         }
       });
     });
+
+    /** Custom script for smooth scrolling when there is a fixed header */
+    var mainHeaderHeight = $('.js-hide-nav--main').height();
+    var subHeaderHeight = $('.js-hide-nav--sub').height();
+    var lastItemIndex = 0;
+    $('.js-smooth-scroll').each(function(index) {
+      $(this).click(function() {
+        var currentItemIndex = index;
+        if (currentItemIndex > lastItemIndex) {
+          // down scroll
+          $('html').css('scroll-padding', subHeaderHeight + 'px');
+        } else {
+          // up scroll
+          $('html').css('scroll-padding', mainHeaderHeight + subHeaderHeight + 'px');
+        }
+
+        lastItemIndex = currentItemIndex;
+      });
+    });
   });
 </script>
 @endauth
