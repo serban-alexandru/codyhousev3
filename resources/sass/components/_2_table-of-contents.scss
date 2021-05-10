@@ -12,7 +12,6 @@ Usage: codyhouse.co/license
   
   .toc {
     @include spaceUnit(1rem); // convert all spacing units to rem
-    box-shadow: inset var(--toc-border-width) 0 0 var(--color-contrast-low);
   }
   
   .toc--sticky {
@@ -61,6 +60,7 @@ Usage: codyhouse.co/license
   
   .toc__link--selected {
     color: var(--color-primary);
+    border-bottom-color:var(--color-primary);
   
     &::before {
       background-color: var(--color-primary);
