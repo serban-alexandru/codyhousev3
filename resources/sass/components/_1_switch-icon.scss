@@ -49,6 +49,32 @@ Usage: codyhouse.co/license
     }
   }
   
+  // --fade
+  .switch-icon--fade {
+    .switch-icon__icon {
+      transition: opacity 0.4s ease-in-out;
+    }
+
+    .switch-icon__icon--a {
+      opacity: 1;
+    }
+
+    .switch-icon__icon--b {
+      opacity: 0;
+    }
+  }
+
+  .switch-icon--fade.switch-icon--state-b,
+  .switch-icon--fade.switch-icon--hover:hover {
+    .switch-icon__icon--a {
+      opacity: 0;
+    }
+
+    .switch-icon__icon--b {
+      opacity: 1;
+    }
+  } 
+
   // --scale
   .switch-icon--scale {
     .switch-icon__icon {

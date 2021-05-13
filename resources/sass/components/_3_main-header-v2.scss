@@ -428,6 +428,30 @@ Usage: codyhouse.co/license
     }
   }
 
+  .header-v2__nav-search {
+      display: none;
+      position: absolute;
+      top: var(--mega-nav-height);
+      left: 0;
+      width: 100%;
+      z-index: 1;
+      padding: var(--space-sm);
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      background-color: var(--color-bg);
+      box-shadow: var(--shadow-lg);
+      border-top: 1px solid var(--color-contrast-lower);
+      border-radius: var(--radius-md);
+
+      &.header-v2__nav--is-visible {
+        display: block;
+
+        > * {
+            animation: mega-nav-entry-animation 0.5s var(--ease-out);
+        }  
+      }
+  }
+
   .mega-nav__icon-btn .header-v2__nav-dropdown {font-size:16px;}
 
   .header-v2__nav-dropdown--sm {

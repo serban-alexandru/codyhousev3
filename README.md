@@ -101,3 +101,12 @@ eg. content of resources/views/components/button.blade.php
 <button class="{{ $button_type }}">This is a button</button>
 
 Laravel's doc for more info https://laravel.com/docs/7.x/blade#components.
+
+## Compiling scripts and SASS
+
+"npm run gulp sass"
+"npm run gulp scripts"
+
+
+## Make components
+php artisan make:component COMPONENT_NAME

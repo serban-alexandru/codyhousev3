@@ -21,38 +21,38 @@
       <!-- User Icon and Drop-down Mobile-->
       <div class="mobile-btn flex gap-xxs">
         @auth
-        @if(auth()->user()->avatar)
-        <button class="header-v2__nav-control reset anim-menu-btn js-anim-menu-btn switch-icon switch-icon--rotate js-switch-icon js-tab-focus" aria-label="Toggle icon" menu-target="user-menu">
-          <div class="mega-nav__icon-btn dropdown__wrapper inline-block author author--minimal-mobile switch-icon__icon switch-icon__icon--a">
-            <div class="author__img-wrapper author--minimal dropdown__trigger">
-              <img src="{{ auth()->user()->getAvatar() }}" alt="Logged in user avatar">
+          @if(auth()->user()->avatar)
+          <button class="header-v2__nav-control reset anim-menu-btn js-anim-menu-btn switch-icon switch-icon--fade js-switch-icon js-tab-focus" aria-label="Toggle icon" menu-target="user-menu">
+            <div class="dropdown__wrapper inline-block author author--minimal-mobile switch-icon__icon switch-icon__icon--a">
+              <div class="author__img-wrapper author--minimal dropdown__trigger">
+                <img src="{{ auth()->user()->getAvatar() }}" alt="Logged in user avatar">
+              </div>
             </div>
-          </div>
-          <svg class="switch-icon__icon switch-icon__icon--b" viewBox="0 0 20 20">
-            <g fill="none" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" stroke="#efefef">
-              <line x1="15" y1="5" x2="5" y2="15"></line>
-              <line x1="15" y1="15" x2="5" y2="5"></line>
-            </g>
-          </svg>
-        </button>
-        @else
-        <button class="header-v2__nav-control reset anim-menu-btn anim-menu-btn--avatar js-anim-menu-btn js-tab-focus" aria-label="Toggle icon" menu-target="user-menu">
-          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
-            <title>face-man</title>
-            <g class="icon__group" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" transform="translate(0.5 0.5)" fill="white" stroke="white">
-              <path fill="none" stroke-miterlimit="10"
-                d="M1.051,10.933 C4.239,6.683,9.875,11.542,16,6c3,4.75,6.955,4.996,6.955,4.996"></path>
-              <circle data-stroke="none" fill="white" cx="7.5" cy="14.5" r="1.5" stroke-linejoin="miter"
-                stroke-linecap="square" stroke="none"></circle>
-              <circle data-stroke="none" fill="white" cx="16.5" cy="14.5" r="1.5" stroke-linejoin="miter"
-                stroke-linecap="square" stroke="none"></circle>
-              <circle fill="none" stroke="white" stroke-miterlimit="10" cx="12" cy="12" r="11"></circle>
-              <path d="M4.222 4.222l15.556 15.556" />
-              <path d="M19.778 4.222L4.222 19.778" />
-            </g>
-          </svg>
-        </button>
-        @endif
+            <svg class="switch-icon__icon switch-icon__icon--b" viewBox="0 0 20 20">
+              <g fill="none" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" stroke="#efefef">
+                <line x1="15" y1="5" x2="5" y2="15"></line>
+                <line x1="15" y1="15" x2="5" y2="5"></line>
+              </g>
+            </svg>
+          </button>
+          @else
+          <button class="header-v2__nav-control reset anim-menu-btn anim-menu-btn--avatar js-anim-menu-btn js-tab-focus" aria-label="Toggle icon" menu-target="user-menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
+              <title>face-man</title>
+              <g class="icon__group" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" transform="translate(0.5 0.5)" fill="white" stroke="white">
+                <path fill="none" stroke-miterlimit="10"
+                  d="M1.051,10.933 C4.239,6.683,9.875,11.542,16,6c3,4.75,6.955,4.996,6.955,4.996"></path>
+                <circle data-stroke="none" fill="white" cx="7.5" cy="14.5" r="1.5" stroke-linejoin="miter"
+                  stroke-linecap="square" stroke="none"></circle>
+                <circle data-stroke="none" fill="white" cx="16.5" cy="14.5" r="1.5" stroke-linejoin="miter"
+                  stroke-linecap="square" stroke="none"></circle>
+                <circle fill="none" stroke="white" stroke-miterlimit="10" cx="12" cy="12" r="11"></circle>
+                <path d="M4.222 4.222l15.556 15.556" />
+                <path d="M19.778 4.222L4.222 19.778" />
+              </g>
+            </svg>
+          </button>
+          @endif
         @endauth
 
         <button class="header-v2__nav-control reset anim-menu-btn js-anim-menu-btn js-tab-focus" aria-label="Toggle menu" menu-target="main-menu">
@@ -152,7 +152,7 @@
         <ul class="header-v2__nav-list header-v2__nav-list--main">
           <li class="header-v2__nav-item header-v2__nav-item--main header-v2__nav-item--has-children margin-left-sm">
             @auth
-            <div class="mega-nav__icon-btn dropdown__wrapper inline-block author author--minimal-mobile ">
+            <div class="dropdown__wrapper inline-block author author--minimal-mobile ">
               <a href="#0" class="author__img-wrapper author--minimal dropdown__trigger">
                 @if(auth()->user()->avatar)
                 <img src="{{ auth()->user()->getAvatar() }}" alt="Logged in user avatar,">
