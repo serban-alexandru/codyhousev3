@@ -21,7 +21,7 @@ Usage: codyhouse.co/license
   position: absolute;
   bottom: 0;
   width: 100%;
-  padding: var(--space-md) var(--space-sm) var(--space-sm);
+  padding: var(--space-md) var(--space-sm) var(--space-xxs);
   background: linear-gradient(alpha(var(--color-black), 0), var(--color-black));
 
   color: var(--color-white);
@@ -31,10 +31,10 @@ Usage: codyhouse.co/license
 }
 
 .card-v2__title {
-  font-size: var(--text-md);
+  font-size: var(--text-sm);
 
   @include breakpoint(md) {
-    font-size: 1em;
+    font-size: 0.8em;
   }
 }
 
