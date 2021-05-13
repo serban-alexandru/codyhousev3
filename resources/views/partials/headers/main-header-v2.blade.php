@@ -1,4 +1,4 @@
-<header class="header-v2 js-header-v2 bg-contrast-high js-mega-nav mega-nav--mobile hide-nav js-hide-nav js-hide-nav--main" data-animation="off" data-animation-offset="400">
+<header class="header-v2 js-header-v2 bg-contrast-high hide-nav js-hide-nav js-hide-nav--main" data-animation="off" data-animation-offset="400">
   <div class="header-v2__wrapper">
     <div class="header-v2__container container max-width-lg">
       <div class="header-v2__sub-container">
@@ -21,7 +21,7 @@
       <!-- User Icon and Drop-down Mobile-->
       <div class="mobile-btn flex flex-center gap-xxs">
         <!-- Search Form -->
-        <button class="header-v2__nav-control reset mega-nav__icon-btn mega-nav__icon-btn--search js-tab-focus" aria-label="Toggle search" aria-controls="mega-nav-search">
+        <button class="header-v2__nav-control reset anim-menu-btn anim-menu-btn--search js-anim-menu-btn js-tab-focus" aria-label="Toggle search" menu-target="search-menu">
           <svg class="icon" viewBox="0 0 24 24">
             <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
               <path d="M4.222 4.222l15.556 15.556" />
@@ -33,7 +33,7 @@
 
         @auth
           @if(auth()->user()->avatar)
-          <button class="header-v2__nav-control reset anim-menu-btn js-anim-menu-btn switch-icon switch-icon--rotate js-switch-icon js-tab-focus" aria-label="Toggle icon" menu-target="user-menu">
+          <button class="header-v2__nav-control reset anim-menu-btn js-anim-menu-btn switch-icon switch-icon--fade js-switch-icon js-tab-focus" aria-label="Toggle icon" menu-target="user-menu">
             <div class="mega-nav__icon-btn dropdown__wrapper inline-block author author--minimal-mobile switch-icon__icon switch-icon__icon--a">
               <div class="author__img-wrapper author--minimal dropdown__trigger">
                 <img src="{{ auth()->user()->getAvatar() }}" alt="Logged in user avatar">
@@ -87,7 +87,7 @@
         <ul class="header-v2__nav-list header-v2__nav-list--main">
           <li class="header-v2__nav-item header-v2__nav-item--main">
             <!-- Search Form -->
-            <button class="reset mega-nav__icon-btn mega-nav__icon-btn--search js-tab-focus" aria-label="Toggle search" aria-controls="mega-nav-search">
+            <button class="reset anim-menu-btn anim-menu-btn--search js-anim-menu-btn js-tab-focus" aria-label="Toggle search" menu-target="search-menu">
               <svg class="icon" viewBox="0 0 24 24">
                 <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
                   <path d="M4.222 4.222l15.556 15.556" />
@@ -99,7 +99,7 @@
           </li>
           <li class="header-v2__nav-item header-v2__nav-item--main header-v2__nav-item--has-children margin-left-sm">
             @auth
-            <div class="mega-nav__icon-btn dropdown__wrapper inline-block author author--minimal-mobile ">
+            <div class="mega-nav__icon-btn dropdown__wrapper inline-block author author--minimal-mobile margin-right-sm">
               <a href="#0" class="author__img-wrapper author--minimal dropdown__trigger">
                 @if(auth()->user()->avatar)
                 <img src="{{ auth()->user()->getAvatar() }}" alt="Logged in user avatar,">
@@ -197,9 +197,8 @@
       </nav>
 
       <!-- Search Box -->
-      <div class="js-mega-nav__nav" style="display:none"></div> <!-- need this snippet to avoid error on using mega nav -->
-      <div class="mega-nav__search js-mega-nav__search" id="mega-nav-search">
-        <div class="mega-nav__search-inner">
+      <div id="search-menu" class="header-v2__nav header-v2__nav-search">
+        <div class="">
           <form action="{{ route('pages.posts') }}" method="GET">
             <input type="hidden" name="limit" value="{{$limit ?? ''}}">
             <input type="hidden" name="sort" value="{{$sort ?? ''}}">
@@ -207,12 +206,13 @@
 
             <input class="form-control width-100%" type="reset search" name="q" value="{{ $q ?? '' }}" id="megasite-search" placeholder="Search..." aria-label="Search">
           </form>
-          <div class="margin-top-lg">
-            <p class="mega-nav__label">Quick Links</p>
-            <ul>
-              <li><a href="https://www.facebook.com/saigonfinest" class="mega-nav__quick-link">Visit us on Facebook</a></li>
-              <li><a href="https://www.instagram.com/saigon_finest/" class="mega-nav__quick-link">Visit us on Instagram</a></li>
-              <li><a href="https://saigonfinest.com/contact" class="mega-nav__quick-link">Contact Us</a></li>
+          <div>
+            <ul class="header-v2__nav-list">
+              <li class="header-v2__nav-item header-v2__nav-item--divider" role="separator"></li>
+              <li class="header-v2__nav-item header-v2__nav-item--label">Quick Links</li>
+              <li class="header-v2__nav-item"><a href="https://www.facebook.com/saigonfinest" class="header-v2__nav-link">Visit us on Facebook</a></li>
+              <li class="header-v2__nav-item"><a href="https://www.instagram.com/saigon_finest/" class="header-v2__nav-link">Visit us on Instagram</a></li>
+              <li class="header-v2__nav-item"><a href="https://saigonfinest.com/contact" class="header-v2__nav-link">Contact Us</a></li>
             </ul>
           </div>
         </div>

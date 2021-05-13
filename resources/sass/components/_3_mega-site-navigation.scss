@@ -209,9 +209,6 @@ Usage: codyhouse.co/license
         top: var(--mega-nav-height);
         left: 0;
         width: 100%;
-        height: calc(
-            100vh - var(--mega-nav-height) - var(--mega-nav-offset-y, 0px)
-        ); // set --mega-nav-offset-y in JS
         overflow: auto;
         -webkit-overflow-scrolling: touch;
         background-color: var(--color-bg);
