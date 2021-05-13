@@ -17,7 +17,7 @@
   };
 
   function initSubmenu(list) {
-    initElementEvents(list, list.trigger);
+    // initElementEvents(list, list.trigger);
     initElementEvents(list, list.dropdown);
   };
 
@@ -168,8 +168,7 @@
 
   var mainHeader = document.getElementsByClassName('js-header-v2');
   if(mainHeader.length > 0) {
-    var menuTrigger = mainHeader[0].getElementsByClassName('js-anim-menu-btn'),
-      firstFocusableElement = getMenuFirstFocusable();
+    var menuTrigger = mainHeader[0].getElementsByClassName('js-anim-menu-btn');
 
     // we'll use these to store the node that needs to receive focus when the mobile menu is closed 
     var focusMenu = false;
@@ -187,19 +186,25 @@
         var isExpandedOther = document.getElementsByClassName('header-v2__nav--is-visible').length > 0 ? true : false;
 
         // Hide all other menus
-        var subMenus = document.getElementsByClassName('header-v2__nav--is-visible');
+        var subMenus = mainHeader[0].getElementsByClassName('header-v2__nav--is-visible');
         for (var j=0; j < subMenus.length; j++) {
           Util.removeClass(subMenus[j], 'header-v2__nav--is-visible');
         }
 
         // Reset all menu trigger button switch
-        var openedTriggers1 = document.getElementsByClassName('anim-menu-btn--state-b');
+        var triggers = mainHeader[0].getElementsByClassName('js-anim-menu-btn');
+        for (var j=0; j < triggers.length; j++) {
+          if (triggers[j] !== this) {
+            triggers[j].setAttribute('aria-expanded', false);
+          }
+        }
+        var openedTriggers1 = mainHeader[0].getElementsByClassName('anim-menu-btn--state-b');
         for (var j=0; j < openedTriggers1.length; j++) {
           if (openedTriggers1[j] !== this) {
             Util.removeClass(openedTriggers1[j], 'anim-menu-btn--state-b');
           }
         }
-        var openedTriggers2 = document.getElementsByClassName('switch-icon--state-b');
+        var openedTriggers2 = mainHeader[0].getElementsByClassName('switch-icon--state-b');
         for (var j=0; j < openedTriggers2.length; j++) {
           if (openedTriggers2[j] !== this) {
             Util.removeClass(openedTriggers2[j], 'switch-icon--state-b');
@@ -213,6 +218,8 @@
 
         if (isExpanded || !isExpandedOther)
           Util.toggleClass(mainHeader[0], 'header-v2--expanded', event.detail);
+
+        firstFocusableElement = getMenuFirstFocusable(targetMenu);
 
         this.setAttribute('aria-expanded', event.detail);
         if(event.detail) firstFocusableElement.focus(); // move focus to first focusable element
@@ -298,8 +305,21 @@
       }
     });
 
-    function getMenuFirstFocusable() {
-      var focusableEle = mainHeader[0].getElementsByClassName('header-v2__nav')[0].querySelectorAll('[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable], audio[controls], video[controls], summary'),
+    window.addEventListener('click', function(event){
+      for (var i=0; i < menuTrigger.length; i++) {
+        // listen for esc key
+        if(!event.target.closest('.js-header-v2')) {
+          // close navigation on mobile if open
+          if(menuTrigger[i].getAttribute('aria-expanded') == 'true' && isVisible(menuTrigger[i])) {
+            focusMenu = menuTrigger[i]; // move focus to menu trigger when menu is close
+            menuTrigger[i].click();
+          }
+        }
+      }
+    });
+
+    function getMenuFirstFocusable(targetMenu) {
+      var focusableEle = targetMenu.querySelectorAll('[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex]:not([tabindex="-1"]), [contenteditable], audio[controls], video[controls], summary'),
         firstFocusable = false;
       for(var i = 0; i < focusableEle.length; i++) {
         if( focusableEle[i].offsetWidth || focusableEle[i].offsetHeight || focusableEle[i].getClientRects().length ) {
