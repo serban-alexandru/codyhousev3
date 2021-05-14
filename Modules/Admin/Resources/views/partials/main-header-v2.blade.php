@@ -22,7 +22,7 @@
       <div class="mobile-btn flex gap-xxs">
         @auth
           @if(auth()->user()->avatar)
-          <button class="header-v2__nav-control reset anim-menu-btn js-anim-menu-btn switch-icon switch-icon--flip js-switch-icon js-tab-focus" aria-label="Toggle icon" menu-target="user-menu">
+          <button class="header-v2__nav-control reset anim-menu-btn js-anim-menu-btn switch-icon switch-icon--rotate js-switch-icon js-tab-focus" aria-label="Toggle icon" menu-target="user-menu">
             <div class="dropdown__wrapper inline-block author author--minimal-mobile switch-icon__icon switch-icon__icon--a">
               <div class="author__img-wrapper author--minimal dropdown__trigger">
                 <img src="{{ auth()->user()->getAvatar() }}" alt="Logged in user avatar">
