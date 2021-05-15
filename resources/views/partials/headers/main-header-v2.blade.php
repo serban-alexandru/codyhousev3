@@ -21,7 +21,7 @@
       <!-- User Icon and Drop-down Mobile-->
       <div class="mobile-btn flex flex-center gap-xxs">
         <!-- Search Form -->
-        <button class="header-v2__nav-control reset anim-menu-btn anim-menu-btn--search js-anim-menu-btn js-tab-focus" aria-label="Toggle search" menu-target="search-menu">
+        <button class="padding-top-xxxxs padding-left-xxxs header-v2__nav-control reset anim-menu-btn anim-menu-btn--search js-anim-menu-btn js-tab-focus" aria-label="Toggle search" menu-target="search-menu">
           <svg class="icon" viewBox="0 0 24 24">
             <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
               <path d="M4.222 4.222l15.556 15.556" />
