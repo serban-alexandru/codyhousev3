@@ -25,8 +25,14 @@
           <figure aria-hidden="true">
             <a href="{{ route('pages.profile.user', $post->username) }}">
               @if(! is_null($post->avatar))
-                <img class="user-cell__img" src="{{ asset('storage/users-images/avatars') . '/' . $post->avatar }}" alt="User profile image">
-              @else
+             
+                <div class="author--meta padding-top-xxxxs">
+                  <a href="{{ route('pages.profile.user', $post->username) }}" class="author__img-wrapper">
+                    <img class="user-cell__img" src="{{ asset('storage/users-images/avatars') . '/' . $post->avatar }}" alt="User profile image">
+                  </a>
+                </div>
+             
+                @else
               <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="auto" viewBox="0 0 25 25">
                 <title>face-man</title>
                 <g stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" transform="translate(0.5 0.5)"
