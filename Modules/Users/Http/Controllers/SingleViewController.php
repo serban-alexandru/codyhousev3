@@ -28,6 +28,8 @@ class SingleViewController extends Controller
       abort(404);
     }
 
+    $post['description'] = Post::parseContent($post['description']);
+
     $data['post']       = $post;
     $data['page_title'] = $post->title;
 
@@ -54,6 +56,8 @@ class SingleViewController extends Controller
       abort(404);
     }
 
+    $post['description'] = Post::parseContent($post['description']);
+    
     $data['post']       = $post;
     $data['page_title'] = $post->title;
     $data['theme']      = $theme;
