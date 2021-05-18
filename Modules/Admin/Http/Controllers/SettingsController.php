@@ -23,9 +23,10 @@ class SettingsController extends Controller {
     $blog_templates = Settings::getTemplates('blog_template', $settings_data['blog_template']);
     $post_templates = Settings::getTemplates('post_template', $settings_data['post_template']);
     $page_templates = Settings::getTemplates('page_template', $settings_data['page_template']);
+    $tag_templates = Settings::getTemplates('tag_template', $settings_data['tag_template']);
     $profile_templates = Settings::getTemplates('profile_template', $settings_data['profile_template']);
 
-    return view('admin::partials.setting', compact('settings_data', 'fonts', 'disable_shortcode', 'app_templates', 'blog_templates', 'post_templates', 'page_templates', 'profile_templates'))->withoutShortcodes();
+    return view('admin::partials.setting', compact('settings_data', 'fonts', 'disable_shortcode', 'app_templates', 'blog_templates', 'post_templates', 'page_templates', 'tag_templates', 'profile_templates'))->withoutShortcodes();
   }
 
   /**
@@ -59,6 +60,7 @@ class SettingsController extends Controller {
       'blog_template',
       'post_template',
       'page_template',
+      'tag_template',
       'profile_template'
     ];
 
