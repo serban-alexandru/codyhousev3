@@ -451,6 +451,6 @@ class TagController extends Controller
         $data['page_title'] = $page_title;
         $data['posts']      = $posts;
 
-        return view('tag::archive.tag-archive', $data);
+        return view('templates.layouts.tag', $data);
     }
 }

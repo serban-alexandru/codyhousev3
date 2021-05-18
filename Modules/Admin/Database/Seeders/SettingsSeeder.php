@@ -123,6 +123,10 @@ class SettingsSeeder extends Seeder
                 'key'           => 'profile_template',
                 'value'         => 'default'
             ],
+            [
+                'key'           => 'tag_template',
+                'value'         => 'default'
+            ],
         ];
 
 		foreach ($records as $record) {

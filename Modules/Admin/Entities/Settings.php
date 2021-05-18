@@ -12,12 +12,13 @@ class Settings extends Model
   public static $logo_font = AdminServiceProvider::LOGO_FONT;
   public static $primary_font = AdminServiceProvider::PRIMARY_FONT;
   public static $secondary_font = AdminServiceProvider::SECONDARY_FONT;
-  public static $available_templates = ['app_template', 'blog_template', 'post_template', 'page_template', 'profile_template'];
+  public static $available_templates = ['app_template', 'blog_template', 'post_template', 'page_template', 'tag_template', 'profile_template'];
   public static $templates_subdir = [
     'app_template' => 'apps', 
     'blog_template' => 'posts', 
     'post_template' => 'post',
     'page_template' => 'page',
+    'tag_template' => 'tag',
     'profile_template' => 'profile'
   ];
 
