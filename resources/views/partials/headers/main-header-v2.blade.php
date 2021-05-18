@@ -88,10 +88,10 @@
           <li class="header-v2__nav-item header-v2__nav-item--main">
             <!-- Search Form -->
 
-            <div class="autocomplete position-relative  js-autocomplete" data-autocomplete-dropdown-visible-class="autocomplete--results-visible">
+            <div class="autocomplete position-relative  js-autocomplete margin-right-md" data-autocomplete-dropdown-visible-class="autocomplete--results-visible">
             
               <div class="position-relative">
-                <input class="form-control width-100% js-autocomplete__input" type="text" name="autocomplete-input" id="autocomplete-input" placeholder="Sam" autocomplete="off">
+                <input class="form-control width-100% js-autocomplete__input" type="text" name="autocomplete-input" id="autocomplete-input" placeholder="Type and press enter" autocomplete="off">
             
                 <div class="autocomplete__loader position-absolute top-0 right-0 padding-right-sm height-100% flex items-center" aria-hidden="true">
                   <div class="circle-loader circle-loader--v1">
