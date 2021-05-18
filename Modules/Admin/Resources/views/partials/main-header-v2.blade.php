@@ -153,7 +153,7 @@
           <li class="header-v2__nav-item header-v2__nav-item--main header-v2__nav-item--has-children margin-left-sm">
             @auth
             <div class="dropdown__wrapper inline-block author author--minimal-mobile ">
-              <a href="#0" class="author__img-wrapper author--minimal dropdown__trigger">
+              <a href="#0" class="mega-nav__icon-btn author__img-wrapper author--minimal dropdown__trigger">
                 @if(auth()->user()->avatar)
                 <img src="{{ auth()->user()->getAvatar() }}" alt="Logged in user avatar,">
                 @else
