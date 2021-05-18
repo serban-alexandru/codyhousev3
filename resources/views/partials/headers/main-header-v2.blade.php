@@ -87,15 +87,29 @@
         <ul class="header-v2__nav-list header-v2__nav-list--main">
           <li class="header-v2__nav-item header-v2__nav-item--main">
             <!-- Search Form -->
-            <button class="reset anim-menu-btn anim-menu-btn--search js-anim-menu-btn js-tab-focus" aria-label="Toggle search" menu-target="search-menu">
-              <svg class="icon" viewBox="0 0 24 24">
-                <g class="icon__group" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2">
-                  <path d="M4.222 4.222l15.556 15.556" />
-                  <path d="M19.778 4.222L4.222 19.778" />
-                  <circle cx="9.5" cy="9.5" r="6.5" />
-                </g>
-              </svg>
-            </button>
+
+            <div class="autocomplete position-relative  js-autocomplete" data-autocomplete-dropdown-visible-class="autocomplete--results-visible">
+            
+              <div class="position-relative">
+                <input class="form-control width-100% js-autocomplete__input" type="text" name="autocomplete-input" id="autocomplete-input" placeholder="Sam" autocomplete="off">
+            
+                <div class="autocomplete__loader position-absolute top-0 right-0 padding-right-sm height-100% flex items-center" aria-hidden="true">
+                  <div class="circle-loader circle-loader--v1">
+                    <div class="circle-loader__circle"></div>
+                  </div>
+                </div>
+              </div>
+            
+              <!-- dropdown -->
+              <div class="autocomplete__results  js-autocomplete__results">
+                <ul id="autocomplete1" class="autocomplete__list js-autocomplete__list">
+                  <li class="autocomplete__item padding-y-xs padding-x-sm text-truncate js-autocomplete__item is-hidden"></li>
+                </ul>
+              </div>
+            
+              <p class="sr-only" aria-live="polite" aria-atomic="true"><span class="js-autocomplete__aria-results">0</span> results found.</p>
+            </div>
+
           </li>
           <li class="header-v2__nav-item header-v2__nav-item--main header-v2__nav-item--has-children margin-left-sm">
             @auth
