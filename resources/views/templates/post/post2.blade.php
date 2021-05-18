@@ -16,8 +16,8 @@
 <article class="padding-y-lg">
   <header class="container max-width-md margin-bottom-lg">
     <div class="text-component text-center line-height-lg v-space-md margin-bottom-md text-sm">
-      <h1>It was going to be a lonely trip back</h1>
-      <p class="color-contrast-medium text-md">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni harum rerum amet.</p>
+      <h1>{{ $post->title }}</h1>
+      <p class="color-contrast-medium text-md">{!! $post->description !!}</p>
       <figure class="">
         <img src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
 
