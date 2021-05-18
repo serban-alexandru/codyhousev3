@@ -91,8 +91,10 @@
             <div class="autocomplete position-relative  js-autocomplete margin-right-md" data-autocomplete-dropdown-visible-class="autocomplete--results-visible">
             
               <div class="position-relative">
-                <input class="form-control width-100% js-autocomplete__input" type="text" name="autocomplete-input" id="autocomplete-input" placeholder="Type and press enter" autocomplete="off">
-            
+                <input class="radius-lg form-control width-100% js-autocomplete__input" type="text" name="autocomplete-input" id="autocomplete-input" placeholder="Type and press enter" autocomplete="off">
+                <button class="search-input__btn">
+                  <svg class="icon" viewBox="0 0 24 24"><title>Submit</title><g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" stroke="currentColor" fill="none" stroke-miterlimit="10"><line x1="22" y1="22" x2="15.656" y2="15.656"></line><circle cx="10" cy="10" r="8"></circle></g></svg>
+                </button>
                 <div class="autocomplete__loader position-absolute top-0 right-0 padding-right-sm height-100% flex items-center" aria-hidden="true">
                   <div class="circle-loader circle-loader--v1">
                     <div class="circle-loader__circle"></div>

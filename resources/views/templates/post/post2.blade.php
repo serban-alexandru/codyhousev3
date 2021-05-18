@@ -22,7 +22,7 @@
         <img src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
 
         <div class="author__content">
-          <h4 class="stories__metadata">
+          <h4 class="story-v2__meta text-sm">
               by:
               <a href="{{ route('pages.profile.user', $post->user->username) }}" rel="author">
                   {{ $post->user->name }}
