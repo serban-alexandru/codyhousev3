@@ -12,5 +12,5 @@
 @endisset
 
 @section('content')
-<x-posts.lists.masonry-v2 />
+<x-posts.lists.masonry-v1 />
 @endsection
