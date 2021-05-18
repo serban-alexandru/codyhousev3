@@ -9,8 +9,8 @@
     <a class="thumb" href="{{ route('single-view', ['locale' => config('app.locale'), 'slug'   => $post->slug]) }}">
       <figure class="card-v2">
         <img class="block width-500%" src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
-        <figcaption class="card-v2__caption padding-x-sm padding-top-md padding-bottom-sm text-center">
-          <div class="text-md text-base@md"><a class="color-contrast-low" href="{{ route('single-view', ['locale' => config('app.locale'), 'slug' => $post->slug]) }}">{{ $post->title }}</a></div>
+        <figcaption class="card-v2__caption padding-x-sm padding-top-md padding-bottom-sm text-left">
+          <div class="card-v2__title text-base@md"><a class="color-contrast-low" href="{{ route('single-view', ['locale' => config('app.locale'), 'slug' => $post->slug]) }}">{{ $post->title }}</a></div>
         </figcaption>
       </figure>
     </a>
