@@ -15,24 +15,16 @@ Auth::routes(['verify' => true]);
 // Site 2
 
 Route::get('/',function(){
-  return view('templates.layouts.blog');
-});
-
-Route::get('/post-template',function(){
-  return view('templates.blog.site2.post-template');
-});
-
-Route::get('/sticky',function(){
-  return view('templates.blog.site2.pages.sticky-hamburger');
+  return view('index');
 });
 
 
 Route::get('/site2/login',function(){
-  return view('templates.blog.site2.pages.login');
+  return view('components.auth.login');
 });
 
 Route::get('/site2/register',function(){
-  return view('templates.blog.site2.pages.register');
+  return view('components.auth.register');
 });
 
 // Editor JS

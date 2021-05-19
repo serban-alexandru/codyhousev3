@@ -26,14 +26,14 @@
 
   <title>Admin</title>
 
-  @include('site1.partials.external-fonts-v1')
+  @include('partials.external-fonts-v1')
 
 </head>
 <body>
 
   @include('admin::partials.main-header-v2')
   @yield('content')
-  @include('site1.partials.footer')
+  @include('partials.footers.footer')
 
   <!-- CODYHOUSE, LIBRARIES -->
   <script src="{{ asset('assets/js/scripts.js') }}"></script>

@@ -434,7 +434,6 @@
             </fieldset>
           </form>
   </section>
-
 @endsection
 
 @push('module-scripts')

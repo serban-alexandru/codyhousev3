@@ -33,7 +33,7 @@
       <svg class="icon" viewBox="0 0 16 16"><title>Go to top of page</title><g stroke-width="1" stroke="currentColor"><polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="15.5,11.5 8,4 0.5,11.5 "></polyline></g></svg>
     </a>
 
-    @include('site1.partials.external-fonts-v1')
+    @include('partials.external-fonts-v1')
     @include('partials.headers.header')
     <x-auth.signin-modal />
     @yield('content')
