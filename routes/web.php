@@ -18,6 +18,9 @@ Route::get('/',function(){
   return view('index');
 });
 
+Route::get('/',function(){
+  return view('templates.layouts.blog');
+});
 
 Route::get('/site2/login',function(){
   return view('components.auth.login');
