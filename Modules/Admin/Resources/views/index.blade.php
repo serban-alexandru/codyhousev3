@@ -1,5 +1,19 @@
 @extends('admin::layouts.master')
 @section('content')
+<fieldset>
+  <legend class="form-legend margin-bottom-sm">Select contact options:</legend>
+
+  <ul class="choice-tags flex flex-wrap gap-xxs js-choice-tags">
+    <li>
+      <label class="choice-tag choice-tag--checkbox text-sm js-choice-tag" for="checkbox-tag-phone-call">
+        <input class="sr-only" type="checkbox" id="checkbox-tag-phone-call" checked>
+  
+        <svg class="choice-tag__icon icon margin-right-xxs" viewBox="0 0 16 16" aria-hidden="true"><g class="choice-tag__icon-group" fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"><line x1="-6" y1="8" x2="8" y2="8" /><line x1="8" y1="8" x2="22" y2="8"/><line x1="8" y1="2" x2="8" y2="14"/></g></svg>
+      </label>
+    </li>
+
+  </ul>
+</fieldset>
 <!-- Tag modal Start -->
 
   <section>
