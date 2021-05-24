@@ -47,8 +47,6 @@
               </td>
             @endif
 
-            <th class="int-table__cell int-table__cell--th text-center">Image</th>
-
             <th class="int-table__cell int-table__cell--th int-table__cell--sort js-int-table__cell--sort">
               <div class="flex items-center">
                 <span>Page Title</span>
@@ -161,36 +159,6 @@
                   </div>
                 </th>
               @endif
-
-              <td class="int-table__cell text-center cursor-pointer">
-                @if(is_null($page->thumbnail_medium))
-                  <a href="
-                    {{
-                      route(
-                        'single-view',
-                        [
-                          'locale' => config('app.locale'),
-                          'slug'   => $page->slug
-                        ]
-                      )
-                    }}
-                  " target="_blank" class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%"></a>
-                @else
-                  <a href="
-                    {{
-                      route(
-                        'single-view',
-                        [
-                          'locale' => config('app.locale'),
-                          'slug'   => $page->slug
-                        ]
-                      )
-                    }}
-                  " target="_blank" class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%">
-                    <img src="{{ $page->showThumbnail('medium') }}">
-                  </a>
-                @endif
-              </td>
 
               <td class="int-table__cell cursor-pointer" aria-controls="modal-edit-page" data-id="{{ $page->id }}">
                 <a href="#0">
@@ -345,8 +313,6 @@
               </div>
             </td>
 
-            <th class="int-table__cell int-table__cell--th text-center">Image</th>
-
             <th class="int-table__cell int-table__cell--th int-table__cell--sort js-int-table__cell--sort">
               <div class="flex items-center">
                 <span>Page Title</span>
@@ -468,36 +434,6 @@
                   <div class="custom-checkbox__control" aria-hidden="true"></div>
                 </div>
               </th>
-
-              <td class="int-table__cell text-center cursor-pointer">
-                @if(is_null($page->thumbnail_medium))
-                  <a href="
-                    {{
-                      route(
-                        'single-view',
-                        [
-                          'locale' => config('app.locale'),
-                          'slug'   => $page->slug
-                        ]
-                      )
-                    }}
-                  " target="_blank" class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%"></a>
-                @else
-                  <a href="
-                    {{
-                      route(
-                        'single-view',
-                        [
-                          'locale' => config('app.locale'),
-                          'slug'   => $page->slug
-                        ]
-                      )
-                    }}
-                  " target="_blank" class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%">
-                    <img src="{{ $page->showThumbnail('medium') }}">
-                  </a>
-                @endif
-              </td>
 
               <td class="int-table__cell cursor-pointer" aria-controls="modal-edit-page" data-id="{{ $page->id }}">
                 <a href="#0">

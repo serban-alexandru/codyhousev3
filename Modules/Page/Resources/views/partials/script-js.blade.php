@@ -51,9 +51,6 @@
 
     // init reload previous tab logic
     var init_tab = localStorage.getItem("cs_admin_page_init_tab");
-    console.log(init_tab);
-    console.log(document.referrer);
-    console.log(document.location);
     if (init_tab != null && document.referrer == document.location) {
       $('[data-tab="' + init_tab + '"]').trigger('click');
     } else {
@@ -385,7 +382,6 @@
           $('#editTitleElem').html(response.title);
           $('#editSlug').val(response.slug);
           $('#editDescription').val(response.description);
-          $('#thumbnailPreview').attr('src', response.thumbnail);
           $('#editPageTitle').val(response.page_title);
           // $('#editTags').html(response.tags);
           $('#pageId').val(pageId);

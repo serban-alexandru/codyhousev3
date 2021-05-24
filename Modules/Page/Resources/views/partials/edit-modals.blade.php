@@ -9,8 +9,7 @@
           <nav class="tabs">
             <ul class="flex flex-wrap gap-lg js-tabs__controls" aria-label="Tabs Interface">
               <li><a href="#tab1Panel1" class="tabs__control" aria-selected="true">Edit</a></li>
-              <li><a href="#tab1Panel2" class="tabs__control">Images</a></li>
-              <li><a href="#tab1Panel3" class="tabs__control">Settings</a></li>
+              <li><a href="#tab1Panel2" class="tabs__control">Settings</a></li>
             </ul>
           </nav>
           <!-- End Tabs -->
@@ -44,23 +43,8 @@
               </div>
             </section>
 
-          <!--Tab2 Content-->
+            <!--Tab2 Content-->
             <section id="tab1Panel2" class="padding-top-md js-tabs__panel">
-              <div class="margin-bottom-md">
-                <img src="#" id="thumbnailPreview" class="width-40%">
-              </div>
-
-              <div class="file-upload inline-block">
-                <label for="editThumbnail" class="file-upload__label btn btn--subtle">
-                  <span class="file-upload__text file-upload__text--has-max-width">Edit Photo</span>
-                </label>
-
-                <input type="file" class="file-upload__input" name="thumbnail" id="editThumbnail">
-              </div>
-            </section>
-
-            <!--Tab3 Content-->
-            <section id="tab1Panel3" class="padding-top-md js-tabs__panel">
                 <fieldset class="margin-bottom-md">
                   <legend class="form-legend">Form Legend</legend>
                   <div class="margin-bottom-sm">
@@ -71,7 +55,7 @@
                     <div>
 
                       <div class="date-input js-date-input">
-                        <label for="date-input-1"</label>
+                        <label for="date-input-1"></label>
                         
                         <div class="date-input__wrapper">
                           <input type="text" class="form-control width-100% date-input__text js-date-input__text" id="page_date" name="page_date" placeholder="dd/mm/yyyy" autocomplete="off" id="date-input-1">

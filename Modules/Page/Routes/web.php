@@ -21,7 +21,6 @@ Route::middleware($middleware, 'role:admin')->group(function(){
         'middleware' => 'auth'
     ], function() {
         Route::get('pages', 'PageController@index');
-        Route::get('pages/settings', 'PageController@settings');
 
         Route::post('pages/store', [
             'as' => 'admin.pages.store',
@@ -56,16 +55,6 @@ Route::middleware($middleware, 'role:admin')->group(function(){
         Route::post('pages/trash/empty', [
             'as' => 'admin.pages.trash.empty',
             'uses' => 'PageController@emptyTrash'
-        ]);
-
-        Route::post('pages/settings/store', [
-            'as' => 'admin.pages.settings.store',
-            'uses' => 'PageController@settingsStore'
-        ]);
-
-        Route::post('pages/settings/update', [
-            'as' => 'admin.pages.settings.update',
-            'uses' => 'PageController@settingsUpdate'
         ]);
 
         Route::get('pages/{id}/make-draft', [

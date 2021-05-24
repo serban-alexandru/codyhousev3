@@ -13,30 +13,6 @@ class Page extends Model
     	return $this->belongsTo(\Modules\Users\Entities\User::class);
     }
 
-    public function getThumbnail($type = 'original')
-    {
-    	if($type == 'original' && $this->thumbnail){
-    		return storage_path() . '/app/public/pages/original/' . $this->thumbnail;
-    	}
-
-    	if($type == 'medium' && $this->thumbnail_medium){
-    		return storage_path() . '/app/public/pages/thumbnail/' . $this->thumbnail_medium;
-    	}
-
-        return false;
-    }
-
-    public function showThumbnail($type = 'original')
-    {
-    	if($type == 'original'){
-    		return asset('storage/pages/original') . '/' . $this->thumbnail;
-    	}
-
-    	if($type == 'medium'){
-    		return asset('storage/pages/thumbnail') . '/' . $this->thumbnail_medium;
-    	}
-    }
-
     public static function parseContent($data = null, $excerpt = false) {
         if (!$data) {
             return;
