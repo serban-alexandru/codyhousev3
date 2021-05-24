@@ -15,7 +15,7 @@ class Settings extends Model
   public static $available_templates = ['app_template', 'blog_template', 'post_template', 'page_template', 'tag_template', 'profile_template'];
   public static $templates_subdir = [
     'app_template' => 'apps', 
-    'blog_template' => 'posts', 
+    'blog_template' => 'home', 
     'post_template' => 'post',
     'page_template' => 'page',
     'tag_template' => 'tag',
