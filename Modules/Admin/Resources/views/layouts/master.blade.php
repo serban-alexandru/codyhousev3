@@ -35,15 +35,6 @@
   @yield('content')
   @include('partials.footers.footer')
 
-  <!-- CODYHOUSE, LIBRARIES -->
-  <script src="{{ asset('assets/js/scripts.js') }}"></script>
-
-  <!-- COMMON SCRIPTS -->
-  @include('admin::partials.custom-script')
-
-  <!-- MODULE SCRIPTS -->
-  @stack('module-scripts')
-
   <!-- /Sticky -->
   <div class="cs-sticky-menu js-cs-sticky-menu">
     <button class="reset anim-menu-btn radius-50% cs-sticky-menu__trigger js-anim-menu-btn js-tab-focus" style="--anim-menu-btn-icon-size: 24px;" aria-label="Toggle menu" aria-controls="cs-sticky-submenu-id">
@@ -155,7 +146,7 @@
             </div>
           </div>
         </div>
-  
+
         <footer class="cs-sticky-menu__footer">
           <div class="cs-sticky-menu__bottom_items">
             <div class="cs-sticky-menu__bottom_btn">
@@ -223,5 +214,15 @@
       </div>
     </div> <!-- .cs-sticky-menu__content -->
   </div> <!-- cs-sticky-menu -->
+
+  <!-- CODYHOUSE, LIBRARIES -->
+  <script src="{{ asset('assets/js/scripts.js') }}"></script>
+
+  <!-- COMMON SCRIPTS -->
+  @include('admin::partials.custom-script')
+
+  <!-- MODULE SCRIPTS -->
+  @stack('module-scripts')
+
 </body>
 </html>
