@@ -5,6 +5,7 @@ namespace Modules\Post\Http\Controllers;
 use Arr, Str, Image, File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
 use Modules\Post\Entities\{ PostSetting, Post, PostsTag };
@@ -775,6 +776,70 @@ class PostController extends Controller
         $data['nextpage'] = ($posts_count - $offset - $perpage) > 0 ? ($page_num + 1) : 0;
 
         return view('post::templates.post-masonry-load', $data);
+    }
+
+    public function ajaxInfiniteLoadPost($locale, $post_id, $page_num) {
+        $tags = Post::find($post_id)->getTagNames();
+
+        $perpage = 1;
+        $offset = ($page_num - 1) * $perpage;
+
+        $posts = Post::leftJoin('posts_tags', 'posts_tags.post_id', '=', 'posts.id')
+            ->leftJoin('tags', 'posts_tags.tag_id', '=', 'tags.id')
+            ->select([
+                'posts.id',
+                DB::raw('COUNT(*) as relevance')
+            ])
+            ->where('posts.id', '<>', $post_id)
+            ->whereIn('tags.name', $tags)
+            ->where(
+                [
+                    'is_published' => true,
+                    'is_pending'   => false,
+                    'is_deleted'   => false
+                ]    
+            )
+            ->groupBy('posts.id')
+            ->orderBy('relevance', 'desc')
+            ->orderBy('posts.updated_at', 'desc')
+            ->offset($offset)
+            ->limit($perpage);
+
+        $new_post_info = $posts->get()->first();
+
+        $post = Post::find($new_post_info['id']);
+
+        if ($post) {
+            $post['description'] = Post::parseContent($post['description']);
+            $post['seo_title'] = $post['title'] . ' | [sitetitle]';
+            $post['locale'] = $locale;
+            $post['url'] = $locale . '/' . $post['slug'];
+        }
+
+        $posts_count = Post::leftJoin('posts_tags', 'posts_tags.post_id', '=', 'posts.id')
+            ->leftJoin('tags', 'posts_tags.tag_id', '=', 'tags.id')
+            ->select([
+                'posts.id',
+            ])
+            ->where('posts.id', '<>', $post_id)
+            ->whereIn('tags.name', $tags)
+            ->where(
+                [
+                    'is_published' => true,
+                    'is_pending'   => false,
+                    'is_deleted'   => false
+                ]    
+            )->groupBy('posts.id');
+        $posts_count = count($posts_count->get());
+
+        $tag_pills = $post->getTagNames();
+
+        $data['total'] = $posts_count;
+        $data['post'] = $post;
+        $data['tag_pills'] = $tag_pills;
+        $data['nextpage'] = ($posts_count - $offset - $perpage) > 0 ? ($page_num + 1) : 0;
+
+        return view('post::templates.post-infinite-load', $data);
     }
 
     public function makePostReject() {

@@ -12,45 +12,5 @@
 @endisset
 
 @section('content')
-
-<article class="padding-y-lg">
-  <header class="container max-width-md margin-bottom-lg">
-    <div class="text-component text-center line-height-lg v-space-md margin-bottom-md text-sm">
-      <h1>{{ $post->title }}</h1>
-      <p class="color-contrast-medium text-md">{!! $post->description !!}</p>
-      <figure class="">
-        <img src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
-
-        <div class="author__content">
-          <h4 class="story-v2__meta text-sm">
-              by:
-              <a href="{{ route('pages.profile.user', $post->user->username) }}" rel="author">
-                  {{ $post->user->name }}
-              </a>
-          </h4>
-      </div>
-
-        <span>
-          @php
-            $tag_pills = $post->getTagNames();
-          @endphp
-          @foreach($tag_pills as $tag_pills_key => $tag_pill_name)
-              <a
-                href="{{ route('pages.tags', $tag_pill_name) }}"
-                class="btn color-contrast-medium post-thumbnail-tags-pill margin-xxxs margin-top-md"
-                draggable="false" ondragstart="return false;"
-              >
-                {{ $tag_pill_name }}
-              </a>
-              @if($tag_pills_key < count($tag_pills) - 1)
-              @endif
-          @endforeach
-        </span>
-
-    </figure>
-    </div>
-
- 
-</article>
-
+<x-posts.single.infinite-post-load id='{{ $post->id }}' locale='{{ $locale }}' />
 @endsection
