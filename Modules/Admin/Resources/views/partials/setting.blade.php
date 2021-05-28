@@ -143,7 +143,7 @@
               <!-- Template Settings -->
               <div id="template-setting">
                 <h1 class="margin-bottom-xs margin-top-md">Template Settings</h1>
-                <div class="form-control-section">
+                <div class="form-control-section margin-bottom-md">
                   <h4>App Templates</h4>
                   <div class="choice-btns choice-inline gap-xxs js-choice-btns margin-top-md">
                     @foreach($app_templates as $template)
@@ -173,7 +173,7 @@
                 </div>
 
                 <div class="form-control-section margin-bottom-md">
-                  <h4>Blog Templates</h4>
+                  <h4>Home Templates</h4>
                   <div class="choice-btns choice-inline gap-xxs js-choice-btns margin-top-md">
                     @foreach($blog_templates as $template)
                     
