@@ -117,7 +117,7 @@ html:not(.js) .sidebar {
 .sidebar--sticky-on-desktop {
     position: sticky;
     // top: var(--space-sm);
-    top: 135px;
+    top: 100px;
     max-height: calc(100vh - var(--space-sm));
     overflow: auto;
     -webkit-overflow-scrolling: touch;
