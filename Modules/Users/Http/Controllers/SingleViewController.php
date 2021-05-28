@@ -31,6 +31,7 @@ class SingleViewController extends Controller
     $post['description'] = Post::parseContent($post['description']);
 
     $data['post']       = $post;
+    $data['locale']     = $locale;
     $data['page_title'] = $post->title;
 
     return view('templates.layouts.post', $data);
