@@ -110,3 +110,41 @@ Laravel's doc for more info https://laravel.com/docs/7.x/blade#components.
 
 ## Make components
 php artisan make:component COMPONENT_NAME
+    
+## Server Installation
+    
+1. Log in to Plesk
+2. Click on Git
+3. Click Add repository
+4. Enter the remote repository or using the SSH protocol.
+5. Set destination directory.
+6. Copy the generated SSH public key to your Git repository for read access only.
+7. Click Ok
+8. Once all files are deployed to production, copy .env.example file to .env and update all setting.
+APP_ENV=production
+APP_DEBUG=false
+APP_URL:https://curateship.com
+Also update DB setting and Mailer setting.
+    
+Step2: Configure Plesk
+Log in to Plesk.
+Click on Domains and navigate the domain to setup.
+Click on Hosting Settings.
+Change the Document root to the public folder in your app. Usually, this is httpdocs/public
+Click OK.
+    
+Step3: Run commands for deployments
+Migrate all tables
+php artisan migrate
+Users and Admin module seeder
+php artisan module:seed Users
+php artisan module:seed Admin
+Install modules
+composer update
+Install App Encryption Key
+php artisan key:generate
+php artisan config:cache
+Run service
+php artisan serve
+Navigate to domain from browser.
+
