@@ -134,6 +134,8 @@ Change the Document root to the public folder in your app. Usually, this is http
 Click OK.
     
 Step3: Run commands for deployments
+- SSH to IP using port 44221
+- CD to httpdocs
 - php artisan migrate
 - php artisan module:seed Users
 - php artisan module:seed Admin
