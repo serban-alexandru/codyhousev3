@@ -134,17 +134,12 @@ Change the Document root to the public folder in your app. Usually, this is http
 Click OK.
     
 Step3: Run commands for deployments
-- Migrate all tables
 - php artisan migrate
-- Users and Admin module seeder
 - php artisan module:seed Users
 - php artisan module:seed Admin
 - Install modules
 - composer update
-- Install App Encryption Key
 - php artisan key:generate
 - php artisan config:cache
-- Run service
 - php artisan serve
-- Navigate to domain from browser.
 
