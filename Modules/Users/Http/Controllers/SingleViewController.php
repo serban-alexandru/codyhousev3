@@ -12,7 +12,13 @@ class SingleViewController extends Controller
   public function singleView($locale, $slug)
   {
     // Get Page by slug
-    $page = Page::firstWhere('slug', $slug);
+    $page = Page::firstWhere([
+      'slug'         => $slug,
+      'is_published' => true,
+      'is_pending'   => false,
+      'is_deleted'   => false,
+      'is_rejected'  => false
+    ]);
 
     if ( isset( $page ) ) {
       $data['page']       = $page;
@@ -22,7 +28,13 @@ class SingleViewController extends Controller
     }
 
     // Get Post by slug
-    $post = Post::firstWhere('slug', $slug);
+    $post = Post::firstWhere([
+      'slug'         => $slug,
+      'is_published' => true,
+      'is_pending'   => false,
+      'is_deleted'   => false,
+      'is_rejected'  => false
+    ]);
 
     if ( !$post ) {
       abort(404);
@@ -40,7 +52,13 @@ class SingleViewController extends Controller
   public function singleViewbyTheme($theme, $locale, $slug)
   {
     // Get Page by slug.
-    $page = Page::firstWhere('slug', $slug);
+    $page = Page::firstWhere([
+      'slug'         => $slug,
+      'is_published' => true,
+      'is_pending'   => false,
+      'is_deleted'   => false,
+      'is_rejected'  => false
+    ]);
 
     if ( $page ) {
       $data['page']       = $page;
@@ -51,7 +69,13 @@ class SingleViewController extends Controller
     }
 
     // Get Post by slug.
-    $post = Post::firstWhere('slug', $slug);
+    $post = Post::firstWhere([
+      'slug'         => $slug,
+      'is_published' => true,
+      'is_pending'   => false,
+      'is_deleted'   => false,
+      'is_rejected'  => false
+    ]);
 
     if ( !$post ) {
       abort(404);

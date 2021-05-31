@@ -34,7 +34,14 @@ Route::middleware($middleware, 'role:admin')->group(function(){
             View::share('font_secondary', $font_secondary);
         }
         
-        Route::get('/', 'AdminController@index');
+        Route::get('/', 'PostBoxController@index');
+
+        // Post Box Module
+        Route::get('loadbox/{type}', 'PostBoxController@ajaxLoadBox');
+        Route::post('/store', [
+            'as' => 'postbox.store',
+            'uses' => 'PostBoxController@store'
+        ]);
 
         // Settings Page
         Route::get('settings', 'SettingsController@index');
