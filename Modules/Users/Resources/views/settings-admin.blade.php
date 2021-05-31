@@ -1,4 +1,4 @@
-@extends('site1.layouts.app')
+@extends('templates.layouts.index')
 
 @section('in-head')
   <link rel="stylesheet" href="{{ asset('assets/js/croppie/croppie.min.css') }}">
