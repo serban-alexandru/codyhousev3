@@ -167,7 +167,6 @@ Route::group([
   'middleware' => $middleware
 ], function() {
   Route::get('/', 'DashboardPagesController@index');
-  Route::get('/settings', 'DashboardPagesController@settings');
 
   Route::get('/add-page', [
     'as' => 'pages.add-page',
@@ -207,16 +206,6 @@ Route::group([
   Route::post('/trash/empty', [
     'as' => 'pages.trash.empty',
     'uses' => 'DashboardPagesController@emptyTrash'
-  ]);
-
-  Route::post('/settings/store', [
-      'as' => 'pages.settings.store',
-      'uses' => 'DashboardPagesController@settingsStore'
-  ]);
-
-  Route::post('/settings/update', [
-      'as' => 'pages.settings.update',
-      'uses' => 'DashboardPpagesController@settingsUpdate'
   ]);
 
   Route::get('/{id}/make-draft', [

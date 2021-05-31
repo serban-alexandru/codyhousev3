@@ -403,7 +403,6 @@
           $('#editTitle').val(response.title);
           $('#editTitleElem').html(response.title);
           $('#editDescription').val(response.description);
-          $('#thumbnailPreview').attr('src', response.thumbnail);
           $('#pageId').val(pageId);
 
           if(response.is_published == 1 && response.is_deleted != 1){

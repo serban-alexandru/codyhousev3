@@ -43,8 +43,6 @@ class DashboardPagesController extends Controller
                 'title',
                 'slug',
                 'pages.created_at as created_at',
-                'thumbnail',
-                'thumbnail_medium',
                 'is_deleted',
                 'is_pending',
                 'is_published',
@@ -92,14 +90,6 @@ class DashboardPagesController extends Controller
 
         $availableLimit = ['25', '50', '100', '150', '200'];
 
-        $image_width = '40';
-        $image_height = '40';
-        $pages_settings = PageSetting::first();
-        if(!is_null($pages_settings)){
-            $image_width = $pages_settings->medium_width;
-            $image_height = $pages_settings->medium_height;
-        }
-
         $request    = request();
         $is_trashed = request('is_trashed');
         $is_draft   = request('is_draft');
@@ -129,7 +119,7 @@ class DashboardPagesController extends Controller
 
         return view($view, compact(
             'pages', 'rejected_pages', 'pages_published_count', 'pages_draft_count', 'pages_pending_count', 'pages_deleted_count',
-            'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'pagesearch', 'is_trashed', 'is_draft', 'is_pending'
+            'availableLimit', 'limit', 'request', 'pagesearch', 'is_trashed', 'is_draft', 'is_pending'
             )
         );
     }
@@ -182,46 +172,6 @@ class DashboardPagesController extends Controller
     }
 
     /**
-     * Store the pages settings.
-     * @return view
-     */
-    public function settingsStore()
-    {
-        return $this->createOrUpdateSettings('create', 'created');
-    }
-
-    /**
-     * Update the pages settings.
-     * @return view
-     */
-    public function settingsUpdate()
-    {
-        return $this->createOrUpdateSettings('update', 'updated');
-    }
-
-    /**
-     * Store or update pages settings.
-     * @return view
-     */
-    public function createOrUpdateSettings($method, $message)
-    {
-        $this->validate(request(), [
-            'medium_width' => 'required|max:255',
-            'medium_height' => 'required|max:255',
-            // 'image_setting' => 'in:maintain,crop'
-        ]);
-
-        if($method == 'create'){
-            PageSetting::create(request()->except(['_token']));
-        } else{
-            $pages_settings = PageSetting::first();
-            $pages_settings->update(request()->except(['_token']));
-        }
-
-        return redirect('/pages/settings')->with("pages-settings-alert", "Settings has been $message!");
-    }
-
-    /**
      * Store a newly created resource in storage.
      * @param Request $request
      * @return Renderable
@@ -231,33 +181,6 @@ class DashboardPagesController extends Controller
         $this->validate(request(), [
             'title' => 'required|max:255',
         ]);
-
-        if(request()->has('thumbnail')){
-            $settings_width = 40;
-            $settings_height = 40;
-
-            if(!is_null($pages_settings = PageSetting::first())){
-                $settings_width = $pages_settings->medium_width;
-                $settings_height = $pages_settings->medium_height;
-            }
-
-            $page_image_path = storage_path() . '/app/public/pages';
-
-            // Ensure that original, and thumbnail folder exists
-            File::ensureDirectoryExists($page_image_path . '/original');
-            File::ensureDirectoryExists($page_image_path . '/thumbnail');
-
-            // Save thumbnail image in file system
-            $thumbnail = request()->file('thumbnail')->store('public/pages/original');
-            $thumbnail_name = Arr::last(explode('/', $thumbnail));
-
-            $thumbnail_medium = Image::make(request()->file('thumbnail'));
-            $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
-                $constraint->aspectRatio();
-            });
-            $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
-            $thumbnail_medium->save($page_image_path . '/thumbnail/' . $thumbnail_medium_name);
-        }
 
         // Generate slug
         $slug                = Str::slug(request('title'), '-');
@@ -275,8 +198,6 @@ class DashboardPagesController extends Controller
             'title'            => request('title'),
             'slug'             => $slug,
             'description'      => request('description'),
-            'thumbnail'        => (request()->has('thumbnail')) ? $thumbnail_name : NULL,
-            'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : NULL,
             'seo_page_title'   => request('page_title') ?: NULL,
             'is_pending'       => $is_pending,
             'is_published'     => $is_published
@@ -322,7 +243,6 @@ class DashboardPagesController extends Controller
         $data['id']           = $page->id;
         $data['title']        = $page->title;
         $data['description']  = html_entity_decode($page->description);
-        $data['thumbnail']    = asset("storage/pages/original/{$page->thumbnail}");
         $data['page_date']    = Date('d/m/Y', strtotime($page->created_at));
         $data['is_published'] = $page->is_published;
         $data['is_deleted']   = $page->is_deleted;
@@ -349,43 +269,6 @@ class DashboardPagesController extends Controller
             ];
     
             return redirect()->back()->with('alert', $alert);    
-        }
-
-        if(request()->has('thumbnail')){
-            $settings_width = 40;
-            $settings_height = 40;
-
-            if(!is_null($pages_settings = PageSetting::first())){
-                $settings_width = $pages_settings->medium_width;
-                $settings_height = $pages_settings->medium_height;
-            }
-
-            $page_image_path = storage_path() . '/app/public/pages';
-
-            // Ensure that original, and thumbnail folder exists
-            File::ensureDirectoryExists($page_image_path . '/original');
-            File::ensureDirectoryExists($page_image_path . '/thumbnail');
-
-            // Save orignal image to file system
-            $thumbnail = request()->file('thumbnail')->store('public/pages/original');
-            $thumbnail_name = Arr::last(explode('/', $thumbnail));
-
-            // Save thumbnail (medium) image to file system
-            $thumbnail_medium = Image::make(request()->file('thumbnail'));
-            $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
-                $constraint->aspectRatio();
-            });
-            $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
-            $thumbnail_medium->save($page_image_path . '/thumbnail/' . $thumbnail_medium_name);
-
-            // Delete thumbnail if exists.
-            if(file_exists($page->getThumbnail())){
-                unlink($page->getThumbnail());
-            }
-
-            if(file_exists($page->getThumbnail('medium'))){
-                unlink($page->getThumbnail('medium'));
-            }
         }
 
         $is_published = ($page->is_published && auth()->user()->isAdmin()) ? 1 : ((request('is_published') && !auth()->user()->isRegisteredUser()) ? 1 : 0);
@@ -417,8 +300,6 @@ class DashboardPagesController extends Controller
         $page->update([
             'title' => request('title'),
             'description' => request('description'),
-            'thumbnail' => (request()->has('thumbnail')) ? $thumbnail_name : $page->thumbnail,
-            'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : $page->thumbnail_medium,
             'created_at' => $page_date,
             'is_published' => $is_published,
             'is_pending' => $is_pending,
@@ -461,15 +342,6 @@ class DashboardPagesController extends Controller
 
         $description      = json_decode($page->description);
         $blocks           = $description->blocks ?? [];
-
-        // Delete thumbnails
-        if ($page->thumbnail) {
-            Storage::delete('public/pages/original/' . $page->thumbnail);
-        }
-
-        if ($page->thumbnail_medium) {
-            Storage::delete('public/pages/thumbnail' . $page->thumbnail_medium);
-        }
 
         return $page->delete();
     }
@@ -636,8 +508,6 @@ class DashboardPagesController extends Controller
                 'title',
                 'slug',
                 'pages.created_at as created_at',
-                'thumbnail',
-                'thumbnail_medium',
                 'is_deleted',
                 'is_pending',
                 'is_published',

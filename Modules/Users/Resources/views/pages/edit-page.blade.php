@@ -16,25 +16,6 @@
                   <input type="hidden" name="description" id="editDescription"/>
                 </div>
               </div>
-
-              <div class="padding-top-xs">
-                <div class="margin-bottom-md">
-                  <img src="#" id="thumbnailPreview" class="width-40%">
-                </div>
-
-                <div class="file-upload inline-block">
-
-                  <label for="editThumbnail" class="file-upload__label btn btn--primary">
-                    <span class="flex items-center">
-                      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2"><path  stroke-linecap="square" stroke-linejoin="miter" d="M2 16v6h20v-6"></path><path stroke-linejoin="miter" stroke-linecap="butt" d="M12 17V2"></path><path stroke-linecap="square" stroke-linejoin="miter" d="M18 8l-6-6-6 6"></path></g></svg>
-                      
-                      <span class="margin-left-xxs file-upload__text file-upload__text--has-max-width">Edit Photo</span>
-                    </span>
-                  </label> 
-
-                  <input type="file" class="file-upload__input" name="thumbnail" id="editThumbnail">
-                </div>          
-              </div>
             </div><!-- /.padding-y-sm flex-grow overflow-auto -->
 
             <footer class="padding-y-sm bg flex-shrink-0">

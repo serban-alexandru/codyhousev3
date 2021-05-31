@@ -40,6 +40,7 @@ class UsersSeeder extends Seeder
                 'email'      => 'admin@mailinator.com',
                 'password'   => Hash::make('helloworld'),
                 'permission' => $adminPermission,
+                'email_verified_at' => $dateNow,
                 'created_at' => $dateNow,
                 'updated_at' => $dateNow
             ],
@@ -49,6 +50,7 @@ class UsersSeeder extends Seeder
                 'email'      => 'swifties@mailinator.com',
                 'password'   => Hash::make('helloworld'),
                 'permission' => $editorPermission,
+                'email_verified_at' => $dateNow,
                 'created_at' => $dateNow,
                 'updated_at' => $dateNow
             ],
@@ -58,6 +60,7 @@ class UsersSeeder extends Seeder
                 'email'      => 'powfu@mailinator.com',
                 'password'   => Hash::make('helloworld'),
                 'permission' => $registeredPermission,
+                'email_verified_at' => $dateNow,
                 'created_at' => $dateNow,
                 'updated_at' => $dateNow
             ],
