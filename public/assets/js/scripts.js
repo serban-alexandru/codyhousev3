@@ -2626,10 +2626,13 @@ function initAlertEvent(element) {
   
     if( masonries.length > 0) {
       for( var i = 0; i < masonries.length; i++) {
-        if(!flexSupported) {
-          Util.addClass(masonries[i], 'masonry--loaded'); // reveal gallery
-        } else {
-          (function(i){masonriesArray.push(new Masonry(masonries[i]));})(i); // init Masonry Layout
+        var maronry_items = masonries[i].getElementsByClassName('js-masonry__item');
+        if (maronry_items.length > 0) {
+          if(!flexSupported) {
+            Util.addClass(masonries[i], 'masonry--loaded'); // reveal gallery
+          } else {
+            (function(i){masonriesArray.push(new Masonry(masonries[i]));})(i); // init Masonry Layout
+          }
         }
       }
   
