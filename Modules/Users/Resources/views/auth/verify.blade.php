@@ -1,4 +1,4 @@
-@extends('site1.layouts.app')
+@extends('templates.layouts.index')
 
 @section('content')
 <div class="container max-width-lg">
