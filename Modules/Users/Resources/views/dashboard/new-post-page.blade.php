@@ -1,4 +1,4 @@
-@extends('users::dashboard.master')
+@extends('templates.layouts.index')
 @section('content')
 <section>
     <div class="container max-width-lg margin-top-xs">
