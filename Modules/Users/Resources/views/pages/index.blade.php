@@ -1,4 +1,4 @@
-@extends('users::pages.master')
+@extends('templates.layouts.index')
 @section('content')
   @if ($pages_published_count == 0 && $pages_draft_count == 0 && $pages_pending_count == 0 && $pages_deleted_count == 0)
     <section>
