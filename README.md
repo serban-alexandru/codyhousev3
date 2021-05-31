@@ -143,5 +143,6 @@ Step3: Run commands for deployments
 - composer update
 - php artisan key:generate
 - php artisan config:cache
+- php artisan storage:link
 - php artisan serve
 
