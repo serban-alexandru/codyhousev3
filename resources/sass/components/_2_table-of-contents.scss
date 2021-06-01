@@ -43,6 +43,7 @@ Usage: codyhouse.co/license
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding-bottom: 0px;
   
     &::before { // left mark
       content: '';
