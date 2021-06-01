@@ -145,4 +145,7 @@ Step3: Run commands for deployments
 - php artisan config:cache
 - php artisan storage:link
 - php artisan serve
+It was set as 2MB by default and I extended it as 16MB.
 
+## Trouble Shooting
+- 2MB is set by default and I extended it as 16MB in case run into memory error
