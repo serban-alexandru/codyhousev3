@@ -3,15 +3,16 @@
     <div class="line-height-xs">
       <h3 class="box-title text-left">Create Post</h3>
     </div>
-    <div class="buttons">
-      <button id="btnAddTags" class="btn btn--primary">Add Tags</button>
+    <div class="buttons btn--sm">
+      <button id="btnAddTags" class="btn btn--subtle">Add Tags</button>
 
       <div class="file-upload-custom">
         <label for="upload2" class="file-upload__label btn btn--subtle">
           <span class="flex items-center">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2"><path  stroke-linecap="square" stroke-linejoin="miter" d="M2 16v6h20v-6"></path><path stroke-linejoin="miter" stroke-linecap="butt" d="M12 17V2"></path><path stroke-linecap="square" stroke-linejoin="miter" d="M18 8l-6-6-6 6"></path></g></svg>
+            <span class="margin-right-xxs file-upload__text file-upload__text--has-max-width">Add</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>img</title><g stroke-width="2" fill="#000000"><path fill="none" stroke="#000000" stroke-linecap="square" stroke-miterlimit="10" d="M3.32 1.66h14.94v16.6h-16.6v-16.6h1.66z"></path><path data-stroke="none" d="M15.73 13.51l-2.91-5.81a0.41 0.41 0 0 0-0.33-0.23 0.43 0.43 0 0 0-0.37 0.17l-3.42 4.56-1.74-2.09a0.41 0.41 0 0 0-0.67 0.05l-2.08 3.32a0.41 0.41 0 0 0 0.35 0.63h10.79a0.41 0.41 0 0 0 0.38-0.6z" fill="#000000"></path><path data-stroke="none" fill="#000000" d="M7.88 4.98a1.24 1.24 0 1 0 0 2.49 1.24 1.24 0 1 0 0-2.49z"></path></g></svg>
             
-            <span class="margin-left-xxs file-upload__text file-upload__text--has-max-width">Add Image</span>
+            
           </span>
         </label> 
         <input type="file" class="file-upload__input" name="thumbnail" id="upload2" required>
