@@ -23,7 +23,8 @@ class InfinitePostLoad extends Component
                 'id' => $id,
                 'is_published' => true,
                 'is_pending'   => false,
-                'is_deleted'   => false
+                'is_deleted'   => false,
+                'is_rejected'  => false,
             ]
         )->first();
 
@@ -32,12 +33,15 @@ class InfinitePostLoad extends Component
             $post['seo_title'] = $post['title'] . ' | [sitetitle]';
             $post['locale'] = $locale;
             $post['url'] = $locale . '/' . $post['slug'];
+
+            $tag_pills = $post->getTagNames();
+
+            $this->post = $post;
+            $this->tag_pills = $tag_pills;
+        } else {
+            $this->post = null;
+            $this->tag_pills = null;
         }
-
-        $tag_pills = $post->getTagNames();
-
-        $this->post = $post;
-        $this->tag_pills = $tag_pills;
     }
 
     /**

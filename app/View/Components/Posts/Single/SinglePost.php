@@ -22,7 +22,8 @@ class SinglePost extends Component
                 'id' => $id,
                 'is_published' => true,
                 'is_pending'   => false,
-                'is_deleted'   => false
+                'is_deleted'   => false,
+                'is_rejected'  => false,
             ]
         )->first();
 
