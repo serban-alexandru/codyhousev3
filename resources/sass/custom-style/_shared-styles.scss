@@ -351,10 +351,14 @@ body {
 .postbox-container {
     box-shadow: 0 0 3px rgba(0,0,0,0.3);
 
-    .box-footer {
+    .box-header .buttons {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        .file-upload {
+            margin-left: 10px;
+            .file-upload__text--has-max-width {
+                max-width: 100px !important;
+            }
+        }
     }
 
     .box-content {
@@ -379,4 +383,14 @@ body {
             border:1px solid #b0b0b0;
         }
     }
+
+    .box-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.menu-bar__item.menu-bar-control--active {
+    background-color: var(--color-contrast-lower);
 }
