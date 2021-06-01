@@ -311,8 +311,8 @@
   function initBoxLoadBtnEvent() {
     $('.btn-load-box').each(function() {
       $(this).click(function() {
-        $('.btn-load-box').removeClass('menu-control--active');
-        $(this).addClass('menu-control--active');
+        $('.btn-load-box').removeClass('menu-bar-control--active');
+        $(this).addClass('menu-bar-control--active');
         loadTemplate($(this).attr("box-type"));
       })
     });
