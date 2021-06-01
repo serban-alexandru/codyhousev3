@@ -346,3 +346,37 @@ body {
     padding: var(--space-sm);
     padding-bottom: 0;
 }
+
+/* Postbox */
+.postbox-container {
+    box-shadow: 0 0 3px rgba(0,0,0,0.3);
+
+    .box-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .box-content {
+        position: relative;
+
+        .post-tag-wrp {
+            position: absolute;
+            left: 0px;
+            top: 10px;
+            height: calc(100% - 10px);
+            width: 100%;
+            padding: 10px 15px;
+            background: #fff;
+            z-index: 1;
+        }
+
+        .btn-close-posttag-box {
+            position: absolute;
+            top:-5px;
+            right: 15px;
+            cursor: pointer;
+            border:1px solid #b0b0b0;
+        }
+    }
+}

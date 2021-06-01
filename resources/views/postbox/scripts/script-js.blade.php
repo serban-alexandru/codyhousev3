@@ -14,14 +14,17 @@
 
 <script>
   var editor = null;
+  var isValidInput = false,
+      isValidPostTag = false;
+
 
   /** Form Fields Validation Module */
   // post tag fields validation
   function validatePostTagFields(form) {
-    var isValid = false;
-
+    isValidPostTag = false;
     $tag_elems_wrp = $(form).find('.post-tag-wrp');
-    $tag_elems_alert_wrp = $tag_elems_wrp.find('.alert');
+    // $tag_elems_alert_wrp = $tag_elems_wrp.find('.alert');
+    $tag_elems_alert_wrp = $('.js-alert');
     $tag_elems = $tag_elems_wrp.find('select');
 
     if ($tag_elems.length == 0)
@@ -29,26 +32,30 @@
 
     $tag_elems.each(function(idx, elem) {
       if ($(elem).select2('data').length > 0) {
-        isValid = true;
+        isValidPostTag = true;
       }
     });
 
-    if (isValid) {
-      $tag_elems_alert_wrp.removeClass('alert--is-visible');
+    if (isValidPostTag) {
+      if (isValidInput) {
+        $tag_elems_alert_wrp.removeClass('alert--is-visible alert--error');
+        $tag_elems_alert_wrp.find('.message-container').html('');
+      }
       $tag_elems.each(function(idx, elem) {
         $(elem).removeClass('form-control--error');
         $(elem).siblings('.select2').find('.select2-selection').removeClass('form-control--error');
       });
 
     } else {
-      $tag_elems_alert_wrp.addClass('alert--is-visible');
+      $tag_elems_alert_wrp.addClass('alert--is-visible alert--error');
+      $tag_elems_alert_wrp.find('.message-container').html('<p>Please fill at least one tag.</p>');
       $tag_elems.each(function(idx, elem) {
         $(elem).addClass('form-control--error');
         $(elem).siblings('.select2').find('.select2-selection').addClass('form-control--error');
       });
     }
 
-    return isValid;
+    return isValidPostTag;
   }
   
   function validateCustomSelect(selector) {
@@ -82,22 +89,23 @@
 
   // form required fields validation
   function validateItem(elem) {
-    var isValid = true;
     switch ($(elem).prop('tagName')) {
       case 'INPUT':
         if ($(elem).prop('type') == 'file') {
           // file control
-          $upload_alert_wrp = $('.file-upload .alert');
+          $upload_alert_wrp = $('.js-alert');
           if ($(elem).val() == '') {
-            $upload_alert_wrp.addClass('alert--is-visible');
+            $upload_alert_wrp.addClass('alert--is-visible alert--error');
             $(elem).addClass('form-control--error');
             $(elem).parent('.ddf__area').addClass('form-control--error');
-            isValid = false;
+            $upload_alert_wrp.find('.message-container').html('<p>Please upload image.</p>');
+            isValidInput = false;
 
           } else {
-            $upload_alert_wrp.removeClass('alert--is-visible');
+            $upload_alert_wrp.removeClass('alert--is-visible alert--error');
             $(elem).removeClass('form-control--error');
             $(elem).parent('.ddf__area').removeClass('form-control--error');
+            $upload_alert_wrp.find('.message-container').html('');
           }
           
         } else if ($(elem).prop('type') == 'button' || $(elem).prop('type') == 'submit') {
@@ -105,7 +113,7 @@
         } else {
           if ($(elem).val() == '') {
             $(elem).addClass('form-control--error');
-            isValid = false;
+            isValidInput = false;
           } else {
             $(elem).removeClass('form-control--error');
           }
@@ -116,14 +124,14 @@
         if ($(elem).hasClass('custom-input')) {
           if ($(elem).html().trim() == '') {
             $(elem).addClass('form-control--error');
-            isValid = false;
+            isValidInput = false;
           } else {
             $(elem).removeClass('form-control--error');
           }
         }
     }
 
-    return isValid;
+    return isValidInput;
   }
 
   function formDataValidation($form) {
@@ -132,7 +140,6 @@
     });
 
     validatePostTagFields($form);
-
     if ($form.find('.form-control--error').length > 0)
       return false;
 
@@ -304,25 +311,29 @@
   function initBoxLoadBtnEvent() {
     $('.btn-load-box').each(function() {
       $(this).click(function() {
+        $('.btn-load-box').removeClass('menu-control--active');
+        $(this).addClass('menu-control--active');
         loadTemplate($(this).attr("box-type"));
       })
     });
   }
 
   function initSubmitBtnEvent() {
-    $(document).on('click', '#btnSave, #btnPublish', function(){
+    $(document).on('click', '#btnSave, #btnPublish', function(e) {
+      e.preventDefault();
       if (!formDataValidation($('#formPostBox')))
         return;
 
       var isPublished = ($(this).attr('id') != 'btnSave') ? 1 : 0;
       $('#formPostBox').find('input[name="is_published"]').val(isPublished);
       $('#formPostBox').submit();
-    });    
+    });
   }
 
   function initEvents() {
     // used editorjs for add post form
-    $('.site-editor').on('input click', function(){
+    $('.site-editor').unbind('input click');
+    $('.site-editor').bind('input click', function(){
       var $this = $(this);
 
       if($this.data('target-input')){
@@ -335,6 +346,18 @@
           console.log('Saving failed: ', error);
         });
       }
+    });
+
+    $('.btn-close-posttag-box').unbind('click');
+    $('.btn-close-posttag-box').bind('click', function(e) {
+      e.preventDefault();
+      $('.post-tag-wrp').addClass('hidden');
+    });
+
+    $('#btnAddTags').unbind('click');
+    $('#btnAddTags').bind('click', function(e) {
+      e.preventDefault();
+      $('.post-tag-wrp').removeClass('hidden');
     });
   }
 
@@ -384,6 +407,5 @@
   initBoxLoadBtnEvent();
   initSubmitBtnEvent();
   initEvents();
-
 </script>
 @endauth
