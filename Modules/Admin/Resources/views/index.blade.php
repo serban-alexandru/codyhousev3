@@ -2,7 +2,7 @@
 @section('content')
 <section>
   <div class="container max-width-adaptive-sm margin-top-lg">
-    <div class="postbox-container">
+    <div class="postbox-container link-card radius-md">
       <form action="{{ route('postbox.store') }}" id="formPostBox" method="POST" enctype="multipart/form-data" >
         @csrf
         <div class="grid">
