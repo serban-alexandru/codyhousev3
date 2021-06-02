@@ -20,6 +20,11 @@
 
       <!-- User Icon and Drop-down Mobile-->
       <div class="mobile-btn flex flex-center gap-xxs">
+        <!-- Access Button -->
+        @guest
+        <button class="mobile-btn btn btn--primary header-v2__nav-control"><a href="{{ url('/site2/login') }}" class="text-sm color-white">Account</a></button>
+        @endguest
+
         <!-- Search Form -->
         <button class="padding-top-xxxxs padding-left-xxxs header-v2__nav-control reset anim-menu-btn anim-menu-btn--search js-anim-menu-btn js-tab-focus" aria-label="Toggle search" menu-target="search-menu">
           <svg class="icon" viewBox="0 0 24 24">
