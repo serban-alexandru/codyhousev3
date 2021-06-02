@@ -228,13 +228,6 @@
             <input class="form-control width-100%" type="reset search" name="q" value="{{ $q ?? '' }}" id="megasite-search" placeholder="Search..." aria-label="Search">
           </form>
           <div>
-            <ul class="header-v2__nav-list">
-              <li class="header-v2__nav-item header-v2__nav-item--divider" role="separator"></li>
-              <li class="header-v2__nav-item header-v2__nav-item--label">Quick Links</li>
-              <li class="header-v2__nav-item"><a href="https://www.facebook.com/saigonfinest" class="header-v2__nav-link">Visit us on Facebook</a></li>
-              <li class="header-v2__nav-item"><a href="https://www.instagram.com/saigon_finest/" class="header-v2__nav-link">Visit us on Instagram</a></li>
-              <li class="header-v2__nav-item"><a href="https://saigonfinest.com/contact" class="header-v2__nav-link">Contact Us</a></li>
-            </ul>
           </div>
         </div>
       </div>
