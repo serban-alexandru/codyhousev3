@@ -55,7 +55,7 @@
             </a>
           </figure>
           <div class="user-cell__content text-component line-height-xs v-space-xxs text-sm line-height-md">
-            <p><a class="color-contrast-low" href="{{ route('pages.profile.user', $post->username) }}">{{ $post->username }}</a></p>
+            <p><a class="color-contrast-low text-sm" href="{{ route('pages.profile.user', $post->username) }}">{{ $post->username }}</a></p>
             <p class="color-contrast-medium text-xs">{{ $post->created_at->format('F j, Y') }}</p>
           </div>
         </div>
