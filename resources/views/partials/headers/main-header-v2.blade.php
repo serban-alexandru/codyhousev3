@@ -146,7 +146,7 @@
                   <li class="header-v2__nav-item header-v2__nav-item--label">My Post Panel</li>
                   <li class="header-v2__nav-item"><a href="{{ url('dashboard') }}" class="header-v2__nav-link">Dashboard</a></li>
                   <li class="header-v2__nav-item">
-                    <a href="#0" class="header-v2__nav-link justify-between">
+                    <a href="{{ url('dashboard/add-post') }}" class="header-v2__nav-link justify-between">
                       <span>Add Post <i class="sr-only">(opens in new window)</i></span>
                       <svg class="icon icon--xxs" aria-hidden="true" viewBox="0 0 12 12">
                         <g stroke-width="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none">
@@ -193,7 +193,7 @@
           <li class="header-v2__nav-item header-v2__nav-item--label">My Post Panel</li>
           <li class="header-v2__nav-item"><a href="{{ url('dashboard') }}" class="header-v2__nav-link">Dashboard</a></li>
           <li class="header-v2__nav-item">
-            <a href="#0" class="header-v2__nav-link justify-between">
+            <a href="{{ url('dashboard/add-post') }}" class="header-v2__nav-link justify-between">
               <span>Add Post <i class="sr-only">(opens in new window)</i></span>
               <svg class="icon icon--xxs" aria-hidden="true" viewBox="0 0 12 12">
                 <g stroke-width="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none">
