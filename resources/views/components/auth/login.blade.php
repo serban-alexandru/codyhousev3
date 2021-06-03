@@ -4,6 +4,7 @@
     <h1>Login</h1>
     <p class="margin-top-sm">Don't have an account? <a href="{{ url('/site2/register') }}">Get started</a></p>
     <x-auth.login-form />
+    <p class="margin-top-sm">Forgot Password? <a href="{{ url('/site2/passreset') }}">Reset Here</a></p>
 </section>
 @endsection
 

@@ -30,6 +30,10 @@ Route::get('/site2/register',function(){
   return view('components.auth.register');
 });
 
+Route::get('/site2/passreset',function(){
+  return view('components.auth.pass-reset');
+});
+
 // Editor JS
 
 Route::group(['middleware' => $middleware], function(){
