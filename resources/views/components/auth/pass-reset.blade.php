@@ -99,6 +99,7 @@
       });
     })();
   </script>
+  <p class="margin-top-sm"><a href="{{ url('/site2/login') }}">Back to login </a></p>
   </section>
 @endsection
 
