@@ -130,17 +130,17 @@ Step2: Configure Plesk
 Log in to Plesk.
 Click on Domains and navigate the domain to setup.
 Click on Hosting Settings.
+Enable SSH access
 Change the Document root to the public folder in your app. Usually, this is httpdocs/public
 Click OK.
     
 Step3: Run commands for deployments
 - SSH to IP using port 44221
 - CD to httpdocs
+- composer update
 - php artisan migrate
 - php artisan module:seed Users
 - php artisan module:seed Admin
-- Install modules
-- composer update
 - php artisan key:generate
 - php artisan config:cache
 - php artisan storage:link
