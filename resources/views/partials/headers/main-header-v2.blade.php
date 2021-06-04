@@ -22,7 +22,7 @@
       <div class="mobile-btn flex flex-center gap-xxs">
         <!-- Access Button -->
         @guest
-        <a href="{{ url('/site2/login') }}" class="padding-top-xxxs"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>payee</title><g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" fill="none" stroke="#ffffff" stroke-miterlimit="10"><path d="M10,13h0C7.239,13,5,9.761,5,7V6a5,5,0,0,1,5-5h0a5,5,0,0,1,5,5V7C15,9.761,12.761,13,10,13Z"></path><polyline points="19 16 16 19 19 22" stroke="#ffffff"></polyline><line x1="23" y1="19" x2="16" y2="19" stroke-linecap="butt" stroke="#ffffff"></line><path d="M15,13.632A21.071,21.071,0,0,0,10,13a22.242,22.242,0,0,0-6.975,1.193A2.991,2.991,0,0,0,1,17.032V21H12"></path></g></svg></a>
+        <a href="{{ url('/site2/login') }}" class="header-v2__nav-control padding-top-xxxs"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>payee</title><g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" fill="none" stroke="#ffffff" stroke-miterlimit="10"><path d="M10,13h0C7.239,13,5,9.761,5,7V6a5,5,0,0,1,5-5h0a5,5,0,0,1,5,5V7C15,9.761,12.761,13,10,13Z"></path><polyline points="19 16 16 19 19 22" stroke="#ffffff"></polyline><line x1="23" y1="19" x2="16" y2="19" stroke-linecap="butt" stroke="#ffffff"></line><path d="M15,13.632A21.071,21.071,0,0,0,10,13a22.242,22.242,0,0,0-6.975,1.193A2.991,2.991,0,0,0,1,17.032V21H12"></path></g></svg></a>
         @endguest
 
         <!-- Search Form -->
