@@ -374,8 +374,10 @@
         success: function(response){
           if (response.description) {
             var editorData = JSON.parse(response.description);
-            editor2.render(editorData);
-            $('#editDescription').val(response.description);
+            if (editorData.blocks.length > 0) {
+              editor2.render(editorData);
+              $('#editDescription').val(response.description);
+            }
           }
 
           $('#editTitle').val(response.title);
