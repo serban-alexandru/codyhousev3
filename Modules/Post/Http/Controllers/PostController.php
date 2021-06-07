@@ -708,7 +708,7 @@ class PostController extends Controller
         return view('post::archive.search-archive', $data);
     }
 
-    public function singlePost($locale, $slug)
+    public function singlePost($slug)
     {
         $post = Post::firstWhere('slug', $slug);
 
@@ -722,7 +722,7 @@ class PostController extends Controller
         return view('post::templates.post-template', $data);
     }
 
-    public function singlePostbyTheme($theme, $locale, $slug)
+    public function singlePostbyTheme($theme, $slug)
     {
         $post = Post::firstWhere('slug', $slug);
 
@@ -778,7 +778,7 @@ class PostController extends Controller
         return view('post::templates.post-masonry-load', $data);
     }
 
-    public function ajaxInfiniteLoadPost($locale, $post_id, $page_num) {
+    public function ajaxInfiniteLoadPost($post_id, $page_num) {
         $tags = Post::find($post_id)->getTagNames();
 
         $perpage = 1;
@@ -807,13 +807,15 @@ class PostController extends Controller
 
         $new_post_info = $posts->get()->first();
 
-        $post = Post::find($new_post_info['id']);
+        $post = null;
+        if ($new_post_info) {
+            $post = Post::find($new_post_info['id']);
 
-        if ($post) {
-            $post['description'] = Post::parseContent($post['description']);
-            $post['seo_title'] = $post['title'] . ' | [sitetitle]';
-            $post['locale'] = $locale;
-            $post['url'] = $locale . '/' . $post['slug'];
+            if ($post) {
+                $post['description'] = Post::parseContent($post['description']);
+                $post['seo_title'] = $post['title'] . ' | [sitetitle]';
+                $post['url'] = 'post/' . $post['slug'];
+            }
         }
 
         $posts_count = Post::leftJoin('posts_tags', 'posts_tags.post_id', '=', 'posts.id')
@@ -832,7 +834,7 @@ class PostController extends Controller
             )->groupBy('posts.id');
         $posts_count = count($posts_count->get());
 
-        $tag_pills = $post->getTagNames();
+        $tag_pills = $post ? $post->getTagNames() : [];
 
         $data['total'] = $posts_count;
         $data['post'] = $post;

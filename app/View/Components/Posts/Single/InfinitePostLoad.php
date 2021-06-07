@@ -16,7 +16,7 @@ class InfinitePostLoad extends Component
      *
      * @return void
      */
-    public function __construct($id, $locale)
+    public function __construct($id)
     {
         $post = Post::where(
             [
@@ -31,8 +31,7 @@ class InfinitePostLoad extends Component
         if ($post) {
             $post['description'] = Post::parseContent($post['description']);
             $post['seo_title'] = $post['title'] . ' | [sitetitle]';
-            $post['locale'] = $locale;
-            $post['url'] = $locale . '/' . $post['slug'];
+            $post['url'] = 'post/' . $post['slug'];
 
             $tag_pills = $post->getTagNames();
 

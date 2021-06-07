@@ -8,9 +8,8 @@
                         <a src="
                             {{
                                 route(
-                                    'single-view',
+                                    'single-post-view',
                                     [
-                                        'locale' => config('app.locale'),
                                         'slug'   => $post->slug
                                     ]
                                 )
@@ -28,9 +27,8 @@
                         <a src="
                             {{
                                 route(
-                                    'single-view',
+                                    'single-post-view',
                                     [
-                                        'locale' => config('app.locale'),
                                         'slug'   => $post->slug
                                     ]
                                 )

@@ -1,8 +1,9 @@
 @if($nextpage > 0)
-<div class="js-infinite-scroll__content" data-path="{{ url('/api/' . $post->locale . '/post/' . $post->id . '/page={n}') }}" data-current-page="{{ $nextpage }}">
+<div class="js-infinite-scroll__content" data-path="{{ url('/api/post/' . $post->id . '/page={n}') }}" data-current-page="{{ $nextpage }}">
 @else
 <div class="js-infinite-scroll__content">
 @endif
+  @if($post)
   <!-- Start of each post content -->
   <article class="container single-post max-width-md margin-bottom-lg padding-y-lg" data-title="{!! $post->seo_title !!}" data-url="{{ url($post->url) }}">
     <div class="text-component text-center line-height-lg v-space-md margin-bottom-md text-sm">
@@ -36,4 +37,5 @@
       </figure>
     </div>
   </article> <!-- End of each post content --> 
+  @endif
 </div>
