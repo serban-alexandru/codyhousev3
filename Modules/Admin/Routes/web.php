@@ -10,6 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/admin/contact',function(){
+    return view('admin::contact.index');
+  });
+
 use Illuminate\Support\Facades\Schema;
 use Modules\Admin\Entities\Settings;
 
