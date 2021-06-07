@@ -4,7 +4,7 @@
     <div class="flex flex-column items-center gap-xxs flex-row@sm justify-between@sm">
       <div>
         <div class="text-sm text-xs@md color-contrast-medium flex flex-wrap gap-xs">
-          <span>&copy; SaigonFinest</span>
+          <span>&copy; {{ !empty($settings_data['logo_title']) ? $settings_data['logo_title'] : '' }}</span>
           <a class="color-contrast-high" href="/about">About</a>
           <a class="color-contrast-high" href="/contact">Contact</a>
         </div>
