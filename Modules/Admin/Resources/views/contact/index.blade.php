@@ -1,12 +1,12 @@
 @extends('admin::layouts.master')
 @section('content')
-<section class="container max-width-adaptive-xs margin-top-md margin-bottom-md">
+<section class="container max-width-adaptive-sm margin-top-md margin-bottom-md">
 <div class="js-repeater" data-repeater-input-name="user[n]">
     <ul class="grid gap-xs js-repeater__list">
       <li class="js-repeater__item">
         <div class="grid gap-xs">
-          <input class="form-control col" type="text" name="user[0][name]" id="user[0][name]" placeholder="Form Control">
-  
+          <input class="form-control col" type="text" name="user[0][name]" id="user[0][name]" placeholder="SVG icon">
+          <input class="form-control col" type="text" name="user[0][name]" id="user[0][name]" placeholder="Enter Link">
           <button class="btn btn--subtle padding-x-xs col-content js-repeater__remove" type="button">
             <svg class="icon" viewBox="0 0 20 20">
               <title>Remove item</title>
