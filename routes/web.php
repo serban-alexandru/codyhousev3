@@ -43,19 +43,19 @@ Route::group(['middleware' => $middleware], function(){
   ]);
 });
 
-Route::group([
-  'prefix' => '{locale}',
-  'where'  => ['locale' => '[a-zA-Z]{2}']
-], function(){
-  Route::get('{slug}', [
-    'as'   => 'single-view',
-    'uses' => '\Modules\Users\Http\Controllers\SingleViewController@singleView'
-  ]);
-});
+Route::get('post/{slug}', [
+  'as'   => 'single-post-view',
+  'uses' => '\Modules\Users\Http\Controllers\SingleViewController@singlePostView'
+]);
+
+Route::get('page/{slug}', [
+  'as'   => 'single-page-view',
+  'uses' => '\Modules\Users\Http\Controllers\SingleViewController@singlePageView'
+]);
 
 Route::group([
-  'prefix' => '{theme}/{locale}',
-  'where'  => ['theme' => 'site1|site2', 'locale' => '[a-zA-Z]{2}']
+  'prefix' => '{theme}/{prefix}',
+  'where'  => ['theme' => 'site1|site2', 'prefix' => 'page|post']
 ], function(){
   Route::get('{slug}', [
     'as'   => 'theme.pages.post',

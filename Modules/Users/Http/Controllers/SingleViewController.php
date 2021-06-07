@@ -9,24 +9,7 @@ use Modules\Post\Entities\Post;
 
 class SingleViewController extends Controller
 {
-  public function singleView($locale, $slug)
-  {
-    // Get Page by slug
-    $page = Page::firstWhere([
-      'slug'         => $slug,
-      'is_published' => true,
-      'is_pending'   => false,
-      'is_deleted'   => false,
-      'is_rejected'  => false
-    ]);
-
-    if ( isset( $page ) ) {
-      $data['page']       = $page;
-      $data['page_title'] = $page->title;
-
-      return view('templates.layouts.page', $data);
-    }
-
+  public function singlePostView($slug) {
     // Get Post by slug
     $post = Post::firstWhere([
       'slug'         => $slug,
@@ -43,15 +26,13 @@ class SingleViewController extends Controller
     $post['description'] = Post::parseContent($post['description']);
 
     $data['post']       = $post;
-    $data['locale']     = $locale;
     $data['page_title'] = $post->title;
 
     return view('templates.layouts.post', $data);
   }
 
-  public function singleViewbyTheme($theme, $locale, $slug)
-  {
-    // Get Page by slug.
+  public function singlePageView($slug) {
+    // Get Page by slug
     $page = Page::firstWhere([
       'slug'         => $slug,
       'is_published' => true,
@@ -60,33 +41,59 @@ class SingleViewController extends Controller
       'is_rejected'  => false
     ]);
 
-    if ( $page ) {
-      $data['page']       = $page;
-      $data['page_title'] = $page->title;
-      $data['theme']      = $theme;
-
-      return view('page::templates.page-template-v1', $data);
-    }
-
-    // Get Post by slug.
-    $post = Post::firstWhere([
-      'slug'         => $slug,
-      'is_published' => true,
-      'is_pending'   => false,
-      'is_deleted'   => false,
-      'is_rejected'  => false
-    ]);
-
-    if ( !$post ) {
+    if ( !$page ) {
       abort(404);
     }
 
-    $post['description'] = Post::parseContent($post['description']);
-    
-    $data['post']       = $post;
-    $data['page_title'] = $post->title;
-    $data['theme']      = $theme;
+    $page['description'] = Page::parseContent($page['description']);
 
-    return view('post::templates.post-template-v1', $data);
+    $data['page']       = $page;
+    $data['page_title'] = $page->title;
+
+    return view('templates.layouts.page', $data);
+  }
+
+  public function singleViewbyTheme($theme, $prefix, $slug) {
+    if ( $prefix == "page") {
+      // Get Page by slug.
+      $page = Page::firstWhere([
+        'slug'         => $slug,
+        'is_published' => true,
+        'is_pending'   => false,
+        'is_deleted'   => false,
+        'is_rejected'  => false
+      ]);
+
+      if ( $page ) {
+        $page['description'] = Page::parseContent($page['description']);
+        
+        $data['page']       = $page;
+        $data['page_title'] = $page->title;
+        $data['theme']      = $theme;
+
+        return view('page::templates.page-template-v1', $data);
+      }
+    } else if ( $prefix == "post" ) {
+      // Get Post by slug.
+      $post = Post::firstWhere([
+        'slug'         => $slug,
+        'is_published' => true,
+        'is_pending'   => false,
+        'is_deleted'   => false,
+        'is_rejected'  => false
+      ]);
+
+      if ( $post ) {
+        $post['description'] = Post::parseContent($post['description']);
+    
+        $data['post']       = $post;
+        $data['page_title'] = $post->title;
+        $data['theme']      = $theme;
+    
+        return view('post::templates.post-template-v1', $data);    
+      }
+    }
+
+    abort(404);
   }
 }

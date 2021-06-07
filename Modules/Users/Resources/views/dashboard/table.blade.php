@@ -169,9 +169,8 @@
                   <a href="
                     {{
                         route(
-                            'single-view',
+                            'single-post-view',
                             [
-                                'locale' => config('app.locale'),
                                 'slug'   => $post->slug
                             ]
                         )
@@ -181,9 +180,8 @@
                 <a href="
                     {{
                         route(
-                            'single-view',
+                            'single-post-view',
                             [
-                                'locale' => config('app.locale'),
                                 'slug'   => $post->slug
                             ]
                         )
@@ -491,9 +489,8 @@
                   <a href="
                   {{
                     route(
-                      'single-view',
+                      'single-post-view',
                       [
-                        'locale' => config('app.locale'),
                         'slug'   => $post->slug
                       ]
                     )
@@ -503,9 +500,8 @@
                   <a href="
                     {{
                       route(
-                        'single-view',
+                        'single-post-view',
                         [
-                          'locale' => config('app.locale'),
                           'slug'   => $post->slug
                         ]
                       )

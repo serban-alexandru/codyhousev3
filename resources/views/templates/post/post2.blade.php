@@ -12,5 +12,5 @@
 @endisset
 
 @section('content')
-<x-posts.single.infinite-post-load id='{{ $post->id }}' locale='{{ $locale }}' />
+<x-posts.single.infinite-post-load id='{{ $post->id }}' />
 @endsection

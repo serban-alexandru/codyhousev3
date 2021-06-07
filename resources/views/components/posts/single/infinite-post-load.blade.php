@@ -1,4 +1,4 @@
-<div class="js-infinite-scroll container max-width-lg margin-top-md" data-path="{{ url('/api/' . $post->locale . '/post/' . $post->id . '/{n}') }}" data-container=".js-infinite-scroll__content" data-current-page="1" data-load-btn="off">
+<div class="js-infinite-scroll container max-width-lg margin-top-md" data-path="{{ url('/api/post/' . $post->id . '/{n}') }}" data-container=".js-infinite-scroll__content" data-current-page="1" data-load-btn="off">
   <!-- Start of infinite scroll post container -->
   <div class="js-infinite-scroll__content">
     <!-- Start of each post content -->
