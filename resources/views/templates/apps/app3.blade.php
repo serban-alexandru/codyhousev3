@@ -34,7 +34,7 @@
     </a>
 
     @include('partials.external-fonts-v1')
-    @include('partials.headers.header')
+    @include('partials.headers.main-header-v3')
     <x-auth.signin-modal />
     @yield('content')
     @include('partials.footers.footer')
