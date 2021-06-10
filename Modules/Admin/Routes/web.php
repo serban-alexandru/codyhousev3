@@ -15,6 +15,10 @@ Route::get('/admin/contact',function(){
     return view('admin::contact.index');
   });
 
+Route::get('/admin/scraper',function(){
+    return view('admin::scraper.index');
+  });
+
 use Illuminate\Support\Facades\Schema;
 use Modules\Admin\Entities\Settings;
 
