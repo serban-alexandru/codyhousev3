@@ -2,9 +2,9 @@
 <div class="link-card bg radius-md">
     <div class="flex justify-between">
     <div class="margin-sm">
-        
-        <label class="text-sm color-contrast-medium margin-right-xs" for="selectThis">Sort:</label>
-        <div class="select inline-block js-select" data-trigger-class="reset text-sm color-contrast-high text-underline inline-flex items-center cursor-pointer js-tab-focus">
+      <h3 class="text-md">Users</h3>
+        <label class="text-sm color-contrast-medium" for="selectThis"></label>
+        <div class="select js-select btn text-sm" data-trigger-class=" reset text-sm color-contrast-high inline-flex items-center cursor-pointer js-tab-focus gap-xxs">
             <select name="selectThis" id="selectThis">
                 <optgroup label="Users">
                   <option value="0" selected>All Users</option>
@@ -18,13 +18,15 @@
                   <option value="5">Admin</option>
                 </optgroup>
               </select>
-          <svg class="icon icon--xxxs margin-left-xxs" viewBox="0 0 8 8"><path d="M7.934,1.251A.5.5,0,0,0,7.5,1H.5a.5.5,0,0,0-.432.752l3.5,6a.5.5,0,0,0,.864,0l3.5-6A.5.5,0,0,0,7.934,1.251Z"/></svg>
-        </div>
+              <div class="">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>survey</title><g fill="#000000"><path d="M19.09 4.15h-9.13a0.83 0.83 0 0 0 0 1.66h9.13a0.83 0.83 0 0 0 0-1.66z" fill="#000000"></path><path fill="#000000" d="M1.66 1.66h4.98q0.83 0 0.83 0.83v4.98q0 0.83-0.83 0.83h-4.98q-0.83 0-0.83-0.83v-4.98q0-0.83 0.83-0.83z"></path><path d="M19.09 14.11h-9.13a0.83 0.83 0 0 0 0 1.66h9.13a0.83 0.83 0 0 0 0-1.66z" fill="#000000"></path><path d="M5.32 14.94l1.91-1.9a0.83 0.83 0 0 0-1.18-1.18l-1.9 1.91-1.9-1.91a0.83 0.83 0 0 0-1.18 1.18l1.91 1.9-1.91 1.9a0.83 0.83 0 1 0 1.18 1.18l1.9-1.91 1.9 1.91a0.83 0.83 0 0 0 1.18-1.18z" fill="#000000"></path></g></svg>
+            </div>
+            </div>
       </div>
 <!-- Menu Bar -->
 
 <menu class="menu-bar menu-bar--expanded@md js-menu-bar">
-
+  
     <li class="menu-bar__item js-menu-bar modal-trigger-add-user" aria-controls="modal-add-user" role="menuitem" data-href="{{ url('admin/users/add') }}">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>pencil</title><g fill="#000000"><path d="M18.85 4.39l-3.32-3.32a0.83 0.83 0 0 0-1.18 0l-11.62 11.62a0.84 0.84 0 0 0-0.2 0.33l-1.66 4.98a0.83 0.83 0 0 0 0.79 1.09 0.84 0.84 0 0 0 0.26-0.04l4.98-1.66a0.84 0.84 0 0 0 0.33-0.2l11.62-11.62a0.83 0.83 0 0 0 0-1.18z m-6.54 1.08l1.17-1.18 2.15 2.15-1.18 1.17z" fill="#000000"></path></g></svg>
         <span class="menu-bar__label">Add Users</span>
