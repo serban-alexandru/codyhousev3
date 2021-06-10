@@ -113,6 +113,7 @@
                   <ul class="header-v2__nav-list">
                     <li class="header-v2__nav-item header-v2__nav-item--label">Others</li>
                     <li class="header-v2__nav-item"><a href="{{ url('admin/menus') }}" class="header-v2__nav-link">Menus</a></li>
+                    <li class="header-v2__nav-item"><a href="{{ url('admin/scraper') }}" class="header-v2__nav-link">Scraper</a></li>
                   </ul>
 
                 </li>
