@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 use App\Http\Controllers\Controller;
-use Modules\Users\Entities\{ PostSetting, Post, PostsTag };
+use Modules\Post\Entities\{ PostSetting, Post, PostsTag };
 use Modules\Tag\Entities\{Tag, TagCategory};
 
 class DashboardPostsController extends Controller
@@ -23,7 +23,7 @@ class DashboardPostsController extends Controller
 
         foreach ($files as $file) {
             $file_name    = basename($file);
-            $file_on_post = Post::firstWhere('description', 'LIKE', '%' . $file_name . '%');
+            $file_on_post = Post::where( 'post_type', 'post' )->firstWhere('description', 'LIKE', '%' . $file_name . '%');
 
             // model is null -> delete
             if (!$file_on_post) {
@@ -53,6 +53,9 @@ class DashboardPostsController extends Controller
                 'users.username as username'
             ])->orderBy('created_at', 'desc');
 
+        // Filter by 'post' type.
+        $posts = $posts->where('post_type', 'post');
+
         if (!auth()->user()->isAdmin()) {
             // get user specific posts only
             $posts = $posts->where('user_id', auth()->user()->id);
@@ -79,24 +82,24 @@ class DashboardPostsController extends Controller
 
         if (auth()->user()->isAdmin()) {
             // get all posts count
-            $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->count();
-            $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
-            $posts_pending_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
-            $posts_deleted_count = Post::where('is_deleted', 1)->count();
+            $posts_published_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 1)->count();
+            $posts_draft_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
+            $posts_pending_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
+            $posts_deleted_count = Post::where('post_type', 'post')->where('is_deleted', 1)->count();
     
         } else {
             // get user specific posts count
-            $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->where('user_id', auth()->user()->id)->count();
-            $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->where('user_id', auth()->user()->id)->count();
-            $posts_pending_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->where('user_id', auth()->user()->id)->count();
-            $posts_deleted_count = Post::where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();    
+            $posts_published_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 1)->where('user_id', auth()->user()->id)->count();
+            $posts_draft_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->where('user_id', auth()->user()->id)->count();
+            $posts_pending_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->where('user_id', auth()->user()->id)->count();
+            $posts_deleted_count = Post::where('post_type', 'post')->where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();    
         }
 
         $availableLimit = ['25', '50', '100', '150', '200'];
 
         $image_width = '40';
         $image_height = '40';
-        $posts_settings = PostSetting::first();
+        $posts_settings = PostSetting::where('post_type', 'post')->first();
         if(!is_null($posts_settings)){
             $image_width = $posts_settings->medium_width;
             $image_height = $posts_settings->medium_height;
@@ -151,17 +154,17 @@ class DashboardPostsController extends Controller
     public function addPost() {
         if (auth()->user()->isAdmin()) {
             // get all posts count
-            $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->count();
-            $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
-            $posts_pending_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
-            $posts_deleted_count = Post::where('is_deleted', 1)->count();
+            $posts_published_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 1)->count();
+            $posts_draft_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
+            $posts_pending_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
+            $posts_deleted_count = Post::where('post_type', 'post')->where('is_deleted', 1)->count();
 
         } else {
             // get user specific posts count
-            $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->where('user_id', auth()->user()->id)->count();
-            $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->where('user_id', auth()->user()->id)->count();
-            $posts_pending_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->where('user_id', auth()->user()->id)->count();
-            $posts_deleted_count = Post::where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();    
+            $posts_published_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 1)->where('user_id', auth()->user()->id)->count();
+            $posts_draft_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->where('user_id', auth()->user()->id)->count();
+            $posts_pending_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->where('user_id', auth()->user()->id)->count();
+            $posts_deleted_count = Post::where('post_type', 'post')->where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();    
         }
 
         $tag_categories = TagCategory::all();
@@ -186,20 +189,20 @@ class DashboardPostsController extends Controller
     {
         if (auth()->user()->isAdmin()) {
             // get all posts count
-            $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->count();
-            $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
-            $posts_pending_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
-            $posts_deleted_count = Post::where('is_deleted', 1)->count();
+            $posts_published_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 1)->count();
+            $posts_draft_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
+            $posts_pending_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
+            $posts_deleted_count = Post::where('post_type', 'post')->where('is_deleted', 1)->count();
 
         } else {
             // get user specific posts count
-            $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->where('user_id', auth()->user()->id)->count();
-            $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->where('user_id', auth()->user()->id)->count();
-            $posts_pending_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->where('user_id', auth()->user()->id)->count();
-            $posts_deleted_count = Post::where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();    
+            $posts_published_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 1)->where('user_id', auth()->user()->id)->count();
+            $posts_draft_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->where('user_id', auth()->user()->id)->count();
+            $posts_pending_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->where('user_id', auth()->user()->id)->count();
+            $posts_deleted_count = Post::where('post_type', 'post')->where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();    
         }
 
-        $posts_settings = PostSetting::first();
+        $posts_settings = PostSetting::where('post_type', 'post')->first();
 
         return view('users::dashboard.settings', compact(
             'posts_published_count', 'posts_draft_count', 'posts_pending_count', 'posts_deleted_count', 'posts_settings'
@@ -238,9 +241,13 @@ class DashboardPostsController extends Controller
         ]);
 
         if($method == 'create'){
-            PostSetting::create(request()->except(['_token']));
+            PostSetting::create([
+                'medium_width'     => request('medium_width'),
+                'medium_height'    => request('medium_height'),
+                'post_type'        => 'post'
+            ]);
         } else{
-            $posts_settings = PostSetting::first();
+            $posts_settings = PostSetting::where('post_type', 'post')->first();
             $posts_settings->update(request()->except(['_token']));
         }
 
@@ -272,7 +279,7 @@ class DashboardPostsController extends Controller
             $settings_width = 40;
             $settings_height = 40;
 
-            if(!is_null($posts_settings = PostSetting::first())){
+            if(!is_null($posts_settings = PostSetting::where('post_type', 'post')->first())){
                 $settings_width = $posts_settings->medium_width;
                 $settings_height = $posts_settings->medium_height;
             }
@@ -296,7 +303,7 @@ class DashboardPostsController extends Controller
         }
 
         // Generate slug
-        $slug                = Str::slug(request('title'), '-');
+        $slug                = Str::slug(strip_tags(request('title')), '-');
         $post_with_same_slug = Post::firstWhere('slug', $slug);
 
         if ($post_with_same_slug) {
@@ -308,13 +315,14 @@ class DashboardPostsController extends Controller
 
         $post = Post::create([
             'user_id'          => auth()->user()->id,
-            'title'            => request('title'),
+            'title'            => strip_tags(request('title')),
             'slug'             => $slug,
             'description'      => request('description'),
             'thumbnail'        => (request()->has('thumbnail')) ? $thumbnail_name : NULL,
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : NULL,
             'seo_page_title'   => request('page_title') ?: NULL,
             'tags'             => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
+            'post_type'        => 'post',
             'is_pending'       => $is_pending,
             'is_published'     => $is_published
         ]);
@@ -458,7 +466,7 @@ class DashboardPostsController extends Controller
             $settings_width = 40;
             $settings_height = 40;
 
-            if(!is_null($posts_settings = PostSetting::first())){
+            if(!is_null($posts_settings = PostSetting::where('post_type', 'post')->first())){
                 $settings_width = $posts_settings->medium_width;
                 $settings_height = $posts_settings->medium_height;
             }
@@ -518,7 +526,7 @@ class DashboardPostsController extends Controller
         $post_date = strtotime(sprintf($datetime_format, $year, $month, $day, $created_h, $created_m, $created_s));
 
         $post->update([
-            'title' => request('title'),
+            'title' => strip_tags(request('title')),
             'description' => request('description'),
             'thumbnail' => (request()->has('thumbnail')) ? $thumbnail_name : $post->thumbnail,
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : $post->thumbnail_medium,
@@ -633,7 +641,7 @@ class DashboardPostsController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $post = Post::find(request('post_id'));
+        $post = Post::where('post_type', 'post')->find(request('post_id'));
 
         if (!$post) {
             $alert = [
@@ -659,9 +667,9 @@ class DashboardPostsController extends Controller
         }
 
         if ( auth()->user()->isAdmin() ) {
-            Post::whereIn('id', $selectedIDs)->update(['is_deleted' => 1, 'is_rejected' => 0, 'reject_reason' => '']);
+            Post::where('post_type', 'post')->whereIn('id', $selectedIDs)->update(['is_deleted' => 1, 'is_rejected' => 0, 'reject_reason' => '']);
         } else {
-            Post::where('user_id', auth()->user()->id)->whereIn('id', $selectedIDs)->update(['is_deleted' => 1, 'is_rejected' => 0, 'reject_reason' => '']);
+            Post::where('post_type', 'post')->where('user_id', auth()->user()->id)->whereIn('id', $selectedIDs)->update(['is_deleted' => 1, 'is_rejected' => 0, 'reject_reason' => '']);
         }
 
         $alert = [
@@ -675,9 +683,9 @@ class DashboardPostsController extends Controller
     {
         // Get posts on trash
         if ( auth()->user()->isAdmin() ) {
-            $trashed_posts = Post::where('is_deleted', 1)->get();
+            $trashed_posts = Post::where('post_type', 'post')->where('is_deleted', 1)->get();
         } else {
-            $trashed_posts = Post::where('user_id', auth()->user()->id)->where('is_deleted', 1)->get();
+            $trashed_posts = Post::where('post_type', 'post')->where('user_id', auth()->user()->id)->where('is_deleted', 1)->get();
         }
 
         foreach ($trashed_posts as $post) {
@@ -788,11 +796,11 @@ class DashboardPostsController extends Controller
     public function getPost($id) {
         if (auth()->user()->isAdmin()) {
             // admin has full authority for all posts
-            $post = Post::find($id);
+            $post = Post::where('post_type', 'post')->find($id);
 
         } else {
             // normal users (Editor, Registered) only have authority for their posts
-            $post = Post::where('user_id', auth()->user()->id)->find($id);
+            $post = Post::where('post_type', 'post')->where('user_id', auth()->user()->id)->find($id);
         }
 
         return $post;
@@ -826,7 +834,7 @@ class DashboardPostsController extends Controller
             ->orWhere('users.name', 'LIKE', '%' . request('postsearch') . '%');
         }
 
-        $posts = $posts->where('is_published', 0)->where('is_pending', 1)->where('is_rejected', 1);
+        $posts = $posts->where('post_type', 'post')->where('is_published', 0)->where('is_pending', 1)->where('is_rejected', 1);
 
         $limit = request('limit') ? request('limit') : 25;
 

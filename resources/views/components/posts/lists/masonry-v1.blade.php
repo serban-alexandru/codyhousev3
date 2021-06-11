@@ -1,4 +1,4 @@
-<div class="masonry js-masonry js-infinite-scroll container max-width-lg margin-top-md" data-path="{{ url('/api/posts/page/{n}') }}" data-container=".js-infinite-scroll__content" data-current-page="1" data-load-btn="off">
+<div class="masonry js-masonry js-infinite-scroll container max-width-lg margin-top-md" data-path="{{ url('/api/' . $api_route . '/page/{n}') }}" data-container=".js-infinite-scroll__content" data-current-page="1" data-load-btn="off">
   <div class="masonry__loader" aria-hidden="true">
     <svg class="icon icon--md icon--is-spinning" viewbox="0 0 32 32">
       <g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" stroke="currentColor" fill="none">
@@ -9,20 +9,20 @@
   </div>
   <ul class="masonry__list js-masonry__list js-infinite-scroll__content">
   @foreach($posts as $post)
-    <li class="masonry__item js-masonry__item">
+    <li class="masonry__item js-masonry__item {{ $post->post_type }}">
     @if($post->thumbnail)
-      <a class="thumb" href="{{ route('single-post-view', ['slug'   => $post->slug]) }}">
+      <a class="thumb" href="{{ route('single-' . $post->post_type . '-view', ['slug'   => $post->slug]) }}">
         <figure class="card-v2">
-          <img class="block width-500% radius-md radius-bottom-right-0 radius-bottom-left-0" src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
+          <img class="block width-500% radius-md radius-bottom-right-0 radius-bottom-left-0" src="{{ $post->showThumbnail('medium', $post->post_type) }}" alt="Image of {{ $post->title }}">
           <figcaption class="card-v2__caption padding-x-sm padding-top-md padding-bottom-sm text-left">
-            <div class="card-v2__title text-base@md"><a class="color-contrast-lower" href="{{ route('single-post-view', ['slug' => $post->slug]) }}">{{ $post->title }}</a></div>
+            <div class="card-v2__title text-base@md"><a class="color-contrast-lower" href="{{ route('single-' . $post->post_type . '-view', ['slug' => $post->slug]) }}">{{ $post->title }}</a></div>
           </figcaption>
         </figure>
       </a>
     @else
       <span class="card__img card__img-cropped bg-opacity-50%"></span>
       <div class="post-cell text-component line-height-xs v-space-xxs text-sm line-height-md">
-        <p><a class="color-contrast-low" href="{{ route('single-post-view', ['slug' => $post->slug]) }}">{{ $post->title }}</a></p>
+        <p><a class="color-contrast-low" href="{{ route('single-' . $post->post_type . '-view', ['slug' => $post->slug]) }}">{{ $post->title }}</a></p>
       </div>
     @endif
       <div class="user-cell">

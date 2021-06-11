@@ -24,7 +24,7 @@ class PostController extends Controller
 
         foreach ($files as $file) {
             $file_name    = basename($file);
-            $file_on_post = Post::firstWhere('description', 'LIKE', '%' . $file_name . '%');
+            $file_on_post = Post::where( 'post_type', 'post' )->firstWhere('description', 'LIKE', '%' . $file_name . '%');
 
             // model is null -> delete
             if (!$file_on_post) {
@@ -54,6 +54,9 @@ class PostController extends Controller
                 'users.username as username'
             ])->orderBy('created_at', 'desc');
 
+        // Get only 'post' type
+        $posts->where( 'post_type', 'post' );
+
         if(request()->has('postsearch')){
             $posts->where('title', 'LIKE', '%' . request('postsearch') . '%')
             ->orWhere('users.name', 'LIKE', '%' . request('postsearch') . '%');
@@ -73,16 +76,16 @@ class PostController extends Controller
 
         $posts = $posts->paginate($limit);
 
-        $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->count();
-        $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
-        $posts_pending_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
-        $posts_deleted_count = Post::where('is_deleted', 1)->count();
+        $posts_published_count = Post::where( 'post_type', 'post' )->where('is_deleted', 0)->where('is_published', 1)->count();
+        $posts_draft_count = Post::where( 'post_type', 'post' )->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
+        $posts_pending_count = Post::where( 'post_type', 'post' )->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
+        $posts_deleted_count = Post::where( 'post_type', 'post' )->where('is_deleted', 1)->count();
 
         $availableLimit = ['25', '50', '100', '150', '200'];
 
         $image_width = '40';
         $image_height = '40';
-        $posts_settings = PostSetting::first();
+        $posts_settings = PostSetting::where( 'post_type', 'post' )->first();
         if(!is_null($posts_settings)){
             $image_width = $posts_settings->medium_width;
             $image_height = $posts_settings->medium_height;
@@ -135,12 +138,12 @@ class PostController extends Controller
 
     public function settings()
     {
-        $posts_published_count = Post::where('is_deleted', 0)->where('is_published', 1)->count();
-        $posts_draft_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
-        $posts_pending_count = Post::where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
-        $posts_deleted_count = Post::where('is_deleted', 1)->count();
+        $posts_published_count = Post::where( 'post_type', 'post' )->where('is_deleted', 0)->where('is_published', 1)->count();
+        $posts_draft_count = Post::where( 'post_type', 'post' )->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
+        $posts_pending_count = Post::where( 'post_type', 'post' )->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
+        $posts_deleted_count = Post::where( 'post_type', 'post' )->where('is_deleted', 1)->count();
 
-        $posts_settings = PostSetting::first();
+        $posts_settings = PostSetting::where( 'post_type', 'post' )->first();
 
         return view('post::layouts.settings', compact(
             'posts_published_count', 'posts_draft_count', 'posts_pending_count', 'posts_deleted_count', 'posts_settings'
@@ -179,9 +182,13 @@ class PostController extends Controller
         ]);
 
         if($method == 'create'){
-            PostSetting::create(request()->except(['_token']));
+            PostSetting::create([
+                'medium_width'     => request('medium_width'),
+                'medium_height'    => request('medium_height'),
+                'post_type'        => 'post'
+            ]);
         } else{
-            $posts_settings = PostSetting::first();
+            $posts_settings = PostSetting::where('post_type', 'post')->first();
             $posts_settings->update(request()->except(['_token']));
         }
 
@@ -213,7 +220,7 @@ class PostController extends Controller
             $settings_width = 40;
             $settings_height = 40;
 
-            if(!is_null($posts_settings = PostSetting::first())){
+            if(!is_null($posts_settings = PostSetting::where( 'post_type', 'post' )->first())){
                 $settings_width = $posts_settings->medium_width;
                 $settings_height = $posts_settings->medium_height;
             }
@@ -237,7 +244,7 @@ class PostController extends Controller
         }
 
         // Generate slug
-        $slug                = Str::slug(request('title'), '-');
+        $slug                = Str::slug(strip_tags(request('title')), '-');
         $post_with_same_slug = Post::firstWhere('slug', $slug);
 
         if ($post_with_same_slug) {
@@ -246,13 +253,14 @@ class PostController extends Controller
 
         $post = Post::create([
             'user_id'          => auth()->user()->id,
-            'title'            => request('title'),
+            'title'            => strip_tags(request('title')),
             'slug'             => $slug,
             'description'      => request('description'),
             'thumbnail'        => (request()->has('thumbnail')) ? $thumbnail_name : NULL,
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : NULL,
             'seo_page_title'   => request('page_title') ?: NULL,
             'tags'             => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
+            'post_type'        => 'post',
             'is_pending'       => 0,
             'is_published'     => request('is_published')
         ]);
@@ -295,7 +303,7 @@ class PostController extends Controller
 
     public function fetchDataAjax($id)
     {
-        $post = Post::find($id);
+        $post = Post::where( 'post_type', 'post' )->find($id);
 
         if(!$post){
             return response()->json([
@@ -358,7 +366,7 @@ class PostController extends Controller
 
     public function ajaxUpdate()
     {
-        $post = Post::find(request('id'));
+        $post = Post::where( 'post_type', 'post' )->find(request('id'));
 
         if(!$post){
             return response()->json([
@@ -371,7 +379,7 @@ class PostController extends Controller
             $settings_width = 40;
             $settings_height = 40;
 
-            if(!is_null($posts_settings = PostSetting::first())){
+            if(!is_null($posts_settings = PostSetting::where( 'post_type', 'post' )->first())){
                 $settings_width = $posts_settings->medium_width;
                 $settings_height = $posts_settings->medium_height;
             }
@@ -405,8 +413,8 @@ class PostController extends Controller
         }
 
         $is_published = request('is_published') ?? $post->is_published;
-	$is_pending = 0;
-	$is_rejected = 0;
+	    $is_pending = 0;
+	    $is_rejected = 0;
 
         // Generate slug
         $slug                = Str::slug(request('slug'), '-');
@@ -439,7 +447,7 @@ class PostController extends Controller
         $post_date = strtotime(sprintf($datetime_format, $year, $month, $day, $created_h, $created_m, $created_s));
 
         $post->update([
-            'title' => request('title'),
+            'title' => strip_tags(request('title')),
             'slug' => $slug,
             'description' => request('description'),
             'thumbnail' => (request()->has('thumbnail')) ? $thumbnail_name : $post->thumbnail,
@@ -497,7 +505,7 @@ class PostController extends Controller
 
     public function delete()
     {
-        $post = Post::find(request('post_id'));
+        $post = Post::where( 'post_type', 'post' )->find(request('post_id'));
 
         if(!$post){
             $alert = [
@@ -543,7 +551,7 @@ class PostController extends Controller
 
     public function deletePermanently()
     {
-        $post = Post::find(request('post_id'));
+        $post = Post::where( 'post_type', 'post' )->find(request('post_id'));
 
         if (!$post) {
             $alert = [
@@ -568,7 +576,7 @@ class PostController extends Controller
             return back();
         }
         
-        Post::whereIn('id', $selectedIDs)->update(['is_deleted' => 1, 'is_rejected' => 0, 'reject_reason' => '']);
+        Post::where( 'post_type', 'post' )->whereIn('id', $selectedIDs)->update(['is_deleted' => 1, 'is_rejected' => 0, 'reject_reason' => '']);
 
         $alert = [
             'message' => 'Posts has been deleted!',
@@ -581,7 +589,7 @@ class PostController extends Controller
     {
 
         // Get posts on trash
-        $trashed_posts = Post::where('is_deleted', 1)->get();
+        $trashed_posts = Post::where( 'post_type', 'post' )->where('is_deleted', 1)->get();
 
         foreach ($trashed_posts as $post) {
             $this->deletePost($post);
@@ -593,7 +601,7 @@ class PostController extends Controller
 
     public function restore($id)
     {
-        $post = Post::find($id);
+        $post = Post::where( 'post_type', 'post' )->find($id);
 
         if(!$post){
             $alert = [
@@ -629,7 +637,7 @@ class PostController extends Controller
     }
 
     public function makePostDraft($id) {
-        $post = Post::find($id);
+        $post = Post::where( 'post_type', 'post' )->find($id);
         if (!$post) {
             $alert = [
                 'message' => 'Post does not exists.',
@@ -644,7 +652,7 @@ class PostController extends Controller
     }
 
     public function makePostPublish($id) {
-        $post = Post::find($id);
+        $post = Post::where( 'post_type', 'post' )->find($id);
         if (!$post) {
             $alert = [
                 'message' => 'Post does not exists.',
@@ -662,8 +670,10 @@ class PostController extends Controller
     {
         $posts = Post::where(
             [
+                'post_type'    => 'post',
                 'is_published' => true,
                 'is_pending'   => false,
+                'is_rejected'  => false,
                 'is_deleted'   => false
             ]
         )->orderBy('created_at', 'desc');
@@ -685,8 +695,10 @@ class PostController extends Controller
 
         $posts = Post::where(
             [
+                'post_type'    => 'post',
                 'is_published' => true,
                 'is_pending'   => false,
+                'is_rejected'  => false,
                 'is_deleted'   => false
             ]
         )->orderBy('created_at', 'desc');
@@ -710,7 +722,7 @@ class PostController extends Controller
 
     public function singlePost($slug)
     {
-        $post = Post::firstWhere('slug', $slug);
+        $post = Post::where( 'post_type', 'post' )->firstWhere('slug', $slug);
 
         if (!$post) {
             abort(404);
@@ -724,7 +736,7 @@ class PostController extends Controller
 
     public function singlePostbyTheme($theme, $slug)
     {
-        $post = Post::firstWhere('slug', $slug);
+        $post = Post::where( 'post_type', 'post' )->firstWhere('slug', $slug);
 
         if (!$post) {
             abort(404);
@@ -739,6 +751,7 @@ class PostController extends Controller
 
     public function ajaxShowPosts($page_num)
     {
+        // This return all post type, so no need to filter for 'post' only.
         $perpage = 12;
         $offset = ($page_num - 1) * $perpage;
         $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
@@ -746,6 +759,7 @@ class PostController extends Controller
                 'posts.id',
                 'title',
                 'slug',
+                'post_type',
                 'posts.created_at as created_at',
                 'thumbnail',
                 'thumbnail_medium',
@@ -756,6 +770,7 @@ class PostController extends Controller
                 [
                     'is_published' => true,
                     'is_pending'   => false,
+                    'is_rejected'  => false,
                     'is_deleted'   => false
                 ]    
             )
@@ -768,6 +783,7 @@ class PostController extends Controller
         $posts_count = Post::where([
             'is_published' => true,
             'is_pending'   => false,
+            'is_rejected'  => false,
             'is_deleted'   => false
         ])->count();
 
@@ -779,6 +795,7 @@ class PostController extends Controller
     }
 
     public function ajaxInfiniteLoadPost($post_id, $page_num) {
+        // This requires to filter 'post' only.
         $tags = Post::find($post_id)->getTagNames();
 
         $perpage = 1;
@@ -794,8 +811,10 @@ class PostController extends Controller
             ->whereIn('tags.name', $tags)
             ->where(
                 [
+                    'post_type'    => 'post',
                     'is_published' => true,
                     'is_pending'   => false,
+                    'is_rejected'  => false,
                     'is_deleted'   => false
                 ]    
             )
@@ -827,8 +846,10 @@ class PostController extends Controller
             ->whereIn('tags.name', $tags)
             ->where(
                 [
+                    'post_type'    => 'post',
                     'is_published' => true,
                     'is_pending'   => false,
+                    'is_rejected'  => false,
                     'is_deleted'   => false
                 ]    
             )->groupBy('posts.id');
@@ -845,7 +866,7 @@ class PostController extends Controller
     }
 
     public function makePostReject() {
-        $post = Post::find($id);
+        $post = Post::where( 'post_type', 'post' )->find($id);
         if (!$post) {
             return response()->json([
                 'status' => false,
@@ -895,7 +916,7 @@ class PostController extends Controller
             ->orWhere('users.name', 'LIKE', '%' . request('postsearch') . '%');
         }
 
-        $posts = $posts->where('is_published', 0)->where('is_pending', 1)->where('is_rejected', 1);
+        $posts = $posts->where( 'post_type', 'post' )->where('is_published', 0)->where('is_pending', 1)->where('is_rejected', 1);
 
         $limit = request('limit') ? request('limit') : 25;
 

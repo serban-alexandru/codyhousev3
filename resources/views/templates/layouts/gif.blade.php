@@ -1,0 +1,2 @@
+<?php $layout_template = (isset($settings_data['gif_template']) && !empty($settings_data['gif_template'])) ? "templates.gif.{$settings_data['gif_template']}" : 'templates.gif.default'; ?>
+@extends($layout_template)

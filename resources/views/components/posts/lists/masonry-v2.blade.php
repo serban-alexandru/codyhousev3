@@ -9,7 +9,7 @@
   </div>
   <ul class="masonry__list js-masonry__list js-infinite-scroll__content">
   @foreach($posts as $post)
-    <li class="masonry__item js-masonry__item">
+    <li class="masonry__item js-masonry__item {{ $post->post_type }}">
     @if($post->thumbnail)
       <a class="thumb" href="{{ route('single-post-view', ['slug'   => $post->slug]) }}">
         <figure class="card-v2">

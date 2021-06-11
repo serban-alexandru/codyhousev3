@@ -425,7 +425,7 @@
   // =====================================================================================================================================
   function loadTemplate(type = 'post') {
     // Validate type.
-    const availableTypes = ['post', 'page'];
+    const availableTypes = ['post', 'page', 'gif'];
     if ( ! availableTypes.includes(type) ) {
       return false;
     }
@@ -445,7 +445,7 @@
     // Get & load template content.
     if (isReloadable) {
       $.ajax({
-        url: 'admin/loadbox/' + type,
+        url: '/admin/loadbox/' + type,
         dataType: 'json',
         type: 'get',
         success: function(response) {

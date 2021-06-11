@@ -93,7 +93,7 @@
                     <li class="header-v2__nav-item header-v2__nav-item--label">Main Type</li>
                     <li class="header-v2__nav-item"><a href="{{ url('admin/posts') }}" class="header-v2__nav-link">Posts</a></li>
                     <li class="header-v2__nav-item"><a href="{{ url('admin/pages') }}" class="header-v2__nav-link">Pages</a></li>
-                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Gifs</a></li>
+                    <li class="header-v2__nav-item"><a href="{{ url('admin/gifs') }}" class="header-v2__nav-link">Gifs</a></li>
                   </ul>
 
                   <ul class="header-v2__nav-list">

@@ -126,7 +126,7 @@ class PageController extends Controller
         ]);
 
         // Generate slug
-        $slug                = Str::slug(request('title'), '-');
+        $slug                = Str::slug(strip_tags(request('title')), '-');
         $page_with_same_slug = Page::firstWhere('slug', $slug);
 
         if ($page_with_same_slug) {
@@ -135,7 +135,7 @@ class PageController extends Controller
 
         $page = Page::create([
             'user_id'          => auth()->user()->id,
-            'title'            => request('title'),
+            'title'            => strip_tags( request('title') ),
             'slug'             => $slug,
             'description'      => request('description'),
             'seo_page_title'   => request('page_title') ?: NULL,
@@ -220,7 +220,7 @@ class PageController extends Controller
         $page_date = strtotime(sprintf($datetime_format, $year, $month, $day, $created_h, $created_m, $created_s));
 
         $page->update([
-            'title' => request('title'),
+            'title' => strip_tags( request('title') ),
             'slug' => $slug,
             'description' => request('description'),
             'seo_page_title' => request('page_title') ?: NULL,
