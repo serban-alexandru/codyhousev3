@@ -127,6 +127,10 @@ class SettingsSeeder extends Seeder
                 'key'           => 'tag_template',
                 'value'         => 'default'
             ],
+            [
+                'key'           => 'gif_template',
+                'value'         => 'default'
+            ],
         ];
 
 		foreach ($records as $record) {

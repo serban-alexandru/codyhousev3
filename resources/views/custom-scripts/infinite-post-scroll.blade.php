@@ -11,9 +11,9 @@
 
 	function changePageBasicInfo() {
 		var scrollTop = $(window).scrollTop();
-		$('.single-post').each(function(e) { 
-			var top = $(this).offset().top + $(window).height() - 20;
-			if ( scrollTop < top ) {
+		$('.single-post').each(function(e) {
+			var top = this.getBoundingClientRect().top;
+			if ( top > 20 && top < 40) {
 				let pg_title = $(this).attr("data-title");
 				let url = $(this).attr("data-url");
 				changePageURLAndTitle(pg_title, url);

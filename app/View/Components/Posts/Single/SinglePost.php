@@ -19,7 +19,8 @@ class SinglePost extends Component
     {
         $post = Post::where(
             [
-                'id' => $id,
+                'id'           => $id,
+                'post_type'    => 'post',
                 'is_published' => true,
                 'is_pending'   => false,
                 'is_deleted'   => false,

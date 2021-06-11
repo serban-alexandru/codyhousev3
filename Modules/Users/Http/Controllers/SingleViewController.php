@@ -13,6 +13,7 @@ class SingleViewController extends Controller
     // Get Post by slug
     $post = Post::firstWhere([
       'slug'         => $slug,
+      'post_type'    => 'post',
       'is_published' => true,
       'is_pending'   => false,
       'is_deleted'   => false,
@@ -29,6 +30,29 @@ class SingleViewController extends Controller
     $data['page_title'] = $post->title;
 
     return view('templates.layouts.post', $data);
+  }
+
+  public function singleGifView($slug) {
+    // Get Post by slug
+    $post = Post::firstWhere([
+      'slug'         => $slug,
+      'post_type'    => 'gif',
+      'is_published' => true,
+      'is_pending'   => false,
+      'is_deleted'   => false,
+      'is_rejected'  => false
+    ]);
+
+    if ( !$post ) {
+      abort(404);
+    }
+
+    $post['description'] = Post::parseContent($post['description']);
+
+    $data['post']       = $post;
+    $data['page_title'] = $post->title;
+
+    return view('templates.layouts.gif', $data);
   }
 
   public function singlePageView($slug) {
@@ -77,6 +101,7 @@ class SingleViewController extends Controller
       // Get Post by slug.
       $post = Post::firstWhere([
         'slug'         => $slug,
+        'post_type'    => 'post',
         'is_published' => true,
         'is_pending'   => false,
         'is_deleted'   => false,

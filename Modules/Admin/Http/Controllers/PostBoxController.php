@@ -2,7 +2,7 @@
 
 namespace Modules\Admin\Http\Controllers;
 
-use Arr, Str, Image, File;
+use Arr, Str, Image, File, Imagick;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -40,6 +40,11 @@ class PostBoxController extends Controller
           $tag_categories = TagCategory::all();
 
           $response['box_template'] = view( 'postbox.templates.post', compact( 'tag_categories' ) )->render();
+      } else if ( $type == 'gif' ) {
+          // Get all tag categories.
+          $tag_categories = TagCategory::all();
+
+          $response['box_template'] = view( 'postbox.templates.gif', compact( 'tag_categories' ) )->render();
       } else {
           $response['box_template'] = view( 'postbox.templates.' . $type )->render();
       }
@@ -58,6 +63,9 @@ class PostBoxController extends Controller
     switch($box_type) {
       case 'post':
         return $this->createPost($request);
+        break;
+      case 'gif':
+        return $this->createGif($request);
         break;
       case 'page':
         return $this->createPage($request);
@@ -85,7 +93,7 @@ class PostBoxController extends Controller
       $settings_width = 40;
       $settings_height = 40;
 
-      if(!is_null($posts_settings = PostSetting::first())){
+      if(!is_null($posts_settings = PostSetting::where( 'post_type', 'post' )->first())){
         $settings_width = $posts_settings->medium_width;
         $settings_height = $posts_settings->medium_height;
       }
@@ -109,7 +117,7 @@ class PostBoxController extends Controller
     }
 
     // Generate slug
-    $slug                = Str::slug($request->input('title'), '-');
+    $slug                = Str::slug(strip_tags($request->input('title')), '-');
     $post_with_same_slug = Post::firstWhere('slug', $slug);
 
     if ($post_with_same_slug) {
@@ -121,13 +129,14 @@ class PostBoxController extends Controller
 
     $post = Post::create([
       'user_id'          => auth()->user()->id,
-      'title'            => $request->input('title'),
+      'title'            => strip_tags($request->input('title')),
       'slug'             => $slug,
       'description'      => $request->input('description'),
       'thumbnail'        => ($request->has('thumbnail')) ? $thumbnail_name : NULL,
       'thumbnail_medium' => ($request->has('thumbnail')) ? $thumbnail_medium_name : NULL,
       'seo_page_title'   => $request->input('page_title') ?: NULL,
       'tags'             => ($request->has('tags')) ? implode(',', $request->input('tags')) : NULL,
+      'post_type'        => 'post',
       'is_pending'       => $is_pending,
       'is_published'     => $is_published
     ]);
@@ -170,6 +179,109 @@ class PostBoxController extends Controller
   }
 
   /**
+   * Store a newly created post in storage.
+   * @param Request $request
+   * @return Renderable
+   */
+  public function createGif(Request $request) {
+    $this->validate($request, [
+      'title' => 'required|max:255',
+    ]);
+
+    if($request->has('thumbnail')) {
+      $settings_width = 40;
+      $settings_height = 40;
+
+      if(!is_null($posts_settings = PostSetting::where( 'post_type', 'gif' )->first())){
+        $settings_width = $posts_settings->medium_width;
+        $settings_height = $posts_settings->medium_height;
+      }
+
+      $gif_path = storage_path() . '/app/public/gifs';
+
+      // Ensure that original, and thumbnail folder exists
+      File::ensureDirectoryExists($gif_path . '/original');
+      File::ensureDirectoryExists($gif_path . '/thumbnail');
+
+      // Save orignal image to file system
+      $thumbnail = request()->file('thumbnail')->store('public/gifs/original');
+      $thumbnail_name = Arr::last(explode('/', $thumbnail));
+
+      // Save thumbnail (medium) image to file system
+      $thumbnail_medium = new Imagick($gif_path . '/original/' . $thumbnail_name);
+      $thumbnail_medium = $thumbnail_medium->coalesceImages();
+      do {
+          $thumbnail_medium->cropThumbnailImage( $settings_width, $settings_height );
+      } while ( $thumbnail_medium->nextImage());
+
+      $thumbnail_medium = $thumbnail_medium->deconstructImages();
+      $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
+      $thumbnail_medium->writeImages($gif_path . '/thumbnail/' . $thumbnail_medium_name, true);
+    }
+
+    // Generate slug
+    $slug               = Str::slug(strip_tags($request->input('title')), '-');
+    $gif_with_same_slug = Post::firstWhere('slug', $slug);
+
+    if ($gif_with_same_slug) {
+      $slug .= '-2';
+    }
+
+    $is_published = $request->input('is_published') ? 1 : 0;
+    $is_pending = 0;
+
+    $gif = Post::create([
+      'user_id'          => auth()->user()->id,
+      'title'            => strip_tags($request->input('title')),
+      'slug'             => $slug,
+      'description'      => $request->input('description'),
+      'thumbnail'        => ($request->has('thumbnail')) ? $thumbnail_name : NULL,
+      'thumbnail_medium' => ($request->has('thumbnail')) ? $thumbnail_medium_name : NULL,
+      'seo_page_title'   => $request->input('page_title') ?: NULL,
+      'tags'             => ($request->has('tags')) ? implode(',', $request->input('tags')) : NULL,
+      'post_type'        => 'gif',
+      'is_pending'       => $is_pending,
+      'is_published'     => $is_published
+    ]);
+
+    $tag_categories = TagCategory::all();
+
+    foreach ($tag_categories as $key => $tag_category) {
+      if ($request->has('tag_category_' . $tag_category->id)) {
+        $tags_input = $request->input('tag_category_' . $tag_category->id);
+
+        foreach ($tags_input as $key => $tag_input) {
+          $tag = Tag::firstWhere('name', $tag_input);
+
+          // If tag doesn't exist yet, create it
+          if (!$tag) {
+            $tag                  = new Tag;
+            $tag->name            = $tag_input;
+            $tag->tag_category_id = $tag_category->id;
+            $tag->published       = true;
+            $tag->save();
+          }
+
+          // Insert posts_tag
+          $gifs_tag          = new PostsTag;
+          $gifs_tag->post_id = $gif->id;
+          $gifs_tag->tag_id  = $tag->id;
+
+          $gifs_tag->save();
+        }
+      }
+    }
+
+    $alert = [
+      'message' => 'Gif has been created!',
+      'class'   => 'alert--success',
+      'type'    => 'gif',
+    ];
+
+    return redirect()->back()->with('alert', $alert);
+  }
+
+  /**
    * Store a newly created resource in storage.
    * @param Request $request
    * @return Renderable
@@ -180,7 +292,7 @@ class PostBoxController extends Controller
     ]);
 
     // Generate slug
-    $slug                = Str::slug($request->input('title'), '-');
+    $slug                = Str::slug(strip_tags($request->input('title')), '-');
     $page_with_same_slug = Page::firstWhere('slug', $slug);
 
     if ($page_with_same_slug) {
@@ -192,7 +304,7 @@ class PostBoxController extends Controller
 
     $page = Page::create([
       'user_id'          => auth()->user()->id,
-      'title'            => $request->input('title'),
+      'title'            => strip_tags($request->input('title')),
       'slug'             => $slug,
       'description'      => $request->input('description'),
       'seo_page_title'   => $request->input('page_title') ?: NULL,

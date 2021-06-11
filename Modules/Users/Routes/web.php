@@ -229,6 +229,84 @@ Route::group([
   ]);
 });
 
+Route::group([
+  'prefix' => 'gifs',
+  'middleware' => $middleware
+], function() {
+  Route::get('/', 'DashboardGifsController@index');
+  Route::get('/settings', 'DashboardGifsController@settings');
+
+  Route::get('/add-gif', [
+    'as' => 'gifs.add-gif',
+    'uses' => 'DashboardGifsController@addGif'
+  ]);
+
+  Route::post('/store', [
+    'as' => 'gifs.store',
+    'uses' => 'DashboardGifsController@store'
+  ]);
+
+  Route::get('{id}/fetch-data', [
+    'as' => 'gifs.fetch-data',
+    'uses' => 'DashboardGifsController@fetchDataAjax'
+  ]);
+
+  Route::post('/update', [
+    'as' => 'gifs.update',
+    'uses' => 'DashboardGifsController@ajaxUpdate'
+  ]);
+
+  Route::post('/delete', [
+    'as' => 'gifs.delete',
+    'uses' => 'DashboardGifsController@delete'
+  ]);
+
+  Route::post('/delete-permanently', [
+    'as' => 'gifs.delete-permanently',
+    'uses' => 'DashboardGifsController@deletePermanently'
+  ]);
+
+  Route::post('/delete/multiple', [
+    'as' => 'gifs.delete.multiple',
+    'uses' => 'DashboardGifsController@deleteMultiple'
+  ]);
+
+  Route::post('/trash/empty', [
+    'as' => 'gifs.trash.empty',
+    'uses' => 'DashboardGifsController@emptyTrash'
+  ]);
+
+  Route::post('/settings/store', [
+      'as' => 'gifs.settings.store',
+      'uses' => 'DashboardGifsController@settingsStore'
+  ]);
+
+  Route::post('/settings/update', [
+      'as' => 'gifs.settings.update',
+      'uses' => 'DashboardGifsController@settingsUpdate'
+  ]);
+
+  Route::get('/{id}/make-draft', [
+      'as' => 'gifs.make-draft',
+      'uses' => 'DashboardGifsController@makeGifDraft'
+  ]);
+
+  Route::get('/{id}/publish', [
+      'as' => 'gifs.publish',
+      'uses' => 'DashboardGifsController@makeGifPublish'
+  ]);
+
+  Route::get('/{id}/restore', [
+      'as' => 'gifs.restore',
+      'uses' => 'DashboardGifsController@restore'
+  ]);
+
+  Route::post('gifs/reject', [
+    'as' => 'gifs.reject',
+    'uses' => 'DashboardGifsController@makeGifReject'
+  ]);
+});
+
 Route::get('/profile', [
   'as'   => 'pages.profile',
   'uses' => 'UsersController@getProfile'

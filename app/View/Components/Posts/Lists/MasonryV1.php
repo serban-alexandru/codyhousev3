@@ -9,13 +9,14 @@ use Modules\Post\Entities\Post;
 class MasonryV1 extends Component
 {
     public $posts;
+    public $api_route;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($limit = 12)
+    public function __construct($type = 'all', $limit = 12)
     {
         $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
             ->select([
@@ -23,6 +24,7 @@ class MasonryV1 extends Component
                 'title',
                 'slug',
                 'posts.created_at as created_at',
+                'post_type',
                 'thumbnail',
                 'thumbnail_medium',
                 'users.name',
@@ -32,16 +34,22 @@ class MasonryV1 extends Component
                 [
                     'is_published' => true,
                     'is_pending'   => false,
+                    'is_rejected'  => false,
                     'is_deleted'   => false
                 ]    
-            )
-            ->orderBy('created_at', 'desc')
+            );
+
+            if ( in_array($type, ['post', 'gif']) ) {
+                $posts->where('post_type', $type);
+            }
+            $posts->orderBy('created_at', 'desc')
             ->limit($limit)
             ->offset(0);
 
         $posts = $posts->get();
 
         $this->posts = $posts;
+        $this->api_route = $type == 'gif' ? 'gifs' : 'posts';
     }
 
     /**

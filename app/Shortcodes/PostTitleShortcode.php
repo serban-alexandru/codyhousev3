@@ -26,7 +26,7 @@ class PostTitleShortcode {
         } else {
           return '';
         }
-      } else if ( $prefix == 'post' ) {
+      } else if ( $prefix == 'post' || $prefix == 'gif' ) {
         // get post by slug
         $post = Post::firstWhere( 'slug', $slug );
         if ( $post ) {

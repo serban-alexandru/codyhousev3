@@ -8,5 +8,6 @@
     "Tag": true,
     "Video": true,
     "Menus": true,
-    "Page": true
+    "Page": true,
+    "Gif": true
 }

@@ -27,6 +27,7 @@ class DraggableGallery extends Component
                 [
                     'is_published' => true,
                     'is_pending'   => false,
+                    'is_rejected'  => false,
                     'is_deleted'   => false
                 ]
             )

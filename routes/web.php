@@ -48,6 +48,11 @@ Route::get('post/{slug}', [
   'uses' => '\Modules\Users\Http\Controllers\SingleViewController@singlePostView'
 ]);
 
+Route::get('gif/{slug}', [
+  'as'   => 'single-gif-view',
+  'uses' => '\Modules\Users\Http\Controllers\SingleViewController@singleGifView'
+]);
+
 Route::get('page/{slug}', [
   'as'   => 'single-page-view',
   'uses' => '\Modules\Users\Http\Controllers\SingleViewController@singlePageView'
