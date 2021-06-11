@@ -1,4 +1,4 @@
-<header class="header-v2 js-header-v2 bg-contrast-high hide-nav js-hide-nav js-hide-nav--main" data-animation="off" data-animation-offset="400">
+<header class="header-v2 js-header-v2 bg-contrast-high position-sticky top-0 js-mega-nav">
   <div class="header-v2__wrapper">
     <div class="header-v2__container container max-width-lg">
       <div class="header-v2__sub-container">
