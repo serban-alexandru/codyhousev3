@@ -5,12 +5,12 @@
 @endif
   @if($post)
   <!-- Start of each post content -->
-  <article class="container single-post max-width-md margin-bottom-lg padding-y-lg" data-title="{!! $post->seo_title !!}" data-url="{{ url($post->url) }}">
-    <div class="text-component text-center line-height-lg v-space-md margin-bottom-md text-sm">
+  <article class="container single-post max-width-sm margin-bottom-lg padding-y-lg" data-title="{!! $post->seo_title !!}" data-url="{{ url($post->url) }}">
+    <div class="text-component text-left line-height-lg v-space-md margin-bottom-md text-sm">
       <h1>{{ $post->title }}</h1>
       <p class="color-contrast-medium text-md">{!! $post->description !!}</p>
       <figure class="">
-        <img src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
+        <img src="{{ $post->showThumbnail() }}" alt="Image of {{ $post->title }}">
 
         <div class="author__content">
           <h4 class="story-v2__meta text-sm">

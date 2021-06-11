@@ -1,7 +1,7 @@
 
 <div class="link-card bg radius-md">
     <div class="flex justify-between">
-    <div class="margin-sm">
+    <div class="margin-xs">
       <h3 class="text-md">Users</h3>
         <label class="text-sm color-contrast-medium" for="selectThis"></label>
         <div class="select js-select btn text-sm" data-trigger-class=" reset text-sm color-contrast-high inline-flex items-center cursor-pointer js-tab-focus gap-xxs">
