@@ -1,5 +1,5 @@
 
-<div class="link-card bg radius-md">
+<div class="link-card bg">
     <div class="flex justify-between">
     <div class="margin-xs">
       <h3 class="text-md">Users</h3>
