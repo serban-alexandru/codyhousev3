@@ -9,7 +9,7 @@
           @include('users::partials.index')
         </main>
       </div><!-- /.grid -->
-    </div><!-- /.container -->
+
   </section>
 @endsection
 

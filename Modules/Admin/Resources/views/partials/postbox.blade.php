@@ -1,6 +1,6 @@
 <section>
-    <div class="margin-top-md">
-      <div class="postbox-container link-card radius-md">
+    <div class="">
+      <div class="postbox-container link-card radius-md radius-top-left-0 radius-top-right-0">
         <form action="{{ route('postbox.store') }}" id="formPostBox" method="POST" enctype="multipart/form-data" >
           @csrf
           <div class="grid">
