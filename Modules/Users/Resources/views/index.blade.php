@@ -1,6 +1,6 @@
 @extends('admin::layouts.master')
+
 @section('content')
-  @include('users::partials.modals')
   <section>
     <div class="container max-width-lg">
       <div class="grid">

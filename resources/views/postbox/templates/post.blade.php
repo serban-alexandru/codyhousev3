@@ -1,8 +1,6 @@
-<div class="box-header padding-sm">
-  <div class="flex flex-wrap justify-between gap-xs items-center">
-    <div class="line-height-xs">
-      <h3 class="box-title text-left text-md">Create Post</h3>
-    </div>
+<div class="box-header padding-xs">
+  <div class="flex flex-wrap justify-between items-center">
+      <h3 class="box-title text-left text-md padding-xxxxs">Create Post</h3>
     <div class="buttons btn--sm">
       <button id="btnAddTags" class="btn">Add Tags</button>
 

@@ -3,7 +3,7 @@
   <nav class="sidenav padding-y-sm text-sm@md js-sidenav">
 
     <ul class="sidenav__list site-load-content">
-      <li class="sidenav__item margin-bottom-sm">
+      <li class="sidenav__item padding-y-xxxxs">
         <a href="{{ url('admin/') }}" class="sidenav__link">
           <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g><circle cx="6" cy="8" r="2"></circle><path d="M10,2H6C2.7,2,0,4.7,0,8s2.7,6,6,6h4c3.3,0,6-2.7,6-6S13.3,2,10,2z M10,12H6c-2.2,0-4-1.8-4-4s1.8-4,4-4h4 c2.2,0,4,1.8,4,4S12.2,12,10,12z"></path></g></svg>
           <span class="sidenav__text">Dashboard</span>
@@ -119,6 +119,13 @@
         <a href="#0" class="sidenav__link">
           <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g><circle cx="6" cy="8" r="2"></circle><path d="M10,2H6C2.7,2,0,4.7,0,8s2.7,6,6,6h4c3.3,0,6-2.7,6-6S13.3,2,10,2z M10,12H6c-2.2,0-4-1.8-4-4s1.8-4,4-4h4 c2.2,0,4,1.8,4,4S12.2,12,10,12z"></path></g></svg>
           <span class="sidenav__text">Edit Profile</span>
+        </a>
+      </li>
+
+      <li class="sidenav__item">
+        <a href="{{ url('admin/article/create') }}" class="sidenav__link">
+          <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g><path d="M12.25,8.231C11.163,9.323,9.659,10,8,10S4.837,9.323,3.75,8.231C1.5,9.646,0,12.145,0,15v1h16 v-1C16,12.145,14.5,9.646,12.25,8.231z"></path><circle cx="8" cy="4" r="4"></circle></g></svg>
+          <span class="sidenav__text">Sidebar form</span>
         </a>
       </li>
 
