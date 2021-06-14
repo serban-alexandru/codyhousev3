@@ -6,16 +6,16 @@
     <div class="container max-width-lg">
       <div class="grid">
         @include('admin::partials.sidebar')
-        <main class="position-relative z-index-1 col-12@md">
-          @include('tag::partials.control')
-          <div class="margin-top-auto border-top border-contrast-lower"></div><!-- Divider -->
-          <div class="padding-sm">
-            <div id="site-table-with-pagination-container">
-              @include('tag::partials.table')
+          <main class="position-relative z-index-1 col-12@md link-card">
+            @include('tag::partials.control')
+              <div class="margin-top-auto border-top border-contrast-lower"></div><!-- Divider -->
+              <div class="padding-sm">
+              <div id="site-table-with-pagination-container padding-sm">
+            @include('tag::partials.table')
             </div><!-- /.table-with-pagination-container -->
-          </div><!-- /.bg radius-md padding-md shadow-sm -->
-        </main><!-- .column -->
-      </div><!-- /.grid -->
+          </div><!-- /.grid -->
+        </main><!-- .column and linkcard styling -->
+      </div><!-- /.padding -->
     </div><!-- /.container -->
   </section>
 @endsection

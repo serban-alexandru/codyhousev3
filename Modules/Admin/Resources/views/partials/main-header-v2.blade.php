@@ -65,16 +65,14 @@
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/') }}"
               class="header-v2__nav-link" {{ Request::path() == 'admin' ? 'aria-current' : '' }}><span>Home</span></a>
           </li>
-          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/users') }}" class="header-v2__nav-link"
-              {{ Request::path() == 'admin/users' ? 'aria-current' : '' }}><span>Users</span></a></li>
+          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/posts') }}" class="header-v2__nav-link"
+            {{ Request::path() == 'admin/posts' ? 'aria-current' : '' }}><span>Posts</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/tag') }}" class="header-v2__nav-link"
               {{ Request::path() == 'admin/tag' ? 'aria-current' : '' }}><span>Tags</span></a></li>
-          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/menus?menu=2') }}" class="header-v2__nav-link"
-              {{ Request::path() == 'admin/menus' ? 'aria-current' : '' }}><span>Menus</span></a></li>
+          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/users') }}" class="header-v2__nav-link"
+              {{ Request::path() == 'admin/users' ? 'aria-current' : '' }}><span>Users</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/settings') }}" class="header-v2__nav-link"
               {{ Request::path() == 'admin/settings' ? 'aria-current' : '' }}><span>Settings</span></a></li>
-          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/posts') }}" class="header-v2__nav-link"
-                {{ Request::path() == 'admin/posts' ? 'aria-current' : '' }}><span>Posts</span></a></li>
       </nav>
 
       <!-- User Icon and Drop-down Desktop -->
