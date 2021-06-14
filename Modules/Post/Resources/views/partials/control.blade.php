@@ -28,6 +28,13 @@
         <span class="menu-bar__label">Search Articles</span>
     </li>
 
+    <li class="menu-bar__item padding-top-xxxs">
+      <a href="{{ url('admin/posts/settings') }}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>cogwheel</title><g fill="#000000"><path d="M19.3 8.35l-2.48-0.28a7.05 7.05 0 0 0-0.62-1.49l1.56-1.95a0.83 0.83 0 0 0-0.06-1.11l-1.19-1.18a0.83 0.83 0 0 0-1.11-0.06l-1.95 1.56a7.05 7.05 0 0 0-1.49-0.62l-0.27-2.48a0.83 0.83 0 0 0-0.83-0.74h-1.67a0.83 0.83 0 0 0-0.84 0.74l-0.27 2.48a7.05 7.05 0 0 0-1.49 0.62l-1.95-1.56a0.83 0.83 0 0 0-1.11 0.06l-1.19 1.19a0.83 0.83 0 0 0-0.06 1.11l1.56 1.95a7.05 7.05 0 0 0-0.62 1.49l-2.48 0.27a0.83 0.83 0 0 0-0.74 0.83v1.67a0.83 0.83 0 0 0 0.74 0.84l2.48 0.28a7.05 7.05 0 0 0 0.62 1.49l-1.56 1.94a0.83 0.83 0 0 0 0.06 1.11l1.19 1.19a0.83 0.83 0 0 0 1.11 0.06l1.95-1.56a7.05 7.05 0 0 0 1.49 0.62l0.27 2.48a0.83 0.83 0 0 0 0.84 0.74h1.67a0.83 0.83 0 0 0 0.83-0.74l0.28-2.48a7.05 7.05 0 0 0 1.49-0.62l1.95 1.56a0.83 0.83 0 0 0 1.11-0.06l1.18-1.19a0.83 0.83 0 0 0 0.06-1.11l-1.56-1.95a7.05 7.05 0 0 0 0.62-1.49l2.48-0.27a0.83 0.83 0 0 0 0.74-0.83v-1.67a0.83 0.83 0 0 0-0.74-0.84z m-9.28 5.01a3.34 3.34 0 1 1 3.34-3.34 3.34 3.34 0 0 1-3.34 3.34z" fill="#000000"></path></g></svg>
+      </a>
+        <span class="menu-bar__label">Settings</span>
+    </li>
+
  <div class="int-table-actions" data-table-controls="table-1">
      <menu class="menu-bar js-int-table-actions__no-items-selected js-menu-bar" id="btnRefreshTable">
         <li class="menu-bar__item menu-bar__item--trigger js-menu-bar__trigger" role="menuitem" aria-label="More options">
@@ -36,11 +43,13 @@
                 <circle cx="1.5" cy="7.5" r="1.5" />
                 <circle cx="14.5" cy="7.5" r="1.5" />
           </svg>
+          
         </li>
           <li class="menu-bar__item " role="menuitem">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><title>reload</title><g fill="#000000"><path d="M17.78 0.05a0.38 0.38 0 0 0-0.41 0.08l-2.28 2.26a8.91 8.91 0 0 0-6.09-2.39 9 9 0 0 0-8.25 5.4 1.5 1.5 0 0 0 0.77 1.97 1.47 1.47 0 0 0 0.6 0.13 1.5 1.5 0 0 0 1.38-0.9 6 6 0 0 1 5.5-3.6 5.93 5.93 0 0 1 3.95 1.5l-2.54 2.52a0.38 0.38 0 0 0-0.09 0.39 0.37 0.37 0 0 0 0.31 0.25l6.96 0.77h0.05a0.37 0.37 0 0 0 0.37-0.38v-7.65a0.38 0.38 0 0 0-0.23-0.35z" fill="#000000"></path><path d="M0.22 17.95a0.34 0.34 0 0 0 0.15 0.02 0.38 0.38 0 0 0 0.26-0.1l2.28-2.25a8.91 8.91 0 0 0 6.09 2.38 9 9 0 0 0 8.25-5.4 1.5 1.5 0 0 0-2.75-1.2 6 6 0 0 1-5.5 3.6 5.93 5.93 0 0 1-3.95-1.5l2.55-2.52a0.38 0.38 0 0 0 0.09-0.38 0.37 0.37 0 0 0-0.32-0.25l-6.96-0.78a0.41 0.41 0 0 0-0.3 0.09 0.38 0.38 0 0 0-0.12 0.28v7.66a0.38 0.38 0 0 0 0.23 0.35z"></path></g></svg>
               <span class="menu-bar__label">Refresh</span>
           </li>
+
       </menu>
           @if(!request()->has('is_trashed'))
       <menu class="menu-bar is-hidden js-int-table-actions__items-selected js-menu-bar" id="btnDeleteMultiple">
@@ -55,6 +64,7 @@
               <span class="menu-bar__label">Delete</span>
               <span class="counter counter--critical counter--docked"><span id="deleteBadge">1</span> <i class="sr-only">Notifications</i></span>
           </li>
+
             </menu>
           @endif
 

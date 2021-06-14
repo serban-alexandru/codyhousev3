@@ -69,8 +69,8 @@
               {{ Request::path() == 'admin/users' ? 'aria-current' : '' }}><span>Users</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/tag') }}" class="header-v2__nav-link"
               {{ Request::path() == 'admin/tag' ? 'aria-current' : '' }}><span>Tags</span></a></li>
-          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/menus') }}" class="header-v2__nav-link"
-              {{ Request::path() == 'admin/menus' ? 'aria-current' : '' }}><span>Menus</span></a></li>
+          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/menus?menu=2') }}" class="header-v2__nav-link"
+              {{ Request::path() == 'admin/menus?menu=2' ? 'aria-current' : '' }}><span>Menus</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/settings') }}" class="header-v2__nav-link"
               {{ Request::path() == 'admin/settings' ? 'aria-current' : '' }}><span>Settings</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/posts') }}" class="header-v2__nav-link"

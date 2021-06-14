@@ -1,12 +1,15 @@
 @extends('admin::layouts.master')
 @section('content')
-<section>
-    <div class="container max-width-lg margin-top-xs">
-      <div class="grid gap-md@md">
-        @include('post::partials.sidebar')
-        <main class="position-relative padding-top-md z-index-1 col-12@md">
-          <div class="bg radius-md padding-md shadow-sm">
-
+  <section>
+    <div class="container max-width-lg">
+      <div class="grid">
+        @include('admin::partials.sidebar')
+        <main class="position-relative z-index-1 col-12@md link-card">
+          <h1 class="text-md color-contrast-high padding-xs margin-left-xs" for="selectThis">Post Settings</h1>
+          <div class="margin-top-auto border-top border-contrast-lower"></div><!-- Divider -->
+            <div class="padding-md">
+              <div id="site-table-with-pagination-container">
+            
             @if(session()->has('posts-settings-alert'))
               <div class="alert js-alert margin-bottom-lg alert--is-visible" role="alert"> <!-- /.alert--is-visible -->
                 <div class="flex items-center justify-between">
@@ -21,8 +24,7 @@
             <form action="{{ (is_null($posts_settings)) ? route('posts.settings.store') : route('posts.settings.update') }}" method="post">
                 @csrf
                 <fieldset class="margin-bottom-md">
-                  <h3 class="margin-bottom-sm">Image Size</h3>
-                  <label class="form-label margin-bottom-xxs">Medium Size</label>
+                  <label class="form-label margin-bottom-xxs">Post Image Size</label>
                   <div class="grid gap-sm">
                     <div class="col-6@md">
                       <input class="form-control width-100%" type="text" value="{{ old('medium_width') ?: ((is_null($posts_settings)) ? '' : $posts_settings->medium_width) }}" name="medium_width" id="mediumWidth" placeholder="Enter width" required>
@@ -31,43 +33,22 @@
                     <div class="col-6@md">
                       <input class="form-control width-100%" type="text" value="{{ old('medium_height') ?: ((is_null($posts_settings)) ? '' : $posts_settings->medium_height) }}" name="medium_height" id="mediumHeight" placeholder="Enter height" required>
                     </div>
-
                 </fieldset>
-
-                {{-- 
-                <fieldset class="margin-top-xxl">
-                  <h3 class="margin-bottom-sm">Image Setting</h3>
-              
-                  <div class="flex flex-wrap gap-md">
-                    @foreach(['maintain' => 'Maintain Aspect Ratio', 'crop' => 'Crop'] as $key => $image_setting)
-                      <div>
-                        <input class="radio" type="radio" value="{{ $key }}" name="image_setting" id="{{ $key }}"{{ (old('image_setting') == $key) ? ' checked' : ((!is_null($posts_settings) && $posts_settings->image_setting == $key) ? ' checked' : ((is_null($posts_settings) && $key == 'maintain') ? ' checked' : '')) }}>
-                        <label for="{{ $key }}">{{ $image_setting }}</label>
-                      </div>
-                    @endforeach
-                  </div>
-                </fieldset>
-                <fieldset class="margin-top-xl">
-                  <h3 class="margin-bottom-sm">Listing per page</h3>
-                    <div class="col-6@md">
-                      <input class="form-control width-100%" type="text" value="{{ old('list_per_page') ? old('list_per_page') : ((!is_null($posts_settings)) ? $posts_settings->list_per_page : '') }}" name="list_per_page" id="listPerPage" placeholder="Enter amount">
-                    </div>
-                </fieldset>
-                --}}
-
+                
 
                 <div>
                   <button class="btn btn--primary margin-top-md">Save</button>
                 </div>
               </form>
 
-          </div><!-- /.bg radius-md padding-md shadow-sm -->
-        </main>
+             </div><!-- /#site-table-with-pagination-container -->
+            </div><!-- Padding -->
+        </main><!-- .column -->
       </div><!-- /.grid -->
     </div><!-- /.container -->
   </section>
 @endsection
+
 @push('module-scripts')
 <!-- MODULE'S CUSTOM SCRIPT -->
-  @include('users::partials.script-js')
 @endpush
