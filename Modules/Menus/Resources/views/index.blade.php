@@ -1,15 +1,21 @@
 @extends('admin::layouts.master')
-  
 @section('content')
-    <section>
-        <div class="container max-width-lg margin-top-xs">
-            <div class="grid gap-md@md">
-            {!! Menu::render() !!}
+<div class="container max-width-lg">
+  <div class="grid">
+    @include('admin::partials.sidebar')
+        <main class="position-relative z-index-1 col-12@md link-card">
+            <div class="container max-width-lg margin-top-xs">
+                <div class="grid gap-md@md">
+                {!! Menu::render() !!}
+                </div>
             </div>
-        </div>
-    </section>
+        </main>
+    </div>
+</div>
+
 @endsection
 
 @push('module-scripts')
-    {!! Menu::scripts() !!}
-@endpush  
+<!-- MODULE'S CUSTOM SCRIPT -->
+  @include('admin::partials.settings-script-js')
+@endpush
