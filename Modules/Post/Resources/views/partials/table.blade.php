@@ -1,5 +1,4 @@
-<div class="bg radius-md padding-md shadow-sm">
-  @if($alert = session()->get('alert'))
+@if($alert = session()->get('alert'))
     <div class="alert alert--is-visible js-alert margin-bottom-lg {{ $alert['class'] }}" role="alert">
       <div class="flex items-center justify-between">
         <div class="flex items-center">
@@ -596,5 +595,4 @@
     </nav>
     @endif
   </div><!-- /.flex items-center justify-between padding-top-sm -->
-</div><!-- /.bg radius-md padding-md shadow-sm -->
 @endif

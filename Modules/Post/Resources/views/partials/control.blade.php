@@ -1,117 +1,67 @@
-<div class="margin-bottom-md">
-      <div class="flex flex-wrap gap-sm items-center justify-between">
-        <div>
-          <div class="flex flex-wrap gap-xs">
-
-            <li class="menu-bar__item js-menu-bar" aria-controls="modal-add-article">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>ic_add_48px</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f9f9f9"></rect>
-                    <g transform="translate(12 12) scale(0.5)" fill="#00a8db">
-                        <path d="M38 26H26v12h-4V26H10v-4h12V10h4v12h12v4z"></path>
-                    </g>
-                </svg>
-
-              </li>
-
-              <li class="menu-bar__item" aria-controls="modal-search">
-                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>ic_search_48px</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f9f9f9"></rect>
-                    <g transform="translate(12 12) scale(0.5)" fill="#666666">
-                        <path d="M31 28h-1.59l-.55-.55C30.82 25.18 32 22.23 32 19c0-7.18-5.82-13-13-13S6 11.82 6 19s5.82 13 13 13c3.23 0 6.18-1.18 8.45-3.13l.55.55V31l10 9.98L40.98 38 31 28zm-12 0c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9z"></path>
-                    </g>
-                </svg>
-              </svg>
-                <span class="menu-bar__label">Search Articles</span>
-              </li>
-
-            <div class="int-table-actions" data-table-controls="table-1">
-                <menu class="menu-bar js-int-table-actions__no-items-selected js-menu-bar" id="btnRefreshTable">
-                  <li class="menu-bar__item menu-bar__item--trigger js-menu-bar__trigger" role="menuitem" aria-label="More options">
-                    <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
-                      <circle cx="8" cy="7.5" r="1.5" />
-                      <circle cx="1.5" cy="7.5" r="1.5" />
-                      <circle cx="14.5" cy="7.5" r="1.5" /></svg>
-                  </li>
-                  <li class="menu-bar__item " role="menuitem">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>ic_refresh_48px</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f9f9f9"></rect>
-                        <g transform="translate(12 12) scale(0.5)" fill="#666666">
-                            <path d="M35.3 12.7C32.41 9.8 28.42 8 24 8 15.16 8 8.02 15.16 8.02 24S15.16 40 24 40c7.45 0 13.69-5.1 15.46-12H35.3c-1.65 4.66-6.07 8-11.3 8-6.63 0-12-5.37-12-12s5.37-12 12-12c3.31 0 6.28 1.38 8.45 3.55L26 22h14V8l-4.7 4.7z"></path>
-                        </g>
-                    </svg>
-                    <span class="menu-bar__label">Refresh</span>
-                  </li>
-                </menu>
-                @if(!request()->has('is_trashed'))
-                  <menu class="menu-bar is-hidden js-int-table-actions__items-selected js-menu-bar" id="btnDeleteMultiple">
-                    <li class="menu-bar__item menu-bar__item--trigger js-menu-bar__trigger" role="menuitem" aria-label="More options">
-                      <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
-                        <circle cx="8" cy="7.5" r="1.5" />
-                        <circle cx="1.5" cy="7.5" r="1.5" />
-                        <circle cx="14.5" cy="7.5" r="1.5" /></svg>
-                    </li>
-                    <li class="menu-bar__item" role="menuitem">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><title>trash-simple</title><rect data-element="frame" x="2.3999999999999986" y="2.3999999999999986" width="43.2" height="43.2" rx="22" ry="22" stroke="none" fill="#f9f9f9"></rect><g transform="translate(12 12) scale(0.5)" fill="#666666"><path fill="#666666" d="M7,13v32c0,1.105,0.895,2,2,2h30c1.105,0,2-0.895,2-2V13H7z M17,38c0,0.552-0.447,1-1,1s-1-0.448-1-1V22 c0-0.552,0.447-1,1-1s1,0.448,1,1V38z M25,38c0,0.552-0.447,1-1,1s-1-0.448-1-1V22c0-0.552,0.447-1,1-1s1,0.448,1,1V38z M33,38 c0,0.552-0.447,1-1,1s-1-0.448-1-1V22c0-0.552,0.447-1,1-1s1,0.448,1,1V38z"></path> <path d="M46,9H33V2c0-0.552-0.447-1-1-1H16c-0.553,0-1,0.448-1,1v7H2c-0.553,0-1,0.448-1,1 s0.447,1,1,1h44c0.553,0,1-0.448,1-1S46.553,9,46,9z M31,9H17V3h14V9z"></path></g></svg>
-                      <span class="menu-bar__label">Delete</span>
-                      <span class="counter counter--critical counter--docked"><span id="deleteBadge">1</span> <i class="sr-only">Notifications</i></span>
-                    </li>
-                  </menu>
-                @endif
-              </div>
-          </div>
-        </div>
-
-        @if($posts->count() > 0)
-        <nav class="pagination text-sm" aria-label="Pagination" id="table-pagination-top">
-          <ul class="pagination__list flex flex-wrap gap-xxxs">
-            <li>
-              <a
-                href="{{ $posts->withQueryString()->previousPageUrl() }}"
-                class="pagination__item
-                  {{ ($posts->currentPage() == 1) ? 'pagination__item--disabled' : '' }}
-                "
-              >
-                <svg class="icon" viewBox="0 0 16 16">
-                  <title>Go to previous page</title>
-                  <g stroke-width="1.5" stroke="currentColor">
-                    <polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="9.5,3.5 5,8 9.5,12.5 "></polyline>
-                  </g>
-                </svg>
-              </a>
-            </li>
-
-            <li>
-              <span class="pagination__jumper flex items-center">
-                <form action="{{ url()->full() }}" class="inline" method="get">
-                  @if($request->has('is_trashed'))
-                    <input type="hidden" name="is_trashed" value="{{ $is_trashed }}">
-                  @endif
-
-                  @if($request->has('is_draft'))
-                    <input type="hidden" name="is_draft" value="{{ $is_draft }}">
-                  @endif
-
-                  <input aria-label="Page number" class="form-control" type="number" name="page" min="1" max="{{ $posts->lastPage() }}" value="{{ $posts->currentPage() }}">
-                </form>
-                <em>of {{ $posts->lastPage() }}</em>
-              </span>
-            </li>
-
-            <li>
-              <a
-                href="{{ $posts->withQueryString()->nextPageUrl() }}"
-                class="pagination__item
-                  {{ !$posts->hasMorePages() ? 'pagination__item--disabled' : '' }}
-                "
-              >
-                <svg class="icon" viewBox="0 0 16 16">
-                  <title>Go to next page</title>
-                  <g stroke-width="1.5" stroke="currentColor">
-                    <polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="6.5,3.5 11,8 6.5,12.5 "></polyline>
-                  </g>
-                </svg>
-              </a>
-            </li>
-          </ul>
-        </nav>
-        @endif
+<div class="flex justify-between">
+  <div class="margin-xs">
+    <div class="inline-flex items-baseline">
+      <h1 class="text-md color-contrast-high padding-y-xxxxs margin-x-xs" for="selectThis">Posts:</h1>
+        <div class="select inline-block js-select" data-trigger-class="reset text-sm color-contrast-high h1 inline-flex items-center cursor-pointer js-tab-focus">
+          <select name="selectThis" id="selectThis" onchange="window.location=this.value">
+            <optgroup label="Group 1">
+              <option value="#" selected>All Categories</option>
+              <option value="#">Tags</option>
+              <option value="2">Cat 2</option>
+              <option value="3">Cat 3</option>
+            </optgroup>
+          </select>
+        <svg class="icon icon--xxxs margin-left-xxs" viewBox="0 0 8 8"><path d="M7.934,1.251A.5.5,0,0,0,7.5,1H.5a.5.5,0,0,0-.432.752l3.5,6a.5.5,0,0,0,.864,0l3.5-6A.5.5,0,0,0,7.934,1.251Z"/></svg>
       </div>
-  </div>
+    </div>
+</div>
+
+<!-- Menu Bar -->
+<div class="flex flex-wrap items-center justify-between"><div>
+  <div class="flex flex-wrap">
+    <li class="menu-bar__item js-menu-bar" aria-controls="modal-add-article">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>pencil</title><g fill="#000000"><path d="M18.85 4.39l-3.32-3.32a0.83 0.83 0 0 0-1.18 0l-11.62 11.62a0.84 0.84 0 0 0-0.2 0.33l-1.66 4.98a0.83 0.83 0 0 0 0.79 1.09 0.84 0.84 0 0 0 0.26-0.04l4.98-1.66a0.84 0.84 0 0 0 0.33-0.2l11.62-11.62a0.83 0.83 0 0 0 0-1.18z m-6.54 1.08l1.17-1.18 2.15 2.15-1.18 1.17z" fill="#000000"></path></g></svg>
+    </li>
+
+    <li class="menu-bar__item" aria-controls="modal-search">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>search</title><g stroke-width="2" fill="#000000"><path fill="none" stroke="#000000" stroke-linecap="square" stroke-miterlimit="10" d="M1.66 18.26l3.32-3.32"></path><path fill="none" stroke="#000000" stroke-linecap="square" stroke-miterlimit="10" d="M11.62 1.66a6.64 6.64 0 1 1 0 13.28 6.64 6.64 0 1 1 0-13.28z"></path><path d="M14.94 8.3a3.32 3.32 0 0 0-3.32-3.32" fill="none" stroke="#000000" stroke-miterlimit="10"></path></g></svg>
+        <span class="menu-bar__label">Search Articles</span>
+    </li>
+
+ <div class="int-table-actions" data-table-controls="table-1">
+     <menu class="menu-bar js-int-table-actions__no-items-selected js-menu-bar" id="btnRefreshTable">
+        <li class="menu-bar__item menu-bar__item--trigger js-menu-bar__trigger" role="menuitem" aria-label="More options">
+          <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
+                <circle cx="8" cy="7.5" r="1.5" />
+                <circle cx="1.5" cy="7.5" r="1.5" />
+                <circle cx="14.5" cy="7.5" r="1.5" />
+          </svg>
+        </li>
+          <li class="menu-bar__item " role="menuitem">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><title>reload</title><g fill="#000000"><path d="M17.78 0.05a0.38 0.38 0 0 0-0.41 0.08l-2.28 2.26a8.91 8.91 0 0 0-6.09-2.39 9 9 0 0 0-8.25 5.4 1.5 1.5 0 0 0 0.77 1.97 1.47 1.47 0 0 0 0.6 0.13 1.5 1.5 0 0 0 1.38-0.9 6 6 0 0 1 5.5-3.6 5.93 5.93 0 0 1 3.95 1.5l-2.54 2.52a0.38 0.38 0 0 0-0.09 0.39 0.37 0.37 0 0 0 0.31 0.25l6.96 0.77h0.05a0.37 0.37 0 0 0 0.37-0.38v-7.65a0.38 0.38 0 0 0-0.23-0.35z" fill="#000000"></path><path d="M0.22 17.95a0.34 0.34 0 0 0 0.15 0.02 0.38 0.38 0 0 0 0.26-0.1l2.28-2.25a8.91 8.91 0 0 0 6.09 2.38 9 9 0 0 0 8.25-5.4 1.5 1.5 0 0 0-2.75-1.2 6 6 0 0 1-5.5 3.6 5.93 5.93 0 0 1-3.95-1.5l2.55-2.52a0.38 0.38 0 0 0 0.09-0.38 0.37 0.37 0 0 0-0.32-0.25l-6.96-0.78a0.41 0.41 0 0 0-0.3 0.09 0.38 0.38 0 0 0-0.12 0.28v7.66a0.38 0.38 0 0 0 0.23 0.35z"></path></g></svg>
+              <span class="menu-bar__label">Refresh</span>
+          </li>
+      </menu>
+          @if(!request()->has('is_trashed'))
+      <menu class="menu-bar is-hidden js-int-table-actions__items-selected js-menu-bar" id="btnDeleteMultiple">
+        <li class="menu-bar__item menu-bar__item--trigger js-menu-bar__trigger" role="menuitem" aria-label="More options">
+          <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
+            <circle cx="8" cy="7.5" r="1.5" />
+            <circle cx="1.5" cy="7.5" r="1.5" />
+            <circle cx="14.5" cy="7.5" r="1.5" /></svg>
+        </li>
+          <li class="menu-bar__item" role="menuitem">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>bin</title><g fill="#000000"><path d="M2.49 6.64v10.79a2.49 2.49 0 0 0 2.49 2.49h9.96a2.49 2.49 0 0 0 2.49-2.49v-10.79z m4.98 9.13h-1.66v-5.81h1.66z m3.32 0h-1.66v-5.81h1.66z m3.32 0h-1.66v-5.81h1.66z" fill="#000000"></path><path d="M19.09 3.32h-4.98v-2.49a0.83 0.83 0 0 0-0.83-0.83h-6.64a0.83 0.83 0 0 0-0.83 0.83v2.49h-4.98a0.83 0.83 0 0 0 0 1.66h18.26a0.83 0.83 0 0 0 0-1.66z m-11.62-1.66h4.98v1.66h-4.98z"></path></g></svg>
+              <span class="menu-bar__label">Delete</span>
+              <span class="counter counter--critical counter--docked"><span id="deleteBadge">1</span> <i class="sr-only">Notifications</i></span>
+          </li>
+            </menu>
+          @endif
+
+        </div>
+    </div>
+    
+</div>
+</div>
+</div>
 
