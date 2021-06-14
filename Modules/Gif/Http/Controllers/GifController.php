@@ -240,7 +240,7 @@ class GifController extends Controller
             $thumbnail_medium = new Imagick($gif_path . '/original/' . $thumbnail_name);
             $thumbnail_medium = $thumbnail_medium->coalesceImages();
             do {
-                $thumbnail_medium->cropThumbnailImage( $settings_width, $settings_height );
+                $thumbnail_medium->resizeImage( $settings_width, $settings_height, Imagick::FILTER_BOX, 1, true );
             } while ( $thumbnail_medium->nextImage());
 
             $thumbnail_medium = $thumbnail_medium->deconstructImages();
@@ -402,7 +402,7 @@ class GifController extends Controller
             $thumbnail_medium = new Imagick($gif_path . '/original/' . $thumbnail_name);
             $thumbnail_medium = $thumbnail_medium->coalesceImages();
             do {
-                $thumbnail_medium->cropThumbnailImage( $settings_width, $settings_height );
+                $thumbnail_medium->resizeImage( $settings_width, $settings_height, Imagick::FILTER_BOX, 1, true );
             } while ( $thumbnail_medium->nextImage());
 
             $thumbnail_medium = $thumbnail_medium->deconstructImages();
