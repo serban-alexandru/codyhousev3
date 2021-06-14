@@ -61,9 +61,7 @@
       </div>
 
       <nav id="main-menu" class="header-v2__nav color-contrast-low header-v2__nav-full-height margin-left-xxl@md" role="navigation">
-
         <ul class="header-v2__nav-list header-v2__nav-list--main">
-
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/') }}"
               class="header-v2__nav-link" {{ Request::path() == 'admin' ? 'aria-current' : '' }}><span>Home</span></a>
           </li>
@@ -75,54 +73,9 @@
               {{ Request::path() == 'admin/menus' ? 'aria-current' : '' }}><span>Menus</span></a></li>
           <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/settings') }}" class="header-v2__nav-link"
               {{ Request::path() == 'admin/settings' ? 'aria-current' : '' }}><span>Settings</span></a></li>
-
-          <li class="header-v2__nav-item header-v2__nav-item--main header-v2__nav-item--has-children">
-            <a href="#0" class="header-v2__nav-link">
-              <span class="color-contrast-lower">Content</span>
-              <svg class="header-v2__nav-dropdown-icon icon margin-left-xxxs color-contrast-lower" aria-hidden="true"
-                viewBox="0 0 16 16">
-                <polyline fill="none" stroke-width="1" stroke="currentColor" stroke-linecap="round"
-                  stroke-linejoin="round" stroke-miterlimit="10" points="3.5,6.5 8,11 12.5,6.5 "></polyline>
-              </svg>
-            </a>
-
-            <div class="header-v2__nav-dropdown header-v2__nav-dropdown--md">
-              <ul class="header-v2__nav-list">
-                <li class="header-v2__nav-item header-v2__nav-col-2">
-                  <ul class="header-v2__nav-list">
-                    <li class="header-v2__nav-item header-v2__nav-item--label">Main Type</li>
-                    <li class="header-v2__nav-item"><a href="{{ url('admin/posts') }}" class="header-v2__nav-link">Posts</a></li>
-                    <li class="header-v2__nav-item"><a href="{{ url('admin/pages') }}" class="header-v2__nav-link">Pages</a></li>
-                    <li class="header-v2__nav-item"><a href="{{ url('admin/gifs') }}" class="header-v2__nav-link">Gifs</a></li>
-                  </ul>
-
-                  <ul class="header-v2__nav-list">
-                    <li class="header-v2__nav-item header-v2__nav-item--label">Niche Type</li>
-                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Images</a></li>
-                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Galleries</a></li>
-                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Videos</a></li>
-                  </ul>
-
-                  <ul class="header-v2__nav-list">
-                    <li class="header-v2__nav-item header-v2__nav-item--label">Interactions</li>
-                    <li class="header-v2__nav-item"><a href="admin/posts" class="header-v2__nav-link">Comments</a></li>
-                    <li class="header-v2__nav-item"><a href="admin/pages" class="header-v2__nav-link">Content flags</a></li>
-                    <li class="header-v2__nav-item"><a href="#0" class="header-v2__nav-link">Notifications</a></li>
-                  </ul>
-
-                  <ul class="header-v2__nav-list">
-                    <li class="header-v2__nav-item header-v2__nav-item--label">Others</li>
-                    <li class="header-v2__nav-item"><a href="{{ url('admin/menus') }}" class="header-v2__nav-link">Menus</a></li>
-                    <li class="header-v2__nav-item"><a href="{{ url('admin/scraper') }}" class="header-v2__nav-link">Scraper</a></li>
-                  </ul>
-
-                </li>
-
-               
-
-        </ul>
+          <li class="header-v2__nav-item header-v2__nav-item--main"><a href="{{ url('admin/posts') }}" class="header-v2__nav-link"
+                {{ Request::path() == 'admin/posts' ? 'aria-current' : '' }}><span>Posts</span></a></li>
       </nav>
-      <!-- END-->
 
       <!-- User Icon and Drop-down Desktop -->
       <nav id="second-menu" class="header-v2__nav header-v2__nav-align-right color-contrast-low">
