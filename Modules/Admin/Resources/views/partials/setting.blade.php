@@ -1,28 +1,17 @@
 @extends('admin::layouts.master')
 @section('content')
+<div class="container max-width-lg">
+  <div class="grid">
+    @include('admin::partials.sidebar')
+    <main class="position-relative z-index-1 col-12@md link-card">
 
   <!-- Sub-navigation -->
-  <div class="bg-contrast-lower hide-nav z-index-2 js-hide-nav js-hide-nav--sub">
+  <div class="border-bottom border-contrast-lower">
     <div class="container max-width-lg flex items-center justify-between">
-      <div class="subnav  js-subnav">
-        <button class="reset btn btn--subtle margin-y-sm subnav__control js-subnav__control">
-          <span>Show Categories</span>
-          <svg class="icon icon--xxs margin-left-xxs" aria-hidden="true" viewBox="0 0 12 12">
-            <polyline points="0.5 3.5 6 9.5 11.5 3.5" fill="none" stroke-width="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></polyline>
-          </svg>
-        </button>
+      <div class="subnav">
 
         <div class="subnav__wrapper toc toc--static@md position-sticky@md js-toc js-subnav__wrapper">
-          <nav class="subnav__nav toc__nav justify-left">
-            <button class="reset subnav__close-btn js-subnav__close-btn js-tab-focus" aria-label="Close navigation">
-              <svg class="icon" viewBox="0 0 16 16">
-                <g stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
-                  <line x1="13.5" y1="2.5" x2="2.5" y2="13.5"></line>
-                  <line x1="2.5" y1="2.5" x2="13.5" y2="13.5"></line>
-                </g>
-              </svg>
-            </button>
-
+          <nav class="justify-left">
             <ul class="subnav__list toc__list js-toc__list">
               <li class="subnav__item toc__link"><a href="#site-setting" class="subnav__link js-smooth-scroll" data-duration="300">Site Settings</a></li>
               <li class="subnav__item toc__link"><a href="#template-setting" class="subnav__link js-smooth-scroll" data-duration="300">Templates</a></li>
@@ -32,6 +21,7 @@
             </ul>
           </nav>
         </div>
+        
       </div>
       <button id="btnSave" class="btn btn--primary">Save</button>
     </div>
@@ -485,11 +475,11 @@
                   </div>
                 </div>
               </div>
-
-              <button id="btnSave" class="btn btn--primary">Save</button>
-
-            </fieldset>
-          </form>
+            </div>
+          </div>
+        </main>
+       </fieldset>
+    </form>
   </section>
 @endsection
 
