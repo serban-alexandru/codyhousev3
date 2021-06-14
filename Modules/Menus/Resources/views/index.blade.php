@@ -17,5 +17,6 @@
 
 @push('module-scripts')
 <!-- MODULE'S CUSTOM SCRIPT -->
+{!! Menu::scripts() !!}
   @include('admin::partials.settings-script-js')
 @endpush
