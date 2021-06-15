@@ -51,7 +51,7 @@
         </a>
       </li>
 
-      <li class="sidenav__item">
+      <li class="sidenav__item site-load-content">
         <a href="{{ url('admin/users') }}" class="sidenav__link">
           <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g><path d="M14,6.883V13H2V6.82L0,5.695V14c0,0.553,0.448,1,1,1h14c0.552,0,1-0.447,1-1V5.783L14,6.883z"></path><path d="M15,1H1C0.4,1,0,1.4,0,2v1.4l8,4.5l8-4.4V2C16,1.4,15.6,1,15,1z"></path></g></svg>
           <span class="sidenav__text">Users</span><span class="sidenav__counter">18 <i class="sr-only">notifications</i></span>
