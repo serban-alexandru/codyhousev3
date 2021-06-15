@@ -1,31 +1,28 @@
 <div class="link-card" id="site-table-with-pagination-container">
-    <div class="flex justify-between">
-    <div class="margin-xs">
- 
-      <div class="inline-flex items-baseline">
-        <h1 class="text-md color-contrast-high padding-y-xxxxs margin-x-xs" for="selectThis">Users:</h1>
-        
-        <div class="select inline-block js-select" data-trigger-class="reset text-sm color-contrast-high h1 inline-flex items-center cursor-pointer js-tab-focus">
-          <select name="selectThis" id="selectThis" onchange="window.location=this.value">
-            <optgroup label="Group 1">
-              <option value="#" selected>All Users</option>
-              <option value="#" >Draft</option>
-              <option value="2">Suspended</option>
-              <option value="3">Deleted</option>
-            </optgroup>
-        
-            <optgroup label="Group 2">
-              <option value="3">Registered</option>
-              <option value="4">Editors</option>
-              <option value="5">Admin</option>
-            </optgroup>
-          </select>
-          
-          <svg class="icon icon--xxxs margin-left-xxs" viewBox="0 0 8 8"><path d="M7.934,1.251A.5.5,0,0,0,7.5,1H.5a.5.5,0,0,0-.432.752l3.5,6a.5.5,0,0,0,.864,0l3.5-6A.5.5,0,0,0,7.934,1.251Z"/></svg>
-        </div>
-      </div>
+    <div class="flex justify-between position-fixed">
+        <div class="margin-xs">
+            <div class="inline-flex items-baseline">
+                <h1 class="text-md color-contrast-high padding-y-xxxxs margin-x-xs" for="selectThis">Users:</h1>
+                <div class="select inline-block js-select" data-trigger-class="reset text-sm color-contrast-high h1 inline-flex items-center cursor-pointer js-tab-focus">
+                    <select name="selectThis" id="selectThis" onchange="window.location=this.value">
+                        <optgroup label="Group 1">
+                        <option value="#" selected>All Users</option>
+                        <option value="#" >Draft</option>
+                        <option value="2">Suspended</option>
+                        <option value="3">Deleted</option>
+                        </optgroup>
 
-      </div>
+                        <optgroup label="Group 2">
+                        <option value="3">Registered</option>
+                        <option value="4">Editors</option>
+                        <option value="5">Admin</option>
+                        </optgroup>
+                    </select>
+
+                    <svg class="icon icon--xxxs margin-left-xxs" viewBox="0 0 8 8"><path d="M7.934,1.251A.5.5,0,0,0,7.5,1H.5a.5.5,0,0,0-.432.752l3.5,6a.5.5,0,0,0,.864,0l3.5-6A.5.5,0,0,0,7.934,1.251Z"/></svg>
+                </div>
+            </div>
+        </div>
 <!-- Menu Bar -->
 
 
@@ -84,7 +81,7 @@
 
 </div>
 <!-- Table Start -->
-<div class="margin-top-auto border-top border-contrast-lower">
+<div class="margin-top-auto border-top border-contrast-lower padding-top-lg">
 <div class="padding-sm">
 @if (session('responseMessage'))
 <div class="alert alert--is-visible js-alert margin-bottom-lg" role="alert">
