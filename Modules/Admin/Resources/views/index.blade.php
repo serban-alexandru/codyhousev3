@@ -4,7 +4,9 @@
   <div class="grid">
     @include('admin::partials.sidebar')
     <main class="position-relative z-index-1 col-12">
-      @include('admin::partials.postbox')
+        <div id="site-table-with-pagination-container">
+            @include('admin::partials.postbox')
+        </div>
     </main>
   </div><!-- /.grid -->
 </div><!-- /.container -->
