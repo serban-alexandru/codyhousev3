@@ -4,9 +4,11 @@
   <div class="grid">
     @include('admin::partials.sidebar')
         <main class="position-relative z-index-1 col-12@md link-card">
-            <div class="container max-width-lg margin-top-xs">
-                <div class="grid gap-md@md">
-                {!! Menu::render() !!}
+            <div id="site-table-with-pagination-container">
+                <div class="container max-width-lg margin-top-xs">
+                    <div class="grid gap-md@md">
+                    {!! Menu::render() !!}
+                    </div>
                 </div>
             </div>
         </main>
