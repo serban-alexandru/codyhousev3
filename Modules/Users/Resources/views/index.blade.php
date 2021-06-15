@@ -649,4 +649,5 @@
 @push('module-scripts')
 <!-- MODULE'S CUSTOM SCRIPT -->
   @include('users::partials.script-js')
+  @include('custom-scripts.custom-script')
 @endpush

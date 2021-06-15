@@ -1,4 +1,4 @@
-<div class="link-card">
+<div class="link-card" id="site-table-with-pagination-container">
     <div class="flex justify-between position-fixed">
         <div class="margin-xs">
             <div class="inline-flex items-baseline">
