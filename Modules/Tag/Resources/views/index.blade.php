@@ -7,12 +7,12 @@
       <div class="grid">
         @include('admin::partials.sidebar')
         <main class="position-relative z-index-1 col-12@md link-card">
-            <div id="site-table-with-pagination-container" class="padding-sm">
+ 
                 @include('tag::partials.control')
                 <div class="margin-top-auto border-top border-contrast-lower"></div><!-- Divider -->
                     <div class="padding-sm">
                     @include('tag::partials.table')
-                    </div>
+
                 </div><!-- /.grid -->
             </div><!-- /.table-with-pagination-container -->
         </main><!-- .column and linkcard styling -->

@@ -1,5 +1,5 @@
 <div class="link-card" id="site-table-with-pagination-container">
-    <div class="flex justify-between position-fixed">
+    <div class="flex justify-between">
         <div class="margin-xs">
             <div class="inline-flex items-baseline">
                 <h1 class="text-md color-contrast-high padding-y-xxxxs margin-x-xs" for="selectThis">Users:</h1>
