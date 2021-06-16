@@ -5,7 +5,7 @@
           <div class="select inline-block js-select" data-trigger-class="reset text-sm color-contrast-high h1 inline-flex items-center cursor-pointer js-tab-focus">
             <select name="selectThis" id="selectThis" onchange="window.location=this.value">
               <optgroup label="Group 1">
-                <option value="#" selected>All Categories</option>
+                <option value="#" selected>All Tags</option>
                 <option value="#">Tags</option>
                 <option value="2">Cat 2</option>
                 <option value="3">Cat 3</option>
@@ -23,6 +23,11 @@
     <li class="menu-bar__item js-menu-bar" aria-controls="modal-add-tag">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>pencil</title><g fill="#000000"><path d="M18.85 4.39l-3.32-3.32a0.83 0.83 0 0 0-1.18 0l-11.62 11.62a0.84 0.84 0 0 0-0.2 0.33l-1.66 4.98a0.83 0.83 0 0 0 0.79 1.09 0.84 0.84 0 0 0 0.26-0.04l4.98-1.66a0.84 0.84 0 0 0 0.33-0.2l11.62-11.62a0.83 0.83 0 0 0 0-1.18z m-6.54 1.08l1.17-1.18 2.15 2.15-1.18 1.17z" fill="#000000"></path></g></svg>
           <span class="menu-bar__label">Add Tag</span>
+    </li>
+
+    <li class="menu-bar__item js-menu-bar" aria-controls="modal-add-tag-category">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>save-for-later</title><g fill="#000000"><path d="M16.38 8.4a4.61 4.61 0 0 1-4.44-5.88h-9.84a1.26 1.26 0 0 0-1.26 1.26v14.28a1.26 1.26 0 0 0 1.26 1.26h14.28a1.26 1.26 0 0 0 1.26-1.26v-9.84a4.61 4.61 0 0 1-1.26 0.18z m0.42 9.66a0.42 0.42 0 0 1-0.42 0.42h-14.28a0.42 0.42 0 0 1-0.42-0.42v-2.52a0.42 0.42 0 0 1 0.42-0.42h14.28a0.42 0.42 0 0 1 0.42 0.42z" fill="#000000"></path><path d="M16.38 0a3.78 3.78 0 1 0 3.78 3.78 3.78 3.78 0 0 0-3.78-3.78z m1.68 4.2h-1.26v1.26a0.42 0.42 0 0 1-0.84 0v-1.26h-1.26a0.42 0.42 0 0 1 0-0.84h1.26v-1.26a0.42 0.42 0 0 1 0.84 0v1.26h1.26a0.42 0.42 0 0 1 0 0.84z" fill="#000000"></path></g></svg>
+          <span class="menu-bar__label">Add Tag Category</span>
     </li>
 
     <li class="menu-bar__item" aria-controls="modal-search">
