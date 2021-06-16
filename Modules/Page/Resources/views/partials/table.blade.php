@@ -161,7 +161,7 @@
 
               <td class="int-table__cell cursor-pointer" aria-controls="modal-edit-page" data-id="{{ $page->id }}">
                 <a href="#0">
-                  {{ Str::limit($page->title, 47) }}
+                  {{ Str::limit($page->title) }}
                 </a>
               </td>
               <td class="int-table__cell">{{ $page->username }}</td>
