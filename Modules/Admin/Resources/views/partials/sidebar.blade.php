@@ -12,10 +12,6 @@
     </ul>
 
     <div class="sidenav__divider margin-y-xs" role="presentation"></div>
-    
-    <div class="sidenav__label margin-bottom-xxxs">
-      <span class="text-sm color-contrast-medium">Main</span>
-    </div>
 
     <ul class="sidenav__list">
       <li class="sidenav__item">
