@@ -1,6 +1,6 @@
  <!-- footer -->
  <footer class="main-footer">
-  <div class="container max-width-lg border-top border-2 border-contrast-lower padding-top-xs padding-bottom-md margin-top-lg">
+  <div class="container max-width-lg border-top border-2 border-contrast-lower padding-top-xs padding-bottom-md margin-top-xxl">
     <div class="flex flex-column items-center gap-xxs flex-row@sm justify-between@sm">
       <div>
         <div class="text-sm text-xs@md color-contrast-medium flex flex-wrap gap-xs">
