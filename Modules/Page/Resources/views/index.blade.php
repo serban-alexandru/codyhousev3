@@ -4,15 +4,19 @@
   @include('page::partials.edit-modals')
   @include('page::partials.reject-modal')
   <section>
-    <div class="container max-width-lg margin-top-xs">
-      <div class="grid gap-md@md">
-        @include('page::partials.sidebar')
-        <main class="position-relative padding-top-md z-index-1 col-12@md">
+    <div class="container max-width-lg">
+      <div class="grid">
+        @include('admin::partials.sidebar')
+        <main class="position-relative z-index-1 col-12@md link-card">
             <div id="site-table-with-pagination-container">
-            @include('page::partials.control')
-            @include('page::partials.table')
-          </div><!-- /#site-table-with-pagination-container -->
-        </main>
+                @include('page::partials.control')
+                <div class="margin-top-auto border-top border-contrast-lower"></div><!-- Divider -->
+                    <div class="padding-sm">
+                    @include('page::partials.table')
+                    </div><!-- Padding -->
+                </div>
+            </div><!-- /#site-table-with-pagination-container -->
+        </main><!-- .column -->
       </div><!-- /.grid -->
     </div><!-- /.container -->
   </section>
