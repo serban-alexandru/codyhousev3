@@ -55,12 +55,12 @@
           </button>
 
           <ul class="subnav__list">
-            <li class="subnav__item"><a href="{{ url('/dashboard') }}" data-tab="published" class="subnav__link ajax-link" {{ (url('/dashboard') == url()->full()) ? 'aria-current=page' : '' }}>Published<span class="sidenav__counter">{{ $posts_published_count }} <i class="sr-only">notifications</i></span></a></li>
-            <li class="subnav__item"><a href="{{ url('/dashboard?is_draft=1') }}" data-tab="draft" class="subnav__link ajax-link">Draft<span class="sidenav__counter">{{ $posts_draft_count }} <i class="sr-only">notifications</i></span></a></li>
+            <li class="subnav__item"><a href="{{ url('/dashboard') }}" data-tab="published" class="subnav__link ajax-link" {{ (url('/dashboard') == url()->full()) ? 'aria-current=page' : '' }}>Published<span class="sidenav__counter user-nav__counter">{{ $posts_published_count }} <i class="sr-only">notifications</i></span></a></li>
+            <li class="subnav__item"><a href="{{ url('/dashboard?is_draft=1') }}" data-tab="draft" class="subnav__link ajax-link">Draft<span class="sidenav__counter user-nav__counter">{{ $posts_draft_count }} <i class="sr-only">notifications</i></span></a></li>
             @if (!auth()->user()->isEditor())
-            <li class="subnav__item"><a href="{{ url('/dashboard?is_pending=1') }}" data-tab="pending" class="subnav__link ajax-link">Pending<span class="sidenav__counter">{{ $posts_pending_count }} <i class="sr-only">notifications</i></span></a></li>
+            <li class="subnav__item"><a href="{{ url('/dashboard?is_pending=1') }}" data-tab="pending" class="subnav__link ajax-link">Pending<span class="sidenav__counter user-nav__counter">{{ $posts_pending_count }} <i class="sr-only">notifications</i></span></a></li>
             @endif
-            <li class="subnav__item"><a href="{{ url('/dashboard?is_trashed=1') }}" data-tab="trashed" class="subnav__link ajax-link">Trash<span class="sidenav__counter">{{ $posts_deleted_count }} <i class="sr-only">notifications</i></span></a></li>
+            <li class="subnav__item"><a href="{{ url('/dashboard?is_trashed=1') }}" data-tab="trashed" class="subnav__link ajax-link">Trash<span class="sidenav__counter user-nav__counter">{{ $posts_deleted_count }} <i class="sr-only">notifications</i></span></a></li>
           </ul>
 
         </nav>
