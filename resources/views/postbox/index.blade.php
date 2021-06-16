@@ -1,28 +1,25 @@
-@extends('admin::layouts.master')
+@extends('templates.layouts.index')
 @section('content')
-  @include('post::partials.modals')
-  @include('post::partials.edit-modals')
-  @include('post::partials.reject-modal')
   <section>
     <div class="container max-width-lg">
       <div class="grid">
-        @include('admin::partials.sidebar')
+        @include('postbox.partials.sidebar')
         <main class="position-relative z-index-1 col-12@md link-card radius-md">
-           
-                @include('post::partials.control')
+            <div id="site-table-with-pagination-container">
+                @include('postbox.partials.control')
                 <div class="margin-top-auto border-top border-contrast-lower"></div><!-- Divider -->
                     <div class="padding-sm">
-                    @include('post::partials.table')
+
                     </div><!-- Padding -->
                 </div>
             </div><!-- /#site-table-with-pagination-container -->
         </main><!-- .column -->
       </div><!-- /.grid -->
-    
+    </div><!-- /.container -->
   </section>
 @endsection
 
 @push('module-scripts')
 <!-- MODULE'S CUSTOM SCRIPT -->
-  @include('post::partials.script-js')
+ 
 @endpush

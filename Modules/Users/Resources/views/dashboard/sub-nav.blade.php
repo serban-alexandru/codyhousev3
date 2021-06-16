@@ -1,7 +1,7 @@
-<div class="bg-contrast-lower">
+<div class="bg-contrast-lowest">
   <div class="container max-width-lg flex items-center justify-between">
     <div class="flex flex-wrap fl-align-center">
-      <button class="btn btn--primary btn-new-post margin-right-md">Add Post</button>
+      <button class="btn btn--primary btn-new-post margin-right-md">Add</button>
             
       <form class="expandable-search js-expandable-search" action="{{ url('dashboard') }}" method="GET">
         <label class="sr-only" for="expandable-search">Search</label>
@@ -44,7 +44,7 @@
       </button>
 
       <div class="subnav__wrapper js-subnav__wrapper">
-        <nav class="subnav__nav ">
+        <nav class="">
           <button class="reset subnav__close-btn js-subnav__close-btn js-tab-focus" aria-label="Close navigation">
             <svg class="icon" viewBox="0 0 16 16">
               <g stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
@@ -55,13 +55,14 @@
           </button>
 
           <ul class="subnav__list">
-            <li class="subnav__item"><a href="{{ url('/dashboard') }}" data-tab="published" class="subnav__link ajax-link" {{ (url('/dashboard') == url()->full()) ? 'aria-current=page' : '' }}>Published<span class="padding-left-sm sidenav__counter">{{ $posts_published_count }} <i class="sr-only">notifications</i></span></a></li>
-            <li class="subnav__item"><a href="{{ url('/dashboard?is_draft=1') }}" data-tab="draft" class="subnav__link ajax-link">Draft<span class="padding-left-sm sidenav__counter">{{ $posts_draft_count }} <i class="sr-only">notifications</i></span></a></li>
+            <li class="subnav__item"><a href="{{ url('/dashboard') }}" data-tab="published" class="subnav__link ajax-link" {{ (url('/dashboard') == url()->full()) ? 'aria-current=page' : '' }}>Published<span class="sidenav__counter">{{ $posts_published_count }} <i class="sr-only">notifications</i></span></a></li>
+            <li class="subnav__item"><a href="{{ url('/dashboard?is_draft=1') }}" data-tab="draft" class="subnav__link ajax-link">Draft<span class="sidenav__counter">{{ $posts_draft_count }} <i class="sr-only">notifications</i></span></a></li>
             @if (!auth()->user()->isEditor())
-            <li class="subnav__item"><a href="{{ url('/dashboard?is_pending=1') }}" data-tab="pending" class="subnav__link ajax-link">Pending<span class="padding-left-sm sidenav__counter">{{ $posts_pending_count }} <i class="sr-only">notifications</i></span></a></li>
+            <li class="subnav__item"><a href="{{ url('/dashboard?is_pending=1') }}" data-tab="pending" class="subnav__link ajax-link">Pending<span class="sidenav__counter">{{ $posts_pending_count }} <i class="sr-only">notifications</i></span></a></li>
             @endif
-            <li class="subnav__item"><a href="{{ url('/dashboard?is_trashed=1') }}" data-tab="trashed" class="subnav__link ajax-link">Trash<span class="padding-left-sm sidenav__counter">{{ $posts_deleted_count }} <i class="sr-only">notifications</i></span></a></li>
+            <li class="subnav__item"><a href="{{ url('/dashboard?is_trashed=1') }}" data-tab="trashed" class="subnav__link ajax-link">Trash<span class="sidenav__counter">{{ $posts_deleted_count }} <i class="sr-only">notifications</i></span></a></li>
           </ul>
+
         </nav>
       </div>
     </div> <!-- end of .subnav -->

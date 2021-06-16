@@ -7,15 +7,22 @@
       </div><!-- /.container -->
     </section>
   @else
-    @include('users::dashboard.sub-nav')
+  
     <section>
-      <div class="container max-width-lg margin-top-lg">
-        @include('users::dashboard.notification')
+      <div class="container max-width-lg">
+        <div class="grid">
+          @include('users::dashboard.sidebar2')
+          @include('users::dashboard.notification')
+        <main class="position-relative z-index-1 col-12@md link-card radius-md">
+          @include('users::dashboard.sub-nav')
+          <div class="margin-top-auto border-top border-contrast-lower"></div><!-- Divider -->
         <div id="site-table-with-pagination-container" class="posts-wrp">
-        @include('users::dashboard.table')
+          @include('users::dashboard.table')
         </div><!-- /#site-table-with-pagination-container -->
-        @include('users::dashboard.add-post')
-        @include('users::dashboard.edit-post')
+          @include('users::dashboard.add-post')
+          @include('users::dashboard.edit-post')
+       </main><!-- .column -->
+        </div><!-- /.grid -->
       </div><!-- /.container -->
     </section>
     @include('users::dashboard.reject-modal')
