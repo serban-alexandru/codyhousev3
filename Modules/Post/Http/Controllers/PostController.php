@@ -755,7 +755,7 @@ class PostController extends Controller
     public function ajaxShowPosts($page_num)
     {
         // This return all post type, so no need to filter for 'post' only.
-        $perpage = 12;
+        $perpage = 20;
         $offset = ($page_num - 1) * $perpage;
         $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
             ->select([

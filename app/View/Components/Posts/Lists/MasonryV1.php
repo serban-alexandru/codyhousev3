@@ -16,7 +16,7 @@ class MasonryV1 extends Component
      *
      * @return void
      */
-    public function __construct($type = 'all', $limit = 12)
+    public function __construct($type = 'all', $limit = 20)
     {
         $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
             ->select([
