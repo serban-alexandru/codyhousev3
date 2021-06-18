@@ -310,11 +310,14 @@ class DashboardPostsController extends Controller
             'description'      => request('description'),
             'thumbnail'        => (request()->has('thumbnail')) ? $thumbnail_name : NULL,
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : NULL,
-            'seo_page_title'   => request('page_title') ?: NULL,
             'tags'             => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
             'post_type'        => 'post',
             'status'           => $status
         ]);
+
+        if ( request()->has('page_title') ) {
+            PostsMeta::setMetaData( $post->id, 'seo_page_title', request('page_title') );
+        }
 
         $tag_categories = TagCategory::all();
 
@@ -571,18 +574,6 @@ class DashboardPostsController extends Controller
         return redirect()->back()->with('alert', $alert);
     }
 
-    public function saveRejectedReason( $post_id, $content ) {
-        $post_meta             = new PostsMeta;
-        $post_meta->post_id    = $post_id;
-        $post_meta->meta_key   = 'rejected_reason';
-        $post_meta->meta_value = $content;
-        $post_meta->save();
-    }
-
-    public function deleteRejectedReason( $post_ids ) {
-        $post_meta = PostsMeta::whereIn( 'post_id', !is_array($post_ids) ? [$post_ids] : $post_ids )->where('meta_key', 'rejected_reason')->delete();
-    }
-
     public function delete()
     {
         $post = $this->getPost(request('post_id'));
@@ -595,7 +586,7 @@ class DashboardPostsController extends Controller
         }
 
         // Clear Rejected reason.
-        $this->deleteRejectedReason( $post->id );
+        PostsMeta::deleteMultipleMetaData( $post->id, 'rejected_reason' );
 
         $post->update(['status' => 'deleted']);
 
@@ -626,6 +617,9 @@ class DashboardPostsController extends Controller
         foreach ($posts_tags as $posts_tag) {
             $posts_tag->delete();
         }
+
+        // Delete Meta.
+        PostsMeta::emptyMetaData( $post->id );
 
         // Finally, delete post
         return $post->delete();
@@ -667,7 +661,7 @@ class DashboardPostsController extends Controller
         }
 
         // Clear Rejected reason.
-        $this->deleteRejectedReason( $selectedIDs );
+        PostsMeta::deleteMultipleMetaData( $selectedIDs, 'rejected_reason' );
 
         if ( auth()->user()->isAdmin() ) {
             Post::where('post_type', 'post')->whereIn('id', $selectedIDs)->update(['status' => 'deleted']);
@@ -711,7 +705,7 @@ class DashboardPostsController extends Controller
 
         // Clear Rejected reason.
         if ( $post->status == 'rejected' ) {
-            $this->deleteRejectedReason( $post->id );
+            PostsMeta::deleteMultipleMetaData( $post->id, 'rejected_reason' );
         }
 
         $post->update(['status' => 'draft']);
@@ -750,7 +744,7 @@ class DashboardPostsController extends Controller
         }
 
         // Clear Rejected reason.
-        $this->deleteRejectedReason( $id );       
+        PostsMeta::deleteMultipleMetaData( $id, 'rejected_reason' );
 
         $post->update(['status' => 'draft']);
 
@@ -768,7 +762,7 @@ class DashboardPostsController extends Controller
         }
 
         // Clear Rejected reason.
-        $this->deleteRejectedReason( $id );
+        PostsMeta::deleteMultipleMetaData( $id, 'rejected_reason' );
 
         if (auth()->user()->isRegisteredUser()) {
             $post->update(['status' => 'pending']);
@@ -800,7 +794,7 @@ class DashboardPostsController extends Controller
         }
 
         // Save Rejected reason.
-        $this->saveRejectedReason( $post->id, request('message') );
+        PostsMeta::insertMetaData( $post->id, 'rejected_reason', request('message') );
 
         $post->update(['status' => 'rejected']);
         

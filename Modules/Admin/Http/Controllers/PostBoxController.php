@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 use App\Http\Controllers\Controller;
-use Modules\Post\Entities\{ PostSetting, Post, PostsTag };
+use Modules\Post\Entities\{ PostSetting, Post, PostsTag, PostsMeta };
 use Modules\Page\Entities\Page;
 use Modules\Tag\Entities\{Tag, TagCategory};
 
@@ -131,11 +131,14 @@ class PostBoxController extends Controller
       'description'      => $request->input('description'),
       'thumbnail'        => ($request->has('thumbnail')) ? $thumbnail_name : NULL,
       'thumbnail_medium' => ($request->has('thumbnail')) ? $thumbnail_medium_name : NULL,
-      'seo_page_title'   => $request->input('page_title') ?: NULL,
       'tags'             => ($request->has('tags')) ? implode(',', $request->input('tags')) : NULL,
       'post_type'        => 'post',
       'status'           => $request->input('status')
     ]);
+
+    if ( $request->input('page_title') ) {
+      PostsMeta::setMetaData( $post->id, 'seo_page_title', $request->input('page_title') );
+    }
 
     $tag_categories = TagCategory::all();
 
@@ -230,11 +233,14 @@ class PostBoxController extends Controller
       'description'      => $request->input('description'),
       'thumbnail'        => ($request->has('thumbnail')) ? $thumbnail_name : NULL,
       'thumbnail_medium' => ($request->has('thumbnail')) ? $thumbnail_medium_name : NULL,
-      'seo_page_title'   => $request->input('page_title') ?: NULL,
       'tags'             => ($request->has('tags')) ? implode(',', $request->input('tags')) : NULL,
       'post_type'        => 'gif',
       'status'           => $request->input('status')
     ]);
+
+    if ( $request->input('page_title') ) {
+      PostsMeta::setMetaData( $gif->id, 'seo_page_title', $request->input('page_title') );
+    }
 
     $tag_categories = TagCategory::all();
 
