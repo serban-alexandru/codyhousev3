@@ -89,7 +89,7 @@ Route::middleware($user_middleware)->group(function(){
 
 Route::group([
   'prefix' => 'dashboard',
-  'middleware' => $middleware
+  'middleware' => $user_middleware
 ], function() {
   Route::get('/', 'DashboardPostsController@index');
   Route::get('/settings', 'DashboardPostsController@settings');
@@ -167,7 +167,7 @@ Route::group([
 
 Route::group([
   'prefix' => 'pages',
-  'middleware' => $middleware
+  'middleware' => $user_middleware
 ], function() {
   Route::get('/', 'DashboardPagesController@index');
 
@@ -234,7 +234,7 @@ Route::group([
 
 Route::group([
   'prefix' => 'gifs',
-  'middleware' => $middleware
+  'middleware' => $user_middleware
 ], function() {
   Route::get('/', 'DashboardGifsController@index');
   Route::get('/settings', 'DashboardGifsController@settings');

@@ -858,7 +858,7 @@ class UsersController extends Controller
             abort(403);
         }
 
-        $posts = $user->posts()->where('is_published', true)->latest()->get();
+        $posts = $user->posts()->where('status', 'published')->latest()->get();
 
         $data['user']  = $user;
         $data['posts'] = $posts;

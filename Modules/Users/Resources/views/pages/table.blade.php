@@ -32,7 +32,7 @@
 
   <div id="table-1" class="int-table text-sm js-int-table">
     <div class="int-table__inner" id="site-table-container">
-      <table class="int-table__table" aria-label="Interactive table example">
+      <table class="int-table__table plain-table" aria-label="Interactive table example">
         <thead class="int-table__header js-int-table__header">
           <tr class="int-table__row">
             @if(!request()->has('is_trashed'))
@@ -163,7 +163,7 @@
               @endif
 
               <td class="int-table__cell cursor-pointer" aria-controls="modal-edit-page" data-id="{{ $page->id }}">
-                <a href="#0">
+                <a class="item-edit-link" href="#0">
                   {{ Str::limit($page->title, 47) }}
                 </a>
               </td>

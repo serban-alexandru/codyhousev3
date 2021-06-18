@@ -34,7 +34,7 @@
   <div class="bulk-selected-ids"></div><!-- /.bulk-selected-ids -->
 </form>
 
-<div id="table-1" class="int-table text-sm tag-table @if($tags->count() > 0) js-int-table @endif">
+<div id="table-1" class="int-table text-sm plain-table @if($tags->count() > 0) js-int-table @endif">
     <div class="int-table__inner">
       <table class="int-table__table" aria-label="Interactive table example">
         @if($tags->count() > 0)
@@ -162,7 +162,7 @@
               </div>
             </th>
             <td class="int-table__cell">
-              <a href="{{ route('tag.edit', [$tag->id]) }}" data-url="{{ route('tag.edit', [$tag->id]) }}" data-method="get" aria-controls="modal-add-tag" class="site-load-modal-edit-form">{{ $tag->name }}</a>
+              <a href="{{ route('tag.edit', [$tag->id]) }}" data-url="{{ route('tag.edit', [$tag->id]) }}" data-method="get" aria-controls="modal-add-tag" class="site-load-modal-edit-form item-edit-link">{{ $tag->name }}</a>
             </td>
             <td class="int-table__cell">
               {{ Modules\Post\Entities\PostsTag::where('tag_id', $tag->id)->count() }}
