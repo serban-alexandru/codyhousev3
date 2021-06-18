@@ -46,7 +46,7 @@
   
   <div class="editorjs-fullwidth">
     <input type="hidden" name="type" value="gif"/>
-    <input type="hidden" name="is_published"/>
+    <input type="hidden" name="status"/>
     <div class="flex">
       <div class="height-100% width-100% bg radius-md flex flex-column">
         <div class="padding-y-sm flex-grow overflow-auto">

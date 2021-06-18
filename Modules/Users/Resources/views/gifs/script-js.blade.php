@@ -459,8 +459,8 @@
       if (!formDataValidation($('#formAddGif')))
         return;
       
-      var isPublished = ($(this).attr('id') != 'btnSave') ? 1 : 0;
-      $('#formAddGif').find('input[name="is_published"]').val(isPublished);
+      var status = ($(this).attr('id') != 'btnSave') ? 'published' : 'draft';
+      $('#formAddGif').find('input[name="status"]').val(status);
       $('#formAddGif').submit();
     });
 
@@ -534,7 +534,7 @@
           // $('#editTags').html(response.tags);
           $('#gifId').val(gifId);
 
-          if(response.is_published == 1 && response.is_deleted != 1){
+          if(response.status == 'published'){
             $(document).find('.publish-gif-link').addClass('is-hidden');
             $(document).find('.restore-gif-link').addClass('is-hidden');
 
@@ -542,7 +542,7 @@
             $(document).find('.draft-gif-link').removeClass('is-hidden');
           }
 
-          if(response.is_published != 1 && response.is_deleted != 1){
+          if(response.status == 'draft'){
             $(document).find('.draft-gif-link').addClass('is-hidden');
             $(document).find('.restore-gif-link').addClass('is-hidden');
 
@@ -550,7 +550,7 @@
             $(document).find('.publish-gif-link').removeClass('is-hidden');
           }
 
-          if(response.is_deleted == 1){
+          if(response.status == 'deleted'){
             // Hide the Draft and Publish button
             $(document).find('.draft-gif-link').addClass('is-hidden');
             $(document).find('.publish-gif-link').addClass('is-hidden');
@@ -586,9 +586,9 @@
       if (!formDataValidation($('#formEditGif')))
         return;
 
-      var published = $(this).data('toggle-published');
+      var status = $(this).data('toggle-published') == '1' ? 'published' : 'draft';
 
-      $('#formEditGif').find('input[name="is_published"]').val(published);
+      $('#formEditGif').find('input[name="status"]').val(status);
       $('#formEditGif').submit();
     }
 
@@ -737,7 +737,25 @@
         $(this).html('Shrink Screen');
         modalContent.addClass('radius-0');
       }
+    });
 
+    // Interactive table checkbox toggle
+    $(document).on('input', '.js-int-table__select-all, .js-int-table__select-row', function(){
+      console.log('check');
+      var $checkBoxesChecked = $('.js-int-table__select-row:checked');
+      var $totalSelected = $('.table-total-selected');
+      // console.log($("#selected-id-template").html());
+      var $inputHiddenTemplate = $("#selected-id-template").html().trim();
+
+      $('.bulk-selected-ids').html('');
+
+      $checkBoxesChecked.each(function(){
+        var $this = $(this);
+        var $selectedID = $inputHiddenTemplate.replace(/@{{value}}/gi, $this.val());
+        $('.bulk-selected-ids').append($selectedID);
+      });
+
+      $totalSelected.text($checkBoxesChecked.length);
     });
   });
 </script>

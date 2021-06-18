@@ -394,6 +394,12 @@ body {
     }
 }
 
+.tag-table {
+    .menu-bar__item {
+        position: static;
+    }
+}
+
 .menu-bar__item.menu-bar-control--active {
     background-color: var(--color-contrast-lower);
 }

@@ -124,9 +124,6 @@ class PostBoxController extends Controller
       $slug .= '-2';
     }
 
-    $is_published = $request->input('is_published') ? 1 : 0;
-    $is_pending = 0;
-
     $post = Post::create([
       'user_id'          => auth()->user()->id,
       'title'            => strip_tags($request->input('title')),
@@ -137,8 +134,7 @@ class PostBoxController extends Controller
       'seo_page_title'   => $request->input('page_title') ?: NULL,
       'tags'             => ($request->has('tags')) ? implode(',', $request->input('tags')) : NULL,
       'post_type'        => 'post',
-      'is_pending'       => $is_pending,
-      'is_published'     => $is_published
+      'status'           => $request->input('status')
     ]);
 
     $tag_categories = TagCategory::all();
@@ -227,9 +223,6 @@ class PostBoxController extends Controller
       $slug .= '-2';
     }
 
-    $is_published = $request->input('is_published') ? 1 : 0;
-    $is_pending = 0;
-
     $gif = Post::create([
       'user_id'          => auth()->user()->id,
       'title'            => strip_tags($request->input('title')),
@@ -240,8 +233,7 @@ class PostBoxController extends Controller
       'seo_page_title'   => $request->input('page_title') ?: NULL,
       'tags'             => ($request->has('tags')) ? implode(',', $request->input('tags')) : NULL,
       'post_type'        => 'gif',
-      'is_pending'       => $is_pending,
-      'is_published'     => $is_published
+      'status'           => $request->input('status')
     ]);
 
     $tag_categories = TagCategory::all();

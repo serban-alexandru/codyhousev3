@@ -32,10 +32,7 @@ class MasonryV1 extends Component
                 'users.avatar as avatar'
             ])->where(
                 [
-                    'is_published' => true,
-                    'is_pending'   => false,
-                    'is_rejected'  => false,
-                    'is_deleted'   => false
+                    'status' => 'published'
                 ]    
             );
 

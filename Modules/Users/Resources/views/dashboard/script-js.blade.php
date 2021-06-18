@@ -459,8 +459,8 @@
       if (!formDataValidation($('#formAddPost')))
         return;
       
-      var isPublished = ($(this).attr('id') != 'btnSave') ? 1 : 0;
-      $('#formAddPost').find('input[name="is_published"]').val(isPublished);
+      var status = ($(this).attr('id') != 'btnSave') ? 'published' : 'draft';
+      $('#formAddPost').find('input[name="status"]').val(status);
       $('#formAddPost').submit();
     });
 
@@ -487,7 +487,7 @@
 
       $('.subnav a[aria-current]').attr('aria-current', 'page');
     });
-    
+
     $(document).on('click', 'td[aria-controls="modal-edit-post"]', function(){
 
       var postId = $(this).attr('data-id');
@@ -534,7 +534,7 @@
           // $('#editTags').html(response.tags);
           $('#postId').val(postId);
 
-          if(response.is_published == 1 && response.is_deleted != 1){
+          if(response.status == 'published'){
             $(document).find('.publish-post-link').addClass('is-hidden');
             $(document).find('.restore-post-link').addClass('is-hidden');
 
@@ -542,7 +542,7 @@
             $(document).find('.draft-post-link').removeClass('is-hidden');
           }
 
-          if(response.is_published != 1 && response.is_deleted != 1){
+          if(response.status == 'draft'){
             $(document).find('.draft-post-link').addClass('is-hidden');
             $(document).find('.restore-post-link').addClass('is-hidden');
 
@@ -550,7 +550,7 @@
             $(document).find('.publish-post-link').removeClass('is-hidden');
           }
 
-          if(response.is_deleted == 1){
+          if(response.status == 'deleted'){
             // Hide the Draft and Publish button
             $(document).find('.draft-post-link').addClass('is-hidden');
             $(document).find('.publish-post-link').addClass('is-hidden');
@@ -586,9 +586,9 @@
       if (!formDataValidation($('#formEditPost')))
         return;
 
-      var published = $(this).data('toggle-published');
+      var status = $(this).data('toggle-published') == '1' ? 'published' : 'draft';
 
-      $('#formEditPost').find('input[name="is_published"]').val(published);
+      $('#formEditPost').find('input[name="status"]').val(status);
       $('#formEditPost').submit();
     }
 
@@ -615,7 +615,8 @@
     });
 
     // Reject Post
-    $(document).on('click', 'td[aria-controls="modal-reject-post"]', function(){
+    $(document).on('click', 'td[aria-controls="modal-reject-post"]', function(e){
+      e.preventDefault();
       $('#modal-reject-post').addClass('modal--is-visible');
 
       var postId = $(this).attr('data-id');
@@ -737,7 +738,25 @@
         $(this).html('Shrink Screen');
         modalContent.addClass('radius-0');
       }
+    });
 
+    // Interactive table checkbox toggle
+    $(document).on('input', '.js-int-table__select-all, .js-int-table__select-row', function(){
+      console.log('check');
+      var $checkBoxesChecked = $('.js-int-table__select-row:checked');
+      var $totalSelected = $('.table-total-selected');
+      // console.log($("#selected-id-template").html());
+      var $inputHiddenTemplate = $("#selected-id-template").html().trim();
+
+      $('.bulk-selected-ids').html('');
+
+      $checkBoxesChecked.each(function(){
+        var $this = $(this);
+        var $selectedID = $inputHiddenTemplate.replace(/@{{value}}/gi, $this.val());
+        $('.bulk-selected-ids').append($selectedID);
+      });
+
+      $totalSelected.text($checkBoxesChecked.length);
     });
   });
 </script>

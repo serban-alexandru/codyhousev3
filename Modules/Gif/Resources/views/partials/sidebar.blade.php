@@ -20,20 +20,20 @@
 
         <ul class="sidenav__list">
           <li class="sidenav__item">
-            <a href="{{ url('/admin/gifs?is_draft=1') }}" data-tab="draft" class="sidenav__link ajax-link">
+            <a href="{{ url('/admin/gifs?status=draft') }}" data-tab="draft" class="sidenav__link ajax-link">
               <span class="sidenav__text">Draft</span>
               <span class="sidenav__counter">{{ $gifs_draft_count }} <i class="sr-only">notifications</i></span>
             </a>
           </li>
 
           <li class="sidenav__item">
-            <a href="{{ url('/admin/gifs?is_pending=1') }}" data-tab="pending" class="sidenav__link ajax-link">
+            <a href="{{ url('/admin/gifs?status=pending') }}" data-tab="pending" class="sidenav__link ajax-link">
               <span class="sidenav__text">Pending</span>
               <span class="sidenav__counter">{{ $gifs_pending_count }} <i class="sr-only">notifications</i></span>
             </a>
           </li>
           <li class="sidenav__item">
-            <a href="{{ url('/admin/gifs?is_trashed=1') }}" data-tab="trashed" class="sidenav__link ajax-link">
+            <a href="{{ url('/admin/gifs?status=deleted') }}" data-tab="trashed" class="sidenav__link ajax-link">
               <span class="sidenav__text">Trash</span>
               <span class="sidenav__counter">{{ $gifs_deleted_count }} <i class="sr-only">notifications</i></span>
             </a>

@@ -88,7 +88,7 @@ class Post extends Model
                 return $post_tag->post; // via `belongsTo` method
         });
 
-        $posts = $posts->unique()->sortByDesc('created_at')->where('is_published', true)->where('is_pending', false)->where('is_deleted', false);
+        $posts = $posts->unique()->sortByDesc('created_at')->where('status', 'published');
 
         if ($limit) {
             $posts = $posts->slice(0, $limit);
@@ -118,7 +118,7 @@ class Post extends Model
             return $post_tag->post; // via `belongsTo` method
         });
 
-        $posts = $posts->unique()->sortByDesc('created_at')->where('is_published', true)->where('is_pending', false)->where('is_deleted', false);
+        $posts = $posts->unique()->sortByDesc('created_at')->where('status', 'published');
 
         if ($limit) {
             $posts = $posts->slice(0, $limit);
@@ -371,5 +371,4 @@ class Post extends Model
 
         return $html;
     }
-
 }

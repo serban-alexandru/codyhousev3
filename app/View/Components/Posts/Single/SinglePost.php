@@ -19,12 +19,9 @@ class SinglePost extends Component
     {
         $post = Post::where(
             [
-                'id'           => $id,
-                'post_type'    => 'post',
-                'is_published' => true,
-                'is_pending'   => false,
-                'is_deleted'   => false,
-                'is_rejected'  => false,
+                'id'        => $id,
+                'post_type' => 'post',
+                'status'    => 'published'
             ]
         )->first();
 

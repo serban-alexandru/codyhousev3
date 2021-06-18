@@ -18,7 +18,7 @@
       </form>
 
       <div class="flex int-table-actions" data-table-controls="table-1">
-        @if(!request()->has('is_trashed'))
+        @if(!request()->has('status') || (request()->has('status') && request('status') != 'deleted'))
           <menu class="menu-bar is-hidden js-int-table-actions__items-selected js-menu-bar" id="btnDeleteMultiple">
             <li class="menu-bar__item menu-bar__item--trigger js-menu-bar__trigger" role="menuitem" aria-label="More options">
               <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
@@ -56,11 +56,11 @@
 
           <ul class="subnav__list">
             <li class="subnav__item"><a href="{{ url('/gifs') }}" data-tab="published" class="subnav__link ajax-link" {{ (url('/gifs') == url()->full()) ? 'aria-current=page' : '' }}>Published<span class="padding-left-sm sidenav__counter">{{ $gifs_published_count }} <i class="sr-only">notifications</i></span></a></li>
-            <li class="subnav__item"><a href="{{ url('/gifs?is_draft=1') }}" data-tab="draft" class="subnav__link ajax-link">Draft<span class="padding-left-sm sidenav__counter">{{ $gifs_draft_count }} <i class="sr-only">notifications</i></span></a></li>
+            <li class="subnav__item"><a href="{{ url('/gifs?status=draft') }}" data-tab="draft" class="subnav__link ajax-link">Draft<span class="padding-left-sm sidenav__counter">{{ $gifs_draft_count }} <i class="sr-only">notifications</i></span></a></li>
             @if (!auth()->user()->isEditor())
-            <li class="subnav__item"><a href="{{ url('/gifs?is_pending=1') }}" data-tab="pending" class="subnav__link ajax-link">Pending<span class="padding-left-sm sidenav__counter">{{ $gifs_pending_count }} <i class="sr-only">notifications</i></span></a></li>
+            <li class="subnav__item"><a href="{{ url('/gifs?status=pending') }}" data-tab="pending" class="subnav__link ajax-link">Pending<span class="padding-left-sm sidenav__counter">{{ $gifs_pending_count }} <i class="sr-only">notifications</i></span></a></li>
             @endif
-            <li class="subnav__item"><a href="{{ url('/gifs?is_trashed=1') }}" data-tab="trashed" class="subnav__link ajax-link">Trash<span class="padding-left-sm sidenav__counter">{{ $gifs_deleted_count }} <i class="sr-only">notifications</i></span></a></li>
+            <li class="subnav__item"><a href="{{ url('/gifs?status=deleted') }}" data-tab="trashed" class="subnav__link ajax-link">Trash<span class="padding-left-sm sidenav__counter">{{ $gifs_deleted_count }} <i class="sr-only">notifications</i></span></a></li>
           </ul>
         </nav>
       </div>
