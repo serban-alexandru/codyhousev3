@@ -12,12 +12,9 @@ class SingleViewController extends Controller
   public function singlePostView($slug) {
     // Get Post by slug
     $post = Post::firstWhere([
-      'slug'         => $slug,
-      'post_type'    => 'post',
-      'is_published' => true,
-      'is_pending'   => false,
-      'is_deleted'   => false,
-      'is_rejected'  => false
+      'slug'      => $slug,
+      'post_type' => 'post',
+      'status'    => 'published'
     ]);
 
     if ( !$post ) {
@@ -35,12 +32,9 @@ class SingleViewController extends Controller
   public function singleGifView($slug) {
     // Get Post by slug
     $post = Post::firstWhere([
-      'slug'         => $slug,
-      'post_type'    => 'gif',
-      'is_published' => true,
-      'is_pending'   => false,
-      'is_deleted'   => false,
-      'is_rejected'  => false
+      'slug'      => $slug,
+      'post_type' => 'gif',
+      'status'    => 'published'
     ]);
 
     if ( !$post ) {
@@ -100,12 +94,9 @@ class SingleViewController extends Controller
     } else if ( $prefix == "post" ) {
       // Get Post by slug.
       $post = Post::firstWhere([
-        'slug'         => $slug,
-        'post_type'    => 'post',
-        'is_published' => true,
-        'is_pending'   => false,
-        'is_deleted'   => false,
-        'is_rejected'  => false
+        'slug'      => $slug,
+        'post_type' => 'post',
+        'status'    => 'published'
       ]);
 
       if ( $post ) {
