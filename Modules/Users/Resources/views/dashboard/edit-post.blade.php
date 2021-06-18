@@ -3,7 +3,7 @@
     <form action="{{ route('dashboard.update') }}" data-action="{{ route('dashboard.update') }}" id="formEditPost" method="POST" enctype="multipart/form-data" >
       @csrf
       <input type="hidden" id="postId" name="post_id" value="">
-      <input type="hidden" name="is_published"/>
+      <input type="hidden" name="status"/>
       <div class="flex">
         <div class="height-100% width-100% bg radius-md flex flex-column">
 

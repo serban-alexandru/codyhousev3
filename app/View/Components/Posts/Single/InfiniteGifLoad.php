@@ -20,12 +20,9 @@ class InfiniteGifLoad extends Component
     {
         $gif = Post::where(
             [
-                'id'           => $id,
-                'post_type'    => 'gif',
-                'is_published' => true,
-                'is_pending'   => false,
-                'is_deleted'   => false,
-                'is_rejected'  => false,
+                'id'        => $id,
+                'post_type' => 'gif',
+                'status'    => 'published'
             ]
         )->first();
 

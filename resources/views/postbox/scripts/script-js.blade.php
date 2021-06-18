@@ -383,8 +383,10 @@
       if (!formDataValidation($('#formPostBox')))
         return;
 
-      var isPublished = ($(this).attr('id') != 'btnSave') ? 1 : 0;
-      $('#formPostBox').find('input[name="is_published"]').val(isPublished);
+      var status = ($(this).attr('id') != 'btnSave') ? 'published' : 'draft';
+      $('#formPostBox').find('input[name="status"]').val(status);
+      // for Page content type
+      $('#formPostBox').find('input[name="is_published"]').val(($(this).attr('id') != 'btnSave') ? 1 : 0);
       $('#formPostBox').submit();
     });
   }

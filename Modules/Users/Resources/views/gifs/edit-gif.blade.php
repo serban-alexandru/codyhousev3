@@ -3,7 +3,7 @@
     <form action="{{ route('gifs.update') }}" data-action="{{ route('gifs.update') }}" id="formEditGif" method="POST" enctype="multipart/form-data" >
       @csrf
       <input type="hidden" id="gifId" name="gif_id" value="">
-      <input type="hidden" name="is_published"/>
+      <input type="hidden" name="status"/>
       <div class="flex">
         <div class="height-100% width-100% bg radius-md flex flex-column">
 
@@ -64,7 +64,7 @@
 
             <footer class="padding-y-sm bg flex-shrink-0">
               <div class="flex justify-end gap-xs">
-                <button type="button" class="btn btn--subtle btn-cancel-post">Cancel</button>
+                <button type="button" class="btn btn--subtle btn-cancel-gif">Cancel</button>
                 <a href="#" type="button" class="btn btn--primary is-hidden draft-post-link trigger-site-editor-save" data-target-input="#editDescription" id="btnEditSaveDraft" data-toggle-published="0">Draft</a>
                 <a href="#" type="button" class="btn btn--primary is-hidden publish-post-link trigger-site-editor-save" data-target-input="#editDescription" id="btnEditSavePublish" data-toggle-published="1">Publish</a>
                 <a href="#" type="button" class="btn btn--primary is-hidden restore-post-link">Restore</a>

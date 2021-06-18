@@ -7,7 +7,7 @@
           <div class="add-post-wrp editorjs-fullwidth">
             <form action="{{ route('dashboard.store') }}" data-action="{{ route('dashboard.store') }}" id="formAddPost" method="POST" enctype="multipart/form-data" >
               @csrf
-              <input type="hidden" name="is_published"/>
+              <input type="hidden" name="status"/>
               <input type="hidden" name="redirect" value="1"/>
               <div class="flex">
                 <div class="height-100% width-100% bg radius-md flex flex-column">

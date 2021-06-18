@@ -39,7 +39,7 @@
                     <span class="menu-bar__label">Refresh</span>
                   </li>
                 </menu>
-                @if(!request()->has('is_trashed'))
+                @if(! request()->has('status') || (request()->has('status') && request('status') != 'deleted'))
                   <menu class="menu-bar is-hidden js-int-table-actions__items-selected js-menu-bar" id="btnDeleteMultiple">
                     <li class="menu-bar__item menu-bar__item--trigger js-menu-bar__trigger" role="menuitem" aria-label="More options">
                       <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
@@ -80,12 +80,8 @@
             <li>
               <span class="pagination__jumper flex items-center">
                 <form action="{{ url()->full() }}" class="inline" method="get">
-                  @if($request->has('is_trashed'))
-                    <input type="hidden" name="is_trashed" value="{{ $is_trashed }}">
-                  @endif
-
-                  @if($request->has('is_draft'))
-                    <input type="hidden" name="is_draft" value="{{ $is_draft }}">
+                  @if($request->has('status'))
+                    <input type="hidden" name="status" value="{{ $status }}">
                   @endif
 
                   <input aria-label="Page number" class="form-control" type="number" name="page" min="1" max="{{ $posts->lastPage() }}" value="{{ $posts->currentPage() }}">

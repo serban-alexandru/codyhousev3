@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
-use Modules\Post\Entities\{ PostSetting, Post, PostsTag };
+use Modules\Post\Entities\{ PostSetting, Post, PostsTag, PostsMeta };
 use Modules\Tag\Entities\{Tag, TagCategory};
 
 class PostController extends Controller
@@ -48,9 +48,7 @@ class PostController extends Controller
                 'posts.created_at as created_at',
                 'thumbnail',
                 'thumbnail_medium',
-                'is_deleted',
-                'is_pending',
-                'is_published',
+                'status',
                 'users.username as username'
             ])->orderBy('created_at', 'desc');
 
@@ -62,24 +60,16 @@ class PostController extends Controller
             ->orWhere('users.name', 'LIKE', '%' . request('postsearch') . '%');
         }
 
-        $posts = (request()->has('is_trashed'))
-            ? $posts->where('is_deleted', 1)
-            : $posts->where('is_deleted', 0);
-
-        if(!request()->has('is_trashed')){
-            $posts = (request()->has('is_draft'))
-                ? $posts->where('is_published', 0)->where('is_pending', 0)
-                : (request()->has('is_pending') ? $posts->where('is_published', 0)->where('is_pending', 1)->where('is_rejected', 0) : $posts->where('is_published', 1));
-        }
+        $posts = (request()->has('status')) ? $posts->where('status', request('status')) : $posts->where('status', 'published');
 
         $limit = request('limit') ? request('limit') : 25;
 
         $posts = $posts->paginate($limit);
 
-        $posts_published_count = Post::where( 'post_type', 'post' )->where('is_deleted', 0)->where('is_published', 1)->count();
-        $posts_draft_count = Post::where( 'post_type', 'post' )->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
-        $posts_pending_count = Post::where( 'post_type', 'post' )->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
-        $posts_deleted_count = Post::where( 'post_type', 'post' )->where('is_deleted', 1)->count();
+        $posts_published_count = Post::where( 'post_type', 'post' )->where('status', 'published')->count();
+        $posts_draft_count = Post::where( 'post_type', 'post' )->where('status', 'draft')->count();
+        $posts_pending_count = Post::where( 'post_type', 'post' )->where('status', 'pending')->count();
+        $posts_deleted_count = Post::where( 'post_type', 'post' )->where('status', 'deleted')->count();
 
         $availableLimit = ['25', '50', '100', '150', '200'];
 
@@ -91,10 +81,8 @@ class PostController extends Controller
             $image_height = $posts_settings->medium_height;
         }
 
-        $request    = request();
-        $is_trashed = request('is_trashed');
-        $is_draft   = request('is_draft');
-        $is_pending   = request('is_pending');
+        $request = request();
+        $status = request('status');
 
         $tag_categories = TagCategory::all();
 
@@ -125,23 +113,23 @@ class PostController extends Controller
 
         // get rejected posts
         $rejected_posts = [];
-        if ($is_pending) {
+        if ($status == 'pending') {
             $rejected_posts = $this->getRejectedPosts();
         }
 
         return view($view, compact(
             'posts', 'rejected_posts', 'posts_published_count', 'posts_draft_count', 'posts_pending_count', 'posts_deleted_count',
-            'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'is_trashed', 'is_draft', 'is_pending', 'tag_categories', 'tags_by_category'
+            'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'status', 'tag_categories', 'tags_by_category'
             )
         );
     }
 
     public function settings()
     {
-        $posts_published_count = Post::where( 'post_type', 'post' )->where('is_deleted', 0)->where('is_published', 1)->count();
-        $posts_draft_count = Post::where( 'post_type', 'post' )->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
-        $posts_pending_count = Post::where( 'post_type', 'post' )->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
-        $posts_deleted_count = Post::where( 'post_type', 'post' )->where('is_deleted', 1)->count();
+        $posts_published_count = Post::where( 'post_type', 'post' )->where('status', 'published')->count();
+        $posts_draft_count = Post::where( 'post_type', 'post' )->where('status', 'draft')->count();
+        $posts_pending_count = Post::where( 'post_type', 'post' )->where('status', 'pending')->count();
+        $posts_deleted_count = Post::where( 'post_type', 'post' )->where('status', 'deleted')->count();
 
         $posts_settings = PostSetting::where( 'post_type', 'post' )->first();
 
@@ -261,8 +249,7 @@ class PostController extends Controller
             'seo_page_title'   => request('page_title') ?: NULL,
             'tags'             => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
             'post_type'        => 'post',
-            'is_pending'       => 0,
-            'is_published'     => request('is_published')
+            'status'           => request('status')
         ]);
 
         $tag_categories = TagCategory::all();
@@ -321,8 +308,7 @@ class PostController extends Controller
         $data['thumbnail']    = asset("storage/posts/original/{$post->thumbnail}");
         $data['page_title']   = $post->seo_page_title;
         $data['post_date']    = Date('d/m/Y', strtotime($post->created_at));
-        $data['is_published'] = $post->is_published;
-        $data['is_deleted']   = $post->is_deleted;
+        $data['status']       = $post->status;
 
         $tag_categories        = TagCategory::all();
         $posts_tags            = $post->postsTag()->get();
@@ -412,9 +398,7 @@ class PostController extends Controller
             }
         }
 
-        $is_published = request('is_published') ?? $post->is_published;
-	    $is_pending = 0;
-	    $is_rejected = 0;
+        $status = request()->has('status') ? request('status') : $post->status;
 
         // Generate slug
         $slug                = Str::slug(request('slug'), '-');
@@ -447,17 +431,15 @@ class PostController extends Controller
         $post_date = strtotime(sprintf($datetime_format, $year, $month, $day, $created_h, $created_m, $created_s));
 
         $post->update([
-            'title' => strip_tags(request('title')),
-            'slug' => $slug,
-            'description' => request('description'),
-            'thumbnail' => (request()->has('thumbnail')) ? $thumbnail_name : $post->thumbnail,
+            'title'            => strip_tags(request('title')),
+            'slug'             => $slug,
+            'description'      => request('description'),
+            'thumbnail'        => (request()->has('thumbnail')) ? $thumbnail_name : $post->thumbnail,
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : $post->thumbnail_medium,
-            'seo_page_title' => request('page_title') ?: NULL,
-            'tags' => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
-            'created_at' => $post_date,
-            'is_published' => $is_published,
-            'is_pending' => $is_pending,
-            'is_rejected' => $is_rejected
+            'seo_page_title'   => request('page_title') ?: NULL,
+            'tags'             => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
+            'created_at'       => $post_date,
+            'status'           => $status
         ]);
 
         $tag_categories = TagCategory::all();
@@ -503,6 +485,18 @@ class PostController extends Controller
         ]);
     }
 
+    public function saveRejectedReason( $post_id, $content ) {
+        $post_meta             = new PostsMeta;
+        $post_meta->post_id    = $post_id;
+        $post_meta->meta_key   = 'rejected_reason';
+        $post_meta->meta_value = $content;
+        $post_meta->save();
+    }
+
+    public function deleteRejectedReason( $post_ids ) {
+        $post_meta = PostsMeta::whereIn( 'post_id', !is_array($post_ids) ? [$post_ids] : $post_ids )->where('meta_key', 'rejected_reason')->delete();
+    }
+
     public function delete()
     {
         $post = Post::where( 'post_type', 'post' )->find(request('post_id'));
@@ -515,7 +509,10 @@ class PostController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $post->update(['is_deleted' => 1, 'is_published' => 0, 'is_pending' => 0, 'is_rejected' => 0, 'reject_reason' => '']);
+        // Clear Rejected reason.
+        $this->deleteRejectedReason( $post->id );
+
+        $post->update( ['status' => 'deleted'] );
 
         return redirect('admin/posts');
     }
@@ -575,8 +572,11 @@ class PostController extends Controller
         if ($selectedIDs == null) {
             return back();
         }
+
+        // Clear Rejected reason.
+        $this->deleteRejectedReason( $selectedIDs );
         
-        Post::where( 'post_type', 'post' )->whereIn('id', $selectedIDs)->update(['is_deleted' => 1, 'is_rejected' => 0, 'reject_reason' => '']);
+        Post::where( 'post_type', 'post' )->whereIn('id', $selectedIDs)->update(['status' => 'deleted']);
 
         $alert = [
             'message' => 'Posts has been deleted!',
@@ -587,14 +587,12 @@ class PostController extends Controller
 
     public function emptyTrash()
     {
-
         // Get posts on trash
-        $trashed_posts = Post::where( 'post_type', 'post' )->where('is_deleted', 1)->get();
+        $trashed_posts = Post::where( 'post_type', 'post' )->where('status', 'deleted')->get();
 
         foreach ($trashed_posts as $post) {
             $this->deletePost($post);
         }
-
 
         return redirect('admin/posts');
     }
@@ -611,7 +609,12 @@ class PostController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $post->update(['is_deleted' => 0, 'is_pending' => 0, 'is_published' => 0]);
+        // Clear Rejected reason.
+        if ( $post->status == 'rejected' ) {
+            $this->deleteRejectedReason( $post->id );
+        }
+
+        $post->update(['status' => 'draft']);
 
         return redirect('admin/posts');
     }
@@ -646,7 +649,10 @@ class PostController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $post->update(['is_published' => 0, 'is_pending' => 0, 'is_rejected' => 0, 'reject_reason' => '']);
+        // Clear Rejected reason.
+        $this->deleteRejectedReason( $id );
+
+        $post->update(['status' => 'draft']);
 
         return redirect('admin/posts');
     }
@@ -661,7 +667,10 @@ class PostController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $post->update(['is_published' => 1, 'is_pending' => 0, 'is_rejected' => 0, 'reject_reason' => '']);
+        // Clear Rejected reason.
+        $this->deleteRejectedReason( $id );
+
+        $post->update(['status' => 'published']);
 
         return redirect('admin/posts');
     }
@@ -670,11 +679,8 @@ class PostController extends Controller
     {
         $posts = Post::where(
             [
-                'post_type'    => 'post',
-                'is_published' => true,
-                'is_pending'   => false,
-                'is_rejected'  => false,
-                'is_deleted'   => false
+                'post_type' => 'post',
+                'status'    => 'published'
             ]
         )->orderBy('created_at', 'desc');
 
@@ -695,11 +701,8 @@ class PostController extends Controller
 
         $posts = Post::where(
             [
-                'post_type'    => 'post',
-                'is_published' => true,
-                'is_pending'   => false,
-                'is_rejected'  => false,
-                'is_deleted'   => false
+                'post_type' => 'post',
+                'status'    => 'published'
             ]
         )->orderBy('created_at', 'desc');
 
@@ -768,10 +771,7 @@ class PostController extends Controller
                 'users.avatar as avatar'
             ])->where(
                 [
-                    'is_published' => true,
-                    'is_pending'   => false,
-                    'is_rejected'  => false,
-                    'is_deleted'   => false
+                    'status' => 'published'
                 ]    
             )
             ->orderBy('created_at', 'desc')
@@ -781,10 +781,7 @@ class PostController extends Controller
         $posts = $posts->get();
 
         $posts_count = Post::where([
-            'is_published' => true,
-            'is_pending'   => false,
-            'is_rejected'  => false,
-            'is_deleted'   => false
+            'status' => 'published'
         ])->count();
 
         $data['total'] = $posts_count;
@@ -811,11 +808,8 @@ class PostController extends Controller
             ->whereIn('tags.name', $tags)
             ->where(
                 [
-                    'post_type'    => 'post',
-                    'is_published' => true,
-                    'is_pending'   => false,
-                    'is_rejected'  => false,
-                    'is_deleted'   => false
+                    'post_type' => 'post',
+                    'status'    => 'published'
                 ]    
             )
             ->groupBy('posts.id')
@@ -846,11 +840,8 @@ class PostController extends Controller
             ->whereIn('tags.name', $tags)
             ->where(
                 [
-                    'post_type'    => 'post',
-                    'is_published' => true,
-                    'is_pending'   => false,
-                    'is_rejected'  => false,
-                    'is_deleted'   => false
+                    'post_type' => 'post',
+                    'status'    => 'published'
                 ]    
             )->groupBy('posts.id');
         $posts_count = count($posts_count->get());
@@ -866,7 +857,7 @@ class PostController extends Controller
     }
 
     public function makePostReject() {
-        $post = Post::where( 'post_type', 'post' )->find($id);
+        $post = Post::where( 'post_type', 'post' )->find(request('id'));
         if (!$post) {
             return response()->json([
                 'status' => false,
@@ -876,7 +867,7 @@ class PostController extends Controller
             return redirect()->back()->with('alert', $alert);    
         }
 
-        if (! $post->is_pending) {
+        if ( $post->status != 'pending' ) {
             return response()->json([
                 'status' => false,
                 'message' => 'The post is not pending post'
@@ -885,17 +876,21 @@ class PostController extends Controller
             return redirect()->back()->with('alert', $alert);    
         }
 
-        $post->update(['is_rejected' => 1, 'reject_reason' => request('message')]);
-        
+        // Save Rejected reason.
+        $this->saveRejectedReason( $post->id, request('message') );
+
+        $post->update(['status' => 'rejected']);
+       
         return response()->json([
             'status' => true,
             'message' => 'Post has been rejected.'
         ]);
     }
-    
+
     public function getRejectedPosts()
     {
         $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
+            ->leftJoin('posts_metas', 'posts.id', '=', 'posts_metas.post_id')
             ->select([
                 'posts.id',
                 'title',
@@ -903,11 +898,8 @@ class PostController extends Controller
                 'posts.created_at as created_at',
                 'thumbnail',
                 'thumbnail_medium',
-                'is_deleted',
-                'is_pending',
-                'is_published',
-                'is_rejected',
-                'reject_reason',
+                'status',
+                'posts_metas.meta_value as reject_reason',
                 'users.username as username'
             ])->orderBy('created_at', 'desc');
 
@@ -916,12 +908,12 @@ class PostController extends Controller
             ->orWhere('users.name', 'LIKE', '%' . request('postsearch') . '%');
         }
 
-        $posts = $posts->where( 'post_type', 'post' )->where('is_published', 0)->where('is_pending', 1)->where('is_rejected', 1);
+        $posts = $posts->where( 'post_type', 'post' )->where('status', 'rejected')->where('meta_key', '=', 'rejected_reason');
 
         $limit = request('limit') ? request('limit') : 25;
 
         $posts = $posts->paginate($limit, ['*'], 'r_page');
 
         return $posts;
-    }    
+    }
 }

@@ -447,9 +447,9 @@
           return;
 
         $(this).html('Please wait...');
-        var isPublished = ($(this).attr('id') != 'btnSave') ? 1 : 0;
+        var status = ($(this).attr('id') != 'btnSave') ? 'published' : 'draft';
         var formData = new FormData($('#formAddGif')[0]);
-        formData.append('is_published', isPublished);
+        formData.append('status', status);
         // formData.append('description', tinyMCE.activeEditor.getContent());
 
         $.ajaxSetup({
@@ -520,7 +520,7 @@
 
           $('#post_date').val(response.post_date);
 
-          if(response.is_published == 1 && response.is_deleted != 1){
+          if(response.status == 'published'){
             $(document).find('.publish-post-link').addClass('is-hidden');
             $(document).find('.restore-post-link').addClass('is-hidden');
 
@@ -528,7 +528,7 @@
             $(document).find('.draft-post-link').removeClass('is-hidden');
           }
 
-          if(response.is_published != 1 && response.is_deleted != 1){
+          if(response.status == 'draft'){
             $(document).find('.draft-post-link').addClass('is-hidden');
             $(document).find('.restore-post-link').addClass('is-hidden');
 
@@ -536,7 +536,7 @@
             $(document).find('.publish-post-link').removeClass('is-hidden');
           }
 
-          if(response.is_deleted == 1){
+          if(response.status == 'deleted'){
             // Hide the Draft and Publish button
             $(document).find('.draft-post-link').addClass('is-hidden');
             $(document).find('.publish-post-link').addClass('is-hidden');
@@ -566,15 +566,15 @@
         return;
 
       var $this = $(this);
-      var published = $this.data('toggle-published');
+      var status = $this.data('toggle-published') == "1" ? 'published' : $this.data('toggle-published') == "0" ? 'draft' : '';
 
       $(this).html("Please wait...");
 
       var formData = new FormData($('#formEditGif')[0]);
       formData.append('id', $('#gifId').val());
 
-      if (published != undefined) {
-        formData.append('is_published', published);
+      if (status != '') {
+        formData.append('status', status);
       }
 
       $.ajaxSetup({

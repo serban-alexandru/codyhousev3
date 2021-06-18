@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
-use Modules\Post\Entities\{ PostSetting, Post, PostsTag };
+use Modules\Post\Entities\{ PostSetting, Post, PostsTag, PostsMeta };
 use Modules\Tag\Entities\{Tag, TagCategory};
 
 class GifController extends Controller
@@ -48,9 +48,7 @@ class GifController extends Controller
                 'posts.created_at as created_at',
                 'thumbnail',
                 'thumbnail_medium',
-                'is_deleted',
-                'is_pending',
-                'is_published',
+                'status',
                 'users.username as username'
             ])->orderBy('created_at', 'desc');
 
@@ -62,24 +60,16 @@ class GifController extends Controller
             ->orWhere('users.name', 'LIKE', '%' . request('gifsearch') . '%');
         }
 
-        $gifs = (request()->has('is_trashed'))
-            ? $gifs->where('is_deleted', 1)
-            : $gifs->where('is_deleted', 0);
-
-        if(!request()->has('is_trashed')){
-            $gifs = (request()->has('is_draft'))
-                ? $gifs->where('is_published', 0)->where('is_pending', 0)
-                : (request()->has('is_pending') ? $gifs->where('is_published', 0)->where('is_pending', 1)->where('is_rejected', 0) : $gifs->where('is_published', 1));
-        }
+        $gifs = (request()->has('status')) ? $gifs->where('status', request('status')) : $gifs->where('status', 'published');
 
         $limit = request('limit') ? request('limit') : 25;
 
         $gifs = $gifs->paginate($limit);
 
-        $gifs_published_count = Post::where( 'post_type', 'gif' )->where('is_deleted', 0)->where('is_published', 1)->count();
-        $gifs_draft_count = Post::where( 'post_type', 'gif' )->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
-        $gifs_pending_count = Post::where( 'post_type', 'gif' )->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
-        $gifs_deleted_count = Post::where( 'post_type', 'gif' )->where('is_deleted', 1)->count();
+        $gifs_published_count = Post::where( 'post_type', 'gif' )->where('status', 'published')->count();
+        $gifs_draft_count = Post::where( 'post_type', 'gif' )->where('status', 'draft')->count();
+        $gifs_pending_count = Post::where( 'post_type', 'gif' )->where('status', 'pending')->count();
+        $gifs_deleted_count = Post::where( 'post_type', 'gif' )->where('status', 'deleted')->count();
 
         $availableLimit = ['25', '50', '100', '150', '200'];
 
@@ -91,10 +81,8 @@ class GifController extends Controller
             $image_height = $gifs_settings->medium_height;
         }
 
-        $request    = request();
-        $is_trashed = request('is_trashed');
-        $is_draft   = request('is_draft');
-        $is_pending   = request('is_pending');
+        $request = request();
+        $status  = request('status');
 
         $tag_categories = TagCategory::all();
 
@@ -125,23 +113,23 @@ class GifController extends Controller
 
         // get rejected gifs
         $rejected_gifs = [];
-        if ($is_pending) {
+        if ($status == 'pending') {
             $rejected_gifs = $this->getRejectedGifs();
         }
 
         return view($view, compact(
             'gifs', 'rejected_gifs', 'gifs_published_count', 'gifs_draft_count', 'gifs_pending_count', 'gifs_deleted_count',
-            'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'is_trashed', 'is_draft', 'is_pending', 'tag_categories', 'tags_by_category'
+            'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'status', 'tag_categories', 'tags_by_category'
             )
         );
     }
 
     public function settings()
     {
-        $gifs_published_count = Post::where( 'post_type', 'gif' )->where('is_deleted', 0)->where('is_published', 1)->count();
-        $gifs_draft_count = Post::where( 'post_type', 'gif' )->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
-        $gifs_pending_count = Post::where( 'post_type', 'gif' )->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
-        $gifs_deleted_count = Post::where( 'post_type', 'gif' )->where('is_deleted', 1)->count();
+        $gifs_published_count = Post::where( 'post_type', 'gif' )->where('status', 'published')->count();
+        $gifs_draft_count = Post::where( 'post_type', 'gif' )->where('status', 'draft')->count();
+        $gifs_pending_count = Post::where( 'post_type', 'gif' )->where('status', 'pending')->count();
+        $gifs_deleted_count = Post::where( 'post_type', 'gif' )->where('status', 'deleted')->count();
 
         $gifs_settings = PostSetting::where( 'post_type', 'gif' )->first();
 
@@ -266,8 +254,7 @@ class GifController extends Controller
             'seo_page_title'   => request('page_title') ?: NULL,
             'tags'             => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
             'post_type'        => 'gif',
-            'is_pending'       => 0,
-            'is_published'     => request('is_published')
+            'status'           => request('status')
         ]);
 
         $tag_categories = TagCategory::all();
@@ -325,8 +312,7 @@ class GifController extends Controller
         $data['thumbnail']    = asset("storage/gifs/original/{$gif->thumbnail}");
         $data['page_title']   = $gif->seo_page_title;
         $data['post_date']    = Date('d/m/Y', strtotime($gif->created_at));
-        $data['is_published'] = $gif->is_published;
-        $data['is_deleted']   = $gif->is_deleted;
+        $data['status']       = $gif->status;
 
         $tag_categories        = TagCategory::all();
         $gifs_tags            = $gif->postsTag()->get();
@@ -419,9 +405,7 @@ class GifController extends Controller
             }
         }
 
-        $is_published = request('is_published') ?? $gif->is_published;
-	    $is_pending = 0;
-	    $is_rejected = 0;
+        $status = request()->has('status') ? request('status') : $gif->status;
 
         // Generate slug
         $slug                = Str::slug(request('slug'), '-');
@@ -454,17 +438,15 @@ class GifController extends Controller
         $post_date = strtotime(sprintf($datetime_format, $year, $month, $day, $created_h, $created_m, $created_s));
 
         $gif->update([
-            'title' => strip_tags(request('title')),
-            'slug' => $slug,
-            'description' => request('description'),
-            'thumbnail' => (request()->has('thumbnail')) ? $thumbnail_name : $gif->thumbnail,
+            'title'            => strip_tags(request('title')),
+            'slug'             => $slug,
+            'description'      => request('description'),
+            'thumbnail'        => (request()->has('thumbnail')) ? $thumbnail_name : $gif->thumbnail,
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : $gif->thumbnail_medium,
-            'seo_page_title' => request('page_title') ?: NULL,
-            'tags' => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
-            'created_at' => $post_date,
-            'is_published' => $is_published,
-            'is_pending' => $is_pending,
-            'is_rejected' => $is_rejected
+            'seo_page_title'   => request('page_title') ?: NULL,
+            'tags'             => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
+            'created_at'       => $post_date,
+            'status'           => $status
         ]);
 
         $tag_categories = TagCategory::all();
@@ -510,6 +492,18 @@ class GifController extends Controller
         ]);
     }
 
+    public function saveRejectedReason( $gif_id, $content ) {
+        $post_meta             = new PostsMeta;
+        $post_meta->post_id    = $gif_id;
+        $post_meta->meta_key   = 'rejected_reason';
+        $post_meta->meta_value = $content;
+        $post_meta->save();
+    }
+
+    public function deleteRejectedReason( $gif_ids ) {
+        $post_meta = PostsMeta::whereIn( 'post_id', !is_array($gif_ids) ? [$gif_ids] : $gif_ids )->where('meta_key', 'rejected_reason')->delete();
+    }
+
     public function delete()
     {
         $gif = Post::where( 'post_type', 'gif' )->find(request('post_id'));
@@ -522,7 +516,10 @@ class GifController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $gif->update(['is_deleted' => 1, 'is_published' => 0, 'is_pending' => 0, 'is_rejected' => 0, 'reject_reason' => '']);
+        // Clear Rejected reason.
+        $this->deleteRejectedReason( $gif->id );
+
+        $gif->update(['status' => 'deleted']);
 
         return redirect('admin/gifs');
     }
@@ -582,8 +579,11 @@ class GifController extends Controller
         if ($selectedIDs == null) {
             return back();
         }
+
+        // Clear Rejected reason.
+        $this->deleteRejectedReason( $selectedIDs );
         
-        Post::where( 'post_type', 'gif' )->whereIn('id', $selectedIDs)->update(['is_deleted' => 1, 'is_rejected' => 0, 'reject_reason' => '']);
+        Post::where( 'post_type', 'gif' )->whereIn('id', $selectedIDs)->update(['status' => 'deleted']);
 
         $alert = [
             'message' => 'Gifs has been deleted!',
@@ -594,14 +594,12 @@ class GifController extends Controller
 
     public function emptyTrash()
     {
-
         // Get gifs on trash
-        $trashed_gifs = Post::where( 'post_type', 'gif' )->where('is_deleted', 1)->get();
+        $trashed_gifs = Post::where( 'post_type', 'gif' )->where('status', 'deleted')->get();
 
         foreach ($trashed_gifs as $gif) {
             $this->deleteGif($gif);
         }
-
 
         return redirect('admin/gifs');
     }
@@ -618,7 +616,12 @@ class GifController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $gif->update(['is_deleted' => 0, 'is_pending' => 0, 'is_published' => 0]);
+        // Clear Rejected reason.
+        if ( $gif->status == 'rejected' ) {
+            $this->deleteRejectedReason( $gif->id );
+        }
+
+        $gif->update(['status' => 'draft']);
 
         return redirect('admin/gifs');
     }
@@ -653,7 +656,10 @@ class GifController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $gif->update(['is_published' => 0, 'is_pending' => 0, 'is_rejected' => 0, 'reject_reason' => '']);
+        // Clear Rejected reason.
+        $this->deleteRejectedReason( $id );
+
+        $gif->update(['status' => 'draft']);
 
         return redirect('admin/gifs');
     }
@@ -668,7 +674,10 @@ class GifController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $gif->update(['is_published' => 1, 'is_pending' => 0, 'is_rejected' => 0, 'reject_reason' => '']);
+        // Clear Rejected reason.
+        $this->deleteRejectedReason( $id );
+
+        $gif->update(['status' => 'published']);
 
         return redirect('admin/gifs');
     }
@@ -677,11 +686,8 @@ class GifController extends Controller
     {
         $gifs = Post::where(
             [
-                'post_type'    => 'gif',
-                'is_published' => true,
-                'is_pending'   => false,
-                'is_rejected'  => false,
-                'is_deleted'   => false
+                'post_type' => 'gif',
+                'status'    => 'published'
             ]
         )->orderBy('created_at', 'desc');
 
@@ -702,11 +708,8 @@ class GifController extends Controller
 
         $gifs = Post::where(
             [
-                'post_type'    => 'gif',
-                'is_published' => true,
-                'is_pending'   => false,
-                'is_rejected'  => false,
-                'is_deleted'   => false
+                'post_type' => 'gif',
+                'status'    => 'published'
             ]
         )->orderBy('created_at', 'desc');
 
@@ -775,11 +778,8 @@ class GifController extends Controller
                 'users.avatar as avatar'
             ])->where(
                 [
-                    'post_type'    => 'gif',
-                    'is_published' => true,
-                    'is_pending'   => false,
-                    'is_rejected'  => false,
-                    'is_deleted'   => false
+                    'post_type' => 'gif',
+                    'status'    => 'published'
                 ]    
             )
             ->orderBy('created_at', 'desc')
@@ -789,11 +789,8 @@ class GifController extends Controller
         $gifs = $gifs->get();
 
         $gifs_count = Post::where([
-            'post_type'    => 'gif',
-            'is_published' => true,
-            'is_pending'   => false,
-            'is_rejected'  => false,
-            'is_deleted'   => false
+            'post_type' => 'gif',
+            'status'    => 'published'
         ])->count();
 
         $data['total'] = $gifs_count;
@@ -820,11 +817,8 @@ class GifController extends Controller
             ->whereIn('tags.name', $tags)
             ->where(
                 [
-                    'post_type'    => 'gif',
-                    'is_published' => true,
-                    'is_pending'   => false,
-                    'is_rejected'  => false,
-                    'is_deleted'   => false
+                    'post_type' => 'gif',
+                    'status'    => 'published'
                 ]    
             )
             ->groupBy('posts.id')
@@ -855,11 +849,8 @@ class GifController extends Controller
             ->whereIn('tags.name', $tags)
             ->where(
                 [
-                    'post_type'    => 'gif',
-                    'is_published' => true,
-                    'is_pending'   => false,
-                    'is_rejected'  => false,
-                    'is_deleted'   => false
+                    'post_type' => 'gif',
+                    'status'    => 'published'
                 ]    
             )->groupBy('posts.id');
         $gifs_count = count($gifs_count->get());
@@ -875,7 +866,7 @@ class GifController extends Controller
     }
 
     public function makeGifReject() {
-        $gif = Post::where( 'post_type', 'gif' )->find($id);
+        $gif = Post::where( 'post_type', 'gif' )->find(request('id'));
         if (!$gif) {
             return response()->json([
                 'status' => false,
@@ -885,7 +876,7 @@ class GifController extends Controller
             return redirect()->back()->with('alert', $alert);    
         }
 
-        if (! $gif->is_pending) {
+        if ( $gif->status != 'pending' ) {
             return response()->json([
                 'status' => false,
                 'message' => 'The gif is not pending.'
@@ -894,8 +885,11 @@ class GifController extends Controller
             return redirect()->back()->with('alert', $alert);    
         }
 
-        $gif->update(['is_rejected' => 1, 'reject_reason' => request('message')]);
-        
+        // Save Rejected reason.
+        $this->saveRejectedReason( $gif->id, request('message') );
+
+        $gif->update(['status' => 'rejected']);
+
         return response()->json([
             'status' => true,
             'message' => 'Gif has been rejected.'
@@ -905,6 +899,7 @@ class GifController extends Controller
     public function getRejectedGifs()
     {
         $gifs = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
+            ->leftJoin('posts_metas', 'posts.id', '=', 'posts_metas.post_id')
             ->select([
                 'posts.id',
                 'title',
@@ -912,11 +907,8 @@ class GifController extends Controller
                 'posts.created_at as created_at',
                 'thumbnail',
                 'thumbnail_medium',
-                'is_deleted',
-                'is_pending',
-                'is_published',
-                'is_rejected',
-                'reject_reason',
+                'status',
+                'posts_metas.meta_value as reject_reason',
                 'users.username as username'
             ])->orderBy('created_at', 'desc');
 
@@ -925,7 +917,7 @@ class GifController extends Controller
             ->orWhere('users.name', 'LIKE', '%' . request('gifsearch') . '%');
         }
 
-        $gifs = $gifs->where( 'post_type', 'gif' )->where('is_published', 0)->where('is_pending', 1)->where('is_rejected', 1);
+        $gifs = $gifs->where( 'post_type', 'gif' )->where('status', 'rejected')->where('meta_key', '=', 'rejected_reason');
 
         $limit = request('limit') ? request('limit') : 25;
 

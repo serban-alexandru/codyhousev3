@@ -20,7 +20,7 @@
       
         <ul class="sidenav__list">
           <li class="sidenav__item">
-            <a href="{{ url('/gifs?is_draft=1') }}" class="sidenav__link ajax-link">
+            <a href="{{ url('/gifs?status=draft') }}" class="sidenav__link ajax-link">
               <span class="sidenav__text">Draft</span>
               <span class="sidenav__counter">{{ $gifs_draft_count }} <i class="sr-only">notifications</i></span>
             </a>
@@ -28,7 +28,7 @@
 
           @if (!auth()->user()->isEditor())
           <li class="sidenav__item">
-            <a href="{{ url('/gifs?is_pending=1') }}" class="sidenav__link ajax-link">
+            <a href="{{ url('/gifs?status=pending') }}" class="sidenav__link ajax-link">
               <span class="sidenav__text">Pending</span>
               <span class="sidenav__counter">{{ $gifs_pending_count }} <i class="sr-only">notifications</i></span>
             </a>
@@ -36,14 +36,13 @@
           @endif
 
           <li class="sidenav__item">
-            <a href="{{ url('/gifs?is_trashed=1') }}" class="sidenav__link ajax-link">
+            <a href="{{ url('/gifs?status=deleted') }}" class="sidenav__link ajax-link">
               <span class="sidenav__text">Trash</span>
               <span class="sidenav__counter">{{ $gifs_deleted_count }} <i class="sr-only">notifications</i></span>
             </a>
           </li>
         </ul>
       </li>
-
     </ul>
 
     <div class="sidenav__divider margin-y-xs" role="presentation"></div>
@@ -55,7 +54,6 @@
           <span class="sidenav__text">Settings</span>
         </a>
       </li>
-
     </ul>
   </nav>
 </div>

@@ -11,12 +11,12 @@
 |
 */
 
-$middleware = 'auth';
+$middleware = ['auth', 'role:admin'];
 if (config('settings.need_verify_email') === true) {
-  $middleware = ['auth','verified'];
+  $middleware = ['auth', 'verified', 'role:admin'];
 }
 
-Route::middleware($middleware, 'role:admin')->group(function(){
+Route::middleware($middleware)->group(function(){
     Route::prefix('admin')->group(function() {
         Route::get('tag', 'TagController@index')->name('tag.index');
         Route::get('tag/create', 'TagController@create');

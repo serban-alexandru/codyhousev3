@@ -20,19 +20,13 @@ class FeaturedPost extends Component
     {
         $featured_post = Post::where(
             [
-                'is_published' => true,
-                'is_pending'   => false,
-                'is_rejected'  => false,
-                'is_deleted'   => false
+                'status' => 'published'
             ]
         )->latest()->first();
 
         $featured_list = Post::where(
             [
-                'is_published' => true,
-                'is_pending'   => false,
-                'is_rejected'  => false,
-                'is_deleted'   => false
+                'status' => 'published'
             ]
         )
         ->orderBy('created_at', 'desc')

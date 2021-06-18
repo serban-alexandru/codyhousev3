@@ -11,11 +11,6 @@
 |
 */
 
-$middleware = 'auth';
-if (config('settings.need_verify_email') === true) {
-  $middleware = ['auth','verified'];
-}
-
 // Auth::routes();
 Auth::routes(['verify' => true]);
 
@@ -36,7 +31,11 @@ Route::get('/resetpassword',[
   'uses' => 'Auth\ForgotPasswordController@ajaxShowForm'
 ]);
 
-Route::middleware($middleware, 'role:admin')->group(function(){
+$middleware = ['auth', 'role:admin'];
+if (config('settings.need_verify_email') === true) {
+  $middleware = ['auth', 'verified', 'role:admin'];
+}
+Route::middleware($middleware)->group(function(){
 
   Route::prefix('admin')->group(function(){
     Route::get('users', 'UsersController@index');
@@ -63,7 +62,11 @@ Route::middleware($middleware, 'role:admin')->group(function(){
 
 });
 
-Route::middleware($middleware)->group(function(){
+$user_middleware = ['auth'];
+if (config('settings.need_verify_email') === true) {
+  $user_middleware = ['auth', 'verified'];
+}
+Route::middleware($user_middleware)->group(function(){
   Route::get('users/settings', 'UsersController@settings');
   Route::post('users/settings/save', 'UsersController@saveSettings');
   Route::post('users/settings/cover-photo/update/ajax', [
@@ -157,7 +160,7 @@ Route::group([
   ]);
 
   Route::post('posts/reject', [
-    'as' => 'posts.reject',
+    'as' => 'dashboard.reject',
     'uses' => 'DashboardPostsController@makePostReject'
   ]);
 });

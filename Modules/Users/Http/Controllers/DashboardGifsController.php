@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 use App\Http\Controllers\Controller;
-use Modules\Post\Entities\{ PostSetting, Post, PostsTag };
+use Modules\Post\Entities\{ PostSetting, Post, PostsTag, PostsMeta };
 use Modules\Tag\Entities\{Tag, TagCategory};
 
 class DashboardGifsController extends Controller
@@ -47,9 +47,7 @@ class DashboardGifsController extends Controller
                 'posts.created_at as created_at',
                 'thumbnail',
                 'thumbnail_medium',
-                'is_deleted',
-                'is_pending',
-                'is_published',
+                'status',
                 'users.username as username'
             ])->orderBy('created_at', 'desc');
 
@@ -66,15 +64,7 @@ class DashboardGifsController extends Controller
             ->orWhere('users.name', 'LIKE', '%' . request('gifsearch') . '%');
         }
 
-        $gifs = (request()->has('is_trashed'))
-            ? $gifs->where('is_deleted', 1)
-            : $gifs->where('is_deleted', 0);
-
-        if(!request()->has('is_trashed')){
-            $gifs = (request()->has('is_draft'))
-                ? $gifs->where('is_published', 0)->where('is_pending', 0)
-                : (request()->has('is_pending') ? $gifs->where('is_published', 0)->where('is_pending', 1)->where('is_rejected', 0) : $gifs->where('is_published', 1));
-        }
+        $gifs = (request()->has('status')) ? $gifs->where('status', request('status')) : $gifs->where('status', 'published');
 
         $limit = request('limit') ? request('limit') : 25;
 
@@ -82,17 +72,18 @@ class DashboardGifsController extends Controller
 
         if (auth()->user()->isAdmin()) {
             // get all gifs count
-            $gifs_published_count = Post::where( 'post_type', 'gif' )->where('is_deleted', 0)->where('is_published', 1)->count();
-            $gifs_draft_count = Post::where( 'post_type', 'gif' )->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
-            $gifs_pending_count = Post::where( 'post_type', 'gif' )->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
-            $gifs_deleted_count = Post::where( 'post_type', 'gif' )->where('is_deleted', 1)->count();
+    
+            $gifs_published_count = Post::where( 'post_type', 'gif' )->where('status', 'published')->count();
+            $gifs_draft_count = Post::where( 'post_type', 'gif' )->where('status', 'draft')->count();
+            $gifs_pending_count = Post::where( 'post_type', 'gif' )->where('status', 'pending')->count();
+            $gifs_deleted_count = Post::where( 'post_type', 'gif' )->where('status', 'deleted')->count();
     
         } else {
             // get user specific gifs count
-            $gifs_published_count = Post::where('post_type', 'gif')->where('is_deleted', 0)->where('is_published', 1)->where('user_id', auth()->user()->id)->count();
-            $gifs_draft_count = Post::where('post_type', 'gif')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->where('user_id', auth()->user()->id)->count();
-            $gifs_pending_count = Post::where('post_type', 'gif')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->where('user_id', auth()->user()->id)->count();
-            $gifs_deleted_count = Post::where('post_type', 'gif')->where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();    
+            $gifs_published_count = Post::where('post_type', 'gif')->where('status', 'published')->where('user_id', auth()->user()->id)->count();
+            $gifs_draft_count = Post::where('post_type', 'gif')->where('status', 'draft')->where('user_id', auth()->user()->id)->count();
+            $gifs_pending_count = Post::where('post_type', 'gif')->where('status', 'pending')->where('user_id', auth()->user()->id)->count();
+            $gifs_deleted_count = Post::where('post_type', 'gif')->where('status', 'deleted')->where('user_id', auth()->user()->id)->count();    
         }
 
         $availableLimit = ['25', '50', '100', '150', '200'];
@@ -105,11 +96,9 @@ class DashboardGifsController extends Controller
             $image_height = $gifs_settings->medium_height;
         }
 
-        $request    = request();
-        $is_trashed = request('is_trashed');
-        $is_draft   = request('is_draft');
-        $is_pending = request('is_pending');
-        $gifsearch  = request('gifsearch');
+        $request   = request();
+        $status    = request('status');
+        $gifsearch = request('gifsearch');
 
         $tag_categories = TagCategory::all();
         
@@ -140,13 +129,13 @@ class DashboardGifsController extends Controller
 
         // get rejected gifs
         $rejected_gifs = [];
-        if ($is_pending) {
+        if ($status == 'pending') {
             $rejected_gifs = $this->getRejectedGifs();
         }
 
         return view($view, compact(
             'gifs', 'rejected_gifs', 'gifs_published_count', 'gifs_draft_count', 'gifs_pending_count', 'gifs_deleted_count',
-            'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'gifsearch', 'is_trashed', 'is_draft', 'is_pending', 'tag_categories', 'tags_by_category'
+            'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'gifsearch', 'status', 'tag_categories', 'tags_by_category'
             )
         );
     }
@@ -154,17 +143,17 @@ class DashboardGifsController extends Controller
     public function addGif() {
         if (auth()->user()->isAdmin()) {
             // get all gifs count
-            $gifs_published_count = Post::where( 'post_type', 'gif' )->where('is_deleted', 0)->where('is_published', 1)->count();
-            $gifs_draft_count = Post::where( 'post_type', 'gif' )->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
-            $gifs_pending_count = Post::where( 'post_type', 'gif' )->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
-            $gifs_deleted_count = Post::where( 'post_type', 'gif' )->where('is_deleted', 1)->count();
+            $gifs_published_count = Post::where( 'post_type', 'gif' )->where('status', 'published')->count();
+            $gifs_draft_count = Post::where( 'post_type', 'gif' )->where('status', 'draft')->count();
+            $gifs_pending_count = Post::where( 'post_type', 'gif' )->where('status', 'pending')->count();
+            $gifs_deleted_count = Post::where( 'post_type', 'gif' )->where('status', 'deleted')->count();
     
         } else {
             // get user specific gifs count
-            $gifs_published_count = Post::where('post_type', 'gif')->where('is_deleted', 0)->where('is_published', 1)->where('user_id', auth()->user()->id)->count();
-            $gifs_draft_count = Post::where('post_type', 'gif')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->where('user_id', auth()->user()->id)->count();
-            $gifs_pending_count = Post::where('post_type', 'gif')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->where('user_id', auth()->user()->id)->count();
-            $gifs_deleted_count = Post::where('post_type', 'gif')->where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();    
+            $gifs_published_count = Post::where('post_type', 'gif')->where('status', 'published')->where('user_id', auth()->user()->id)->count();
+            $gifs_draft_count = Post::where('post_type', 'gif')->where('status', 'draft')->where('user_id', auth()->user()->id)->count();
+            $gifs_pending_count = Post::where('post_type', 'gif')->where('status', 'pending')->where('user_id', auth()->user()->id)->count();
+            $gifs_deleted_count = Post::where('post_type', 'gif')->where('status', 'deleted')->where('user_id', auth()->user()->id)->count();    
         }
 
         $tag_categories = TagCategory::all();
@@ -189,17 +178,17 @@ class DashboardGifsController extends Controller
     {
         if (auth()->user()->isAdmin()) {
             // get all gifs count
-            $gifs_published_count = Post::where( 'post_type', 'gif' )->where('is_deleted', 0)->where('is_published', 1)->count();
-            $gifs_draft_count = Post::where( 'post_type', 'gif' )->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
-            $gifs_pending_count = Post::where( 'post_type', 'gif' )->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
-            $gifs_deleted_count = Post::where( 'post_type', 'gif' )->where('is_deleted', 1)->count();
+            $gifs_published_count = Post::where( 'post_type', 'gif' )->where('status', 'published')->count();
+            $gifs_draft_count = Post::where( 'post_type', 'gif' )->where('status', 'draft')->count();
+            $gifs_pending_count = Post::where( 'post_type', 'gif' )->where('status', 'pending')->count();
+            $gifs_deleted_count = Post::where( 'post_type', 'gif' )->where('status', 'deleted')->count();
     
         } else {
             // get user specific gifs count
-            $gifs_published_count = Post::where('post_type', 'gif')->where('is_deleted', 0)->where('is_published', 1)->where('user_id', auth()->user()->id)->count();
-            $gifs_draft_count = Post::where('post_type', 'gif')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->where('user_id', auth()->user()->id)->count();
-            $gifs_pending_count = Post::where('post_type', 'gif')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->where('user_id', auth()->user()->id)->count();
-            $gifs_deleted_count = Post::where('post_type', 'gif')->where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();    
+            $gifs_published_count = Post::where('post_type', 'gif')->where('status', 'published')->where('user_id', auth()->user()->id)->count();
+            $gifs_draft_count = Post::where('post_type', 'gif')->where('status', 'draft')->where('user_id', auth()->user()->id)->count();
+            $gifs_pending_count = Post::where('post_type', 'gif')->where('status', 'pending')->where('user_id', auth()->user()->id)->count();
+            $gifs_deleted_count = Post::where('post_type', 'gif')->where('status', 'deleted')->where('user_id', auth()->user()->id)->count();    
         }
 
         $gifs_settings = PostSetting::where('post_type', 'gif')->first();
@@ -314,8 +303,10 @@ class DashboardGifsController extends Controller
             $slug .= '-2';
         }
 
-        $is_published = (request('is_published') && !auth()->user()->isRegisteredUser()) ?? 1;
-        $is_pending = (request('is_published') && auth()->user()->isRegisteredUser()) ?? 1;
+        $status = request('status') ? request('status') : 'published';
+        if ( $status == 'published' ) {
+            $status = auth()->user()->isRegisteredUser() ? 'pending' : 'published';
+        }
 
         $gif = Post::create([
             'user_id'          => auth()->user()->id,
@@ -327,8 +318,7 @@ class DashboardGifsController extends Controller
             'seo_page_title'   => request('page_title') ?: NULL,
             'tags'             => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
             'post_type'        => 'gif',
-            'is_pending'       => $is_pending,
-            'is_published'     => $is_published
+            'status'           => $status
         ]);
 
         $tag_categories = TagCategory::all();
@@ -365,7 +355,7 @@ class DashboardGifsController extends Controller
             'class'   => 'alert--success',
         ];
 
-        if ($is_pending) {
+        if ($status == 'pending') {
             $alert['message'] = 'Your Gif will be reviewed soon.';
         }
 
@@ -385,7 +375,7 @@ class DashboardGifsController extends Controller
             ]);
         }
 
-        if (!auth()->user()->isAdmin() && $gif->is_published && !$gif->is_deleted) {
+        if (!auth()->user()->isAdmin() && $gif->status == 'published') {
             $alert = [
                 'status' => false,
                 'message' => 'Published gif cannot be edited. Please email us if there is a mistake on your gif',
@@ -402,8 +392,7 @@ class DashboardGifsController extends Controller
         $data['description']  = html_entity_decode($gif->description);
         $data['thumbnail']    = asset("storage/gifs/original/{$gif->thumbnail}");
         $data['post_date']    = Date('d/m/Y', strtotime($gif->created_at));
-        $data['is_published'] = $gif->is_published;
-        $data['is_deleted']   = $gif->is_deleted;
+        $data['status']       = $gif->status;
 
         $tag_categories        = TagCategory::all();
         $gifs_tags            = $gif->postsTag()->get();
@@ -457,7 +446,7 @@ class DashboardGifsController extends Controller
             return redirect()->back()->with('alert', $alert);    
         }
 
-        if (!auth()->user()->isAdmin() && $gif->is_published && !$gif->is_deleted) {
+        if (!auth()->user()->isAdmin() && $gif->status == 'published') {
             $alert = [
                 'message' => 'You are not authorized to edit published gif',
                 'class'   => 'alert--error',
@@ -506,9 +495,8 @@ class DashboardGifsController extends Controller
             }
         }
 
-        $is_published = ($gif->is_published && auth()->user()->isAdmin()) ? 1 : ((request('is_published') && !auth()->user()->isRegisteredUser()) ? 1 : 0);
-        $is_pending = (request('is_published') && auth()->user()->isRegisteredUser()) ? 1 : 0;
-        $is_rejected = 0;
+        $status = ($gif->status == 'published' && auth()->user()->isAdmin()) ? 'published' : ((request('status') == 'published' && !auth()->user()->isRegisteredUser()) ? 'published' : 'draft');
+        $status = (request('status') == 'published' && auth()->user()->isRegisteredUser()) ? 'pending' : $status;
 
         // change Gif Created Time "created_at"
         $created_time = strtotime($gif->created_at);
@@ -533,15 +521,13 @@ class DashboardGifsController extends Controller
         $post_date = strtotime(sprintf($datetime_format, $year, $month, $day, $created_h, $created_m, $created_s));
 
         $gif->update([
-            'title' => strip_tags(request('title')),
-            'description' => request('description'),
-            'thumbnail' => (request()->has('thumbnail')) ? $thumbnail_name : $gif->thumbnail,
+            'title'            => strip_tags(request('title')),
+            'description'      => request('description'),
+            'thumbnail'        => (request()->has('thumbnail')) ? $thumbnail_name : $gif->thumbnail,
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : $gif->thumbnail_medium,
-            'tags' => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
-            'created_at' => $post_date,
-            'is_published' => $is_published,
-            'is_pending' => $is_pending,
-            'is_rejected' => $is_rejected
+            'tags'             => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
+            'created_at'       => $post_date,
+            'status'           => $status
         ]);
 
         $tag_categories = TagCategory::all();
@@ -586,25 +572,40 @@ class DashboardGifsController extends Controller
             'class'   => 'alert--success',
         ];
 
-        if ($is_pending) {
+        if ($status == 'pending') {
             $alert['message'] = 'Your gif will be reviewed soon.';
         }
 
         return redirect()->back()->with('alert', $alert);
     }
 
+    public function saveRejectedReason( $gif_id, $content ) {
+        $post_meta             = new PostsMeta;
+        $post_meta->post_id    = $gif_id;
+        $post_meta->meta_key   = 'rejected_reason';
+        $post_meta->meta_value = $content;
+        $post_meta->save();
+    }
+
+    public function deleteRejectedReason( $gif_ids ) {
+        $post_meta = PostsMeta::whereIn( 'post_id', !is_array($gif_ids) ? [$gif_ids] : $gif_ids )->where('meta_key', 'rejected_reason')->delete();
+    }
+
     public function delete()
     {
-        $gif = $this->getGif(request('post_id'));
+        $gif = $this->getGif(request('gif_id'));
         if (!$gif) {
             $alert = [
-                'message' => 'Gifdoes not exists.',
+                'message' => 'Gif does not exists.',
                 'class'   => 'alert--error',
             ];            
             return redirect()->back()->with('alert', $alert);
         }
 
-        $gif->update(['is_deleted' => 1, 'is_published' => 0, 'is_pending' => 0, 'is_rejected' => 0, 'reject_reason' => '']);
+        // Clear Rejected reason.
+        $this->deleteRejectedReason( $gif->id );
+
+        $gif->update(['status' => 'deleted']);
 
         return redirect('gifs');
     }
@@ -673,10 +674,13 @@ class DashboardGifsController extends Controller
             return back();
         }
 
+        // Clear Rejected reason.
+        $this->deleteRejectedReason( $selectedIDs );
+
         if ( auth()->user()->isAdmin() ) {
-            Post::where('post_type', 'gif')->whereIn('id', $selectedIDs)->update(['is_deleted' => 1, 'is_rejected' => 0, 'reject_reason' => '']);
+            Post::where('post_type', 'gif')->whereIn('id', $selectedIDs)->update(['status' => 'deleted']);
         } else {
-            Post::where('post_type', 'gif')->where('user_id', auth()->user()->id)->whereIn('id', $selectedIDs)->update(['is_deleted' => 1, 'is_rejected' => 0, 'reject_reason' => '']);
+            Post::where('post_type', 'gif')->where('user_id', auth()->user()->id)->whereIn('id', $selectedIDs)->update(['status' => 'deleted']);
         }
 
         $alert = [
@@ -690,9 +694,9 @@ class DashboardGifsController extends Controller
     {
         // Get gifs on trash
         if ( auth()->user()->isAdmin() ) {
-            $trashed_gifs = Post::where('post_type', 'gif')->where('is_deleted', 1)->get();
+            $trashed_gifs = Post::where('post_type', 'gif')->where('status', 'deleted')->get();
         } else {
-            $trashed_gifs = Post::where('post_type', 'gif')->where('user_id', auth()->user()->id)->where('is_deleted', 1)->get();
+            $trashed_gifs = Post::where('post_type', 'gif')->where('user_id', auth()->user()->id)->where('status', 'deleted')->get();
         }
 
         foreach ($trashed_gifs as $gif) {
@@ -713,7 +717,12 @@ class DashboardGifsController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $gif->update(['is_deleted' => 0, 'is_pending' => 0, 'is_published' => 0]);
+        // Clear Rejected reason.
+        if ( $gif->status == 'rejected' ) {
+            $this->deleteRejectedReason( $gif->id );
+        }
+
+        $gif->update(['status' => 'draft']);
 
         return redirect('gifs');
     }
@@ -748,7 +757,10 @@ class DashboardGifsController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $gif->update(['is_published' => 0, 'is_pending' => 0, 'is_rejected' => 0, 'reject_reason' => '']);
+        // Clear Rejected reason.
+        $this->deleteRejectedReason( $id );
+
+        $gif->update(['status' => 'draft']);
 
         return redirect('gifs');
     }
@@ -763,12 +775,15 @@ class DashboardGifsController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
+        // Clear Rejected reason.
+        $this->deleteRejectedReason( $id );
+
         if (auth()->user()->isRegisteredUser()) {
-            $gif->update(['is_published' => 0, 'is_pending' => 1, 'is_rejected' => 0, 'reject_reason' => '']);
+            $gif->update(['status' => 'pending']);
         } else {
-            $gif->update(['is_published' => 1, 'is_pending' => 0, 'is_rejected' => 0, 'reject_reason' => '']);
+            $gif->update(['status' => 'published']);
         }
-        
+
         return redirect('gifs');
     }
 
@@ -783,7 +798,7 @@ class DashboardGifsController extends Controller
             return redirect()->back()->with('alert', $alert);    
         }
 
-        if (!auth()->user()->isAdmin() && ! $gif->is_pending) {
+        if (!auth()->user()->isAdmin() && ! $gif->status != 'pending') {
             return response()->json([
                 'status' => false,
                 'message' => 'You are not authorized to edit published gif'
@@ -792,7 +807,10 @@ class DashboardGifsController extends Controller
             return redirect()->back()->with('alert', $alert);    
         }
 
-        $gif->update(['is_rejected' => 1, 'reject_reason' => request('message')]);
+        // Save Rejected reason.
+        $this->saveRejectedReason( $gif->id, request('message') );
+
+        $gif->update(['status' => 'rejected']);
         
         return response()->json([
             'status' => true,
@@ -816,6 +834,7 @@ class DashboardGifsController extends Controller
     public function getRejectedGifs()
     {
         $gifs = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
+            ->leftJoin('posts_metas', 'posts.id', '=', 'posts_metas.post_id')
             ->select([
                 'posts.id',
                 'title',
@@ -823,11 +842,8 @@ class DashboardGifsController extends Controller
                 'posts.created_at as created_at',
                 'thumbnail',
                 'thumbnail_medium',
-                'is_deleted',
-                'is_pending',
-                'is_published',
-                'is_rejected',
-                'reject_reason',
+                'status',
+                'posts_metas.meta_value as reject_reason',
                 'users.username as username'
             ])->orderBy('created_at', 'desc');
 
@@ -841,7 +857,7 @@ class DashboardGifsController extends Controller
             ->orWhere('users.name', 'LIKE', '%' . request('gifsearch') . '%');
         }
 
-        $gifs = $gifs->where( 'post_type', 'gif' )->where('is_published', 0)->where('is_pending', 1)->where('is_rejected', 1);
+        $gifs = $gifs->where( 'post_type', 'gif' )->where('status', 'rejected')->where('meta_key', '=', 'rejected_reason');
 
         $limit = request('limit') ? request('limit') : 25;
 

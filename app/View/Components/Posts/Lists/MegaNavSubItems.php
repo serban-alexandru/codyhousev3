@@ -26,10 +26,7 @@ class MegaNavSubItems extends Component
             // Else if not set, then just get latest posts
             $posts = Post::where(
                 [
-                    'is_published' => true,
-                    'is_pending'   => false,
-                    'is_rejected'  => false,
-                    'is_deleted'   => false
+                    'status' => 'published'
                 ]
             )
             ->orderBy('created_at', 'desc')

@@ -16,7 +16,7 @@
     </div><!-- /.alert -->
   @endif
 
-  @if(request()->has('is_trashed'))
+  @if(request()->has('status') && request('status') == 'deleted')
     <div class="margin-bottom-md">
       <form action="{{ route('admin.gifs.trash.empty') }}" method="post">
         @csrf
@@ -38,7 +38,7 @@
       <table class="int-table__table" aria-label="Interactive table example">
         <thead class="int-table__header js-int-table__header">
           <tr class="int-table__row">
-            @if(!request()->has('is_trashed'))
+            @if(!request()->has('status') || (request()->has('status') && request('status') != 'deleted'))
               <td class="int-table__cell">
                 <div class="custom-checkbox int-table__checkbox">
                   <input class="custom-checkbox__input js-int-table__select-all" id="checkboxDeleteAll" type="checkbox" aria-label="Select all rows">
@@ -129,20 +129,20 @@
                 </li>
               </ul>
             </th>
-            @if(!request()->has('is_trashed'))
+            @if(!request()->has('status') || (request()->has('status') && request('status') != 'deleted'))
               <th class="int-table__cell int-table__cell--th text-left">Action</th>
             @endif
 
-            @if(!request()->has('is_trashed') && request()->has('is_draft'))
+            @if(request()->has('status') && request('status') == 'draft')
               <th class="int-table__cell int-table__cell--th text-left">Publish</th>
             @endif
 
-            @if( !request()->has('is_trashed') && request()->has('is_pending'))
+            @if(request()->has('status') && request('status') == 'pending')
               <th class="int-table__cell int-table__cell--th text-left">Publish</th>
               <th class="int-table__cell int-table__cell--th text-left">Reject</th>
             @endif
 
-            @if(request()->has('is_trashed'))
+            @if(request()->has('status') && request('status') == 'deleted')
               <th class="int-table__cell int-table__cell--th text-left">Restore</th>
               <th class="int-table__cell int-table__cell--th text-left">Action</th>
             @endif
@@ -153,7 +153,7 @@
         <tbody class="int-table__body js-int-table__body">
           @foreach($gifs as $gif)
             <tr class="int-table__row">
-              @if(!request()->has('is_trashed'))
+              @if(!request()->has('status') || (request()->has('status') && request('status') != 'deleted'))
                 <th class="int-table__cell" scope="row">
                   <div class="custom-checkbox int-table__checkbox">
                     <input value="{{ $gif->id }}" class="custom-checkbox__input js-int-table__select-row checkbox-delete" type="checkbox" aria-label="Select this row">
@@ -199,23 +199,21 @@
               <td class="int-table__cell">{{ $gif->username }}</td>
               <td class="int-table__cell">{{ $gif->created_at->format('m/d/Y') }}</td>
 
-              @if(!$gif->is_deleted || ($gif->is_published && !$gif->is_deleted))
+              @if($gif->status != 'deleted')
                 <td class="int-table__cell text-center flex" style="overflow: unset;">
-                  @if(!$gif->is_deleted)
-                    <form action="{{ route('admin.gifs.delete') }}" method="post">
-                      @csrf
-                      <input type="hidden" name="post_id" value="{{ $gif->id }}">
-                      <li class="menu-bar__item btn-delete" role="menuitem" aria-controls="modal-name-1">
-                        <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
-                          <path d="M2,6v8c0,1.1,0.9,2,2,2h8c1.1,0,2-0.9,2-2V6H2z"></path>
-                          <path d="M12,3V1c0-0.6-0.4-1-1-1H5C4.4,0,4,0.4,4,1v2H0v2h16V3H12z M10,3H6V2h4V3z"></path>
-                        </svg>
-                        <span class="menu-bar__label">Delete</span>
-                      </li>
-                    </form>
-                  @endif
+                  <form action="{{ route('admin.gifs.delete') }}" method="post">
+                    @csrf
+                    <input type="hidden" name="post_id" value="{{ $gif->id }}">
+                    <li class="menu-bar__item btn-delete" role="menuitem" aria-controls="modal-name-1">
+                      <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
+                        <path d="M2,6v8c0,1.1,0.9,2,2,2h8c1.1,0,2-0.9,2-2V6H2z"></path>
+                        <path d="M12,3V1c0-0.6-0.4-1-1-1H5C4.4,0,4,0.4,4,1v2H0v2h16V3H12z M10,3H6V2h4V3z"></path>
+                      </svg>
+                      <span class="menu-bar__label">Delete</span>
+                    </li>
+                  </form>
 
-                  @if($gif->is_published && !$gif->is_deleted)
+                  @if($gif->status == 'published')
                     <a href="{{ route('admin.gifs.make-draft', ['id' => $gif->id]) }}">
                       <li class="menu-bar__item menu-bar__item--hide" role="menuitem">
                         <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 12 12">
@@ -228,16 +226,16 @@
                 </td>
               @endif
 
-              @if(!$gif->is_published && !$gif->is_deleted)
+              @if($gif->status != 'published' && $gif->status != 'deleted')
                 <td>
                   <a href="{{ route('admin.gifs.publish', ['id' => $gif->id]) }}" class="btn">Publish</a>
                 </td>
-                @if( request()->has('is_pending') )
+                @if( request()->has('status') && request('status') == 'pending' )
                 <td aria-controls="modal-reject-gif" data-id="{{ $gif->id }}">
                   <a href="#" class="btn">Reject</a>
                 </td>
                 @endif
-              @elseif($gif->is_deleted)
+              @elseif($gif->status == 'deleted')
                 <td class="int-table__cell" style="overflow: unset;">
                   <a href="{{ route('admin.gifs.restore', ['id' => $gif->id]) }}" class="btn margin-right-sm">Restore</a>
                 </td>
@@ -291,23 +289,15 @@
         <li>
           <span class="pagination__jumper flex items-center">
             <form action="{{ url()->full() }}" class="inline" method="get">
-              @if($request->has('is_trashed'))
-                <input type="hidden" name="is_trashed" value="{{ $is_trashed }}">
+              @if($request->has('status'))
+                <input type="hidden" name="status" value="{{ $status }}">
               @endif
 
-              @if($request->has('is_draft'))
-                <input type="hidden" name="is_draft" value="{{ $is_draft }}">
-              @endif
-
-              @if($request->has('is_pending'))
-                <input type="hidden" name="is_pending" value="{{ $is_pending }}">
-              @endif
               <input aria-label="Page number" class="form-control" type="number" name="page" min="1" max="{{ $gifs->lastPage() }}" value="{{ $gifs->currentPage() }}">
             </form>
             <em>of {{ $gifs->lastPage() }}</em>
           </span>
         </li>
-
 
         <li>
           <a
@@ -330,7 +320,7 @@
   </div><!-- /.flex items-center justify-between padding-top-sm -->
 </div><!-- /.bg radius-md padding-md shadow-sm -->
 
-@if ( request()->has('is_pending') )
+@if ( request()->has('status') && request('status') == 'pending' )
 <div class="bg radius-md padding-md margin-top-lg shadow-sm">
   <h4 class="margin-bottom-sm">Rejected</h4>
   <div id="table-2" class="int-table text-sm js-int-table">
@@ -559,17 +549,10 @@
         <li>
           <span class="pagination__jumper flex items-center">
             <form action="{{ url()->full() }}" class="inline" method="get">
-              @if($request->has('is_trashed'))
-                <input type="hidden" name="is_trashed" value="{{ $is_trashed }}">
+              @if($request->has('status'))
+                <input type="hidden" name="status" value="{{ $status }}">
               @endif
 
-              @if($request->has('is_draft'))
-                <input type="hidden" name="is_draft" value="{{ $is_draft }}">
-              @endif
-
-              @if($request->has('is_pending'))
-                <input type="hidden" name="is_pending" value="{{ $is_pending }}">
-              @endif
               <input aria-label="Page number" class="form-control" type="number" name="page" min="1" max="{{ $rejected_gifs->lastPage() }}" value="{{ $rejected_gifs->currentPage() }}">
             </form>
             <em>of {{ $rejected_gifs->lastPage() }}</em>

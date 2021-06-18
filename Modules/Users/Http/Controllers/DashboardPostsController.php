@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 use App\Http\Controllers\Controller;
-use Modules\Post\Entities\{ PostSetting, Post, PostsTag };
+use Modules\Post\Entities\{ PostSetting, Post, PostsTag, PostsMeta };
 use Modules\Tag\Entities\{Tag, TagCategory};
 
 class DashboardPostsController extends Controller
@@ -47,9 +47,7 @@ class DashboardPostsController extends Controller
                 'posts.created_at as created_at',
                 'thumbnail',
                 'thumbnail_medium',
-                'is_deleted',
-                'is_pending',
-                'is_published',
+                'status',
                 'users.username as username'
             ])->orderBy('created_at', 'desc');
 
@@ -66,15 +64,7 @@ class DashboardPostsController extends Controller
             ->orWhere('users.name', 'LIKE', '%' . request('postsearch') . '%');
         }
 
-        $posts = (request()->has('is_trashed'))
-            ? $posts->where('is_deleted', 1)
-            : $posts->where('is_deleted', 0);
-
-        if(!request()->has('is_trashed')){
-            $posts = (request()->has('is_draft'))
-                ? $posts->where('is_published', 0)->where('is_pending', 0)
-                : (request()->has('is_pending') ? $posts->where('is_published', 0)->where('is_pending', 1)->where('is_rejected', 0) : $posts->where('is_published', 1));
-        }
+        $posts = (request()->has('status')) ? $posts->where('status', request('status')) : $posts->where('status', 'published');
 
         $limit = request('limit') ? request('limit') : 25;
 
@@ -82,17 +72,17 @@ class DashboardPostsController extends Controller
 
         if (auth()->user()->isAdmin()) {
             // get all posts count
-            $posts_published_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 1)->count();
-            $posts_draft_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
-            $posts_pending_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
-            $posts_deleted_count = Post::where('post_type', 'post')->where('is_deleted', 1)->count();
+            $posts_published_count = Post::where('post_type', 'post')->where('status', 'published')->count();
+            $posts_draft_count = Post::where('post_type', 'post')->where('status', 'draft')->count();
+            $posts_pending_count = Post::where('post_type', 'post')->where('status', 'pending')->count();
+            $posts_deleted_count = Post::where('post_type', 'post')->where('status', 'deleted')->count();
     
         } else {
             // get user specific posts count
-            $posts_published_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 1)->where('user_id', auth()->user()->id)->count();
-            $posts_draft_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->where('user_id', auth()->user()->id)->count();
-            $posts_pending_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->where('user_id', auth()->user()->id)->count();
-            $posts_deleted_count = Post::where('post_type', 'post')->where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();    
+            $posts_published_count = Post::where('post_type', 'post')->where('status', 'published')->where('user_id', auth()->user()->id)->count();
+            $posts_draft_count = Post::where('post_type', 'post')->where('status', 'draft')->where('user_id', auth()->user()->id)->count();
+            $posts_pending_count = Post::where('post_type', 'post')->where('status', 'pending')->where('user_id', auth()->user()->id)->count();
+            $posts_deleted_count = Post::where('post_type', 'post')->where('status', 'deleted')->where('user_id', auth()->user()->id)->count();    
         }
 
         $availableLimit = ['25', '50', '100', '150', '200'];
@@ -106,9 +96,7 @@ class DashboardPostsController extends Controller
         }
 
         $request    = request();
-        $is_trashed = request('is_trashed');
-        $is_draft   = request('is_draft');
-        $is_pending = request('is_pending');
+        $status     = request('status');
         $postsearch = request('postsearch');
 
         $tag_categories = TagCategory::all();
@@ -140,13 +128,13 @@ class DashboardPostsController extends Controller
 
         // get rejected posts
         $rejected_posts = [];
-        if ($is_pending) {
+        if ($status == 'pending') {
             $rejected_posts = $this->getRejectedPosts();
         }
 
         return view($view, compact(
             'posts', 'rejected_posts', 'posts_published_count', 'posts_draft_count', 'posts_pending_count', 'posts_deleted_count',
-            'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'postsearch', 'is_trashed', 'is_draft', 'is_pending', 'tag_categories', 'tags_by_category'
+            'availableLimit', 'limit', 'image_width', 'image_height', 'request', 'postsearch', 'status', 'tag_categories', 'tags_by_category'
             )
         );
     }
@@ -154,17 +142,17 @@ class DashboardPostsController extends Controller
     public function addPost() {
         if (auth()->user()->isAdmin()) {
             // get all posts count
-            $posts_published_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 1)->count();
-            $posts_draft_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
-            $posts_pending_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
-            $posts_deleted_count = Post::where('post_type', 'post')->where('is_deleted', 1)->count();
+            $posts_published_count = Post::where('post_type', 'post')->where('status', 'published')->count();
+            $posts_draft_count = Post::where('post_type', 'post')->where('status', 'draft')->count();
+            $posts_pending_count = Post::where('post_type', 'post')->where('status', 'pending')->count();
+            $posts_deleted_count = Post::where('post_type', 'post')->where('status', 'deleted')->count();
 
         } else {
             // get user specific posts count
-            $posts_published_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 1)->where('user_id', auth()->user()->id)->count();
-            $posts_draft_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->where('user_id', auth()->user()->id)->count();
-            $posts_pending_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->where('user_id', auth()->user()->id)->count();
-            $posts_deleted_count = Post::where('post_type', 'post')->where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();    
+            $posts_published_count = Post::where('post_type', 'post')->where('status', 'published')->where('user_id', auth()->user()->id)->count();
+            $posts_draft_count = Post::where('post_type', 'post')->where('status', 'draft')->where('user_id', auth()->user()->id)->count();
+            $posts_pending_count = Post::where('post_type', 'post')->where('status', 'pending')->where('user_id', auth()->user()->id)->count();
+            $posts_deleted_count = Post::where('post_type', 'post')->where('status', 'deleted')->where('user_id', auth()->user()->id)->count();    
         }
 
         $tag_categories = TagCategory::all();
@@ -189,17 +177,17 @@ class DashboardPostsController extends Controller
     {
         if (auth()->user()->isAdmin()) {
             // get all posts count
-            $posts_published_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 1)->count();
-            $posts_draft_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->count();
-            $posts_pending_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->count();
-            $posts_deleted_count = Post::where('post_type', 'post')->where('is_deleted', 1)->count();
+            $posts_published_count = Post::where('post_type', 'post')->where('status', 'published')->count();
+            $posts_draft_count = Post::where('post_type', 'post')->where('status', 'draft')->count();
+            $posts_pending_count = Post::where('post_type', 'post')->where('status', 'pending')->count();
+            $posts_deleted_count = Post::where('post_type', 'post')->where('status', 'deleted')->count();
 
         } else {
             // get user specific posts count
-            $posts_published_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 1)->where('user_id', auth()->user()->id)->count();
-            $posts_draft_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 0)->where('user_id', auth()->user()->id)->count();
-            $posts_pending_count = Post::where('post_type', 'post')->where('is_deleted', 0)->where('is_published', 0)->where('is_pending', 1)->where('user_id', auth()->user()->id)->count();
-            $posts_deleted_count = Post::where('post_type', 'post')->where('is_deleted', 1)->where('user_id', auth()->user()->id)->count();    
+            $posts_published_count = Post::where('post_type', 'post')->where('status', 'published')->where('user_id', auth()->user()->id)->count();
+            $posts_draft_count = Post::where('post_type', 'post')->where('status', 'draft')->where('user_id', auth()->user()->id)->count();
+            $posts_pending_count = Post::where('post_type', 'post')->where('status', 'pending')->where('user_id', auth()->user()->id)->count();
+            $posts_deleted_count = Post::where('post_type', 'post')->where('status', 'deleted')->where('user_id', auth()->user()->id)->count();    
         }
 
         $posts_settings = PostSetting::where('post_type', 'post')->first();
@@ -310,8 +298,10 @@ class DashboardPostsController extends Controller
             $slug .= '-2';
         }
 
-        $is_published = (request('is_published') && !auth()->user()->isRegisteredUser()) ?? 1;
-        $is_pending = (request('is_published') && auth()->user()->isRegisteredUser()) ?? 1;
+        $status = request('status') ? request('status') : 'published';
+        if ( $status == 'published' ) {
+            $status = auth()->user()->isRegisteredUser() ? 'pending' : 'published';
+        }
 
         $post = Post::create([
             'user_id'          => auth()->user()->id,
@@ -323,8 +313,7 @@ class DashboardPostsController extends Controller
             'seo_page_title'   => request('page_title') ?: NULL,
             'tags'             => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
             'post_type'        => 'post',
-            'is_pending'       => $is_pending,
-            'is_published'     => $is_published
+            'status'           => $status
         ]);
 
         $tag_categories = TagCategory::all();
@@ -361,7 +350,7 @@ class DashboardPostsController extends Controller
             'class'   => 'alert--success',
         ];
 
-        if ($is_pending) {
+        if ($status == 'pending') {
             $alert['message'] = 'Your post will be reviewed soon.';
         }
 
@@ -381,7 +370,7 @@ class DashboardPostsController extends Controller
             ]);
         }
 
-        if (!auth()->user()->isAdmin() && $post->is_published && !$post->is_deleted) {
+        if (!auth()->user()->isAdmin() && $post->status == 'published') {
             $alert = [
                 'status' => false,
                 'message' => 'Published post cannot be edited. Please email us if there is a mistake on your post',
@@ -398,8 +387,7 @@ class DashboardPostsController extends Controller
         $data['description']  = html_entity_decode($post->description);
         $data['thumbnail']    = asset("storage/posts/original/{$post->thumbnail}");
         $data['post_date']    = Date('d/m/Y', strtotime($post->created_at));
-        $data['is_published'] = $post->is_published;
-        $data['is_deleted']   = $post->is_deleted;
+        $data['status']       = $post->status;
 
         $tag_categories        = TagCategory::all();
         $posts_tags            = $post->postsTag()->get();
@@ -453,7 +441,7 @@ class DashboardPostsController extends Controller
             return redirect()->back()->with('alert', $alert);    
         }
 
-        if (!auth()->user()->isAdmin() && $post->is_published && !$post->is_deleted) {
+        if (!auth()->user()->isAdmin() && $post->status == 'published') {
             $alert = [
                 'message' => 'You are not authorized to edit published post',
                 'class'   => 'alert--error',
@@ -499,9 +487,8 @@ class DashboardPostsController extends Controller
             }
         }
 
-        $is_published = ($post->is_published && auth()->user()->isAdmin()) ? 1 : ((request('is_published') && !auth()->user()->isRegisteredUser()) ? 1 : 0);
-        $is_pending = (request('is_published') && auth()->user()->isRegisteredUser()) ? 1 : 0;
-        $is_rejected = 0;
+        $status = ($post->status == 'published' && auth()->user()->isAdmin()) ? 'published' : ((request('status') == 'published' && !auth()->user()->isRegisteredUser()) ? 'published' : 'draft');
+        $status = (request('status') == 'published' && auth()->user()->isRegisteredUser()) ? 'pending' : $status;
 
         // change Post Created Time "created_at"
         $created_time = strtotime($post->created_at);
@@ -526,15 +513,13 @@ class DashboardPostsController extends Controller
         $post_date = strtotime(sprintf($datetime_format, $year, $month, $day, $created_h, $created_m, $created_s));
 
         $post->update([
-            'title' => strip_tags(request('title')),
-            'description' => request('description'),
-            'thumbnail' => (request()->has('thumbnail')) ? $thumbnail_name : $post->thumbnail,
+            'title'            => strip_tags(request('title')),
+            'description'      => request('description'),
+            'thumbnail'        => (request()->has('thumbnail')) ? $thumbnail_name : $post->thumbnail,
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : $post->thumbnail_medium,
-            'tags' => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
-            'created_at' => $post_date,
-            'is_published' => $is_published,
-            'is_pending' => $is_pending,
-            'is_rejected' => $is_rejected
+            'tags'             => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
+            'created_at'       => $post_date,
+            'status'           => $status
         ]);
 
         $tag_categories = TagCategory::all();
@@ -579,11 +564,23 @@ class DashboardPostsController extends Controller
             'class'   => 'alert--success',
         ];
 
-        if ($is_pending) {
+        if ($status == 'pending') {
             $alert['message'] = 'Your post will be reviewed soon.';
         }
 
         return redirect()->back()->with('alert', $alert);
+    }
+
+    public function saveRejectedReason( $post_id, $content ) {
+        $post_meta             = new PostsMeta;
+        $post_meta->post_id    = $post_id;
+        $post_meta->meta_key   = 'rejected_reason';
+        $post_meta->meta_value = $content;
+        $post_meta->save();
+    }
+
+    public function deleteRejectedReason( $post_ids ) {
+        $post_meta = PostsMeta::whereIn( 'post_id', !is_array($post_ids) ? [$post_ids] : $post_ids )->where('meta_key', 'rejected_reason')->delete();
     }
 
     public function delete()
@@ -597,7 +594,10 @@ class DashboardPostsController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $post->update(['is_deleted' => 1, 'is_published' => 0, 'is_pending' => 0, 'is_rejected' => 0, 'reject_reason' => '']);
+        // Clear Rejected reason.
+        $this->deleteRejectedReason( $post->id );
+
+        $post->update(['status' => 'deleted']);
 
         return redirect('dashboard');
     }
@@ -666,10 +666,13 @@ class DashboardPostsController extends Controller
             return back();
         }
 
+        // Clear Rejected reason.
+        $this->deleteRejectedReason( $selectedIDs );
+
         if ( auth()->user()->isAdmin() ) {
-            Post::where('post_type', 'post')->whereIn('id', $selectedIDs)->update(['is_deleted' => 1, 'is_rejected' => 0, 'reject_reason' => '']);
+            Post::where('post_type', 'post')->whereIn('id', $selectedIDs)->update(['status' => 'deleted']);
         } else {
-            Post::where('post_type', 'post')->where('user_id', auth()->user()->id)->whereIn('id', $selectedIDs)->update(['is_deleted' => 1, 'is_rejected' => 0, 'reject_reason' => '']);
+            Post::where('post_type', 'post')->where('user_id', auth()->user()->id)->whereIn('id', $selectedIDs)->update(['status' => 'deleted']);
         }
 
         $alert = [
@@ -683,9 +686,9 @@ class DashboardPostsController extends Controller
     {
         // Get posts on trash
         if ( auth()->user()->isAdmin() ) {
-            $trashed_posts = Post::where('post_type', 'post')->where('is_deleted', 1)->get();
+            $trashed_posts = Post::where('post_type', 'post')->where('status', 'deleted')->get();
         } else {
-            $trashed_posts = Post::where('post_type', 'post')->where('user_id', auth()->user()->id)->where('is_deleted', 1)->get();
+            $trashed_posts = Post::where('post_type', 'post')->where('user_id', auth()->user()->id)->where('status', 'deleted')->get();
         }
 
         foreach ($trashed_posts as $post) {
@@ -706,7 +709,12 @@ class DashboardPostsController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $post->update(['is_deleted' => 0, 'is_pending' => 0, 'is_published' => 0]);
+        // Clear Rejected reason.
+        if ( $post->status == 'rejected' ) {
+            $this->deleteRejectedReason( $post->id );
+        }
+
+        $post->update(['status' => 'draft']);
 
         return redirect('dashboard');
     }
@@ -741,7 +749,10 @@ class DashboardPostsController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $post->update(['is_published' => 0, 'is_pending' => 0, 'is_rejected' => 0, 'reject_reason' => '']);
+        // Clear Rejected reason.
+        $this->deleteRejectedReason( $id );       
+
+        $post->update(['status' => 'draft']);
 
         return redirect('dashboard');
     }
@@ -756,12 +767,15 @@ class DashboardPostsController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
+        // Clear Rejected reason.
+        $this->deleteRejectedReason( $id );
+
         if (auth()->user()->isRegisteredUser()) {
-            $post->update(['is_published' => 0, 'is_pending' => 1, 'is_rejected' => 0, 'reject_reason' => '']);
+            $post->update(['status' => 'pending']);
         } else {
-            $post->update(['is_published' => 1, 'is_pending' => 0, 'is_rejected' => 0, 'reject_reason' => '']);
+            $post->update(['status' => 'published']);
         }
-        
+
         return redirect('dashboard');
     }
 
@@ -776,7 +790,7 @@ class DashboardPostsController extends Controller
             return redirect()->back()->with('alert', $alert);    
         }
 
-        if (!auth()->user()->isAdmin() && ! $post->is_pending) {
+        if (!auth()->user()->isAdmin() && $post->status != 'pending') {
             return response()->json([
                 'status' => false,
                 'message' => 'You are not authorized to edit published post'
@@ -785,7 +799,10 @@ class DashboardPostsController extends Controller
             return redirect()->back()->with('alert', $alert);    
         }
 
-        $post->update(['is_rejected' => 1, 'reject_reason' => request('message')]);
+        // Save Rejected reason.
+        $this->saveRejectedReason( $post->id, request('message') );
+
+        $post->update(['status' => 'rejected']);
         
         return response()->json([
             'status' => true,
@@ -809,6 +826,7 @@ class DashboardPostsController extends Controller
     public function getRejectedPosts()
     {
         $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
+            ->leftJoin('posts_metas', 'posts.id', '=', 'posts_metas.post_id')
             ->select([
                 'posts.id',
                 'title',
@@ -816,11 +834,8 @@ class DashboardPostsController extends Controller
                 'posts.created_at as created_at',
                 'thumbnail',
                 'thumbnail_medium',
-                'is_deleted',
-                'is_pending',
-                'is_published',
-                'is_rejected',
-                'reject_reason',
+                'status',
+                'posts_metas.meta_value as reject_reason',
                 'users.username as username'
             ])->orderBy('created_at', 'desc');
 
@@ -834,7 +849,7 @@ class DashboardPostsController extends Controller
             ->orWhere('users.name', 'LIKE', '%' . request('postsearch') . '%');
         }
 
-        $posts = $posts->where('post_type', 'post')->where('is_published', 0)->where('is_pending', 1)->where('is_rejected', 1);
+        $posts = $posts->where( 'post_type', 'post' )->where('status', 'rejected')->where('meta_key', '=', 'rejected_reason');
 
         $limit = request('limit') ? request('limit') : 25;
 

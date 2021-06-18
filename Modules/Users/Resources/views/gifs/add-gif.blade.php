@@ -2,7 +2,7 @@
   <div class="add-gif-wrp editorjs-fullwidth hidden">
     <form action="{{ route('gifs.store') }}" data-action="{{ route('gifs.store') }}" id="formAddGif" method="POST" enctype="multipart/form-data" >
       @csrf
-      <input type="hidden" name="is_published"/>
+      <input type="hidden" name="status"/>
       <div class="flex">
         <div class="height-100% width-100% bg radius-md flex flex-column">
 
@@ -66,7 +66,7 @@
 
           <footer class="padding-y-sm bg flex-shrink-0">
             <div class="flex justify-end gap-xs">
-              <button type="button" class="btn btn--subtle btn-cancel-post">Cancel</button>
+              <button type="button" class="btn btn--subtle btn-cancel-gif">Cancel</button>
               <button type="button" id="btnSave" class="btn btn--primary site-editor" data-target-input="#description">Save</button>
               <button type="button" id="btnPublish" class="btn btn--primary site-editor" data-target-input="#description">Publish</button>
             </div>

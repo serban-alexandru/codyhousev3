@@ -22,12 +22,12 @@ Route::get('/admin/scraper',function(){
 use Illuminate\Support\Facades\Schema;
 use Modules\Admin\Entities\Settings;
 
-$middleware = 'auth';
+$middleware = ['auth', 'role:admin'];
 if (config('settings.need_verify_email') === true) {
-  $middleware = ['auth','verified'];
+  $middleware = ['auth', 'verified', 'role:admin'];
 }
 
-Route::middleware($middleware, 'role:admin')->group(function(){
+Route::middleware($middleware)->group(function(){
 
     Route::prefix('admin')->group(function() {
         if (Schema::hasTable('settings')) {

@@ -317,3 +317,9 @@ a,
         align-items: center;
     }
 }
+
+.tag-table {
+    .menu-bar__item {
+        position: static;
+    }
+}

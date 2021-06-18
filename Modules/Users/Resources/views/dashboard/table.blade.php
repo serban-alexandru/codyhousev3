@@ -1,5 +1,5 @@
 <div class="bg radius-md padding-md shadow-sm">
-  @if(request()->has('is_trashed') && auth()->user()->isAdmin())
+  @if(request()->has('status') && request('status') == 'deleted' && auth()->user()->isAdmin())
     <div class="margin-bottom-md">
       <form action="{{ route('dashboard.trash.empty') }}" method="post">
         @csrf
@@ -35,7 +35,7 @@
       <table class="int-table__table" aria-label="Interactive table example">
         <thead class="int-table__header js-int-table__header">
           <tr class="int-table__row">
-            @if(!request()->has('is_trashed'))
+            @if(! request()->has('status') || (request()->has('status') && request('status') != 'deleted'))
               <td class="int-table__cell">
                 <div class="custom-checkbox int-table__checkbox">
                   <input class="custom-checkbox__input js-int-table__select-all" id="checkboxDeleteAll" type="checkbox" aria-label="Select all rows">
@@ -128,20 +128,20 @@
                 </li>
               </ul>
             </th>
-            @if(!request()->has('is_trashed'))
+            @if(! request()->has('status') || (request()->has('status') && request('status') != 'deleted'))
               <th class="int-table__cell int-table__cell--th text-left">Action</th>
             @endif
 
-            @if(!request()->has('is_trashed') && request()->has('is_draft'))
+            @if(request()->has('status') && request('status') == 'draft')
               <th class="int-table__cell int-table__cell--th text-left">Publish</th>
             @endif
 
-            @if( !request()->has('is_trashed') && request()->has('is_pending') && auth()->user()->isAdmin())
+            @if( request()->has('status') && request('status') == 'pending' && auth()->user()->isAdmin())
               <th class="int-table__cell int-table__cell--th text-left">Publish</th>
               <th class="int-table__cell int-table__cell--th text-left">Reject</th>
             @endif
 
-            @if(request()->has('is_trashed'))
+            @if(request()->has('status') && request('status') == 'deleted')
               <th class="int-table__cell int-table__cell--th text-left">Restore</th>
               @if (auth()->user()->isAdmin())
               <th class="int-table__cell int-table__cell--th text-left">Action</th>
@@ -155,7 +155,7 @@
         <tbody class="int-table__body js-int-table__body">
           @foreach($posts as $post)
             <tr class="int-table__row">
-              @if(!request()->has('is_trashed'))
+              @if(! request()->has('status') || (request()->has('status') && request('status') != 'deleted'))
                 <th class="int-table__cell" scope="row">
                   <div class="custom-checkbox int-table__checkbox">
                     <input value="{{ $post->id }}" class="custom-checkbox__input js-int-table__select-row checkbox-delete" type="checkbox" aria-label="Select this row">
@@ -204,23 +204,21 @@
 
               <td class="int-table__cell">{{ $post->created_at->format('m/d/Y') }}</td>
 
-              @if(!$post->is_deleted || ($post->is_published && !$post->is_deleted))
+              @if($post->status != 'deleted')
                 <td class="int-table__cell text-center flex" style="overflow: unset;">
-                  @if(!$post->is_deleted)
-                    <form action="{{ route('dashboard.delete') }}" method="post">
-                      @csrf
-                      <input type="hidden" name="post_id" value="{{ $post->id }}">
-                      <li class="menu-bar__item btn-delete" role="menuitem" aria-controls="modal-name-1">
-                        <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
-                          <path d="M2,6v8c0,1.1,0.9,2,2,2h8c1.1,0,2-0.9,2-2V6H2z"></path>
-                          <path d="M12,3V1c0-0.6-0.4-1-1-1H5C4.4,0,4,0.4,4,1v2H0v2h16V3H12z M10,3H6V2h4V3z"></path>
-                        </svg>
-                        <span class="menu-bar__label">Delete</span>
-                      </li>
-                    </form>
-                  @endif
+                  <form action="{{ route('dashboard.delete') }}" method="post">
+                    @csrf
+                    <input type="hidden" name="post_id" value="{{ $post->id }}">
+                    <li class="menu-bar__item btn-delete" role="menuitem" aria-controls="modal-name-1">
+                      <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
+                        <path d="M2,6v8c0,1.1,0.9,2,2,2h8c1.1,0,2-0.9,2-2V6H2z"></path>
+                        <path d="M12,3V1c0-0.6-0.4-1-1-1H5C4.4,0,4,0.4,4,1v2H0v2h16V3H12z M10,3H6V2h4V3z"></path>
+                      </svg>
+                      <span class="menu-bar__label">Delete</span>
+                    </li>
+                  </form>
 
-                  @if($post->is_published && !$post->is_deleted)
+                  @if($post->status == 'published')
                     <a href="{{ route('dashboard.make-draft', ['id' => $post->id]) }}">
                       <li class="menu-bar__item menu-bar__item--hide" role="menuitem">
                         <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 12 12">
@@ -233,18 +231,18 @@
                 </td>
               @endif
 
-              @if(!$post->is_published && !$post->is_deleted )
-                @if (request()->has('is_draft') || auth()->user()->isAdmin())
+              @if($post->status != 'published' && $post->status != 'deleted' )
+                @if ((request()->has('status') && request('status') == 'draft') || auth()->user()->isAdmin())
                 <td>
                   <a href="{{ route('dashboard.publish', ['id' => $post->id]) }}" class="btn">Publish</a>
                 </td>
                 @endif
-                @if( request()->has('is_pending') && auth()->user()->isAdmin())
+                @if( request()->has('status') && request('status') == 'pending' && auth()->user()->isAdmin())
                 <td aria-controls="modal-reject-post" data-id="{{ $post->id }}">
                   <a href="#" class="btn">Reject</a>
                 </td>
                 @endif
-              @elseif($post->is_deleted)
+              @elseif($post->status == 'deleted')
                 <td class="int-table__cell" style="overflow: unset;">
                   <a href="{{ route('dashboard.restore', ['id' => $post->id]) }}" class="btn margin-right-sm">Restore</a>
                 </td>
@@ -300,16 +298,8 @@
         <li>
           <span class="pagination__jumper flex items-center">
             <form action="{{ url()->full() }}" class="inline" method="get">
-              @if($request->has('is_trashed'))
-                <input type="hidden" name="is_trashed" value="{{ $is_trashed }}">
-              @endif
-
-              @if($request->has('is_draft'))
-                <input type="hidden" name="is_draft" value="{{ $is_draft }}">
-              @endif
-
-              @if($request->has('is_pending'))
-                <input type="hidden" name="is_pending" value="{{ $is_pending }}">
+              @if($request->has('status'))
+                <input type="hidden" name="status" value="{{ $status }}">
               @endif
 
               <input aria-label="Page number" class="form-control" type="number" name="page" min="1" max="{{ $posts->lastPage() }}" value="{{ $posts->currentPage() }}">
@@ -317,7 +307,6 @@
             <em>of {{ $posts->lastPage() }}</em>
           </span>
         </li>
-
 
         <li>
           <a
@@ -340,7 +329,7 @@
   </div><!-- /.flex items-center justify-between padding-top-sm -->
 </div>
 
-@if ( request()->has('is_pending') )
+@if ( request()->has('status') && request('status') == 'pending')
 <div class="bg radius-md padding-md margin-top-lg shadow-sm">
   <h4 class="margin-bottom-sm">Rejected</h4>
   <div id="table-2" class="int-table text-sm js-int-table">
@@ -581,14 +570,13 @@
         <li>
           <span class="pagination__jumper flex items-center">
             <form action="{{ url()->full() }}" class="inline" method="get">
-              <input type="hidden" name="is_pending" value="{{ $is_pending }}">
+              <input type="hidden" name="status" value="{{ $status }}">
 
               <input aria-label="Page number" class="form-control" type="number" name="page" min="1" max="{{ $rejected_posts->lastPage() }}" value="{{ $rejected_posts->currentPage() }}">
             </form>
             <em>of {{ $rejected_posts->lastPage() }}</em>
           </span>
         </li>
-
 
         <li>
           <a
