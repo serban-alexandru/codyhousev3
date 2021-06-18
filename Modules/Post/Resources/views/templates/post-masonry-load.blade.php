@@ -32,8 +32,8 @@
                   </a>
                 </div>
              
-                @else
-              <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="auto" viewBox="0 0 25 25">
+              @else
+              <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 25 25">
                 <title>face-man</title>
                 <g stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" transform="translate(0.5 0.5)"
                   fill="#a8a8a8" stroke="#a8a8a8">
