@@ -1,5 +1,4 @@
-<div class="bg radius-md padding-md shadow-sm">
-  @if($alert = session()->get('alert'))
+@if($alert = session()->get('alert'))
     <div class="alert alert--is-visible js-alert margin-bottom-lg {{ $alert['class'] }}" role="alert">
       <div class="flex items-center justify-between">
         <div class="flex items-center">
@@ -162,7 +161,7 @@
 
               <td class="int-table__cell cursor-pointer" aria-controls="modal-edit-page" data-id="{{ $page->id }}">
                 <a href="#0">
-                  {{ Str::limit($page->title, 47) }}
+                  {{ Str::limit($page->title) }}
                 </a>
               </td>
               <td class="int-table__cell">{{ $page->username }}</td>
@@ -533,5 +532,4 @@
     </nav>
     @endif
   </div><!-- /.flex items-center justify-between padding-top-sm -->
-</div><!-- /.bg radius-md padding-md shadow-sm -->
 @endif

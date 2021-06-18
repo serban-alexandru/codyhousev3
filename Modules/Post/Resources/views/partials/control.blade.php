@@ -2,15 +2,15 @@
   <div class="margin-xs">
     <div class="inline-flex items-baseline">
       <h1 class="text-md color-contrast-high padding-y-xxxxs margin-x-xs" for="selectThis">Posts:</h1>
-      <div class="select inline-block js-select" data-trigger-class="reset text-sm color-contrast-high h1 inline-flex items-center cursor-pointer js-tab-focus">
-        <select name="selectThis" id="selectThis" onchange="window.location=this.value">
-          <optgroup label="Group 1">
-            <option value="#" selected>All Categories</option>
-            <option value="#">Tags</option>
-            <option value="2">Cat 2</option>
-            <option value="3">Cat 3</option>
-          </optgroup>
-        </select>
+        <div class="select inline-block js-select" data-trigger-class="reset text-sm color-contrast-high h1 inline-flex items-center cursor-pointer js-tab-focus">
+          <select name="selectThis" id="selectThis" onchange="window.location=this.value">
+            <optgroup label="Group 1">
+              <option value="#" selected>All Posts</option>
+              <option value="#">Draft</option>
+              <option value="2">Pending</option>
+              <option value="3">Trash</option>
+            </optgroup>
+          </select>
         <svg class="icon icon--xxxs margin-left-xxs" viewBox="0 0 8 8"><path d="M7.934,1.251A.5.5,0,0,0,7.5,1H.5a.5.5,0,0,0-.432.752l3.5,6a.5.5,0,0,0,.864,0l3.5-6A.5.5,0,0,0,7.934,1.251Z"/></svg>
       </div>
     </div>

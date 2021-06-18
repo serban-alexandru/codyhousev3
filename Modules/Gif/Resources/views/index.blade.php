@@ -8,8 +8,8 @@
       <div class="grid gap-md@md">
         @include('gif::partials.sidebar')
         <main class="position-relative padding-top-md z-index-1 col-12@md">
-          @include('gif::partials.control')
-          <div id="site-table-with-pagination-container">
+            <div id="site-table-with-pagination-container">
+            @include('gif::partials.control')
             @include('gif::partials.table')
           </div><!-- /#site-table-with-pagination-container -->
         </main>

@@ -1,4 +1,4 @@
-<div class="max-width-sm mg-auto">
+<div class="max-width-md mg-auto padding-md">
   <div class="add-post-wrp editorjs-fullwidth hidden">
     <form action="{{ route('dashboard.store') }}" data-action="{{ route('dashboard.store') }}" id="formAddPost" method="POST" enctype="multipart/form-data" >
       @csrf

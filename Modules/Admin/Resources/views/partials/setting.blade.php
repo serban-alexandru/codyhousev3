@@ -3,7 +3,7 @@
 <div class="container max-width-lg">
   <div class="grid">
     @include('admin::partials.sidebar')
-    <main class="position-relative z-index-1 col-12@md link-card">
+    <main class="position-relative z-index-1 col-12@md link-card radius-md">
 
   <!-- Sub-navigation -->
   <div class="border-bottom border-contrast-lower">

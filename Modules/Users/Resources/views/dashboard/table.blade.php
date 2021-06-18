@@ -1,4 +1,4 @@
-<div class="bg radius-md padding-md shadow-sm">
+<div class="padding-sm margin-top-sm">
   @if(request()->has('status') && request('status') == 'deleted' && auth()->user()->isAdmin())
     <div class="margin-bottom-md">
       <form action="{{ route('dashboard.trash.empty') }}" method="post">
@@ -330,7 +330,7 @@
 </div>
 
 @if ( request()->has('status') && request('status') == 'pending')
-<div class="bg radius-md padding-md margin-top-lg shadow-sm">
+<div class="padding-md margin-top-lg">
   <h4 class="margin-bottom-sm">Rejected</h4>
   <div id="table-2" class="int-table text-sm js-int-table">
     <div class="int-table__inner" id="site-table-container">
