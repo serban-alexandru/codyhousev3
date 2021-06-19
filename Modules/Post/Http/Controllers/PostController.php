@@ -246,12 +246,15 @@ class PostController extends Controller
             'description'      => request('description'),
             'thumbnail'        => (request()->has('thumbnail')) ? $thumbnail_name : NULL,
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : NULL,
-            'seo_page_title'   => request('page_title') ?: NULL,
             'tags'             => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
             'post_type'        => 'post',
             'status'           => request('status')
         ]);
 
+        if ( request()->has('page_title') ) {
+            PostsMeta::setMetaData( $post->id, 'seo_page_title', request('page_title') );
+        }
+      
         $tag_categories = TagCategory::all();
 
         foreach ($tag_categories as $key => $tag_category) {
@@ -306,7 +309,7 @@ class PostController extends Controller
         $data['slug']         = $post->slug;
         $data['description']  = html_entity_decode($post->description);
         $data['thumbnail']    = asset("storage/posts/original/{$post->thumbnail}");
-        $data['page_title']   = $post->seo_page_title;
+        $data['page_title']   = PostsMeta::getMetaData( $post->id, 'seo_page_title' );
         $data['post_date']    = Date('d/m/Y', strtotime($post->created_at));
         $data['status']       = $post->status;
 
@@ -436,11 +439,14 @@ class PostController extends Controller
             'description'      => request('description'),
             'thumbnail'        => (request()->has('thumbnail')) ? $thumbnail_name : $post->thumbnail,
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : $post->thumbnail_medium,
-            'seo_page_title'   => request('page_title') ?: NULL,
             'tags'             => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
             'created_at'       => $post_date,
             'status'           => $status
         ]);
+
+        if ( request()->has('page_title') ) {
+            PostsMeta::setMetaData( $post->id, 'seo_page_title', request('page_title') );
+        }
 
         $tag_categories = TagCategory::all();
 
@@ -485,18 +491,6 @@ class PostController extends Controller
         ]);
     }
 
-    public function saveRejectedReason( $post_id, $content ) {
-        $post_meta             = new PostsMeta;
-        $post_meta->post_id    = $post_id;
-        $post_meta->meta_key   = 'rejected_reason';
-        $post_meta->meta_value = $content;
-        $post_meta->save();
-    }
-
-    public function deleteRejectedReason( $post_ids ) {
-        $post_meta = PostsMeta::whereIn( 'post_id', !is_array($post_ids) ? [$post_ids] : $post_ids )->where('meta_key', 'rejected_reason')->delete();
-    }
-
     public function delete()
     {
         $post = Post::where( 'post_type', 'post' )->find(request('post_id'));
@@ -510,7 +504,7 @@ class PostController extends Controller
         }
 
         // Clear Rejected reason.
-        $this->deleteRejectedReason( $post->id );
+        PostsMeta::deleteMultipleMetaData( $post->id, 'rejected_reason' );
 
         $post->update( ['status' => 'deleted'] );
 
@@ -541,6 +535,9 @@ class PostController extends Controller
         foreach ($posts_tags as $posts_tag) {
             $posts_tag->delete();
         }
+
+        // Delete Meta.
+        PostsMeta::emptyMetaData( $post->id );
 
         // Finally, delete post
         return $post->delete();
@@ -574,7 +571,7 @@ class PostController extends Controller
         }
 
         // Clear Rejected reason.
-        $this->deleteRejectedReason( $selectedIDs );
+        PostsMeta::deleteMultipleMetaData( $selectedIDs, 'rejected_reason' );
         
         Post::where( 'post_type', 'post' )->whereIn('id', $selectedIDs)->update(['status' => 'deleted']);
 
@@ -611,7 +608,7 @@ class PostController extends Controller
 
         // Clear Rejected reason.
         if ( $post->status == 'rejected' ) {
-            $this->deleteRejectedReason( $post->id );
+            PostsMeta::deleteMultipleMetaData( $post->id, 'rejected_reason' );
         }
 
         $post->update(['status' => 'draft']);
@@ -650,7 +647,7 @@ class PostController extends Controller
         }
 
         // Clear Rejected reason.
-        $this->deleteRejectedReason( $id );
+        PostsMeta::deleteMultipleMetaData( $id, 'rejected_reason' );
 
         $post->update(['status' => 'draft']);
 
@@ -668,7 +665,7 @@ class PostController extends Controller
         }
 
         // Clear Rejected reason.
-        $this->deleteRejectedReason( $id );
+        PostsMeta::deleteMultipleMetaData( $id, 'rejected_reason' );
 
         $post->update(['status' => 'published']);
 
@@ -877,7 +874,7 @@ class PostController extends Controller
         }
 
         // Save Rejected reason.
-        $this->saveRejectedReason( $post->id, request('message') );
+        PostsMeta::insertMetaData( $post->id, 'rejected_reason', request('message') );
 
         $post->update(['status' => 'rejected']);
        

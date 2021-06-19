@@ -315,11 +315,14 @@ class DashboardGifsController extends Controller
             'description'      => request('description'),
             'thumbnail'        => (request()->has('thumbnail')) ? $thumbnail_name : NULL,
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : NULL,
-            'seo_page_title'   => request('page_title') ?: NULL,
             'tags'             => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
             'post_type'        => 'gif',
             'status'           => $status
         ]);
+
+        if ( request()->has('page_title') ) {
+            PostsMeta::setMetaData( $gif->id, 'seo_page_title', request('page_title') );
+        }
 
         $tag_categories = TagCategory::all();
 
@@ -579,18 +582,6 @@ class DashboardGifsController extends Controller
         return redirect()->back()->with('alert', $alert);
     }
 
-    public function saveRejectedReason( $gif_id, $content ) {
-        $post_meta             = new PostsMeta;
-        $post_meta->post_id    = $gif_id;
-        $post_meta->meta_key   = 'rejected_reason';
-        $post_meta->meta_value = $content;
-        $post_meta->save();
-    }
-
-    public function deleteRejectedReason( $gif_ids ) {
-        $post_meta = PostsMeta::whereIn( 'post_id', !is_array($gif_ids) ? [$gif_ids] : $gif_ids )->where('meta_key', 'rejected_reason')->delete();
-    }
-
     public function delete()
     {
         $gif = $this->getGif(request('gif_id'));
@@ -603,7 +594,7 @@ class DashboardGifsController extends Controller
         }
 
         // Clear Rejected reason.
-        $this->deleteRejectedReason( $gif->id );
+        PostsMeta::deleteMultipleMetaData( $gif->id, 'rejected_reason' );
 
         $gif->update(['status' => 'deleted']);
 
@@ -634,6 +625,9 @@ class DashboardGifsController extends Controller
         foreach ($gifs_tags as $gifs_tag) {
             $gifs_tag->delete();
         }
+
+        // Delete Meta.
+        PostsMeta::emptyMetaData( $gif->id );
 
         // Finally, delete gif
         return $gif->delete();
@@ -675,7 +669,7 @@ class DashboardGifsController extends Controller
         }
 
         // Clear Rejected reason.
-        $this->deleteRejectedReason( $selectedIDs );
+        PostsMeta::deleteMultipleMetaData( $selectedIDs, 'rejected_reason' );
 
         if ( auth()->user()->isAdmin() ) {
             Post::where('post_type', 'gif')->whereIn('id', $selectedIDs)->update(['status' => 'deleted']);
@@ -719,7 +713,7 @@ class DashboardGifsController extends Controller
 
         // Clear Rejected reason.
         if ( $gif->status == 'rejected' ) {
-            $this->deleteRejectedReason( $gif->id );
+            PostsMeta::deleteMultipleMetaData( $gif->id, 'rejected_reason' );
         }
 
         $gif->update(['status' => 'draft']);
@@ -758,7 +752,7 @@ class DashboardGifsController extends Controller
         }
 
         // Clear Rejected reason.
-        $this->deleteRejectedReason( $id );
+        PostsMeta::deleteMultipleMetaData( $id, 'rejected_reason' );
 
         $gif->update(['status' => 'draft']);
 
@@ -776,7 +770,7 @@ class DashboardGifsController extends Controller
         }
 
         // Clear Rejected reason.
-        $this->deleteRejectedReason( $id );
+        PostsMeta::deleteMultipleMetaData( $id, 'rejected_reason' );
 
         if (auth()->user()->isRegisteredUser()) {
             $gif->update(['status' => 'pending']);
@@ -808,7 +802,7 @@ class DashboardGifsController extends Controller
         }
 
         // Save Rejected reason.
-        $this->saveRejectedReason( $gif->id, request('message') );
+        PostsMeta::insertMetaData( $gif->id, 'rejected_reason', request('message') );
 
         $gif->update(['status' => 'rejected']);
         
