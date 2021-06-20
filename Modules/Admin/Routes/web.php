@@ -16,7 +16,7 @@ Route::get('/admin/contact',function(){
   });
 
 Route::get('/admin/scraper',function(){
-    return view('admin::scraper.index');
+    return view('admin::pages.scraper');
   });
 
 use Illuminate\Support\Facades\Schema;
