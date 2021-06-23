@@ -438,7 +438,7 @@ class TagController extends Controller
         // If tag is not found -> return 404 | Not Found
         if (!$tag_query) {
             abort(404);
-        }        
+        }
 
         $posts = Post::getByTagNames([$tag_query]);
 

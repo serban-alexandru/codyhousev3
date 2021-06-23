@@ -863,6 +863,6 @@ class UsersController extends Controller
         $data['user']  = $user;
         $data['posts'] = $posts;
 
-        return view('templates.profile.default', $data);
+        return view('templates.layouts.profile', $data);
     }
 }

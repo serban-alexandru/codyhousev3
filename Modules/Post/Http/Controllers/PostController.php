@@ -783,10 +783,108 @@ class PostController extends Controller
 
         $data['total'] = $posts_count;
         $data['posts'] = $posts;
+        $data['api_route'] = 'posts';
         $data['nextpage'] = ($posts_count - $offset - $perpage) > 0 ? ($page_num + 1) : 0;
 
         return view('post::templates.post-masonry-load', $data);
     }
+
+    public function ajaxShowPostsByUser($user_id, $page_num)
+    {
+        // This return all post type, so no need to filter for 'post' only.
+        $perpage = 20;
+        $offset = ($page_num - 1) * $perpage;
+        $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
+            ->select([
+                'posts.id',
+                'title',
+                'slug',
+                'post_type',
+                'posts.created_at as created_at',
+                'thumbnail',
+                'thumbnail_medium',
+                'users.name',
+                'users.username',
+                'users.avatar as avatar'
+            ])->where(
+                [
+                    'user_id' => $user_id,
+                    'status'  => 'published'
+                ]    
+            )
+            ->orderBy('created_at', 'desc')
+            ->offset($offset)
+            ->limit($perpage);
+
+        $posts = $posts->get();
+
+        $posts_count = Post::where([
+            'user_id' => $user_id,
+            'status' => 'published'
+        ])->count();
+
+        $data['total'] = $posts_count;
+        $data['posts'] = $posts;
+        $data['api_route'] = 'posts/user/' . $user_id;
+        $data['nextpage'] = ($posts_count - $offset - $perpage) > 0 ? ($page_num + 1) : 0;
+
+        return view('post::templates.post-masonry-load', $data);
+    }
+
+    public function ajaxShowPostsByTag($tag, $page_num)
+    {
+        // This return all post type, so no need to filter for 'post' only.
+        $perpage = 20;
+        $offset = ($page_num - 1) * $perpage;
+        $posts = Post::leftJoin('posts_tags', 'posts_tags.post_id', '=', 'posts.id')
+            ->leftJoin('tags', 'posts_tags.tag_id', '=', 'tags.id')
+            ->select([
+                'posts.id',
+                DB::raw('COUNT(*) as relevance')
+            ])
+            ->where(
+                [
+                    'tags.name' => $tag,
+                    'status'    => 'published'
+                ]    
+            )
+            ->groupBy('posts.id')
+            ->orderBy('relevance', 'desc')
+            ->orderBy('posts.updated_at', 'desc')
+            ->offset($offset)
+            ->limit($perpage);
+
+        $posts = $posts->get();
+
+        $post_ids = [];
+        foreach($posts as $post) {
+            $post_ids[] = $post->id;
+        }
+
+        $posts = Post::whereIn('id', $post_ids)->get();
+
+        $posts_count = Post::leftJoin('posts_tags', 'posts_tags.post_id', '=', 'posts.id')
+            ->leftJoin('tags', 'posts_tags.tag_id', '=', 'tags.id')
+            ->select([
+                'posts.id',
+                DB::raw('COUNT(*) as relevance')
+            ])
+            ->where(
+                [
+                    'tags.name' => $tag,
+                    'status'    => 'published'
+                ]    
+            )
+            ->groupBy('posts.id')->count();
+
+        $data['total'] = $posts_count;
+        $data['posts'] = $posts;
+        $data['type'] = 'tag';
+        $data['api_route'] = 'posts/tag/' . $tag;
+        $data['nextpage'] = ($posts_count - $offset - $perpage) > 0 ? ($page_num + 1) : 0;
+
+        return view('post::templates.post-masonry-load', $data);
+    }    
 
     public function ajaxInfiniteLoadPost($post_id, $page_num) {
         // This requires to filter 'post' only.

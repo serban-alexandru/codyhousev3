@@ -403,3 +403,10 @@ body {
 .menu-bar__item.menu-bar-control--active {
     background-color: var(--color-contrast-lower);
 }
+
+/* Custom Card Style for Tag page */
+.card-v8.card-masonry {
+    img {
+        box-shadow: none;
+    }
+}
