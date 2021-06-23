@@ -3,6 +3,7 @@
 namespace App\View\Components\Posts\Lists;
 
 use Illuminate\View\Component;
+use Illuminate\Support\Facades\DB;
 
 use Modules\Post\Entities\Post;
 
@@ -10,43 +11,86 @@ class MasonryV1 extends Component
 {
     public $posts;
     public $api_route;
+    public $type;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($type = 'all', $limit = 20)
+    public function __construct($type = 'all', $userid = null, $tag = null, $limit = 20)
     {
-        $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
-            ->select([
-                'posts.id',
-                'title',
-                'slug',
-                'posts.created_at as created_at',
-                'post_type',
-                'thumbnail',
-                'thumbnail_medium',
-                'users.name',
-                'users.username',
-                'users.avatar as avatar'
-            ])->where(
-                [
-                    'status' => 'published'
-                ]    
-            );
+        if ( $type == 'tag' ) {
+            if( $tag == null ) {
+                $this->posts = [];
+                $this->api_route = 'posts/tag/';
+            } else {
+                $posts = Post::leftJoin('posts_tags', 'posts_tags.post_id', '=', 'posts.id')
+                    ->leftJoin('tags', 'posts_tags.tag_id', '=', 'tags.id')
+                    ->select([
+                        'posts.id',
+                        DB::raw('COUNT(*) as relevance')
+                    ])
+                    ->where(
+                        [
+                            'tags.name' => $tag,
+                            'status'    => 'published'
+                        ]    
+                    )->groupBy('posts.id')
+                    ->orderBy('relevance', 'desc')
+                    ->orderBy('posts.updated_at', 'desc')
+                    ->offset(0)
+                    ->limit($limit);
 
-            if ( in_array($type, ['post', 'gif']) ) {
-                $posts->where('post_type', $type);
+                $posts = $posts->get();
+                
+                $post_ids = [];
+                foreach($posts as $post) {
+                    $post_ids[] = $post->id;
+                }
+
+                $posts = Post::whereIn('id', $post_ids)->get();
+                $this->posts = $posts;
+                $this->api_route = 'posts/tag/' . $tag;
             }
-            $posts->orderBy('created_at', 'desc')
-            ->limit($limit)
-            ->offset(0);
+        } else {
+            $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
+                ->select([
+                    'posts.id',
+                    'title',
+                    'slug',
+                    'posts.created_at as created_at',
+                    'post_type',
+                    'thumbnail',
+                    'thumbnail_medium',
+                    'users.name',
+                    'users.username',
+                    'users.avatar as avatar'
+                ])->where(
+                    [
+                        'status' => 'published'
+                    ]    
+                );
 
-        $posts = $posts->get();
+                if ( $userid != null ) {
+                    $posts->where('user_id', $userid);
+                }
+                if ( in_array($type, ['post', 'gif']) ) {
+                    $posts->where('post_type', $type);
+                }
+                $posts->orderBy('created_at', 'desc')
+                    ->limit($limit)
+                    ->offset(0);
 
-        $this->posts = $posts;
-        $this->api_route = $type == 'gif' ? 'gifs' : 'posts';
+            $posts = $posts->get();
+
+            $this->posts = $posts;
+            $this->api_route = $type == 'gif' ? 'gifs' : 'posts';
+            if ( $userid != null ) {
+                $this->api_route = $this->api_route . "/user/" . $userid;
+            }
+        }
+        $this->type = $type;
     }
 
     /**
