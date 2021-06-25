@@ -27,7 +27,10 @@ class SettingsController extends Controller {
     $tag_templates = Settings::getTemplates('tag_template', $settings_data['tag_template']);
     $profile_templates = Settings::getTemplates('profile_template', $settings_data['profile_template']);
 
-    return view('admin::partials.setting', compact('settings_data', 'fonts', 'disable_shortcode', 'app_templates', 'blog_templates', 'post_templates', 'gif_templates', 'page_templates', 'tag_templates', 'profile_templates'))->withoutShortcodes();
+    // Get social icon info.
+    $socials = unserialize($settings_data['socials']);
+
+    return view('admin::partials.setting', compact('settings_data', 'fonts', 'disable_shortcode', 'app_templates', 'blog_templates', 'post_templates', 'gif_templates', 'page_templates', 'tag_templates', 'profile_templates', 'socials'))->withoutShortcodes();
   }
 
   /**
@@ -63,7 +66,8 @@ class SettingsController extends Controller {
       'gif_template',
       'page_template',
       'tag_template',
-      'profile_template'
+      'profile_template',
+      'socials'
     ];
 
     $checkbox_keys = [
@@ -113,7 +117,17 @@ class SettingsController extends Controller {
       if (in_array($key, $checkbox_keys)) {
         $default_val = 'off';
       }
+
       $req_param = !empty($request->input($key)) ? $request->input($key) : $default_val;
+
+      if ($key == 'socials') {
+        foreach($req_param as $idx => $social) {
+          if (empty($social['icon']) && empty($social['link'])) {
+            unset($req_param[$idx]);
+          }
+        }
+        $req_param = serialize($req_param);
+      }
 
       if (isset($settings_data[$key]))
         $update_data[$key] = $req_param;

@@ -320,7 +320,7 @@ class DashboardGifsController extends Controller
             'status'           => $status
         ]);
 
-        if ( request()->has('page_title') ) {
+        if ( request()->has('page_title') && !empty(request('page_title')) ) {
             PostsMeta::setMetaData( $gif->id, 'seo_page_title', request('page_title') );
         }
 

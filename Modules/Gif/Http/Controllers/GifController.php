@@ -256,7 +256,7 @@ class GifController extends Controller
             'status'           => request('status')
         ]);
 
-        if ( request()->has('page_title') ) {
+        if ( request()->has('page_title') && !empty(request('page_title')) ) {
             PostsMeta::setMetaData( $gif->id, 'seo_page_title', request('page_title') );
         }
       
@@ -451,7 +451,7 @@ class GifController extends Controller
             'status'           => $status
         ]);
 
-        if ( request()->has('page_title') ) {
+        if ( request()->has('page_title') && !empty(request('page_title')) ) {
             PostsMeta::setMetaData( $gif->id, 'seo_page_title', request('page_title') );
         }
       
