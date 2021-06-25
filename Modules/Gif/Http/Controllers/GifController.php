@@ -99,11 +99,12 @@ class GifController extends Controller
         // Generate `slug` if it's not yet set
         foreach ($gifs as $gif) {
             if (!$gif->slug) {
-                $slug                = Str::slug($gif->title, '-');
+                $slug               = Str::slug($gif->title, '-');
                 $gif_with_same_slug = Post::where('slug', $slug)->where('id', '<>', $gif->id)->first();
 
                 if ($gif_with_same_slug) {
-                    $slug .= '-2';
+                    $duplicated_slugs = Post::select('slug')->where('slug', 'like', $slug . '%')->orderBy('slug', 'desc')->get();
+                    $slug = getNewSlug($slug, $duplicated_slugs);
                 }
 
                 $gif->slug = $slug;
@@ -241,7 +242,8 @@ class GifController extends Controller
         $gif_with_same_slug = Post::firstWhere('slug', $slug);
 
         if ($gif_with_same_slug) {
-            $slug .= '-2';
+            $duplicated_slugs = Post::select('slug')->where('slug', 'like', $slug . '%')->orderBy('slug', 'desc')->get();
+            $slug = getNewSlug($slug, $duplicated_slugs);
         }
 
         $gif = Post::create([
@@ -256,7 +258,7 @@ class GifController extends Controller
             'status'           => request('status')
         ]);
 
-        if ( request()->has('page_title') && !empty(request('page_title')) ) {
+        if ( request()->has('page_title') ) {
             PostsMeta::setMetaData( $gif->id, 'seo_page_title', request('page_title') );
         }
       
@@ -415,7 +417,8 @@ class GifController extends Controller
         $gif_with_same_slug = Post::where('slug', $slug)->where('id', '<>', $gif->id)->first();
 
         if ($gif_with_same_slug) {
-            $slug .= '-2';
+            $duplicated_slugs = Post::select('slug')->where('slug', 'like', $slug . '%')->orderBy('slug', 'desc')->get();
+            $slug = getNewSlug($slug, $duplicated_slugs);
         }
 
         // change Gif Created Time "created_at"
@@ -451,7 +454,7 @@ class GifController extends Controller
             'status'           => $status
         ]);
 
-        if ( request()->has('page_title') && !empty(request('page_title')) ) {
+        if ( request()->has('page_title') ) {
             PostsMeta::setMetaData( $gif->id, 'seo_page_title', request('page_title') );
         }
       

@@ -83,7 +83,7 @@ class PageController extends Controller
         $request    = request();
         $is_trashed = request('is_trashed');
         $is_draft   = request('is_draft');
-        $is_pending   = request('is_pending');
+        $is_pending = request('is_pending');
 
         // Generate `slug` if it's not yet set
         foreach ($pages as $page) {
@@ -92,7 +92,8 @@ class PageController extends Controller
                 $page_with_same_slug = Page::where('slug', $slug)->where('id', '<>', $page->id)->first();
 
                 if ($page_with_same_slug) {
-                    $slug .= '-2';
+                    $duplicated_slugs = Page::select('slug')->where('slug', 'like', $slug . '%')->orderBy('slug', 'desc')->get();
+                    $slug = getNewSlug($slug, $duplicated_slugs);
                 }
 
                 $page->slug = $slug;
@@ -130,7 +131,8 @@ class PageController extends Controller
         $page_with_same_slug = Page::firstWhere('slug', $slug);
 
         if ($page_with_same_slug) {
-            $slug .= '-2';
+            $duplicated_slugs = Page::select('slug')->where('slug', 'like', $slug . '%')->orderBy('slug', 'desc')->get();
+            $slug = getNewSlug($slug, $duplicated_slugs);
         }
 
         $page = Page::create([
@@ -194,7 +196,8 @@ class PageController extends Controller
         $page_with_same_slug = Page::where('slug', $slug)->where('id', '<>', $page->id)->first();
 
         if ($page_with_same_slug) {
-            $slug .= '-2';
+            $duplicated_slugs = Page::select('slug')->where('slug', 'like', $slug . '%')->orderBy('slug', 'desc')->get();
+            $slug = getNewSlug($slug, $duplicated_slugs);
         }
 
         // change Page Created Time "created_at"

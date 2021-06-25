@@ -119,7 +119,8 @@ class DashboardGifsController extends Controller
                 $gif_with_same_slug = Post::where('slug', $slug)->where('id', '<>', $gif->id)->first();
 
                 if ($gif_with_same_slug) {
-                    $slug .= '-2';
+                    $duplicated_slugs = Post::select('slug')->where('slug', 'like', $slug . '%')->orderBy('slug', 'desc')->get();
+                    $slug = getNewSlug($slug, $duplicated_slugs);
                 }
 
                 $gif->slug = $slug;
@@ -300,7 +301,8 @@ class DashboardGifsController extends Controller
         $gif_with_same_slug  = Post::firstWhere('slug', $slug);
 
         if ($gif_with_same_slug) {
-            $slug .= '-2';
+            $duplicated_slugs = Post::select('slug')->where('slug', 'like', $slug . '%')->orderBy('slug', 'desc')->get();
+            $slug = getNewSlug($slug, $duplicated_slugs);
         }
 
         $status = request('status') ? request('status') : 'published';
