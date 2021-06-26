@@ -103,7 +103,8 @@ class PostController extends Controller
                 $post_with_same_slug = Post::where('slug', $slug)->where('id', '<>', $post->id)->first();
 
                 if ($post_with_same_slug) {
-                    $slug .= '-2';
+                    $duplicated_slugs = Post::select('slug')->where('slug', 'like', $slug . '%')->orderBy('slug', 'desc')->get();
+                    $slug = getNewSlug($slug, $duplicated_slugs);
                 }
 
                 $post->slug = $slug;
@@ -233,10 +234,11 @@ class PostController extends Controller
 
         // Generate slug
         $slug                = Str::slug(strip_tags(request('title')), '-');
-        $post_with_same_slug = Post::firstWhere('slug', $slug);
+        $post_with_same_slug = Post::where('slug', $slug)->first();
 
         if ($post_with_same_slug) {
-            $slug .= '-2';
+            $duplicated_slugs = Post::select('slug')->where('slug', 'like', $slug . '%')->orderBy('slug', 'desc')->get();
+            $slug = getNewSlug($slug, $duplicated_slugs);
         }
 
         $post = Post::create([
@@ -251,7 +253,7 @@ class PostController extends Controller
             'status'           => request('status')
         ]);
 
-        if ( request()->has('page_title') ) {
+        if ( request()->has('page_title') && !empty(request('page_title')) ) {
             PostsMeta::setMetaData( $post->id, 'seo_page_title', request('page_title') );
         }
       
@@ -408,7 +410,8 @@ class PostController extends Controller
         $post_with_same_slug = Post::where('slug', $slug)->where('id', '<>', $post->id)->first();
 
         if ($post_with_same_slug) {
-            $slug .= '-2';
+            $duplicated_slugs = Post::select('slug')->where('slug', 'like', $slug . '%')->orderBy('slug', 'desc')->get();
+            $slug = getNewSlug($slug, $duplicated_slugs);
         }
 
         // change Post Created Time "created_at"
@@ -444,7 +447,7 @@ class PostController extends Controller
             'status'           => $status
         ]);
 
-        if ( request()->has('page_title') ) {
+        if ( request()->has('page_title') && !empty(request('page_title')) ) {
             PostsMeta::setMetaData( $post->id, 'seo_page_title', request('page_title') );
         }
 

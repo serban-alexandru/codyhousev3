@@ -28,28 +28,32 @@ class PostsMeta extends Model
     }
 
     static function insertMetaData( $post_id, $key, $value ) {
-        PostsMeta::create([
-            'post_id'    => $post_id,
-            'meta_key'   => $key,
-            'meta_value' => $value
-        ]);
-    }
-
-    static function setMetaData( $post_id, $key, $value ) {
-        // Check if proper item is already exist.
-        $meta = PostsMeta::where([
-            'post_id'  => $post_id,
-            'meta_key' => $key
-        ])->first();
-
-        if ( $meta ) {
-            $meta->update( ['meta_value' => $value] );
-        } else {
+        if (!empty($value)) {
             PostsMeta::create([
                 'post_id'    => $post_id,
                 'meta_key'   => $key,
                 'meta_value' => $value
             ]);
+        }
+    }
+
+    static function setMetaData( $post_id, $key, $value ) {
+        if (!empty($value)) {
+            // Check if proper item is already exist.
+            $meta = PostsMeta::where([
+                'post_id'  => $post_id,
+                'meta_key' => $key
+            ])->first();
+
+            if ( $meta ) {
+                $meta->update( ['meta_value' => $value] );
+            } else {
+                PostsMeta::create([
+                    'post_id'    => $post_id,
+                    'meta_key'   => $key,
+                    'meta_value' => $value
+                ]);
+            }
         }
     }
 

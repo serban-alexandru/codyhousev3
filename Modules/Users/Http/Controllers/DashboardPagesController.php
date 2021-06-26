@@ -103,7 +103,8 @@ class DashboardPagesController extends Controller
                 $page_with_same_slug = Page::where('slug', $slug)->where('id', '<>', $page->id)->first();
 
                 if ($page_with_same_slug) {
-                    $slug .= '-2';
+                    $duplicated_slugs = Page::select('slug')->where('slug', 'like', $slug . '%')->orderBy('slug', 'desc')->get();
+                    $slug = getNewSlug($slug, $duplicated_slugs);
                 }
 
                 $page->slug = $slug;
@@ -187,7 +188,8 @@ class DashboardPagesController extends Controller
         $page_with_same_slug = Page::firstWhere('slug', $slug);
 
         if ($page_with_same_slug) {
-            $slug .= '-2';
+            $duplicated_slugs = Page::select('slug')->where('slug', 'like', $slug . '%')->orderBy('slug', 'desc')->get();
+            $slug = getNewSlug($slug, $duplicated_slugs);
         }
 
         $is_published = (request('is_published') && !auth()->user()->isRegisteredUser()) ?? 1;

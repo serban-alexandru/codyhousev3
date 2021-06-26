@@ -133,29 +133,53 @@
               <!-- Social Settings -->
               <h4>Social Setting</h4>
               <div class="floating-label margin-bottom-md margin-top-md">
-              <div class="js-repeater" data-repeater-input-name="user[n]">
-                <ul class="grid gap-xs js-repeater__list">
-                  <li class="js-repeater__item">
-                    <div class="grid gap-xs">
-                      <input class="form-control col" type="text" name="user[0][name]" id="user[0][name]" placeholder="SVG icon">
-                      <input class="form-control col" type="text" name="user[0][name]" id="user[0][name]" placeholder="Enter Link">
-                      <button class="btn btn--subtle padding-x-xs col-content js-repeater__remove" type="button">
-                        <svg class="icon" viewBox="0 0 20 20">
-                          <title>Remove item</title>
-              
-                          <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                            <line x1="1" y1="5" x2="19" y2="5"/>
-                            <path d="M7,5V2A1,1,0,0,1,8,1h4a1,1,0,0,1,1,1V5"/>
-                            <path d="M16,8l-.835,9.181A2,2,0,0,1,13.174,19H6.826a2,2,0,0,1-1.991-1.819L4,8"/>
-                          </g>
-                        </svg>
-                      </button>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              
-                <button class="btn btn--primary width-25% margin-top-xs js-repeater__add" type="button">+ Add Item</button>
+                <div class="js-repeater" data-repeater-input-name="socials[n]" data-repeater-class="social-items">
+                  <ul class="grid gap-xs js-repeater__list">
+                  <?php
+                    $s_idx = 0;
+                  ?>
+                  @foreach($socials as $social)
+                    <li class="js-repeater__item">
+                      <div class="grid gap-xs">
+                        <input class="form-control col" type="text" name="socials[{{$s_idx}}][icon]" id="socials[{{$s_idx}}][icon]" value="{{$social['icon']}}" placeholder="SVG icon">
+                        <input class="form-control col" type="text" name="socials[{{$s_idx}}][link]" id="socials[{{$s_idx}}][link]" value="{{$social['link']}}" placeholder="Enter Link">
+                        <button class="btn btn--subtle padding-x-xs col-content js-repeater__remove" type="button">
+                          <svg class="icon" viewBox="0 0 20 20">
+                            <title>Remove item</title>
+                
+                            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                              <line x1="1" y1="5" x2="19" y2="5"/>
+                              <path d="M7,5V2A1,1,0,0,1,8,1h4a1,1,0,0,1,1,1V5"/>
+                              <path d="M16,8l-.835,9.181A2,2,0,0,1,13.174,19H6.826a2,2,0,0,1-1.991-1.819L4,8"/>
+                            </g>
+                          </svg>
+                        </button>
+                      </div>
+                    </li>
+                    <?php
+                      $s_idx++;
+                    ?>
+                  @endforeach
+                    <li class="js-repeater__item">
+                      <div class="grid gap-xs">
+                        <input class="form-control col" type="text" name="socials[{{$s_idx}}][icon]" id="socials[{{$s_idx}}][icon]" placeholder="SVG icon">
+                        <input class="form-control col" type="text" name="socials[{{$s_idx}}][link]" id="socials[{{$s_idx}}][link]" placeholder="Enter Link">
+                        <button class="btn btn--subtle padding-x-xs col-content js-repeater__remove" type="button">
+                          <svg class="icon" viewBox="0 0 20 20">
+                            <title>Remove item</title>
+                
+                            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                              <line x1="1" y1="5" x2="19" y2="5"/>
+                              <path d="M7,5V2A1,1,0,0,1,8,1h4a1,1,0,0,1,1,1V5"/>
+                              <path d="M16,8l-.835,9.181A2,2,0,0,1,13.174,19H6.826a2,2,0,0,1-1.991-1.819L4,8"/>
+                            </g>
+                          </svg>
+                        </button>
+                      </div>
+                    </li>
+                  </ul>
+                  <button class="btn btn--primary width-25% margin-top-xs js-repeater__add" type="button">+ Add Item</button>
+                </div>
               </div>
 
               <!-- Template Settings -->
