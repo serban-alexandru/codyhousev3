@@ -8,11 +8,14 @@ class SocialIconsShortcode {
   public function register($shortcode, $content, $compiler, $name, $viewData)
   {
     $settings_data = Settings::getSiteSettings();
-    $socials = unserialize($settings_data['socials']);
+    if (isset($settings_data['socials'])) {
+      $socials = unserialize($settings_data['socials']);
 
-    $template = self::getSocialIconsTemplate($socials);
+      $template = self::getSocialIconsTemplate($socials);
 
-    return $template;
+      return $template;
+    }
+    return "";
   }
 
   private static function getSocialIconsTemplate($icons) {
