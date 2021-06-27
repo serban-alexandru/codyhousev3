@@ -1,6 +1,6 @@
 <section class="feature-bottom container max-width-adaptive-lg margin-top-md margin-bottom-md">
     <div class="grid gap-md">
-      <div class="col-9@md featured-post margin-bottom-lg padding-bottom-xs">
+      <div class="col-8@md featured-post margin-bottom-lg padding-bottom-xs">
 
         @if($featured_post)
             @if($featured_post->thumbnail)
@@ -14,7 +14,7 @@
                         )
                     }}
                 " class="featured__img-wrapper feautured__img-wrapper-cropped">
-                    <img src="{{ $featured_post->showThumbnail() }}" alt="Image of {{ $featured_post->title }}">
+                    <img src="{{ $featured_post->showThumbnail('medium') }}" alt="Image of {{ $featured_post->title }}">
                 </a>
             @else
                 <span class="feautured__img-wrapper-cropped bg-black bg-opacity-50%"></span>
@@ -34,7 +34,7 @@
         @endif
       </div>
 
-      <div class="col-6@md">
+      <div class="col-7@md">
         <div class="stories">
             @foreach($featured_list as $key => $post)
                 <li class="stories__story">
