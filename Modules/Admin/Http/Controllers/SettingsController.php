@@ -28,8 +28,11 @@ class SettingsController extends Controller {
     $profile_templates = Settings::getTemplates('profile_template', $settings_data['profile_template']);
 
     // Get social icon info.
-    $socials = unserialize($settings_data['socials']);
-
+    if (isset($settings_data['socials'])) {
+      $socials = unserialize($settings_data['socials']);
+    } else {
+      $socials = [];
+    }
     return view('admin::partials.setting', compact('settings_data', 'fonts', 'disable_shortcode', 'app_templates', 'blog_templates', 'post_templates', 'gif_templates', 'page_templates', 'tag_templates', 'profile_templates', 'socials'))->withoutShortcodes();
   }
 
