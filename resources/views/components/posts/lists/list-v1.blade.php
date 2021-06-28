@@ -1,14 +1,14 @@
-<section class="feature-v8 padding-bottom-xl">
+<section class="feature-v8 padding-bottom-lg">
     <div class="padding-top-xxl">
     </div>
   
     <div class="container max-width-adaptive-lg">
-      <ul class="feature-v8__sub-content grid gap-lg">
+      <ul class="feature-v8__sub-content grid gap-md">
         <li class="col-3@md">
   
           <a href="#0" class="card-v8 bg radius-lg">
             <figure>
-              <img src="https://codyhouse.co/app/assets/img/feature-v8-img-1.jpg" alt="Image description">
+              <img src="http://localhost:3000/storage/posts/thumbnail/thumbnailcropBVCaWXsJ0BBvraxRSQ2VPLIZ5ug.jpg" alt="Image description">
             </figure>
   
             <footer class="padding-sm">
@@ -24,7 +24,7 @@
   
           <a href="#0" class="card-v8 bg radius-lg">
             <figure>
-              <img src="https://codyhouse.co/app/assets/img/feature-v8-img-3.jpg" alt="Image description">
+              <img src="http://localhost:3000/storage/posts/thumbnail/thumbnailcropBVCaWXsJ0BBvraxRSQ2VPLIZ5ug.jpg" alt="Image description">
             </figure>
   
             <footer class="padding-sm">
@@ -40,7 +40,7 @@
   
           <a href="#0" class="card-v8 bg radius-lg">
             <figure>
-              <img src="https://codyhouse.co/app/assets/img/feature-v8-img-2.jpg" alt="Image description">
+              <img src="http://localhost:3000/storage/posts/thumbnail/thumbnailcropBVCaWXsJ0BBvraxRSQ2VPLIZ5ug.jpg" alt="Image description">
             </figure>
   
             <footer class="padding-sm">
@@ -56,7 +56,7 @@
   
             <a href="#0" class="card-v8 bg radius-lg">
               <figure>
-                <img src="https://codyhouse.co/app/assets/img/feature-v8-img-2.jpg" alt="Image description">
+                <img src="http://localhost:3000/storage/posts/thumbnail/thumbnailcropBVCaWXsJ0BBvraxRSQ2VPLIZ5ug.jpg" alt="Image description">
               </figure>
     
               <footer class="padding-sm">
@@ -72,7 +72,7 @@
   
             <a href="#0" class="card-v8 bg radius-lg">
               <figure>
-                <img src="https://codyhouse.co/app/assets/img/feature-v8-img-2.jpg" alt="Image description">
+                <img src="http://localhost:3000/storage/posts/thumbnail/thumbnailcropBVCaWXsJ0BBvraxRSQ2VPLIZ5ug.jpg" alt="Image description">
               </figure>
     
               <footer class="padding-sm">

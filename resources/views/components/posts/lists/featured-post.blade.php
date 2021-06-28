@@ -4,32 +4,14 @@
 
         @if($featured_post)
             @if($featured_post->thumbnail)
-                <a href="
-                    {{
-                        route(
-                            'single-post-view',
-                            [
-                                'slug'   => $featured_post->slug
-                            ]
-                        )
-                    }}
-                " class="featured__img-wrapper feautured__img-wrapper-cropped">
+                <a href="{{route('single-post-view',['slug'   => $featured_post->slug])}} " class="featured__img-wrapper feautured__img-wrapper-cropped">
                     <img src="{{ $featured_post->showThumbnail('medium') }}" alt="Image of {{ $featured_post->title }}">
                 </a>
             @else
                 <span class="feautured__img-wrapper-cropped bg-black bg-opacity-50%"></span>
             @endif
             <h1 class="featured__headline-main feature-v12__offset-item text-left margin-x-xs@md">
-                <a href="
-                    {{
-                        route(
-                            'single-post-view',
-                            [
-                                'slug'   => $featured_post->slug
-                            ]
-                        )
-                    }}
-                " class="main-featured-title">{{ $featured_post->title }}</a>
+                <a href="{{route('single-post-view',['slug'   => $featured_post->slug])}}" class="main-featured-title">{{ $featured_post->title }}</a>
             </h1>
         @endif
       </div>
@@ -39,16 +21,7 @@
             @foreach($featured_list as $key => $post)
                 <li class="stories__story">
                     @if($post->thumbnail)
-                        <a href="
-                            {{
-                                route(
-                                    'single-post-view',
-                                    [
-                                        'slug'   => $post->slug
-                                    ]
-                                )
-                            }}
-                        " class="stories__img-wrapper">
+                        <a href="{{route('single-post-view',['slug'   => $post->slug])}}" class="stories__img-wrapper">
                             <figure>
                                 <img src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
                             </figure>
@@ -59,16 +32,7 @@
 
                     <div class="featured__headline line-height-xl v-space-sm text-sm">
                         <h4 class="padding-bottom-xs">
-                            <a href="
-                                {{
-                                    route(
-                                        'single-post-view',
-                                        [
-                                            'slug'   => $post->slug
-                                        ]
-                                    )
-                                }}
-                            ">
+                            <a href="{{route('single-post-view',['slug'   => $post->slug])}}">
                                 {{ $post->title }}
                             </a>
                         </h4>
