@@ -26,7 +26,7 @@
       </div>
     @endif
       <div class="user-cell">
-          <h3 class="text-sm padding-xs text-md@md"><a class="color-contrast-low" href="{{ route('single-' . $post->post_type . '-view', ['slug' => $post->slug]) }}">{{ $post->title }}</a></h3>
+          <h3 class="text-xs padding-xs@md text-md@md"><a class="color-contrast-low" href="{{ route('single-' . $post->post_type . '-view', ['slug' => $post->slug]) }}">{{ $post->title }}</a></h3>
       </div>
     </li>  
   @endforeach
