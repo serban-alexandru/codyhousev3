@@ -5,7 +5,8 @@
 @endif
   @if($post)
   <!-- Start of each post content -->
-  <article class="container single-post max-width-sm margin-bottom-lg padding-y-lg" data-title="{!! $post->seo_title !!}" data-url="{{ url($post->url) }}">
+  <div class="margin-top-auto border-top border-contrast-lower"></div><!-- Divider -->
+  <article class="container single-post max-width-sm padding-y-md" data-title="{!! $post->seo_title !!}" data-url="{{ url($post->url) }}">
     <div class="text-component text-left line-height-lg v-space-md margin-bottom-md text-sm">
       <h1>{{ $post->title }}</h1>
       <p class="color-contrast-medium text-md">{!! $post->description !!}</p>
