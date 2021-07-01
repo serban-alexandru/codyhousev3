@@ -1,14 +1,12 @@
 <div class="flex justify-between">
     <div class="margin-xs">
       <div class="inline-flex items-baseline">
-        <h1 class="text-md color-contrast-high padding-y-xxxxs margin-x-xs" for="selectThis">Tags:</h1>
+        <h1 class="text-md color-contrast-high padding-y-xxxxs margin-x-xs" for="filterItems">Tags:</h1>
           <div class="select inline-block js-select" data-trigger-class="reset text-sm color-contrast-high h1 inline-flex items-center cursor-pointer js-tab-focus">
-            <select name="selectThis" id="selectThis" onchange="window.location=this.value">
-              <optgroup label="Group 1">
-                <option value="#" selected>All Tags</option>
-                <option value="#">Tags</option>
-                <option value="2">Cat 2</option>
-                <option value="3">Cat 3</option>
+            <select name="filterItems" id="filterItems">
+              <optgroup label="Tag Status">
+                <option value="#" data-count="{{ $published_tags_count }}" selected>All Tags</option>
+                <option value="trashed" data-count="{{ $trash_tags_count }}">Deleted</option>
               </optgroup>
             </select>
         <svg class="icon icon--xxxs margin-left-xxs" viewBox="0 0 8 8"><path d="M7.934,1.251A.5.5,0,0,0,7.5,1H.5a.5.5,0,0,0-.432.752l3.5,6a.5.5,0,0,0,.864,0l3.5-6A.5.5,0,0,0,7.934,1.251Z"/></svg>

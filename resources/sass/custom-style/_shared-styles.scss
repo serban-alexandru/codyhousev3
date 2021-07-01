@@ -410,3 +410,13 @@ body {
         box-shadow: none;
     }
 }
+
+button:focus {
+    outline:none !important;
+    box-shadow: none !important;
+}
+
+.select__item--option .sidenav__counter {
+    float:right;
+    margin-top: 2px;
+}

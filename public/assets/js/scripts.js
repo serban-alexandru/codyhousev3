@@ -878,7 +878,8 @@ function initAlertEvent(element) {
         var selectedOption = select.dropdown.querySelector('[aria-selected="true"]');
         if(selectedOption) selectedOption.setAttribute('aria-selected', 'false');
         option.setAttribute('aria-selected', 'true');
-        select.trigger.getElementsByClassName('js-select__label')[0].textContent = option.textContent;
+        var option_label = option.querySelector('.select__text');
+        select.trigger.getElementsByClassName('js-select__label')[0].textContent = option_label.textContent;
         select.trigger.setAttribute('aria-expanded', 'false');
         // new option has been selected -> update native <select> element _ arai-label of trigger <button>
         updateNativeSelect(select, option.getAttribute('data-index'));
@@ -968,7 +969,11 @@ function initAlertEvent(element) {
       var list = '';
       for(var i = 0; i < options.length; i++) {
         var selected = options[i].hasAttribute('selected') ? ' aria-selected="true"' : ' aria-selected="false"';
-        list = list + '<li><button type="button" class="reset js-select__item select__item select__item--option" role="option" data-value="'+options[i].value+'" '+selected+' data-index="'+select.optionIndex+'">'+options[i].text+'</button></li>';
+        var badge = '';
+        if (options[i].hasAttribute('data-count')) {
+          badge = '<span class="sidenav__counter">' + options[i].getAttribute('data-count') + '</span>';
+        }
+        list = list + '<li><button type="button" class="reset js-select__item select__item select__item--option" role="option" data-value="'+options[i].value+'" '+selected+' data-index="'+select.optionIndex+'"><span class="select__text">'+options[i].text+'</span>'+badge+'</button></li>';
         select.optionIndex = select.optionIndex + 1;
       };
       return list;
