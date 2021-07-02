@@ -14,6 +14,9 @@
         <?php 
           $shortcode = app('shortcode');
           echo $shortcode->compile('[socialicons]');
+
+          if (isset($disable_shortcode) && $disable_shortcode)
+            $shortcode->disable();
         ?>
       </div>
     </div>
