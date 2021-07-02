@@ -4,7 +4,7 @@
 
     <ul class="sidenav__list">
       <li class="sidenav__item padding-y-xxxxs">
-        <a href="{{ url('admin/') }}" class="sidenav__link">
+        <a href="{{ url('admin/') }}" class="sidenav__link" {{ (url('/admin/') == url()->full()) ? 'aria-current=page' : '' }}>
           <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g><circle cx="6" cy="8" r="2"></circle><path d="M10,2H6C2.7,2,0,4.7,0,8s2.7,6,6,6h4c3.3,0,6-2.7,6-6S13.3,2,10,2z M10,12H6c-2.2,0-4-1.8-4-4s1.8-4,4-4h4 c2.2,0,4,1.8,4,4S12.2,12,10,12z"></path></g></svg>
           <span class="sidenav__text">Dashboard</span>
         </a>
@@ -14,8 +14,9 @@
     <div class="sidenav__divider margin-y-xs" role="presentation"></div>
 
     <ul class="sidenav__list">
-      <li class="sidenav__item sidenav__item--expanded">
-        <a href="{{ url('admin/posts') }}" class="sidenav__link">
+      <li class="sidenav__item sidenav__item--collapse">
+        <a href="{{ url('admin/posts') }}" class="sidenav__link" {{ (url('/admin/posts') == url()->full()) ? 'aria-current=page' : '' }}>
+          
           <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g fill="#000000"><path d="M8.616,2.677,1.646,9.646a.5.5,0,0,0-.128.222l-1.5,5.5a.5.5,0,0,0,.614.614l5.5-1.5a.5.5,0,0,0,.222-.128l6.969-6.97Z" fill="#000000"></path><path d="M15.561,3.025,12.975.439a1.5,1.5,0,0,0-2.121,0L9.677,1.616l4.707,4.707,1.177-1.177A1.5,1.5,0,0,0,15.561,3.025Z"></path></g></svg>
           <span class="sidenav__text">Posts</span><span class="sidenav__counter">{{ getPostsCount() }} <i class="sr-only">notifications</i></span>
         </a>
@@ -26,7 +27,7 @@
 
         <ul class="sidenav__list">
           <li class="sidenav__item">
-            <a href="{{ url('admin/posts') }}" class="sidenav__link" {{ (url('/admin/posts') == url()->full()) ? 'aria-current=page' : '' }}>
+            <a href="{{ url('admin/posts') }}" class="sidenav__link">
               <span class="sidenav__text">Posts</span><span class="sidenav__counter">{{ getPostsCount() }} <i class="sr-only">notifications</i></span>
             </a>
           </li>
