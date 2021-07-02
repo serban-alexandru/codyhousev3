@@ -24,15 +24,17 @@
 
 
     // load content when user clicked on sidebar links
-    $(document).on('click', '.ajax-link', function (e) {
+    $(document).on('change', '#filterItems', function (e) {
       e.preventDefault();
       var $this = $(this);
-      var url = $this.attr('href');
-
+      var url = "{{ url('/admin/pages') }}";
+      if ($this.val()) {
+        url = url + '?is_' + $this.val() + '=1';
+      }
       $('meta[name="current-url"]').attr('content', url);
 
-      localStorage.setItem("cs_admin_page_init_tab", $(this).attr('data-tab'));
-      console.log($(this).attr('data-tab'));
+      localStorage.setItem("cs_admin_page_init_tab", $(this).val());
+
       // loads page content inside this element
       $('#site-table-with-pagination-container').load(url, function(){
         // Apply pagination dynamically
@@ -44,15 +46,13 @@
             $tablePaginationTop.html('')
         );
       });
-
-      $('.sidenav__item a').removeAttr('aria-current');
-      $(this).attr('aria-current', 'page');
     });
 
     // init reload previous tab logic
     var init_tab = localStorage.getItem("cs_admin_page_init_tab");
     if (init_tab != null && document.referrer == document.location) {
-      $('[data-tab="' + init_tab + '"]').trigger('click');
+      $('#filterItems-dropdown button[data-value="' + init_tab + '"]').click();
+      return false;
     } else {
       localStorage.setItem("cs_admin_page_init_tab", ""); // clear
     }

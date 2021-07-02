@@ -77,6 +77,9 @@ class TagController extends Controller
         $tags = $tags->paginate($limit);
 
         // Counters
+        $data['published_tags_count']  = Tag::where([
+            ['published', true],
+        ])->count();
 
         $data['draft_tags_count']  = Tag::where([
             ['is_trashed', false],

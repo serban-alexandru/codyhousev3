@@ -1,4 +1,10 @@
 <?php
+
+use Modules\Post\Entities\Post;
+use Modules\Page\Entities\Page;
+use Modules\Users\Entities\User;
+use Modules\Tag\Entities\Tag;
+
 if (! function_exists('getNewSlug')) {
   function getNewSlug($slug, $posts) {
     $max_number = 0;
@@ -17,5 +23,35 @@ if (! function_exists('getNewSlug')) {
     else $max_number++;
 
     return $slug . '-' . $max_number;
+  }
+}
+
+if (! function_exists('getPostsCount')) {
+  function getPostsCount() {
+    return Post::where('post_type', 'post')->count();
+  }
+}
+
+if (! function_exists('getGifsCount')) {
+  function getGifsCount() {
+    return Post::where('post_type', 'gif')->count();
+  }
+}
+
+if (! function_exists('getPagesCount')) {
+  function getPagesCount() {
+    return Page::count();
+  }
+}
+
+if (! function_exists('getUsersCount')) {
+  function getUsersCount() {
+    return User::count();
+  }
+}
+
+if (! function_exists('getTagsCount')) {
+  function getTagsCount() {
+    return Tag::count();
   }
 }
