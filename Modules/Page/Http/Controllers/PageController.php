@@ -38,7 +38,7 @@ class PageController extends Controller
     public function index()
     {
         // Cleanup unused images created with editorjs
-        $this->cleanupEditorImages();
+        // $this->cleanupEditorImages();
 
         $view = request()->ajax() ? 'page::partials.table' : 'page::index';
 

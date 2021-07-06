@@ -36,7 +36,7 @@ class PostController extends Controller
     public function index()
     {
         // Cleanup unused images created with editorjs
-        $this->cleanupEditorImages();
+        // $this->cleanupEditorImages();
 
         $view = request()->ajax() ? 'post::partials.table' : 'post::index';
 

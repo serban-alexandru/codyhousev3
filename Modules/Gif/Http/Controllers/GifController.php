@@ -36,7 +36,7 @@ class GifController extends Controller
     public function index()
     {
         // Cleanup unused images created with editorjs
-        $this->cleanupEditorImages();
+        // $this->cleanupEditorImages();
 
         $view = request()->ajax() ? 'gif::partials.table' : 'gif::index';
 

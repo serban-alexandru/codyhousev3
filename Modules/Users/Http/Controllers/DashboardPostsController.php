@@ -35,7 +35,7 @@ class DashboardPostsController extends Controller
     public function index()
     {
         // Cleanup unused images created with editorjs
-        $this->cleanupEditorImages();
+        // $this->cleanupEditorImages();
 
         $view = request()->ajax() ? 'users::dashboard.table' : 'users::dashboard.index';
 
