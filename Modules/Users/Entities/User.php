@@ -92,7 +92,7 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     public function getCoverPhoto()
     {
         $user_info = UsersSetting::where('user_id', $this->id)->first();
-        if(is_null($user_info->cover_photo)){
+        if(!$user_info || is_null($user_info->cover_photo)){
             return asset('assets/img/gray.jpg');
         }
 
@@ -102,18 +102,18 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
     public function hasCoverPhoto()
     {
         $user_info = UsersSetting::where('user_id', $this->id)->first();
-        return (is_null($user_info->cover_photo)) ? false : true;
+        return (!$user_info || is_null($user_info->cover_photo)) ? false : true;
     }
 
     public function hasAvatar() {
         $user_info = UsersSetting::where('user_id', $this->id)->first();
-        return is_null($user_info->avatar) ? false : true;
+        return ! $user_info || is_null($user_info->avatar) ? false : true;
     }
 
     public function getAvatar()
     {
         $user_info = UsersSetting::where('user_id', $this->id)->first();
-        return (is_null($user_info->avatar))
+        return (!$user_info || is_null($user_info->avatar))
         ? asset('storage/users-images/avatars')
         : asset('storage/users-images/avatars') . '/' . $user_info->avatar;
     }
