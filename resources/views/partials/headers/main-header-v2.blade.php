@@ -37,7 +37,7 @@
         </button>
 
         @auth
-          @if(auth()->user()->avatar)
+          @if(auth()->user()->hasAvatar())
           <button class="header-v2__nav-control reset anim-menu-btn js-anim-menu-btn switch-icon switch-icon--rotate js-switch-icon js-tab-focus" aria-label="Toggle icon" menu-target="user-menu">
             <div class="mega-nav__icon-btn dropdown__wrapper inline-block author author--minimal-mobile switch-icon__icon switch-icon__icon--a">
               <div class="author__img-wrapper author--minimal-mobile dropdown__trigger">
@@ -122,7 +122,7 @@
             @auth
             <div class="mega-nav__icon-btn dropdown__wrapper inline-block author author--minimal-mobile margin-right-sm">
               <a href="#0" class="author__img-wrapper author--minimal dropdown__trigger">
-                @if(auth()->user()->avatar)
+                @if(auth()->user()->hasAvatar())
                 <img src="{{ auth()->user()->getAvatar() }}" alt="Logged in user avatar,">
                 @else
                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">

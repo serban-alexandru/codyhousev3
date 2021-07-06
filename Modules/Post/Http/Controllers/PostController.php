@@ -48,7 +48,7 @@ class PostController extends Controller
                 'posts.created_at as created_at',
                 'thumbnail',
                 'thumbnail_medium',
-                'status',
+                'posts.status as status',
                 'users.username as username'
             ])->orderBy('created_at', 'desc');
 
@@ -60,7 +60,7 @@ class PostController extends Controller
             ->orWhere('users.name', 'LIKE', '%' . request('postsearch') . '%');
         }
 
-        $posts = (request()->has('status')) ? $posts->where('status', request('status')) : $posts->where('status', 'published');
+        $posts = (request()->has('status')) ? $posts->where('posts.status', request('status')) : $posts->where('posts.status', 'published');
 
         $limit = request('limit') ? request('limit') : 25;
 
@@ -758,6 +758,7 @@ class PostController extends Controller
         $perpage = 20;
         $offset = ($page_num - 1) * $perpage;
         $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
+            ->leftJoin('users_settings', 'users_settings.user_id', '=', 'users.id')
             ->select([
                 'posts.id',
                 'title',
@@ -768,10 +769,10 @@ class PostController extends Controller
                 'thumbnail_medium',
                 'users.name',
                 'users.username',
-                'users.avatar as avatar'
+                'users_settings.avatar as avatar'
             ])->where(
                 [
-                    'status' => 'published'
+                    'posts.status' => 'published'
                 ]    
             )
             ->orderBy('created_at', 'desc')
@@ -798,6 +799,7 @@ class PostController extends Controller
         $perpage = 20;
         $offset = ($page_num - 1) * $perpage;
         $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
+            ->leftJoin('users_settings', 'users_settings.user_id', '=', 'users.id')
             ->select([
                 'posts.id',
                 'title',
@@ -808,11 +810,11 @@ class PostController extends Controller
                 'thumbnail_medium',
                 'users.name',
                 'users.username',
-                'users.avatar as avatar'
+                'users_settings.avatar as avatar'
             ])->where(
                 [
-                    'user_id' => $user_id,
-                    'status'  => 'published'
+                    'posts.user_id' => $user_id,
+                    'posts.status'  => 'published'
                 ]    
             )
             ->orderBy('created_at', 'desc')
@@ -848,7 +850,7 @@ class PostController extends Controller
             ->where(
                 [
                     'tags.name' => $tag,
-                    'status'    => 'published'
+                    'posts.status'    => 'published'
                 ]    
             )
             ->groupBy('posts.id')
@@ -875,7 +877,7 @@ class PostController extends Controller
             ->where(
                 [
                     'tags.name' => $tag,
-                    'status'    => 'published'
+                    'posts.status'    => 'published'
                 ]    
             )
             ->groupBy('posts.id')->count();
@@ -907,7 +909,7 @@ class PostController extends Controller
             ->where(
                 [
                     'post_type' => 'post',
-                    'status'    => 'published'
+                    'posts.status'    => 'published'
                 ]    
             )
             ->groupBy('posts.id')
@@ -939,7 +941,7 @@ class PostController extends Controller
             ->where(
                 [
                     'post_type' => 'post',
-                    'status'    => 'published'
+                    'posts.status'    => 'published'
                 ]    
             )->groupBy('posts.id');
         $posts_count = count($posts_count->get());
@@ -996,7 +998,7 @@ class PostController extends Controller
                 'posts.created_at as created_at',
                 'thumbnail',
                 'thumbnail_medium',
-                'status',
+                'posts.status as status',
                 'posts_metas.meta_value as reject_reason',
                 'users.username as username'
             ])->orderBy('created_at', 'desc');
@@ -1006,7 +1008,7 @@ class PostController extends Controller
             ->orWhere('users.name', 'LIKE', '%' . request('postsearch') . '%');
         }
 
-        $posts = $posts->where( 'post_type', 'post' )->where('status', 'rejected')->where('meta_key', '=', 'rejected_reason');
+        $posts = $posts->where( 'post_type', 'post' )->where('posts.status', 'rejected')->where('meta_key', '=', 'rejected_reason');
 
         $limit = request('limit') ? request('limit') : 25;
 

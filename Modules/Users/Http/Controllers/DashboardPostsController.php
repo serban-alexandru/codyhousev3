@@ -47,7 +47,7 @@ class DashboardPostsController extends Controller
                 'posts.created_at as created_at',
                 'thumbnail',
                 'thumbnail_medium',
-                'status',
+                'posts.status as status',
                 'users.username as username'
             ])->orderBy('created_at', 'desc');
 
@@ -64,7 +64,7 @@ class DashboardPostsController extends Controller
             ->orWhere('users.name', 'LIKE', '%' . request('postsearch') . '%');
         }
 
-        $posts = (request()->has('status')) ? $posts->where('status', request('status')) : $posts->where('status', 'published');
+        $posts = (request()->has('status')) ? $posts->where('posts.status', request('status')) : $posts->where('posts.status', 'published');
 
         $limit = request('limit') ? request('limit') : 25;
 
@@ -830,7 +830,7 @@ class DashboardPostsController extends Controller
                 'posts.created_at as created_at',
                 'thumbnail',
                 'thumbnail_medium',
-                'status',
+                'posts.status as status',
                 'posts_metas.meta_value as reject_reason',
                 'users.username as username'
             ])->orderBy('created_at', 'desc');
@@ -845,7 +845,7 @@ class DashboardPostsController extends Controller
             ->orWhere('users.name', 'LIKE', '%' . request('postsearch') . '%');
         }
 
-        $posts = $posts->where( 'post_type', 'post' )->where('status', 'rejected')->where('meta_key', '=', 'rejected_reason');
+        $posts = $posts->where( 'post_type', 'post' )->where('posts.status', 'rejected')->where('meta_key', '=', 'rejected_reason');
 
         $limit = request('limit') ? request('limit') : 25;
 

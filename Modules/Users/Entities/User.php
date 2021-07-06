@@ -12,6 +12,7 @@ use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 use Modules\Admin\Entities\Settings;
+use Modules\Users\Entities\UsersSetting;
 
 use App\Notifications\PasswordReset;
 use App\Notifications\VerifyEmail;
@@ -52,22 +53,22 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
      * @param  string  $value
      * @return string
      */
-    public function getStatusAttribute()
-    {
-        return ($this->permission < 1) ? 'Inactive' : 'Active';
-    }
+    // public function getStatusAttribute()
+    // {
+    //     return ($this->permission < 1) ? 'Inactive' : 'Active';
+    // }
 
-    public function account_setting()
+    public function users_setting()
     {
-        return $this->hasOne(AccountSetting::class);
+        return $this->hasOne(UsersSetting::class);
     }
 
     public function hasSocialMedia()
     {
         $social_media_links = [
-            $this->account_setting->twitter_link,
-            $this->account_setting->facebook_link,
-            $this->account_setting->instagram_link
+            $this->users_setting->twitter_link,
+            $this->users_setting->facebook_link,
+            $this->users_setting->instagram_link
         ];
 
         $has = false;
@@ -90,23 +91,31 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
 
     public function getCoverPhoto()
     {
-        if(is_null($this->cover_photo)){
+        $user_info = UsersSetting::where('user_id', $this->id)->first();
+        if(is_null($user_info->cover_photo)){
             return asset('assets/img/gray.jpg');
         }
 
-        return asset('storage/users-images/cover') . '/' . $this->cover_photo;
+        return asset('storage/users-images/cover') . '/' . $user_info->cover_photo;
     }
 
     public function hasCoverPhoto()
     {
-        return (is_null($this->cover_photo)) ? false : true;
+        $user_info = UsersSetting::where('user_id', $this->id)->first();
+        return (is_null($user_info->cover_photo)) ? false : true;
+    }
+
+    public function hasAvatar() {
+        $user_info = UsersSetting::where('user_id', $this->id)->first();
+        return is_null($user_info->avatar) ? false : true;
     }
 
     public function getAvatar()
     {
-        return (is_null($this->avatar))
+        $user_info = UsersSetting::where('user_id', $this->id)->first();
+        return (is_null($user_info->avatar))
         ? asset('storage/users-images/avatars')
-        : asset('storage/users-images/avatars') . '/' . $this->avatar;
+        : asset('storage/users-images/avatars') . '/' . $user_info->avatar;
     }
 
     public function copyAvatar()
@@ -149,7 +158,8 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
 
     public function deleteAvatarFile()
     {
-        $path = storage_path() . '/app/public/users-images/avatars/' . $this->avatar;
+        $user_info = UsersSetting::where('user_id', $this->id)->first();
+        $path = storage_path() . '/app/public/users-images/avatars/' . $user_info->avatar;
         unlink($path);
     }
 

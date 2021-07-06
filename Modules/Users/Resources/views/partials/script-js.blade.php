@@ -1,6 +1,44 @@
 @auth
 <script>
   (function(){
+    // load content when user clicked on sidebar links
+    $(document).on('change', '#filterItems', function (e) {
+      e.preventDefault();
+      var $this = $(this);
+      var url = "{{ url('/admin/users') }}";
+      var url_snippet = $this.find('option:selected').closest('optgroup').attr('data-type');
+      if (url_snippet == undefined) {
+        url_snippet = 'status';
+      }
+      if ($this.val()) {
+        url = url + '?' + url_snippet + '=' + $this.val();
+      }
+      $('meta[name="current-url"]').attr('content', url);
+
+      localStorage.setItem("cs_admin_users_init_tab", $(this).val());
+
+      // loads page content inside this element
+      $('#site-table-with-pagination-container').load(url, function(){
+        // Apply pagination dynamically
+        var $tablePaginationBottom = $('#table-pagination-bottom');
+        var $tablePaginationTop = $('#table-pagination-top');
+        $tablePaginationTop.html(
+          ($tablePaginationBottom.length > 0) ?
+            $tablePaginationBottom.html() :
+            $tablePaginationTop.html('')
+        );
+      });
+    });
+
+    // init reload previous tab logic
+    var init_tab = localStorage.getItem("cs_admin_users_init_tab");
+    if (init_tab != null && document.referrer == document.location.href) {
+      $('#filterItems-dropdown button[data-value="' + init_tab + '"]').click();
+      return false;
+    } else {
+      localStorage.setItem("cs_admin_users_init_tab", ""); // clear
+    }
+    
     // trigger to show edit user modal form
     $(document).on('click', '.modal-trigger-edit-user', function(e){
       e.preventDefault();
@@ -25,7 +63,8 @@
         }
 
         // Update cover photo link
-        $('.update-cover-photo-link').attr('href', '/admin/users/update-coverphoto/' + currentUserId);
+        // $('.update-cover-photo-link').attr('href', '/admin/users/update-coverphoto/' + currentUserId);
+        $('.update-cover-photo-link').attr('href', '/users/settings');
 
       });
     });
@@ -67,20 +106,8 @@
         contentType: false,
         processData: false,
         success : function(response) {
-          // console.log('Response', response);
-
-          if (response.status == 'success') {
-            // remove error messages
-            $this.find('.form-error-msg').removeClass('form-error-msg--is-visible').html('');
-
-            $this.find('.alert').addClass('alert--is-visible').find('.alert-message').html(response.message);
-
-            $('#site-table-with-pagination-container').load(currentURL);
-          }
-
-          if (response.clear) {
-            $this.get(0).reset();
-          }
+          $this.get(0).reset();
+          location.reload();
         },
         error: function(response, textStatus) {
           var jsonResponse = response.responseJSON;

@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Modules\Users\Entities\AccountSetting;
+use Modules\Users\Entities\UsersSetting;
 use Modules\Users\Entities\CoverPhotoUploader;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
@@ -33,32 +33,26 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-        $bladeTemplate = $request->ajax() ? 'users::partials.index' : 'users::index';
+        $bladeTemplate = $request->ajax() ? 'users::partials.table' : 'users::index';
 
         $q         = $request->input('q');
         $status    = $request->input('status');
-        $isTrashed = $request->input('is_trashed');
         $role      = $request->input('role');
         $limit     = $request->input('limit') ? $request->input('limit') : 25;
         $sort      = $request->input('sort') ? $request->input('sort') : 'id';
         $order     = $request->input('order') ? $request->input('order') : 'desc';
 
-        // Data for view
-        $is_trashed = $isTrashed;
-
         // work around for status
         $statusOrder = ($order == 'asc') ? 'desc' : 'asc';
 
         $users = User::
-            select('users.*', 'users.permission as status', 'roles.name as role', 'roles.key as roleKey')
+            select('users.*', 'users_settings.avatar as avatar', 'roles.name as role', 'roles.key as roleKey')
+            ->leftJoin('users_settings', 'users_settings.user_id', '=', 'users.id')
             ->leftJoin('roles', 'roles.permission', '=', 'users.permission');
 
         $users = ($sort == 'status')
                 ? $users->orderBy($sort, $statusOrder)
                 : $users->orderBy($sort, $order);
-
-        // check if user is deleted
-        $users = $isTrashed ? $users->where('is_trashed', 1) : $users->where('is_trashed', 0);
 
         // if search query is not null
         if ($q != null) {
@@ -67,11 +61,11 @@ class UsersController extends Controller
                 ->orWhere ( 'users.email', 'LIKE', '%' . $q . '%' );
         }
 
-        // if status is suspended
-        if ($status === 'suspended') {
-            $users = $users->where('users.permission', '<', 1);
-        }else{
-            $users = $users->where('users.permission', '>', 0);
+        // if status is set
+        if ($status) {
+            $users = $users->where('users.status', '=', $status);
+        } else {
+            $users = $users->where('users.status', '=', 'active');
         }
 
         // if role is set
@@ -85,17 +79,15 @@ class UsersController extends Controller
         $availableLimit = ['25', '50', '100', '150', '200'];
 
         // counters
-        $allUsersCount       = User::where([
-            ['is_trashed', '=', 0],
-            ['permission', '>', 0]
+        $users_active_count = User::where([
+            ['status', '=', 'active']
         ])->count();
 
-        $suspendedUsersCount = User::where([
-            ['permission', '<', 1],
-            ['is_trashed', '=', 0],
+        $users_suspended_count = User::where([
+            ['status', '=', 'suspended']
         ])->count();
 
-        $trashedUsersCount   = User::where('is_trashed', '=', 1)->count();
+        $users_deleted_count = User::where('status', '=', 'deleted')->count();
 
         $registeredPermission = Role::where('key', 'registered')->first()->permission;
         $editorPermission     = Role::where('key', 'editor')->first()->permission;
@@ -103,21 +95,21 @@ class UsersController extends Controller
 
         $registeredUsersCount  = User::where([
             ['permission', '=', $registeredPermission],
-            ['is_trashed', '=', 0],
+            ['status', '!=', 'deleted'],
         ])->count();
 
         $editorUsersCount     = User::where([
             ['permission', '=', $editorPermission],
-            ['is_trashed', '=', 0],
+            ['status', '!=', 'deleted'],
         ])->count();
 
         $adminUsersCount      = User::where([
             ['permission', '=', $adminPermission],
-            ['is_trashed', '=', 0],
+            ['status', '!=', 'deleted'],
         ])->count();
 
         return view($bladeTemplate,
-            compact('users', 'q', 'limit', 'availableLimit', 'sort', 'order', 'allUsersCount', 'suspendedUsersCount', 'trashedUsersCount', 'registeredUsersCount', 'editorUsersCount', 'adminUsersCount', 'is_trashed', 'status', 'role', 'request')
+            compact('users', 'q', 'limit', 'availableLimit', 'sort', 'order', 'users_active_count', 'users_suspended_count', 'users_deleted_count', 'registeredUsersCount', 'editorUsersCount', 'adminUsersCount', 'status', 'role', 'request')
         );
 
         // return view('users::index');
@@ -173,9 +165,19 @@ class UsersController extends Controller
 
         $saved = $user->save();
 
-        AccountSetting::create([
+        $new_avatar = '';
+        if ($request->file('avatar') !== null) {
+            // set avatar
+            $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
+
+            // Copy avatar to specific folder
+            $new_avatar = $user->copyAvatar();
+        }
+        
+        UsersSetting::create([
             'user_id' => $user->id,
             'bio' => $bio,
+            'avatar' => $new_avatar,
             'twitter_link' => $twitter_link,
             'facebook_link' => $facebook_link,
             'instagram_link' => $instagram_link
@@ -215,7 +217,7 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $user = User::with('account_setting')->find($id);
+        $user = User::with('users_setting')->find($id);
         $roles = DB::table('roles')->orderBy('id', 'desc')->get();
 
         if (!$user) {
@@ -275,14 +277,8 @@ class UsersController extends Controller
             $selectedRole     = Role::where('key', $selectedRoleKey)->first();
             $permission       = $selectedRole->permission;
 
-            // if user is currently suspended
-            if ($user->permission == 0) {
-                // then just update the previous permission
-                $user->previous_permission = $permission;
-            }else{
-                // update the current permission
-                $user->permission = $permission;
-            }
+            // update the current permission
+            $user->permission = $permission;
         }
 
         $saved = $user->save();
@@ -304,22 +300,24 @@ class UsersController extends Controller
             $new_avatar = $user->copyAvatar();
 
             // Delete old avatar if not null
-            if(!is_null($user->avatar)){
-                $user_old_avatar = $user->avatar;
+            $user_info = UsersSetting::where('user_id', $user->id)->first();
+            if(!is_null($user_info->avatar)){
+                $user_old_avatar = $user_info->avatar;
                 $old_avatar_path = storage_path() . '/app/public/users-images/avatars/' . $user_old_avatar;
                 if(File::exists($old_avatar_path)){
                     unlink($old_avatar_path);
                 }
             }
 
-            // Update in users table
-            $user->update(['avatar' => $new_avatar]);
+            // Update in users_settings table
+            $user_info->update(['avatar' => $new_avatar]);
 
             // Delete user avatar from the media table, and file system
             $user->deleteMediaAvatar();
         }
 
         $response = [
+            'avatar' => $request->file('avatar'),
             'status'  => 'success',
             'message' => 'User has been updated.',
         ];
@@ -333,15 +331,15 @@ class UsersController extends Controller
         }
 
         // Update or create account setting if user have no account settings yet
-        if($user->account_setting){
-            $user->account_setting->update([
+        if($user->users_setting){
+            $user->users_setting->update([
                 'bio' => $bio,
                 'twitter_link' => $twitter_link,
                 'facebook_link' => $facebook_link,
                 'instagram_link' => $instagram_link
             ]);
         } else {
-            AccountSetting::create([
+            UsersSetting::create([
                 'user_id' => $user->id,
                 'bio' => $bio,
                 'twitter_link' => $twitter_link,
@@ -362,8 +360,8 @@ class UsersController extends Controller
             return response()->json(['User does not exists.']);
         }
 
-        if(!$user->account_setting){
-            $account_setting = AccountSetting::create([
+        if(!$user->users_setting){
+            $users_setting = UsersSetting::create([
                 'user_id' => $user->id
             ]);
         }
@@ -384,8 +382,9 @@ class UsersController extends Controller
         }
 
         // Get and set old cover photo
+        $user_info = UsersSetting::where('user_id', $id)->first();
         if($user->hasCoverPhoto()){
-            $old_cover_photo = storage_path() . '/app/public/users-images/cover/' . $user->cover_photo;
+            $old_cover_photo = storage_path() . '/app/public/users-images/cover/' . $user_info->cover_photo;
 
             if(File::exists($old_cover_photo)){
                 unlink($old_cover_photo);
@@ -394,7 +393,7 @@ class UsersController extends Controller
 
         $cover_photo = (new CoverPhotoUploader)->uploadBase64Photo(request('base64Image'), 'storage/app/public/users-images/cover');
 
-        $user->update([
+        $user_info->update([
             'cover_photo' => $cover_photo->file_name
         ]);
 
@@ -427,15 +426,11 @@ class UsersController extends Controller
             $responseMessage = 'You cannot change the status of your account.';
         }else{
             // if user account was already activated
-            if ($user->permission > 0) {
+            if ($user->status == 'active') {
                 $responseMessage = 'User '. $user->email. ' was previously activated.';
             }else{
-                $previousPermission = $user->permission;
-                $newPermission = $user->previous_permission;
-
-                $user->previous_permission = $previousPermission;
-                $user->permission          = $newPermission;
-                $saved                     = $user->save();
+                $user->status = 'active';
+                $saved = $user->save();
 
                 if ($saved) {
                     $responseMessage = 'User account for '. $user->email. ' has been activated.';
@@ -471,15 +466,11 @@ class UsersController extends Controller
             $responseMessage = 'You cannot suspend your logged in account.';
         }else{
             // if user account was already suspended
-            if ($user->permission == 0) {
+            if ($user->status == 'suspended') {
                 $responseMessage = 'User '. $user->email. ' was previously suspended.';
             }else{
-                $previousPermission = $user->permission;
-                $newPermission = 0;
-
-                $user->previous_permission = $previousPermission;
-                $user->permission          = $newPermission;
-                $saved                     = $user->save();
+                $user->status = 'suspended';
+                $saved = $user->save();
 
                 if ($saved) {
                     $responseMessage = 'User account for '. $user->email. ' has been suspended.';
@@ -513,8 +504,8 @@ class UsersController extends Controller
             $responseMessage = 'You cannot delete your logged in account.';
         }else{
 
-            $email            = $user->email;
-            $user->is_trashed = 1;
+            $email = $user->email;
+            $user->status = 'deleted';
 
             $deleted = $user->save();
 
@@ -571,7 +562,7 @@ class UsersController extends Controller
      */
     public function emptyTrash()
     {
-        $users = User::where('is_trashed', 1);
+        $users = User::where('status', 'deleted');
 
         $deleted = $users->delete();
 
@@ -600,13 +591,11 @@ class UsersController extends Controller
                     $responseMessage .= '</br>';
                 }else{
                     // if user was already suspended then just do nothing
-                    if ($user->permission == 0) {
+                    if ($user->status == 'suspended') {
                         $responseMessage .= 'User ' . $user->email . ' account was previously suspended.';
                         $responseMessage .= '</br>';
                     }else{
-                        $user->previous_permission = $user->permission;
-                        $user->permission          = 0;
-
+                        $user->status = 'suspended';
                         $saved = $user->save();
 
                         if ($saved) {
@@ -649,7 +638,7 @@ class UsersController extends Controller
                     $responseMessage .= 'You cannot delete currently logged in account.';
                     $responseMessage .= '</br>';
                 }else{
-                    $user->is_trashed = 1;
+                    $user->status = 'deleted';
                     $user->save();
 
                     $responseMessage .= 'User ' . $user->email . ' has been deleted.';
@@ -670,8 +659,8 @@ class UsersController extends Controller
     {
         $user = Auth::user();
 
-        if(!$user->account_setting){
-            $account_setting = AccountSetting::create([
+        if(!$user->users_setting){
+            $users_setting = UsersSetting::create([
                 'user_id' => $user->id
             ]);
         }
@@ -720,8 +709,8 @@ class UsersController extends Controller
         $user->password = $request->input('password') ? Hash::make($request->input('password')) : $user->password;
 
 
-        $user->account_setting->update([
-            'bio' => request('bio') ? request('bio') : $user->account_setting->bio,
+        $user->users_setting->update([
+            'bio' => request('bio') ? request('bio') : $user->users_setting->bio,
             'twitter_link' => request('twitter_link'),
             'facebook_link' => request('facebook_link'),
             'instagram_link' => request('instagram_link')
@@ -751,16 +740,17 @@ class UsersController extends Controller
             $new_avatar = auth()->user()->copyAvatar();
 
             // Delete old avatar if not null
-            if(!is_null(auth()->user()->avatar)){
-                $user_old_avatar = auth()->user()->avatar;
+            $user_info = UsersSetting::where('user_id', $user->id)->first();
+            if(!is_null($user_info->avatar)){
+                $user_old_avatar = $user_info->avatar;
                 $old_avatar_path = storage_path() . '/app/public/users-images/avatars/' . $user_old_avatar;
                 if(File::exists($old_avatar_path)){
                     unlink($old_avatar_path);
                 }
             }
 
-            // Update in users table
-            auth()->user()->update(['avatar' => $new_avatar]);
+            // Update in users_settings table
+            $user_info->update(['avatar' => $new_avatar]);
 
             // Delete user avatar from the media table, and file system
             auth()->user()->deleteMediaAvatar();
@@ -785,8 +775,9 @@ class UsersController extends Controller
         $user = auth()->user();
 
         // Get and set old cover photo
+        $user_info = UsersSetting::where('user_id', $user->id)->first();
         if($user->hasCoverPhoto()){
-            $old_cover_photo = storage_path() . '/app/public/users-images/cover/' . $user->cover_photo;
+            $old_cover_photo = storage_path() . '/app/public/users-images/cover/' . $user_info->cover_photo;
 
             if(File::exists($old_cover_photo)){
                 unlink($old_cover_photo);
@@ -795,7 +786,7 @@ class UsersController extends Controller
 
         $cover_photo = (new CoverPhotoUploader)->uploadBase64Photo(request('base64Image'), 'storage/app/public/users-images/cover');
 
-        $user->update([
+        $user_info->update([
             'cover_photo' => $cover_photo->file_name
         ]);
 
@@ -808,8 +799,9 @@ class UsersController extends Controller
     public function postAjaxDeleteAvatar()
     {
         $user = auth()->user();
+        $user_info = UsersSetting::where('user_id', $user->id)->first();
 
-        if(!$user->avatar){
+        if(!$user_info->avatar){
             return response()->json([
                 'status' => true,
                 'redirect_url' => url('users/settings')
@@ -818,7 +810,7 @@ class UsersController extends Controller
 
         // Delete all avatars associated with this user
         $user->deleteAvatarFile();
-        $user->update(['avatar' => NULL]);
+        $user_info->update(['avatar' => NULL]);
 
         return response()->json([
             'status' => true,
@@ -830,17 +822,17 @@ class UsersController extends Controller
     public function postAjaxDeleteCoverPhoto()
     {
         $user = auth()->user();
+        $user_info = UsersSetting::where('user_id', $user->id)->first();
 
         if($user->hasCoverPhoto()){
-            $old_cover_photo = storage_path() . '/app/public/users-images/cover/' . $user->cover_photo;
+            $old_cover_photo = storage_path() . '/app/public/users-images/cover/' . $user_info->cover_photo;
 
             if(File::exists($old_cover_photo)){
                 unlink($old_cover_photo);
             }
 
-            $user->update(['cover_photo' => NULL]);
+            $user_info->update(['cover_photo' => NULL]);
         }
-
 
         return response()->json([
             'status' => true,
