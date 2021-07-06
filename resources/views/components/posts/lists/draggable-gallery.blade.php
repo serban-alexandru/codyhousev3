@@ -47,7 +47,7 @@
                     </div>
 
                     <div class="author author--meta margin-top-md">
-                        @if($post->user->avatar)
+                        @if($post->user->hasAvatar())
                             <a href="{{ route('pages.profile.user', $post->user->username) }}" class="author__img-wrapper" draggable="false" ondragstart="return false;">
                                 <img src="{{ $post->user->getAvatar() }}" alt="Author picture">
                             </a>

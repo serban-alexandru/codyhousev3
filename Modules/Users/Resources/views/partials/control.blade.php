@@ -1,21 +1,25 @@
 <div class="flex justify-between">
     <div class="margin-xs">
       <div class="inline-flex items-baseline">
-        <h1 class="text-md color-contrast-high padding-y-xxxxs margin-x-xs" for="selectThis">Users:</h1>
+        <h1 class="text-md color-contrast-high padding-y-xxxxs margin-x-xs" for="filterItems">Users:</h1>
           <div class="select inline-block js-select" data-trigger-class="reset text-sm color-contrast-high h1 inline-flex items-center cursor-pointer js-tab-focus">
-            <select name="selectThis" id="selectThis" onchange="window.location=this.value">
-              <optgroup label="Group 1">
-                <option value="#" selected>All Users</option>
-                <option value="#">Tags</option>
-                <option value="2">Cat 2</option>
-                <option value="3">Cat 3</option>
+            <select name="filterItems" id="filterItems">
+              <optgroup data-type="status" label="Status">
+                <option value="" data-count="{{ $users_active_count }}" selected>All Users</option>
+                <option value="suspended" data-count="{{ $users_suspended_count }}" >Suspended</option>
+                <option value="deleted" data-count="{{ $users_deleted_count }}" >Deleted</option>
               </optgroup>
+              <!--<optgroup data-type="role" label="Role">
+                <option value="admin" data-count="{{ $adminUsersCount }}">Admin</option>
+                <option value="editor" data-count="{{ $editorUsersCount }}">Editor</option>
+                <option value="registered" data-count="{{ $registeredUsersCount }}" >Registered</option>
+              </optgroup>-->
             </select>
         <svg class="icon icon--xxxs margin-left-xxs" viewBox="0 0 8 8"><path d="M7.934,1.251A.5.5,0,0,0,7.5,1H.5a.5.5,0,0,0-.432.752l3.5,6a.5.5,0,0,0,.864,0l3.5-6A.5.5,0,0,0,7.934,1.251Z"/></svg>
       </div>
     </div>
 </div>
-  
+
 <!-- Menu Bar -->
 <div class="flex flex-wrap items-center justify-between"><div>
 

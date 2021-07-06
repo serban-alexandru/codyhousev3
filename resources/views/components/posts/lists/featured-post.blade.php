@@ -37,7 +37,7 @@
                             </a>
                         </h4>
                         <div class="author author--minimal padding-bottom-xs">
-                            @if($post->user->avatar)
+                            @if($post->user->hasAvatar())
                                 <a href="{{ route('pages.profile.user', $post->user->username) }}" class="author__img-wrapper">
                                     <img src="{{ $post->user->getAvatar() }}" alt="Author picture">
                                 </a>

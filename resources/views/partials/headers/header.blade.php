@@ -27,7 +27,7 @@
       <div class="dropdown js-dropdown padding-xxxs">
         <div class="mega-nav__icon-btn dropdown__wrapper inline-block author author--minimal-mobile ">
           <a href="#0" class="author__img-wrapper dropdown__trigger">
-            @if(auth()->user()->avatar)
+            @if(auth()->user()->hasAvatar())
               <img src="{{ auth()->user()->getAvatar() }}" alt="Logged in user avatar,">
             @else
               <!-- Without avatar -->
@@ -109,7 +109,7 @@
             <div class="dropdown js-dropdown padding-right-xxxs">
               <div class="mega-nav__icon-btn dropdown__wrapper inline-block author author--minimal-mobile">
                 <a href="#0" class="author__img-wrapper author--minimal dropdown__trigger">
-                  @if(auth()->user()->avatar)
+                  @if(auth()->user()->hasAvatar())
                     <img src="{{ auth()->user()->getAvatar() }}" alt="Logged in user avatar,">
                   @else
                     <!-- Without avatar -->

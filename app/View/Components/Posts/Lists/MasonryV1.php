@@ -34,7 +34,7 @@ class MasonryV1 extends Component
                     ->where(
                         [
                             'tags.name' => $tag,
-                            'status'    => 'published'
+                            'posts.status'    => 'published'
                         ]    
                     )->groupBy('posts.id')
                     ->orderBy('relevance', 'desc')
@@ -55,6 +55,7 @@ class MasonryV1 extends Component
             }
         } else {
             $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
+                ->leftJoin('users_settings', 'users_settings.user_id', '=', 'users.id')
                 ->select([
                     'posts.id',
                     'title',
@@ -65,22 +66,22 @@ class MasonryV1 extends Component
                     'thumbnail_medium',
                     'users.name',
                     'users.username',
-                    'users.avatar as avatar'
+                    'users_settings.avatar as avatar'
                 ])->where(
                     [
-                        'status' => 'published'
+                        'posts.status' => 'published'
                     ]    
                 );
 
-                if ( $userid != null ) {
-                    $posts->where('user_id', $userid);
-                }
-                if ( in_array($type, ['post', 'gif']) ) {
-                    $posts->where('post_type', $type);
-                }
-                $posts->orderBy('created_at', 'desc')
-                    ->limit($limit)
-                    ->offset(0);
+            if ( $userid != null ) {
+                $posts->where('posts.user_id', $userid);
+            }
+            if ( in_array($type, ['post', 'gif']) ) {
+                $posts->where('post_type', $type);
+            }
+            $posts->orderBy('created_at', 'desc')
+                ->limit($limit)
+                ->offset(0);
 
             $posts = $posts->get();
 

@@ -49,7 +49,7 @@
             <input type="hidden" name="delete_avatar" />
             <div class="author margin-bottom-md">
               <a href="#0" class="author__img-wrapper bg-black bg-opacity-50%">
-                @if(auth()->user()->avatar)
+                @if(auth()->user()->hasAvatar())
                   <img src="{{ auth()->user()->getAvatar() }}" alt="Author picture">
                 @else
                   <img alt="Author picture" id="settings-avatar" style="display: none;">
@@ -67,7 +67,7 @@
                   <button
                     type="button" 
                     id="btnDeleteAvatar"
-                    @if(auth()->user()->avatar)
+                    @if(auth()->user()->hasAvatar())
                       class="btn btn--subtle"
                     @else
                       class="btn btn--subtle btn--disabled"
@@ -149,7 +149,7 @@
               <div class="grid gap-sm">
                 <div class="col@md">
                   <label for="bio" class="form-label">Bio <small>(Optional)</small></label><br>
-                  <textarea name="bio" id="bio" class="form-control width-100%">{{ $user->account_setting->bio ?: old('bio') }}</textarea>
+                  <textarea name="bio" id="bio" class="form-control width-100%">{{ $user->users_setting->bio ?: old('bio') }}</textarea>
                 </div>
               </div>
             </div>
@@ -161,7 +161,7 @@
                     <label for="{{ $social_media }}" class="form-label">
                       {{ ucfirst(Str::replaceArray('_', [' '], $social_media)) }} <small>(Optional)</small>
                     </label><!-- /.form-label -->
-                    <input type="text" class="form-control width-100%" id="{{ $social_media }}" name="{{ $social_media }}" value="{{ $user->account_setting->$social_media ?: old($social_media) }}">
+                    <input type="text" class="form-control width-100%" id="{{ $social_media }}" name="{{ $social_media }}" value="{{ $user->users_setting->$social_media ?: old($social_media) }}">
                   </div>
                 </div>
               </div>

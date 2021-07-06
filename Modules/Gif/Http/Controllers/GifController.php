@@ -36,7 +36,7 @@ class GifController extends Controller
     public function index()
     {
         // Cleanup unused images created with editorjs
-        $this->cleanupEditorImages();
+        // $this->cleanupEditorImages();
 
         $view = request()->ajax() ? 'gif::partials.table' : 'gif::index';
 
@@ -48,7 +48,7 @@ class GifController extends Controller
                 'posts.created_at as created_at',
                 'thumbnail',
                 'thumbnail_medium',
-                'status',
+                'posts.status as status',
                 'users.username as username'
             ])->orderBy('created_at', 'desc');
 
@@ -765,6 +765,7 @@ class GifController extends Controller
         $perpage = 12;
         $offset = ($page_num - 1) * $perpage;
         $gifs = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
+            ->leftJoin('users_settings', 'users_settings.user_id', '=', 'users.id')
             ->select([
                 'posts.id',
                 'title',
@@ -775,7 +776,7 @@ class GifController extends Controller
                 'thumbnail_medium',
                 'users.name',
                 'users.username',
-                'users.avatar as avatar'
+                'users_settings.avatar as avatar'
             ])->where(
                 [
                     'post_type' => 'gif',

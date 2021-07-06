@@ -44,24 +44,24 @@
     </div>
 
     <div class="margin-bottom-sm">
-      <textarea class="form-control width-100%" type="text" name="bio" id="bio" @error('bio') aria-invalid="true" @enderror placeholder="Bio (optional)">{{ ($user->account_setting) ? $user->account_setting->bio : '' }}</textarea>
+      <textarea class="form-control width-100%" type="text" name="bio" id="bio" @error('bio') aria-invalid="true" @enderror placeholder="Bio (optional)">{{ ($user->users_setting) ? $user->users_setting->bio : '' }}</textarea>
       <div role="alert" class="form-error-msg"></div>
     </div>
 
     <div class="margin-bottom-sm">
-      <input class="form-control width-100%" type="text" name="twitter_link" id="twitterLink" value="{{ ($user->account_setting) ? $user->account_setting->twitter_link : '' }}" @error('twitter_link') aria-invalid="true" @enderror placeholder="Twitter link (optional)">
+      <input class="form-control width-100%" type="text" name="twitter_link" id="twitterLink" value="{{ ($user->users_setting) ? $user->users_setting->twitter_link : '' }}" @error('twitter_link') aria-invalid="true" @enderror placeholder="Twitter link (optional)">
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
 
     <div class="margin-bottom-sm">
-      <input class="form-control width-100%" type="text" name="facebook_link" id="facebookLink" value="{{ ($user->account_setting) ? $user->account_setting->facebook_link : '' }}" @error('facebook_link') aria-invalid="true" @enderror placeholder="Facebook link (optional)">
+      <input class="form-control width-100%" type="text" name="facebook_link" id="facebookLink" value="{{ ($user->users_setting) ? $user->users_setting->facebook_link : '' }}" @error('facebook_link') aria-invalid="true" @enderror placeholder="Facebook link (optional)">
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
 
     <div class="margin-bottom-sm">
-      <input class="form-control width-100%" type="text" name="instagram_link" id="instagramLink" value="{{ ($user->account_setting) ? $user->account_setting->instagram_link : '' }}" @error('instagram_link') aria-invalid="true" @enderror placeholder="Instagram link (optional)">
+      <input class="form-control width-100%" type="text" name="instagram_link" id="instagramLink" value="{{ ($user->users_setting) ? $user->users_setting->instagram_link : '' }}" @error('instagram_link') aria-invalid="true" @enderror placeholder="Instagram link (optional)">
       <div role="alert" class="form-error-msg"></div> <!-- /.form-error-msg--is-visible -->
     </div>
 
     <input type="hidden" class="user-id" value="{{ $user->id }}">
-    <input type="hidden" value="{{ $user->getAvatar() }}" class="input-user-avatar" data-avatar="{{ $user->avatar }}">
+    <input type="hidden" value="{{ $user->getAvatar() }}" class="input-user-avatar" data-avatar="{{ $user->users_setting ? $user->users_setting->avatar : '' }}">

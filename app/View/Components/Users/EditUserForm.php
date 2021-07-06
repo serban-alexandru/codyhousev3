@@ -18,7 +18,7 @@ class EditUserForm extends Component
      */
     public function __construct($id)
     {
-        $user = User::with('account_setting')->find($id);
+        $user = User::with('users_setting')->find($id);
         $roles = DB::table('roles')->orderBy('id', 'desc')->get();
 
         $this->user = $user;

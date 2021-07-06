@@ -2,6 +2,7 @@
 <div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-disable-modal-close custom-modal-hide-body-scroll" id="modal-add-user">
   <div class="modal__content height-100% tabs js-tabs width-100% max-width-xs bg radius-md shadow-md flex flex-column" role="alertdialog" aria-labelledby="modal-add-user-title" aria-describedby="modal-description-4">
     <form action="{{ url('admin/users/store') }}" id="modal-form-add-user" class="modal-form flex flex-column height-100%" method="post"> @csrf
+      <input type="file" class="is-hidden" name="avatar" id="new_avatar" accept="image/*">
       <header class="bg-contrast-lower padding-y-sm padding-x-xs flex items-center justify-between">
         <!-- 👇 Tabs -->
         <nav class="">
@@ -34,7 +35,11 @@
           <section id="tab1Panel2" class="padding-top-md js-tabs__panel">
             <div class="text-component">
               <h1 class="text-lg">Images</h1>
-              Upload images
+              <div>
+                <label for="new_avatar" class="file-upload__label btn btn--subtle">
+                  <span class="file-upload__text file-upload__text--has-max-width" data-default-text="Upload a file">Upload Avatar</span>
+                </label>
+              </div>              
             </div>
           </section>
 
