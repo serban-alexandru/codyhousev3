@@ -1,8 +1,8 @@
-<div class="js-infinite-scroll container max-width-lg margin-top-md" data-path="{{ url('/api/post/' . $post->id . '/{n}') }}" data-container=".js-infinite-scroll__content" data-current-page="1" data-load-btn="off">
+<div class="js-infinite-scroll container max-width-lg" data-path="{{ url('/api/post/' . $post->id . '/{n}') }}" data-container=".js-infinite-scroll__content" data-current-page="1" data-load-btn="off">
   <!-- Start of infinite scroll post container -->
   <div class="js-infinite-scroll__content">
     <!-- Start of each post content -->
-    <article class="container single-post max-width-sm margin-bottom-lg padding-y-lg" data-title="{!! $post->seo_title !!}" data-url="{{ url($post->url) }}">
+    <article class="container single-post max-width-sm padding-y-md" data-title="{!! $post->seo_title !!}" data-url="{{ url($post->url) }}">
       <div class="text-component text-left line-height-lg v-space-md margin-bottom-md text-sm">
         <h1>{{ $post->title }}</h1>
         <p class="color-contrast-medium text-md">{!! $post->description !!}</p>

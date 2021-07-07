@@ -51,7 +51,7 @@ eg. create a Button
 php artisan make:component Button
 This command generates only two files:
 - Button.php
-- button.blade.phpButton.php
+- button.blade.php
 
 Button.php
 - located at app/View/Components/Button.php.
