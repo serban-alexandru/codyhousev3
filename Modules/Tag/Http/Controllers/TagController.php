@@ -198,6 +198,7 @@ class TagController extends Controller
         $tag = Tag::find($id);
 
         $tag['submit_url'] = route('tag.store');
+        $tag['thumbnail'] = $tag->getTagImage();
 
         $response = [
             'status'  => 'success',

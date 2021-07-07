@@ -301,16 +301,22 @@ class UsersController extends Controller
 
             // Delete old avatar if not null
             $user_info = UsersSetting::where('user_id', $user->id)->first();
-            if(!is_null($user_info->avatar)){
-                $user_old_avatar = $user_info->avatar;
-                $old_avatar_path = storage_path() . '/app/public/users-images/avatars/' . $user_old_avatar;
-                if(File::exists($old_avatar_path)){
-                    unlink($old_avatar_path);
+            if($user_info) {
+                if ( !is_null($user_info->avatar)) {
+                    $user_old_avatar = $user_info->avatar;
+                    $old_avatar_path = storage_path() . '/app/public/users-images/avatars/' . $user_old_avatar;
+                    if(File::exists($old_avatar_path)){
+                        unlink($old_avatar_path);
+                    }
                 }
+                // Update in users_settings table
+                $user_info->update(['avatar' => $new_avatar]);
+            } else {
+                UsersSetting::create([
+                    'user_id' => $user->id,
+                    'avatar' => $new_avatar
+                ]);
             }
-
-            // Update in users_settings table
-            $user_info->update(['avatar' => $new_avatar]);
 
             // Delete user avatar from the media table, and file system
             $user->deleteMediaAvatar();
@@ -741,16 +747,22 @@ class UsersController extends Controller
 
             // Delete old avatar if not null
             $user_info = UsersSetting::where('user_id', $user->id)->first();
-            if(!is_null($user_info->avatar)){
-                $user_old_avatar = $user_info->avatar;
-                $old_avatar_path = storage_path() . '/app/public/users-images/avatars/' . $user_old_avatar;
-                if(File::exists($old_avatar_path)){
-                    unlink($old_avatar_path);
+            if($user_info) {
+                if (!is_null($user_info->avatar)) {
+                    $user_old_avatar = $user_info->avatar;
+                    $old_avatar_path = storage_path() . '/app/public/users-images/avatars/' . $user_old_avatar;
+                    if(File::exists($old_avatar_path)){
+                        unlink($old_avatar_path);
+                    }
                 }
+                // Update in users_settings table
+                $user_info->update(['avatar' => $new_avatar]);
+            } else {
+                UsersSetting::create([
+                    'user_id' => $user->id,
+                    'avatar' => $new_avatar
+                ]);
             }
-
-            // Update in users_settings table
-            $user_info->update(['avatar' => $new_avatar]);
 
             // Delete user avatar from the media table, and file system
             auth()->user()->deleteMediaAvatar();

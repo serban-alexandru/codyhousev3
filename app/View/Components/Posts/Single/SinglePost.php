@@ -20,7 +20,6 @@ class SinglePost extends Component
         $post = Post::where(
             [
                 'id'        => $id,
-                'post_type' => 'post',
                 'status'    => 'published'
             ]
         )->first();

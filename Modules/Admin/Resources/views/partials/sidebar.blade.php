@@ -30,13 +30,6 @@
               <span class="sidenav__text">Posts</span><span class="sidenav__counter">{{ getPostsCount() }} <i class="sr-only">notifications</i></span>
             </a>
           </li>
-
-          <li class="sidenav__item">
-            <a href="{{ url('admin/gifs') }}" class="sidenav__link" {{ (url('/admin/gifs') == url()->full()) ? 'aria-current=page' : '' }}>
-              <span class="sidenav__text">Gifs</span><span class="sidenav__counter">{{ getGifsCount() }} <i class="sr-only">notifications</i></span>
-            </a>
-          </li>
-          
         </ul>
       </li>
 

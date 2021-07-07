@@ -23,7 +23,7 @@ class DashboardPostsController extends Controller
 
         foreach ($files as $file) {
             $file_name    = basename($file);
-            $file_on_post = Post::where( 'post_type', 'post' )->firstWhere('description', 'LIKE', '%' . $file_name . '%');
+            $file_on_post = Post::firstWhere('description', 'LIKE', '%' . $file_name . '%');
 
             // model is null -> delete
             if (!$file_on_post) {
@@ -51,9 +51,6 @@ class DashboardPostsController extends Controller
                 'users.username as username'
             ])->orderBy('created_at', 'desc');
 
-        // Filter by 'post' type.
-        $posts = $posts->where('post_type', 'post');
-
         if (!auth()->user()->isAdmin()) {
             // get user specific posts only
             $posts = $posts->where('user_id', auth()->user()->id);
@@ -72,24 +69,24 @@ class DashboardPostsController extends Controller
 
         if (auth()->user()->isAdmin()) {
             // get all posts count
-            $posts_published_count = Post::where('post_type', 'post')->where('status', 'published')->count();
-            $posts_draft_count = Post::where('post_type', 'post')->where('status', 'draft')->count();
-            $posts_pending_count = Post::where('post_type', 'post')->where('status', 'pending')->count();
-            $posts_deleted_count = Post::where('post_type', 'post')->where('status', 'deleted')->count();
+            $posts_published_count = Post::where('status', 'published')->count();
+            $posts_draft_count = Post::where('status', 'draft')->count();
+            $posts_pending_count = Post::where('status', 'pending')->count();
+            $posts_deleted_count = Post::where('status', 'deleted')->count();
     
         } else {
             // get user specific posts count
-            $posts_published_count = Post::where('post_type', 'post')->where('status', 'published')->where('user_id', auth()->user()->id)->count();
-            $posts_draft_count = Post::where('post_type', 'post')->where('status', 'draft')->where('user_id', auth()->user()->id)->count();
-            $posts_pending_count = Post::where('post_type', 'post')->where('status', 'pending')->where('user_id', auth()->user()->id)->count();
-            $posts_deleted_count = Post::where('post_type', 'post')->where('status', 'deleted')->where('user_id', auth()->user()->id)->count();    
+            $posts_published_count = Post::where('status', 'published')->where('user_id', auth()->user()->id)->count();
+            $posts_draft_count = Post::where('status', 'draft')->where('user_id', auth()->user()->id)->count();
+            $posts_pending_count = Post::where('status', 'pending')->where('user_id', auth()->user()->id)->count();
+            $posts_deleted_count = Post::where('status', 'deleted')->where('user_id', auth()->user()->id)->count();    
         }
 
         $availableLimit = ['25', '50', '100', '150', '200'];
 
         $image_width = '40';
         $image_height = '40';
-        $posts_settings = PostSetting::where('post_type', 'post')->first();
+        $posts_settings = PostSetting::first();
         if(!is_null($posts_settings)){
             $image_width = $posts_settings->medium_width;
             $image_height = $posts_settings->medium_height;
@@ -143,17 +140,17 @@ class DashboardPostsController extends Controller
     public function addPost() {
         if (auth()->user()->isAdmin()) {
             // get all posts count
-            $posts_published_count = Post::where('post_type', 'post')->where('status', 'published')->count();
-            $posts_draft_count = Post::where('post_type', 'post')->where('status', 'draft')->count();
-            $posts_pending_count = Post::where('post_type', 'post')->where('status', 'pending')->count();
-            $posts_deleted_count = Post::where('post_type', 'post')->where('status', 'deleted')->count();
+            $posts_published_count = Post::where('status', 'published')->count();
+            $posts_draft_count = Post::where('status', 'draft')->count();
+            $posts_pending_count = Post::where('status', 'pending')->count();
+            $posts_deleted_count = Post::where('status', 'deleted')->count();
 
         } else {
             // get user specific posts count
-            $posts_published_count = Post::where('post_type', 'post')->where('status', 'published')->where('user_id', auth()->user()->id)->count();
-            $posts_draft_count = Post::where('post_type', 'post')->where('status', 'draft')->where('user_id', auth()->user()->id)->count();
-            $posts_pending_count = Post::where('post_type', 'post')->where('status', 'pending')->where('user_id', auth()->user()->id)->count();
-            $posts_deleted_count = Post::where('post_type', 'post')->where('status', 'deleted')->where('user_id', auth()->user()->id)->count();    
+            $posts_published_count = Post::where('status', 'published')->where('user_id', auth()->user()->id)->count();
+            $posts_draft_count = Post::where('status', 'draft')->where('user_id', auth()->user()->id)->count();
+            $posts_pending_count = Post::where('status', 'pending')->where('user_id', auth()->user()->id)->count();
+            $posts_deleted_count = Post::where('status', 'deleted')->where('user_id', auth()->user()->id)->count();    
         }
 
         $tag_categories = TagCategory::all();
@@ -178,20 +175,20 @@ class DashboardPostsController extends Controller
     {
         if (auth()->user()->isAdmin()) {
             // get all posts count
-            $posts_published_count = Post::where('post_type', 'post')->where('status', 'published')->count();
-            $posts_draft_count = Post::where('post_type', 'post')->where('status', 'draft')->count();
-            $posts_pending_count = Post::where('post_type', 'post')->where('status', 'pending')->count();
-            $posts_deleted_count = Post::where('post_type', 'post')->where('status', 'deleted')->count();
+            $posts_published_count = Post::where('status', 'published')->count();
+            $posts_draft_count = Post::where('status', 'draft')->count();
+            $posts_pending_count = Post::where('status', 'pending')->count();
+            $posts_deleted_count = Post::where('status', 'deleted')->count();
 
         } else {
             // get user specific posts count
-            $posts_published_count = Post::where('post_type', 'post')->where('status', 'published')->where('user_id', auth()->user()->id)->count();
-            $posts_draft_count = Post::where('post_type', 'post')->where('status', 'draft')->where('user_id', auth()->user()->id)->count();
-            $posts_pending_count = Post::where('post_type', 'post')->where('status', 'pending')->where('user_id', auth()->user()->id)->count();
-            $posts_deleted_count = Post::where('post_type', 'post')->where('status', 'deleted')->where('user_id', auth()->user()->id)->count();    
+            $posts_published_count = Post::where('status', 'published')->where('user_id', auth()->user()->id)->count();
+            $posts_draft_count = Post::where('status', 'draft')->where('user_id', auth()->user()->id)->count();
+            $posts_pending_count = Post::where('status', 'pending')->where('user_id', auth()->user()->id)->count();
+            $posts_deleted_count = Post::where('status', 'deleted')->where('user_id', auth()->user()->id)->count();    
         }
 
-        $posts_settings = PostSetting::where('post_type', 'post')->first();
+        $posts_settings = PostSetting::first();
 
         return view('users::dashboard.settings', compact(
             'posts_published_count', 'posts_draft_count', 'posts_pending_count', 'posts_deleted_count', 'posts_settings'
@@ -232,11 +229,10 @@ class DashboardPostsController extends Controller
         if($method == 'create'){
             PostSetting::create([
                 'medium_width'     => request('medium_width'),
-                'medium_height'    => request('medium_height'),
-                'post_type'        => 'post'
+                'medium_height'    => request('medium_height')
             ]);
         } else{
-            $posts_settings = PostSetting::where('post_type', 'post')->first();
+            $posts_settings = PostSetting::first();
             $posts_settings->update(request()->except(['_token']));
         }
 
@@ -268,7 +264,7 @@ class DashboardPostsController extends Controller
             $settings_width = 40;
             $settings_height = 40;
 
-            if(!is_null($posts_settings = PostSetting::where('post_type', 'post')->first())){
+            if(!is_null($posts_settings = PostSetting::first())){
                 $settings_width = $posts_settings->medium_width;
                 $settings_height = $posts_settings->medium_height;
             }
@@ -283,12 +279,28 @@ class DashboardPostsController extends Controller
             $thumbnail = request()->file('thumbnail')->store('public/posts/original');
             $thumbnail_name = Arr::last(explode('/', $thumbnail));
 
-            $thumbnail_medium = Image::make(request()->file('thumbnail'));
-            $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
-                $constraint->aspectRatio();
-            });
-            $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
-            $thumbnail_medium->save($post_image_path . '/thumbnail/' . $thumbnail_medium_name);
+            $mime_type = request()->file('thumbnail')->getMimeType();
+
+            if ($mime_type == 'image/gif') {
+                // Save thumbnail (medium) image to file system
+                $thumbnail_medium = new Imagick($post_image_path . '/original/' . $thumbnail_name);
+                $thumbnail_medium = $thumbnail_medium->coalesceImages();
+                do {
+                    $thumbnail_medium->resizeImage( $settings_width, $settings_height, Imagick::FILTER_BOX, 1, true );
+                } while ( $thumbnail_medium->nextImage());
+
+                $thumbnail_medium = $thumbnail_medium->deconstructImages();
+                $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
+                $thumbnail_medium->writeImages($post_image_path . '/thumbnail/' . $thumbnail_medium_name, true);
+
+            } else {
+                $thumbnail_medium = Image::make(request()->file('thumbnail'));
+                $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
+                    $constraint->aspectRatio();
+                });
+                $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
+                $thumbnail_medium->save($post_image_path . '/thumbnail/' . $thumbnail_medium_name);
+            }
         }
 
         // Generate slug
@@ -313,7 +325,6 @@ class DashboardPostsController extends Controller
             'thumbnail'        => (request()->has('thumbnail')) ? $thumbnail_name : NULL,
             'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : NULL,
             'tags'             => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
-            'post_type'        => 'post',
             'status'           => $status
         ]);
 
@@ -459,7 +470,7 @@ class DashboardPostsController extends Controller
             $settings_width = 40;
             $settings_height = 40;
 
-            if(!is_null($posts_settings = PostSetting::where('post_type', 'post')->first())){
+            if(!is_null($posts_settings = PostSetting::first())){
                 $settings_width = $posts_settings->medium_width;
                 $settings_height = $posts_settings->medium_height;
             }
@@ -474,13 +485,28 @@ class DashboardPostsController extends Controller
             $thumbnail = request()->file('thumbnail')->store('public/posts/original');
             $thumbnail_name = Arr::last(explode('/', $thumbnail));
 
-            // Save thumbnail (medium) image to file system
-            $thumbnail_medium = Image::make(request()->file('thumbnail'));
-            $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
-                $constraint->aspectRatio();
-            });
-            $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
-            $thumbnail_medium->save($post_image_path . '/thumbnail/' . $thumbnail_medium_name);
+            $mime_type = request()->file('thumbnail')->getMimeType();
+
+            if ($mime_type == 'image/gif') {
+                // Save thumbnail (medium) image to file system
+                $thumbnail_medium = new Imagick($post_image_path . '/original/' . $thumbnail_name);
+                $thumbnail_medium = $thumbnail_medium->coalesceImages();
+                do {
+                    $thumbnail_medium->resizeImage( $settings_width, $settings_height, Imagick::FILTER_BOX, 1, true );
+                } while ( $thumbnail_medium->nextImage());
+
+                $thumbnail_medium = $thumbnail_medium->deconstructImages();
+                $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
+                $thumbnail_medium->writeImages($post_image_path . '/thumbnail/' . $thumbnail_medium_name, true);
+
+            } else {
+                $thumbnail_medium = Image::make(request()->file('thumbnail'));
+                $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
+                    $constraint->aspectRatio();
+                });
+                $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
+                $thumbnail_medium->save($post_image_path . '/thumbnail/' . $thumbnail_medium_name);
+            }
 
             // Delete thumbnail if exists.
             if(file_exists($post->getThumbnail())){
@@ -637,7 +663,7 @@ class DashboardPostsController extends Controller
             return redirect()->back()->with('alert', $alert);
         }
 
-        $post = Post::where('post_type', 'post')->find(request('post_id'));
+        $post = Post::find(request('post_id'));
 
         if (!$post) {
             $alert = [
@@ -666,9 +692,9 @@ class DashboardPostsController extends Controller
         PostsMeta::deleteMultipleMetaData( $selectedIDs, 'rejected_reason' );
 
         if ( auth()->user()->isAdmin() ) {
-            Post::where('post_type', 'post')->whereIn('id', $selectedIDs)->update(['status' => 'deleted']);
+            Post::whereIn('id', $selectedIDs)->update(['status' => 'deleted']);
         } else {
-            Post::where('post_type', 'post')->where('user_id', auth()->user()->id)->whereIn('id', $selectedIDs)->update(['status' => 'deleted']);
+            Post::where('user_id', auth()->user()->id)->whereIn('id', $selectedIDs)->update(['status' => 'deleted']);
         }
 
         $alert = [
@@ -682,9 +708,9 @@ class DashboardPostsController extends Controller
     {
         // Get posts on trash
         if ( auth()->user()->isAdmin() ) {
-            $trashed_posts = Post::where('post_type', 'post')->where('status', 'deleted')->get();
+            $trashed_posts = Post::where('status', 'deleted')->get();
         } else {
-            $trashed_posts = Post::where('post_type', 'post')->where('user_id', auth()->user()->id)->where('status', 'deleted')->get();
+            $trashed_posts = Post::where('user_id', auth()->user()->id)->where('status', 'deleted')->get();
         }
 
         foreach ($trashed_posts as $post) {
@@ -809,11 +835,11 @@ class DashboardPostsController extends Controller
     public function getPost($id) {
         if (auth()->user()->isAdmin()) {
             // admin has full authority for all posts
-            $post = Post::where('post_type', 'post')->find($id);
+            $post = Post::find($id);
 
         } else {
             // normal users (Editor, Registered) only have authority for their posts
-            $post = Post::where('post_type', 'post')->where('user_id', auth()->user()->id)->find($id);
+            $post = Post::where('user_id', auth()->user()->id)->find($id);
         }
 
         return $post;
@@ -845,7 +871,7 @@ class DashboardPostsController extends Controller
             ->orWhere('users.name', 'LIKE', '%' . request('postsearch') . '%');
         }
 
-        $posts = $posts->where( 'post_type', 'post' )->where('posts.status', 'rejected')->where('meta_key', '=', 'rejected_reason');
+        $posts = $posts->where('posts.status', 'rejected')->where('meta_key', '=', 'rejected_reason');
 
         $limit = request('limit') ? request('limit') : 25;
 

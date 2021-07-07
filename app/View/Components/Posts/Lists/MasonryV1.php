@@ -61,7 +61,6 @@ class MasonryV1 extends Component
                     'title',
                     'slug',
                     'posts.created_at as created_at',
-                    'post_type',
                     'thumbnail',
                     'thumbnail_medium',
                     'users.name',
@@ -76,9 +75,6 @@ class MasonryV1 extends Component
             if ( $userid != null ) {
                 $posts->where('posts.user_id', $userid);
             }
-            if ( in_array($type, ['post', 'gif']) ) {
-                $posts->where('post_type', $type);
-            }
             $posts->orderBy('created_at', 'desc')
                 ->limit($limit)
                 ->offset(0);
@@ -86,7 +82,7 @@ class MasonryV1 extends Component
             $posts = $posts->get();
 
             $this->posts = $posts;
-            $this->api_route = $type == 'gif' ? 'gifs' : 'posts';
+            $this->api_route = 'posts';
             if ( $userid != null ) {
                 $this->api_route = $this->api_route . "/user/" . $userid;
             }

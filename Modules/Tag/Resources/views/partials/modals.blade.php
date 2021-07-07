@@ -1,6 +1,7 @@
 <!-- 👇 Full Screen Modal -->
-<div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll" id="modal-add-tag">
-  <form action="{{ route('tag.store') }}" data-action="{{ route('tag.store') }}" method="post" enctype="multipart/form-data" class="modal__content height-100% tabs js-tabs width-100% max-width-sm bg radius-md shadow-md flex flex-column" id="add-tag-form" novalidate> @csrf
+<form action="{{ route('tag.store') }}" data-action="{{ route('tag.store') }}" method="post" enctype="multipart/form-data" id="add-tag-form" novalidate> @csrf
+  <div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll" id="modal-add-tag">
+  <div class="modal__content height-100% tabs js-tabs width-100% max-width-sm bg radius-md shadow-md flex flex-column">
     <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
       <!-- 👇 Tabs -->
       <nav class="tabs">
@@ -66,7 +67,7 @@
             <div role="alert" class="form-error-msg"></div>
 
             <label class="form-label margin-bottom-xxs margin-top-md" for="tag_description">Enter Your Tag Description</label>
-            <div id="editorjs" data-target-input="#tag_description" class="site-editor form-control" required placeholder="Enter Tag"></div>
+            <div id="editorjs" data-target-input="#tag_description" class="site-editor form-control" placeholder="Enter Tag"></div>
             <input type="hidden" name="tag_description" id="tag_description"/>
           </div>
         </section>
@@ -147,8 +148,9 @@
         <button type="submit" name="tag_publish" value="true" class="btn btn--primary">Publish</button>
       </div>
     </footer>
-  </form><!-- /.modal__content -->
-</div><!-- /.modal -->
+  </div>
+  </div><!-- /.modal -->
+</form><!-- /.modal__content -->
 <!-- Full Screen Modal End -->
 
 <!-- 👇 Full Screen Modal -->

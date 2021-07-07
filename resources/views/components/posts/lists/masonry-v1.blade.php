@@ -12,20 +12,20 @@
   <ul class="masonry__list js-masonry__list js-infinite-scroll__content">
   @if( isset($type) && $type != 'tag' )
     @foreach($posts as $post)
-      <li class="masonry__item js-masonry__item {{ $post->post_type }}">
+      <li class="masonry__item js-masonry__item post">
       @if($post->thumbnail)
-        <a class="thumb" href="{{ route('single-' . $post->post_type . '-view', ['slug'   => $post->slug]) }}">
+        <a class="thumb" href="{{ route('single-post-view', ['slug'   => $post->slug]) }}">
           <figure class="card-v2">
-            <img class="block width-500% radius-md radius-bottom-right-0 radius-bottom-left-0" src="{{ $post->showThumbnail('medium', $post->post_type) }}" alt="Image of {{ $post->title }}">
+            <img class="block width-500% radius-md radius-bottom-right-0 radius-bottom-left-0" src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
             <figcaption class="card-v2__caption padding-x-sm padding-top-md padding-bottom-sm text-left">
-              <div class="card-v2__title text-base@md"><a class="color-contrast-lower" href="{{ route('single-' . $post->post_type . '-view', ['slug' => $post->slug]) }}">{{ $post->title }}</a></div>
+              <div class="card-v2__title text-base@md"><a class="color-contrast-lower" href="{{ route('single-post-view', ['slug' => $post->slug]) }}">{{ $post->title }}</a></div>
             </figcaption>
           </figure>
         </a>
       @else
         <span class="card__img card__img-cropped bg-opacity-50%"></span>
         <div class="post-cell text-component line-height-xs v-space-xxs text-sm line-height-md">
-          <p><a class="color-contrast-low" href="{{ route('single-' . $post->post_type . '-view', ['slug' => $post->slug]) }}">{{ $post->title }}</a></p>
+          <p><a class="color-contrast-low" href="{{ route('single-post-view', ['slug' => $post->slug]) }}">{{ $post->title }}</a></p>
         </div>
       @endif
         <div class="user-cell">
@@ -67,12 +67,12 @@
     @endforeach
   @else  <!-- Posts by Tag -->
     @foreach($posts as $post)
-      <li class="masonry__item js-masonry__item {{ $post->post_type }}">
+      <li class="masonry__item js-masonry__item tag">
         <span class="card-v8 card-masonry bg radius-lg">
           <a href="
             {{
               route(
-                'single-' . $post->post_type . '-view',
+                'single-post-view',
                 [
                   'slug' => $post->slug
                 ]
@@ -81,7 +81,7 @@
           ">
           @if($post->thumbnail)
             <figure class="card__img">
-              <img src="{{ $post->showThumbnail('medium', $post->post_type) }}" alt="Image of {{ $post->title }}">
+              <img src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
             </figure>
           @else
             <span class="card__img card__img-cropped bg-black bg-opacity-50%"></span>
@@ -112,7 +112,7 @@
               <h4>
                 <a href="{{
                   route(
-                    'single-' . $post->post_type . '-view',
+                    'single-post-view',
                     [
                       'slug'   => $post->slug
                     ]

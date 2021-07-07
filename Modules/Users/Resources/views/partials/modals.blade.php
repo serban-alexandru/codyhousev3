@@ -100,7 +100,7 @@
               <label for="avatar" class="file-upload__label btn btn--subtle">
                 <span class="file-upload__text file-upload__text--has-max-width" data-default-text="Upload a file">Upload Avatar</span>
               </label>
-              <a href="#" class="btn btn--subtle update-cover-photo-link" target="_blank">Edit Cover Photo</a>
+              <!--<a href="#" class="btn btn--subtle update-cover-photo-link" target="_blank">Edit Cover Photo</a>-->
             </div>
           </section>
 
