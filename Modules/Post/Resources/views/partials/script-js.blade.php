@@ -1,5 +1,4 @@
 @auth
-
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
 <!-- <script src="https://cdn.jsdelivr.net/npm/@editorjs/link@latest"></script> -->
@@ -410,6 +409,7 @@
         var $targetInput = $($this.data('target-input'));
 
         editor.save().then((outputData) => {
+          console.log(outputData);
           // Save data as string
           $targetInput.val(JSON.stringify(outputData));
         }).catch((error) => {

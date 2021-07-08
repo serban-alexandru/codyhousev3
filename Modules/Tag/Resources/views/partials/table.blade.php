@@ -162,7 +162,7 @@
               </div>
             </th>
             <td class="int-table__cell">
-              <a href="{{ route('tag.edit', [$tag->id]) }}" data-url="{{ route('tag.edit', [$tag->id]) }}" data-method="get" aria-controls="modal-add-tag" class="site-load-modal-edit-form item-edit-link">{{ $tag->name }}</a>
+              <a href="{{ route('tag.edit', [$tag->id]) }}" data-url="{{ route('tag.edit', [$tag->id]) }}" data-method="get" aria-controls="modal-edit-tag" class="site-load-modal-edit-form item-edit-link">{{ $tag->name }}</a>
             </td>
             <td class="int-table__cell">
               {{ Modules\Post\Entities\PostsTag::where('tag_id', $tag->id)->count() }}
@@ -170,7 +170,7 @@
             <td class="int-table__cell">{{ $tag->category_name }}</td>
             <td class="int-table__cell text-center">
               @if($tag->getFirstMediaUrl('images') != '')
-                <img src="{{ $tag->getFirstMediaUrl('images') }}" alt="Image of {{ $tag->name }}, " style="max-width: 50px; height: auto;" />
+                <img src="{{ $tag->getTagImage('images') }}" alt="Image of {{ $tag->name }}, " style="max-width: 50px; height: auto;" />
               @else
                 None
               @endif

@@ -11,7 +11,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
 
 <script>
-  (function(){
+  $(function(){
 
     const ImageTool = window.ImageTool;
 
@@ -20,6 +20,7 @@
       * Id of Element that should contain Editor instance
       */
       holder: 'editorjs',
+      placeholder: 'Tell your story...',
       tools: {
         header: Header,
         raw: RawTool,
@@ -47,13 +48,62 @@
       }
     });
 
-    $('.site-editor').on('input', function(){
+    var editor2 = new EditorJS({
+      /**
+      * Id of Element that should contain Editor instance
+      */
+      holder: 'editorjs2',
+      placeholder: 'Tell your story...',
+      tools: {
+        header: Header,
+        raw: RawTool,
+        image: {
+          class: ImageTool,
+          config: {
+            endpoints: {
+              byFile: window.location.origin + '/editorjs/upload-image'
+            },
+            additionalRequestHeaders : {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+          }
+        },
+        embed: Embed,
+        quote: Quote,
+        checklist: {
+          class: Checklist,
+          inlineToolbar: true,
+        },
+        list: {
+          class: List,
+          inlineToolbar: true,
+        }
+      }
+    });
+
+    $('.site-editor').on('input click', function(){
       var $this = $(this);
 
       if($this.data('target-input')){
         var $targetInput = $($this.data('target-input'));
 
         editor.save().then((outputData) => {
+          // Save data as string
+          $targetInput.val(JSON.stringify(outputData));
+        }).catch((error) => {
+          console.log('Saving failed: ', error);
+        });
+      }
+
+    });
+
+    $('#editorjs2, .trigger-site-editor-save').on('input click', function(){
+      var $this = $(this);
+
+      if($this.data('target-input')){
+        var $targetInput = $($this.data('target-input'));
+
+        editor2.save().then((outputData) => {
           // Save data as string
           $targetInput.val(JSON.stringify(outputData));
         }).catch((error) => {
@@ -72,7 +122,7 @@
     });
 
     // Add tag form
-    $(document).on('submit', '#add-tag-form', function(e){
+    $(document).on('submit', '#add-tag-form, #edit-tag-form', function(e){
       e.preventDefault();
 
       var $this = $(this);
@@ -90,21 +140,23 @@
       // Disable buttons
       $submitButtons.prop('disabled', true);
 
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('input[name="_token"]').val()
+        }
+      });
 
       $.ajax({
         url: url,
-        type: method,
-        dataType: 'JSON',
+        type: 'post',
+        dataType: 'json',
         data: formData,
         processData: false,
         contentType: false,
-        async: true,
         complete: function(){
           $('[name="tag_publish"]').val(false);
         },
         success:function(response){
-          console.log(formData, response);
-
           if (response.status === 'success') {
             $feedback.removeClass('alert--error').addClass('alert--success alert--is-visible').html('<strong>Success!</strong> ' + response.message);
 
@@ -120,7 +172,6 @@
           }
         },
         error: function(response){
-          console.log(response);
           var jsonResponse = response.responseJSON;
           var errors = jsonResponse.errors;
           var errorsHTML = '';
@@ -164,8 +215,10 @@
       var url = $this.data('url');
       var method = $this.data('method');
 
-      var $modalForm = $('#add-tag-form');
+      var $modalForm = $('#edit-tag-form');
       $modalForm.find(':input').prop('disabled', true);
+
+      editor2.clear();
 
       $('[name="tag_publish"]').hide();
 
@@ -174,37 +227,39 @@
         method: method,
         dataType: 'JSON'
       })
-        .done(function(response) {
-          var data = response.data;
-          $('[name="tag_id"]').val(data.id);
+      .done(function(response) {
+        var data = response.data;
+        $('[name="tag_id"]').val(data.id);
 
-          $('[name="tag_category_id"]').val(data.tag_category_id);
+        $('[name="tag_category_id"]').val(data.tag_category_id);
 
-          // workaround to select js-select
-          setTimeout(() => {
-            $('#tag_category_id-dropdown').find('[data-value="'+data.tag_category_id+'"].select__item--option').click();
-          }, 1);
+        // workaround to select js-select
+        setTimeout(() => {
+          $('#tag_category_id-dropdown').find('[data-value="'+data.tag_category_id+'"].select__item--option').click();
+        }, 1);
 
-          $('[name="tag_name"]').val(data.name);
-          $('[name="tag_seo_title"]').val(data.seo_title);
-          $modalForm.attr('action', data.submit_url);
+        $('[name="tag_name"]').val(data.name);
+        $('[name="tag_seo_title"]').val(data.seo_title);
+        $modalForm.attr('action', data.submit_url);
 
-          $modalForm.find(':input').prop('disabled', false);
+        $modalForm.find(':input').prop('disabled', false);
 
+        if (response.data.description != null) {
           var editorData = JSON.parse(response.data.description);
-
-          console.log(editorData);
-
-          if (editorData) {
-            editor.render(editorData);
+          if (editorData.blocks.length > 0) {
+            editor2.render(editorData);
             $('[name="tag_description"]').val(response.data.description);
           }
+        } else {
+          $('[name="tag_description"]').val('');
+        }
 
-        })
-        .fail(function(response, textStatus) {
-          console.log(response);
-        })
-        .always(function() {});
+        $('#thumbnailPreview').attr('src', response.data.thumbnail);
+      })
+      .fail(function(response, textStatus) {
+        console.log(response);
+      })
+      .always(function() {});
     });
 
     // Add tag category form
@@ -233,8 +288,6 @@
           //
         },
         success:function(response){
-          console.log(formData, response);
-
           if (response.status === 'success') {
             $feedback.removeClass('alert--error').addClass('alert--success alert--is-visible').html('<strong>Success!</strong> ' + response.message);
 
@@ -250,7 +303,6 @@
           }
         },
         error: function(response){
-          console.log(response);
           var jsonResponse = response.responseJSON;
           var errors = jsonResponse.errors;
           var errorsHTML = '';
@@ -277,7 +329,7 @@
         });
     });
 
-  })();
+  });
 </script>
 
 <script>

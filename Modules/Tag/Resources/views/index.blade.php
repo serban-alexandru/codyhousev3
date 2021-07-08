@@ -1,6 +1,7 @@
 @extends('admin::layouts.master')
 @section('content')
   @include('tag::partials.modals')
+  @include('tag::partials.edit-modals')
   @include('tag::partials.modals-setting')
   <section>
     <div class="container max-width-lg">

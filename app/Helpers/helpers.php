@@ -28,13 +28,7 @@ if (! function_exists('getNewSlug')) {
 
 if (! function_exists('getPostsCount')) {
   function getPostsCount() {
-    return Post::where('post_type', 'post')->count();
-  }
-}
-
-if (! function_exists('getGifsCount')) {
-  function getGifsCount() {
-    return Post::where('post_type', 'gif')->count();
+    return Post::count();
   }
 }
 

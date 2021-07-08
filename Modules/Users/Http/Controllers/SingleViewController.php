@@ -13,7 +13,6 @@ class SingleViewController extends Controller
     // Get Post by slug
     $post = Post::firstWhere([
       'slug'      => $slug,
-      'post_type' => 'post',
       'status'    => 'published'
     ]);
 
@@ -27,26 +26,6 @@ class SingleViewController extends Controller
     $data['page_title'] = $post->title;
 
     return view('templates.layouts.post', $data);
-  }
-
-  public function singleGifView($slug) {
-    // Get Post by slug
-    $post = Post::firstWhere([
-      'slug'      => $slug,
-      'post_type' => 'gif',
-      'status'    => 'published'
-    ]);
-
-    if ( !$post ) {
-      abort(404);
-    }
-
-    $post['description'] = Post::parseContent($post['description']);
-
-    $data['post']       = $post;
-    $data['page_title'] = $post->title;
-
-    return view('templates.layouts.gif', $data);
   }
 
   public function singlePageView($slug) {
@@ -95,7 +74,6 @@ class SingleViewController extends Controller
       // Get Post by slug.
       $post = Post::firstWhere([
         'slug'      => $slug,
-        'post_type' => 'post',
         'status'    => 'published'
       ]);
 

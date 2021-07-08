@@ -427,7 +427,7 @@
   // =====================================================================================================================================
   function loadTemplate(type = 'post') {
     // Validate type.
-    const availableTypes = ['post', 'page', 'gif'];
+    const availableTypes = ['post', 'page'];
     if ( ! availableTypes.includes(type) ) {
       return false;
     }

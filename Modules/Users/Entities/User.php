@@ -2,7 +2,7 @@
 
 namespace Modules\Users\Entities;
 
-use File;
+use File, Image, Imagick;
 use Spatie\MediaLibrary\Models\Media;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -125,16 +125,37 @@ class User extends Authenticatable implements HasMedia, MustVerifyEmail
             ->latest()
             ->first();
 
-        $old_directory = storage_path() . '/app/public/' . $media->id . '/conversions/' . $media->name . '-thumb.jpg';
+        $mime_type = $media->mime_type;
+
         $new_directory = storage_path() . '/app/public/users-images/avatars';
 
         // Add directory if does not exists.
         File::ensureDirectoryExists($new_directory);
 
-        // Create random string
-        $name = md5(uniqid()) . time() . '.jpg';
 
-        File::copy($old_directory, $new_directory . '/' . $name);
+        $settings_width = 448;
+        $settings_height = 448;
+        if ($mime_type == 'image/gif') {
+            $old_directory = storage_path() . '/app/public/' . $media->id . '/' . $media->file_name;
+            // Create random string
+            $name = md5(uniqid()) . time() . '.gif';
+
+            // Save thumbnail (medium) image to file system
+            $thumbnail_medium = new Imagick($old_directory);
+            $thumbnail_medium = $thumbnail_medium->coalesceImages();
+            do {
+                $thumbnail_medium->resizeImage( $settings_width, $settings_height, Imagick::FILTER_BOX, 1, true );
+            } while ( $thumbnail_medium->nextImage());
+
+            $thumbnail_medium = $thumbnail_medium->deconstructImages();
+            $thumbnail_medium->writeImages($new_directory . '/' . $name, true);
+
+        } else {
+            $old_directory = storage_path() . '/app/public/' . $media->id . '/conversions/' . $media->name . '-thumb.jpg';
+            // Create random string
+            $name = md5(uniqid()) . time() . '.jpg';
+            File::copy($old_directory, $new_directory . '/' . $name);
+        }        
 
         return $name;
     }

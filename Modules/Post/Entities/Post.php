@@ -16,44 +16,27 @@ class Post extends Model
     	return $this->belongsTo(\Modules\Users\Entities\User::class);
     }
 
-    public function getThumbnailPathSnippet( $post_type = 'post' ) {
-        switch( $post_type ) {
-            case "post":
-                $path = "posts";
-                break;
-            case "gif":
-                $path = "gifs";
-                break;
-            default: 
-                $path = "posts";
-        }
-
-        return $path;
-    }
-
-    public function getThumbnail($type = 'original', $post_type = 'post')
+    public function getThumbnail($type = 'original')
     {
-        $path = $this->getThumbnailPathSnippet( $post_type );
     	if($type == 'original' && $this->thumbnail) {
-    		return storage_path() . '/app/public/' . $path . '/original/' . $this->thumbnail;
+    		return storage_path() . '/app/public/posts/original/' . $this->thumbnail;
     	}
 
     	if($type == 'medium' && $this->thumbnail_medium) {
-    		return storage_path() . '/app/public/' . $path . '/thumbnail/' . $this->thumbnail_medium;
+    		return storage_path() . '/app/public/posts/thumbnail/' . $this->thumbnail_medium;
     	}
 
         return false;
     }
 
-    public function showThumbnail($type = 'original', $post_type = 'post')
+    public function showThumbnail($type = 'original')
     {
-        $path = $this->getThumbnailPathSnippet( $post_type );
     	if($type == 'original'){
-    		return asset('storage/' . $path . '/original') . '/' . $this->thumbnail;
+    		return asset('storage/posts/original') . '/' . $this->thumbnail;
     	}
 
     	if($type == 'medium'){
-    		return asset('storage/' . $path . '/thumbnail') . '/' . $this->thumbnail_medium;
+    		return asset('storage/posts/thumbnail') . '/' . $this->thumbnail_medium;
     	}
 	}
 

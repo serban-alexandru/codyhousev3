@@ -30,13 +30,6 @@
               <span class="sidenav__text">Pages</span><span class="sidenav__counter">18 <i class="sr-only">notifications</i></span>
             </a>
           </li>
-
-          <li class="sidenav__item">
-            <a href="{{ url('admin/gifs') }}" class="sidenav__link">
-              <span class="sidenav__text">Gifs</span><span class="sidenav__counter">18 <i class="sr-only">notifications</i></span>
-            </a>
-          </li>
-          
         </ul>
       </li>
 

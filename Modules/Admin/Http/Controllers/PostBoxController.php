@@ -40,11 +40,6 @@ class PostBoxController extends Controller
           $tag_categories = TagCategory::all();
 
           $response['box_template'] = view( 'postbox.templates.post', compact( 'tag_categories' ) )->render();
-      } else if ( $type == 'gif' ) {
-          // Get all tag categories.
-          $tag_categories = TagCategory::all();
-
-          $response['box_template'] = view( 'postbox.templates.gif', compact( 'tag_categories' ) )->render();
       } else {
           $response['box_template'] = view( 'postbox.templates.' . $type )->render();
       }
@@ -63,9 +58,6 @@ class PostBoxController extends Controller
     switch($box_type) {
       case 'post':
         return $this->createPost($request);
-        break;
-      case 'gif':
-        return $this->createGif($request);
         break;
       case 'page':
         return $this->createPage($request);
@@ -93,7 +85,7 @@ class PostBoxController extends Controller
       $settings_width = 40;
       $settings_height = 40;
 
-      if(!is_null($posts_settings = PostSetting::where( 'post_type', 'post' )->first())){
+      if(!is_null($posts_settings = PostSetting::first())){
         $settings_width = $posts_settings->medium_width;
         $settings_height = $posts_settings->medium_height;
       }
@@ -108,12 +100,28 @@ class PostBoxController extends Controller
       $thumbnail = $request->file('thumbnail')->store('public/posts/original');
       $thumbnail_name = Arr::last(explode('/', $thumbnail));
 
-      $thumbnail_medium = Image::make($request->file('thumbnail'));
-      $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
-        $constraint->aspectRatio();
-      });
-      $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
-      $thumbnail_medium->save($post_image_path . '/thumbnail/' . $thumbnail_medium_name);
+      $mime_type = $request->file('thumbnail')->getMimeType();
+
+      if ($mime_type == 'image/gif') {
+          // Save thumbnail (medium) image to file system
+          $thumbnail_medium = new Imagick($post_image_path . '/original/' . $thumbnail_name);
+          $thumbnail_medium = $thumbnail_medium->coalesceImages();
+          do {
+              $thumbnail_medium->resizeImage( $settings_width, $settings_height, Imagick::FILTER_BOX, 1, true );
+          } while ( $thumbnail_medium->nextImage());
+
+          $thumbnail_medium = $thumbnail_medium->deconstructImages();
+          $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
+          $thumbnail_medium->writeImages($post_image_path . '/thumbnail/' . $thumbnail_medium_name, true);
+
+      } else {
+          $thumbnail_medium = Image::make($request->file('thumbnail'));
+          $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
+              $constraint->aspectRatio();
+          });
+          $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
+          $thumbnail_medium->save($post_image_path . '/thumbnail/' . $thumbnail_medium_name);
+      }
     }
 
     // Generate slug
@@ -133,7 +141,6 @@ class PostBoxController extends Controller
       'thumbnail'        => ($request->has('thumbnail')) ? $thumbnail_name : NULL,
       'thumbnail_medium' => ($request->has('thumbnail')) ? $thumbnail_medium_name : NULL,
       'tags'             => ($request->has('tags')) ? implode(',', $request->input('tags')) : NULL,
-      'post_type'        => 'post',
       'status'           => $request->input('status')
     ]);
 
@@ -173,109 +180,6 @@ class PostBoxController extends Controller
       'message' => 'Post has been created!',
       'class'   => 'alert--success',
       'type'    => 'post',
-    ];
-
-    return redirect()->back()->with('alert', $alert);
-  }
-
-  /**
-   * Store a newly created post in storage.
-   * @param Request $request
-   * @return Renderable
-   */
-  public function createGif(Request $request) {
-    $this->validate($request, [
-      'title' => 'required|max:255',
-    ]);
-
-    if($request->has('thumbnail')) {
-      $settings_width = 40;
-      $settings_height = 40;
-
-      if(!is_null($posts_settings = PostSetting::where( 'post_type', 'gif' )->first())){
-        $settings_width = $posts_settings->medium_width;
-        $settings_height = $posts_settings->medium_height;
-      }
-
-      $gif_path = storage_path() . '/app/public/gifs';
-
-      // Ensure that original, and thumbnail folder exists
-      File::ensureDirectoryExists($gif_path . '/original');
-      File::ensureDirectoryExists($gif_path . '/thumbnail');
-
-      // Save orignal image to file system
-      $thumbnail = request()->file('thumbnail')->store('public/gifs/original');
-      $thumbnail_name = Arr::last(explode('/', $thumbnail));
-
-      // Save thumbnail (medium) image to file system
-      $thumbnail_medium = new Imagick($gif_path . '/original/' . $thumbnail_name);
-      $thumbnail_medium = $thumbnail_medium->coalesceImages();
-      do {
-        $thumbnail_medium->resizeImage( $settings_width, $settings_height, Imagick::FILTER_BOX, 1, true );
-      } while ( $thumbnail_medium->nextImage());
-
-      $thumbnail_medium = $thumbnail_medium->deconstructImages();
-      $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
-      $thumbnail_medium->writeImages($gif_path . '/thumbnail/' . $thumbnail_medium_name, true);
-    }
-
-    // Generate slug
-    $slug               = Str::slug(strip_tags($request->input('title')), '-');
-    $gif_with_same_slug = Post::firstWhere('slug', $slug);
-
-    if ($gif_with_same_slug) {
-      $duplicated_slugs = Post::select('slug')->where('slug', 'like', $slug . '%')->orderBy('slug', 'desc')->get();
-      $slug = getNewSlug($slug, $duplicated_slugs);
-    }
-
-    $gif = Post::create([
-      'user_id'          => auth()->user()->id,
-      'title'            => strip_tags($request->input('title')),
-      'slug'             => $slug,
-      'description'      => $request->input('description'),
-      'thumbnail'        => ($request->has('thumbnail')) ? $thumbnail_name : NULL,
-      'thumbnail_medium' => ($request->has('thumbnail')) ? $thumbnail_medium_name : NULL,
-      'tags'             => ($request->has('tags')) ? implode(',', $request->input('tags')) : NULL,
-      'post_type'        => 'gif',
-      'status'           => $request->input('status')
-    ]);
-
-    if ( $request->input('page_title') ) {
-      PostsMeta::setMetaData( $gif->id, 'seo_page_title', $request->input('page_title') );
-    }
-
-    $tag_categories = TagCategory::all();
-
-    foreach ($tag_categories as $key => $tag_category) {
-      if ($request->has('tag_category_' . $tag_category->id)) {
-        $tags_input = $request->input('tag_category_' . $tag_category->id);
-
-        foreach ($tags_input as $key => $tag_input) {
-          $tag = Tag::firstWhere('name', $tag_input);
-
-          // If tag doesn't exist yet, create it
-          if (!$tag) {
-            $tag                  = new Tag;
-            $tag->name            = $tag_input;
-            $tag->tag_category_id = $tag_category->id;
-            $tag->published       = true;
-            $tag->save();
-          }
-
-          // Insert posts_tag
-          $gifs_tag          = new PostsTag;
-          $gifs_tag->post_id = $gif->id;
-          $gifs_tag->tag_id  = $tag->id;
-
-          $gifs_tag->save();
-        }
-      }
-    }
-
-    $alert = [
-      'message' => 'Gif has been created!',
-      'class'   => 'alert--success',
-      'type'    => 'gif',
     ];
 
     return redirect()->back()->with('alert', $alert);
