@@ -290,7 +290,7 @@ class DashboardPostsController extends Controller
                 } while ( $thumbnail_medium->nextImage());
 
                 $thumbnail_medium = $thumbnail_medium->deconstructImages();
-                $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
+                $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
                 $thumbnail_medium->writeImages($post_image_path . '/thumbnail/' . $thumbnail_medium_name, true);
 
             } else {
@@ -298,7 +298,7 @@ class DashboardPostsController extends Controller
                 $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
                     $constraint->aspectRatio();
                 });
-                $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
+                $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
                 $thumbnail_medium->save($post_image_path . '/thumbnail/' . $thumbnail_medium_name);
             }
         }
@@ -496,7 +496,7 @@ class DashboardPostsController extends Controller
                 } while ( $thumbnail_medium->nextImage());
 
                 $thumbnail_medium = $thumbnail_medium->deconstructImages();
-                $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
+                $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
                 $thumbnail_medium->writeImages($post_image_path . '/thumbnail/' . $thumbnail_medium_name, true);
 
             } else {
@@ -504,7 +504,7 @@ class DashboardPostsController extends Controller
                 $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
                     $constraint->aspectRatio();
                 });
-                $thumbnail_medium_name = 'thumbnailcrop' . Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
+                $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
                 $thumbnail_medium->save($post_image_path . '/thumbnail/' . $thumbnail_medium_name);
             }
 
