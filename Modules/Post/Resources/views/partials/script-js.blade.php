@@ -728,27 +728,6 @@
       ddfArea.find('.js-ddf__files-counter').html("1 selected file");
     });
 
-    $(document).on('click', '.btn-full-screen', function(){
-      var modalContent = $(this).closest('.modal__content');
-      modalContent.toggleClass('max-width-sm');
-
-      var hasClass = $(this).closest('.max-width-sm').length;
-
-      if(hasClass){
-        $(this).html('Full Screen');
-        $('#modal-add-article').removeClass('padding-0');
-        $('#modal-edit-post').removeClass('padding-0');
-        $('#modal-reject-post').removeClass('padding-0');
-        modalContent.removeClass('radius-0');
-      } else {
-        $(this).html('Shrink Screen');
-        $('#modal-add-article').addClass('padding-0');
-        $('#modal-edit-post').addClass('padding-0');
-        $('#modal-reject-post').addClass('padding-0');
-        modalContent.addClass('radius-0');
-      }
-
-    });
   });
 </script>
 @endauth

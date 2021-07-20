@@ -15,9 +15,6 @@
 
           <!-- End Tabs -->
 
-          <button type="button" class="btn btn--subtle btn-full-screen" title="Expand to full screen">
-            Full Screen
-          </button>
           <button class="reset modal__close-btn modal__close-btn--inner js-modal__close js-tab-focus">
             <svg class="icon" viewBox="0 0 20 20">
               <title>Close modal window</title>
