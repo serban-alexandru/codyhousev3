@@ -91,6 +91,31 @@
                   </span>
                 </div>
               </div>
+
+              <!-- Video Upload -->
+              <div class="margin-top-md file-upload inline-block">
+                <label for="upload2" class="file-upload__label btn btn--primary">
+                  <span class="flex items-center">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2"><path  stroke-linecap="square" stroke-linejoin="miter" d="M2 16v6h20v-6"></path><path stroke-linejoin="miter" stroke-linecap="butt" d="M12 17V2"></path><path stroke-linecap="square" stroke-linejoin="miter" d="M18 8l-6-6-6 6"></path></g></svg>
+                    
+                    <span class="margin-left-xxs file-upload__text file-upload__text--has-max-width">Upload Video</span>
+                  </span>
+                </label> 
+              
+                <input type="file" class="file-upload__input" name="upload2" id="upload2" multiple>
+              </div>
+
+              <!-- Video progress loader -->
+              <div class="inline-block progress-bar progress-bar--color-update flex flex-column items-center js-progress-bar">
+                <p class="sr-only" aria-live="polite" aria-atomic="true">Progress value is <span class="js-progress-bar__aria-value">20%</span></p>
+              
+                <span class="progress-bar__value margin-bottom-xs" aria-hidden="true">20%</span>
+              
+                <div class="progress-bar__bg " aria-hidden="true">
+                  <div class="progress-bar__fill " style="width: 20%;"></div>
+                </div>
+              </div>
+
             </section>
 
             <!--Tab3 Content-->
@@ -134,6 +159,7 @@
               </fieldset>
             </section>
           </div>
+
 
           <!-- 👇 End Tab Panels -->
         </div><!-- /.padding-y-sm padding-x-md flex-grow overflow-auto -->
