@@ -84,28 +84,10 @@
         </a>
       </li>
 
-    </ul>
-
-    <div class="sidenav__divider margin-y-xs" role="presentation"></div>
-
-    <!-- Scraper -->
-
-    <div class="sidenav__label margin-bottom-xxxs">
-      <span class="text-sm color-contrast-medium">Scraper</span>
-    </div>
-
-    <ul class="sidenav__list">
       <li class="sidenav__item">
-        <a href="{{ url('admin/settings') }}" class="sidenav__link"  {{ (url('/admin/settings') == url()->full()) ? 'aria-current=page' : '' }}>
-          <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g fill="#000000"><path fill="#000000" d="M14,0H2C0.9,0,0,0.9,0,2v12c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V2C16,0.9,15.1,0,14,0z M7,12H2v-2h5V12z M7,8H4V6H2V4h2V2h3V8z M14,12h-2v2H9V8h3v2h2V12z M14,6H9V4h5V6z"></path></g></svg>
-          <span class="sidenav__text">Site 1</span>
-        </a>
-      </li>
-
-      <li class="sidenav__item">
-        <a href="{{ url('admin/posts/settings') }}" class="sidenav__link"  {{ (url('/admin/posts/settings') == url()->full()) ? 'aria-current=page' : '' }}>
-          <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g fill="#000000"><path fill="#000000" d="M15,1H1C0.4,1,0,1.4,0,2v12c0,0.6,0.4,1,1,1h14c0.6,0,1-0.4,1-1V2C16,1.4,15.6,1,15,1z M6,4c0.6,0,1,0.4,1,1 c0,0.6-0.4,1-1,1C5.4,6,5,5.6,5,5C5,4.4,5.4,4,6,4z M2,12l2-4l3,2l3-4l4,6H2z"></path></g></svg>
-          <span class="sidenav__text">Setting</span>
+        <a href="{{ url('admin/scraper') }}" class="sidenav__link" {{ strpos(url()->full(), url('/admin/scaper')) !== false ? 'aria-current=page' : '' }}>
+          <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><title>net</title><g stroke-width="1" fill="none" stroke="#212121" stroke-linecap="round" stroke-linejoin="round"><path d="M4.578,14.2c.326-.543-2.771-5.7-3.423-5.7.652,0,3.749-5.161,3.423-5.7.326.543,6.518.543,6.844,0-.326.543,2.771,5.7,3.423,5.7-.652,0-3.749,5.161-3.423,5.7C11.1,13.661,4.9,13.661,4.578,14.2Z"></path> <path d="M6.359,11.239A6.609,6.609,0,0,0,4.576,8.5,6.609,6.609,0,0,0,6.359,5.761a6.976,6.976,0,0,0,3.282,0A6.609,6.609,0,0,0,11.424,8.5a6.609,6.609,0,0,0-1.783,2.739A6.976,6.976,0,0,0,6.359,11.239Z"></path> <line x1="11.401" y1="8.5" x2="15.5" y2="8.5"></line> <line x1="0.5" y1="8.5" x2="4.599" y2="8.5"></line> <line x1="9.641" y1="11.239" x2="11.88" y2="14.919"></line> <line x1="4.12" y1="2.081" x2="6.359" y2="5.761"></line> <line x1="6.359" y1="11.239" x2="4.12" y2="14.919"></line> <line x1="11.88" y1="2.081" x2="9.638" y2="5.766"></line></g></svg></svg>
+          <span class="sidenav__text">Scraper</span>
         </a>
       </li>
 

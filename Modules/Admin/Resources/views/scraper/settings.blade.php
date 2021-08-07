@@ -1,11 +1,16 @@
 @extends('admin::layouts.master')
 @section('content')
-  @include('video::partials.modals')
   <section>
-    <div class="container max-width-xs margin-top-lg">
-        <a class="link-card flex flex-column bg radius-md" href="#0" aria-label="Link label">
+    <div class="container max-width-lg">
+      <div class="grid">
+        @include('admin::partials.sidebar')
+        <main class="position-relative z-index-1 col-12@md link-card radius-md">
+        @include('admin::scraper.control')
+          <div class="margin-top-auto border-top border-contrast-lower"></div><!-- Divider -->
             <div class="padding-md">
-
+              <div id="site-table-with-pagination-container">
+            
+<div class="padding-">
               <div class="margin-bottom-md">
                 Settings (IPs randomize)
               </div>
@@ -42,30 +47,29 @@
                     <input type="text" class="reset input-merger__input min-width-0 col" name="userName" id="userName" placeholder="From">
                     <input type="email" class="reset input-merger__input min-width-0 col" name="userEmail" id="userEmail" placeholder="To">
                 </div>
-            </div>
 
+                <div class="margin-bottom-sm margin-top-lg">
+                Images Size Settings
+              </div>
+                    <div class="input-merger form-control width-100% grid margin-bottom-sm">
+                    <input type="text" class="reset input-merger__input min-width-0 col" name="userName" id="userName" placeholder="Min">
+                    <input type="email" class="reset input-merger__input min-width-0 col" name="userEmail" id="userEmail" placeholder="Max">
+                </div>
+                
+            </div>
             <div class="margin-top-auto border-top border-contrast-lower">
                 <p class="text-sm btn btn--primary margin-md">Save</p>
               </div>
-          </a>
-    </div><!-- /.container -->
-    
 
-
-    <div class="container max-width-xs margin-top-md">
-        <a class="link-card flex flex-column bg radius-md" href="#0" aria-label="Link label">
-            <div class="padding-md">
-                Log
-            </div>
-            <div class="margin-top-auto border-top border-contrast-lower">
-              <p class="text-sm btn btn--primary margin-md">Start</p>
-            </div>
-          </a>
+             </div><!-- /#site-table-with-pagination-container -->
+            </div><!-- Padding -->
+        </main><!-- .column -->
+      </div><!-- /.grid -->
     </div><!-- /.container -->
   </section>
 @endsection
 
 @push('module-scripts')
 <!-- MODULE'S CUSTOM SCRIPT -->
-  @include('video::partials.script-js')
+  @include('users::partials.script-js')
 @endpush
