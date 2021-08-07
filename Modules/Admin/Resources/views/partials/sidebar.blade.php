@@ -88,6 +88,31 @@
 
     <div class="sidenav__divider margin-y-xs" role="presentation"></div>
 
+    <!-- Scraper -->
+
+    <div class="sidenav__label margin-bottom-xxxs">
+      <span class="text-sm color-contrast-medium">Scraper</span>
+    </div>
+
+    <ul class="sidenav__list">
+      <li class="sidenav__item">
+        <a href="{{ url('admin/settings') }}" class="sidenav__link"  {{ (url('/admin/settings') == url()->full()) ? 'aria-current=page' : '' }}>
+          <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g fill="#000000"><path fill="#000000" d="M14,0H2C0.9,0,0,0.9,0,2v12c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V2C16,0.9,15.1,0,14,0z M7,12H2v-2h5V12z M7,8H4V6H2V4h2V2h3V8z M14,12h-2v2H9V8h3v2h2V12z M14,6H9V4h5V6z"></path></g></svg>
+          <span class="sidenav__text">Site 1</span>
+        </a>
+      </li>
+
+      <li class="sidenav__item">
+        <a href="{{ url('admin/posts/settings') }}" class="sidenav__link"  {{ (url('/admin/posts/settings') == url()->full()) ? 'aria-current=page' : '' }}>
+          <svg class="icon sidenav__icon" aria-hidden="true" viewBox="0 0 16 16"><g fill="#000000"><path fill="#000000" d="M15,1H1C0.4,1,0,1.4,0,2v12c0,0.6,0.4,1,1,1h14c0.6,0,1-0.4,1-1V2C16,1.4,15.6,1,15,1z M6,4c0.6,0,1,0.4,1,1 c0,0.6-0.4,1-1,1C5.4,6,5,5.6,5,5C5,4.4,5.4,4,6,4z M2,12l2-4l3,2l3-4l4,6H2z"></path></g></svg>
+          <span class="sidenav__text">Setting</span>
+        </a>
+      </li>
+
+    </ul>
+
+    <div class="sidenav__divider margin-y-xs" role="presentation"></div>
+
     <div class="sidenav__label margin-bottom-xxxs">
       <span class="text-sm color-contrast-medium">Personal</span>
     </div>
