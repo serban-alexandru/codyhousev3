@@ -14,6 +14,10 @@
     
     <script>document.getElementsByTagName("html")[0].className += " js";</script>
     @yield('in-head')
+
+    <!-- MODULE Style -->
+    @stack('module-styles')
+
     <script>
       if('CSS' in window && CSS.supports('color', 'var(--color-var)')) {
         document.write('<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">');

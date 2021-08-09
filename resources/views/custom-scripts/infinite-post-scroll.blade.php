@@ -1,4 +1,22 @@
+<script src="https://vjs.zencdn.net/7.11.4/video.min.js"></script>
+
 <script>
+	function initVideoJS() {
+		$('.video-js').each( function(index, elem) {
+			videojs(document.getElementsByClassName('video-js')[index], {
+				controls: true,
+				autoplay: false,
+				fill: false,
+				fluid: true,
+				preload: 'auto'
+			});
+		});
+	}
+
+	$('.js-infinite-scroll').bind("content-loaded", function(e) { 
+		initVideoJS();
+	});
+
 	var prev_url = '';
 	function changePageURLAndTitle(page, url) {
 		if (typeof (history.pushState) != "undefined" && prev_url != url) {

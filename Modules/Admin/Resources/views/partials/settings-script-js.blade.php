@@ -2,24 +2,34 @@
 
 <script>
   $(function(){
-    function showErrorMsg(errors) {
-      $('.alert').addClass('alert-danger').removeClass('alert-success');
-      $('.alert .msg-container').html("");
+    function showErrorMsg(dest_name, errors) {
+      $('.' + dest_name).addClass('alert-danger').removeClass('alert-success');
+      $('.' + dest_name + ' .msg-container').html("");
 
       for (const [key, error] of Object.entries(errors)) {
         for (let i=0; i<error.length; i++) {
-          $('.alert .msg-container').append($('<p />').html(error[i]));
+          $('.' + dest_name + ' .msg-container').append($('<p />').html(error[i]));
         }
       }
-      $('.alert').addClass('alert--is-visible');
+      $('.' + dest_name).addClass('alert--is-visible');
     }
 
-    function showSuccessMsg(message) {
-      $('.alert').addClass('alert-success').removeClass('alert-danger');
-      $('.alert .msg-container').html("");
+    function showSuccessMsg(dest_name, message, data = null) {
+      $('.' + dest_name).addClass('alert-success').removeClass('alert-danger');
+      $('.' + dest_name + ' .msg-container').html("");
 
-      $('.alert .msg-container').append($('<p />').html(message));
-      $('.alert').addClass('alert--is-visible');
+      $('.' + dest_name + ' .msg-container').append($('<p />').html(message));
+      if (data != null) {
+        var report_template = '<p><strong>' + data.total.removed + '</strong> of <strong>' + data.total.count + '</strong> files are removed.</p>';
+        report_template += '<p>Total size: <strong>' + data.total.size + '</strong></p>';
+        report_template += '<p>Avatars: Removed <strong>' + data.avatars.removed + '</strong> of <strong>' + data.avatars.total + '</strong> files.</p>';
+        report_template += '<p>Cover Photos: Removed <strong>' + data.cover.removed + '</strong> of <strong>' + data.cover.total + '</strong> files.</p>';
+        report_template += '<p>Post Images: Removed <strong>' + (data.posts.original.removed + data.posts.thumbnail.removed) + '</strong> of <strong>' + (data.posts.original.total + data.posts.thumbnail.total) + '</strong> files.</p>';
+        report_template += '<p>Post Videos: Removed <strong>' + data.posts.video.removed + '</strong> of <strong>' + data.posts.video.total + '</strong> files.</p>';
+        $('.' + dest_name + ' .msg-container').append(report_template);
+      }
+
+      $('.' + dest_name).addClass('alert--is-visible');
     }
 
     $(document).on('click', '#btnSave', function(e){
@@ -45,12 +55,43 @@
           console.log(response);
 
           if (response.status == false) {
-            showErrorMsg(response.errors);
+            showErrorMsg('alert-main', response.errors);
           } else {
-            showSuccessMsg(response.message);
+            showSuccessMsg('alert-main', response.message);
           }
 
           $('#btnSave').html('Save');
+        }
+      });
+    });
+
+    $(document).on('click', '#btnClearUnusedFiles', function(e){
+      e.preventDefault();
+
+      $(this).html('Clearing Unused Media Files...');
+
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('input[name="_token"]').val()
+        }
+      });
+
+      $.ajax({
+        url: "{{ route('settings.clear_media') }}",
+        dataType: 'json',
+        type: 'get',
+        contentType: false,
+        processData: false,
+        success: function(response){
+          console.log(response);
+
+          if (response.status == false) {
+            showErrorMsg('alert-sub', response.errors);
+          } else {
+            showSuccessMsg('alert-sub', response.message, response.data);
+          }
+
+          $('#btnClearUnusedFiles').html('Clear Files');
         }
       });
     });

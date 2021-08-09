@@ -10,6 +10,9 @@ use App\Http\Controllers\Controller;
 use Modules\Admin\Entities\Settings;
 use Illuminate\Support\Facades\Validator;
 
+use Modules\Users\Entities\UsersSetting;
+use Modules\Post\Entities\{Post, PostsMeta};
+
 class SettingsController extends Controller {
   public function index() {
     $settings_data = Settings::getSiteSettings();
@@ -152,6 +155,188 @@ class SettingsController extends Controller {
       'status' => true,
       'message' => 'Setting Data has been saved!',
       'data' => $update_data
+    ]);
+  }
+
+  /**
+   * Clear unused media files from storage.
+   * @param Request $request
+   * @return Renderable
+   */
+  public function clearUnusedMediaFiles(Request $request) {
+    // Step1. Check all User Images
+    $avatars_data = UsersSetting::select('avatar')->where('avatar', '!=', '')->get();
+    $avatars = [];
+    foreach($avatars_data as $avatar) {
+      $avatars[] = $avatar->avatar;
+    }
+
+    // Check User avatars
+    $user_media_path = 'public/users-images';
+    $avatars_path = $user_media_path . '/avatars';
+    $avatar_files = Storage::files($avatars_path);
+    $removed_avatar_files = [];
+    foreach ($avatar_files as $file) {
+      $file_name = basename($file);
+      if (in_array($file_name, $avatars, true) === false) {
+        $removed_avatar_files[] = array(
+          'filename' => $file_name,
+          'size' => filesize(storage_path() . '/app/' . $avatars_path . '/' . $file_name)
+        );
+        Storage::delete($file);
+      }
+    }
+
+    // Check cover photos
+    $cover_photos_data = UsersSetting::select('cover_photo')->where('cover_photo', '!=', '')->get();
+    $cover_photos = [];
+    foreach($cover_photos_data as $cover_photo) {
+      $cover_photos[] = $cover_photo->cover_photo;
+    }
+
+    $coverphotos_path = $user_media_path . '/cover';
+    $cover_files = Storage::files($coverphotos_path);
+    $removed_cover_files = [];
+    foreach ($cover_files as $file) {
+      $file_name = basename($file);
+      if (in_array($file_name, $cover_photos, true) === false) {
+        $removed_cover_files[] = array(
+          'filename' => $file_name,
+          'size' => filesize(storage_path() . '/app/' . $coverphotos_path . '/' . $file_name)
+        );
+        Storage::delete($file);
+      }
+    }
+
+    // Step2. Check all Post Images
+    $post_thumbnails_data = Post::select(['thumbnail', 'thumbnail_medium'])->where('thumbnail', '!=', '')->get();
+    $post_images = [];
+    $post_thumbnails = [];
+    foreach($post_thumbnails_data as $post) {
+      $post_images[] = $post->thumbnail;
+      $post_thumbnails[] = $post->thumbnail_medium;
+    }
+
+    $post_videos_data = PostsMeta::select(['meta_value as video'])->where('meta_key', 'video')->get();
+    $post_videos = [];
+    foreach($post_videos_data as $post) {
+      $post_videos[] = $post->video;
+    }
+    
+    $post_media_path = 'public/posts';
+
+    // Check post's original images & videos
+    $original_path = $post_media_path . '/original';
+    $original_files = Storage::files($original_path);
+    $original_images = [];
+    $original_videos = [];
+    $removed_image_files = [];
+    $removed_video_files = [];
+    foreach ($original_files as $file) {
+      $file_name = basename($file);
+      $mimetype = Storage::mimeType($file);
+
+      if ($mimetype == 'video/mp4' || $mimetype == 'video/webm') {
+        $original_videos[] = $file_name;
+        if (in_array($file_name, $post_videos, true) === false) {
+          $removed_video_files[] = array(
+            'filename' => $file_name,
+            'size' => filesize(storage_path() . '/app/' . $original_path . '/' . $file_name)
+          );
+          Storage::delete($file);
+        }
+      } else {
+        $original_images[] = $file_name;
+        if (in_array($file_name, $post_images, true) === false) {
+          $removed_image_files[] = array(
+            'filename' => $file_name,
+            'size' => filesize(storage_path() . '/app/' . $original_path . '/' . $file_name)
+          );
+          Storage::delete($file);
+        }  
+      }
+    }
+
+    // Check post's medium thumbnails
+    $thumbnail_path = $post_media_path . '/thumbnail';
+    $thumbnail_files = Storage::files($thumbnail_path);
+    $removed_thumb_files = [];
+    foreach ($thumbnail_files as $file) {
+      $file_name = basename($file);
+      $mimetype = Storage::mimeType($file);
+
+      if (in_array($file_name, $post_thumbnails, true) === false) {
+        $removed_thumb_files[] = array(
+          'filename' => $file_name,
+          'size' => filesize(storage_path() . '/app/' . $thumbnail_path . '/' . $file_name)
+        );
+        Storage::delete($file);
+      }
+    }
+
+    // Calculate total removed file size.
+    $total_size = 0;
+    foreach($removed_avatar_files as $file) {
+      $total_size += $file['size'];
+    }
+    foreach($removed_cover_files as $file) {
+      $total_size += $file['size'];
+    }
+    foreach($removed_video_files as $file) {
+      $total_size += $file['size'];
+    }
+    foreach($removed_image_files as $file) {
+      $total_size += $file['size'];
+    }
+    foreach($removed_thumb_files as $file) {
+      $total_size += $file['size'];
+    }
+    if ($total_size == 0) {
+      $total_size = '0 byte';
+    } else {
+      $s = array('byte', 'KB', 'MB', 'GB', 'TB');
+      $e = floor(log($total_size, 1024));
+
+      $total_size = round($total_size/pow(1024, $e), 2) . ' ' . $s[$e];
+    }
+
+    $total = count($avatar_files) + count($cover_files) + count($original_images) + count($original_videos) + count($thumbnail_files);
+    $total_removed_count = count($removed_avatar_files) + count($removed_cover_files) + count($removed_video_files) + count($removed_image_files) + count($removed_thumb_files);
+
+    $returnData = array (
+      'avatars' => array (
+        'total' => count($avatar_files),
+        'removed' => count($removed_avatar_files)
+      ),
+      'cover' => array (
+        'total' => count($cover_files),
+        'removed' => count($removed_cover_files)
+      ),
+      'posts' => array (
+        'original' => array (
+          'total' => count($original_images),
+          'removed' => count($removed_image_files)
+        ),
+        'video' => array (
+          'total' => count($original_videos),
+          'removed' => count($removed_video_files),
+        ),
+        'thumbnail' => array (
+          'total' => count($thumbnail_files),
+          'removed' => count($removed_thumb_files)
+        )
+      ),
+      'total' => array (
+        'count' => $total,
+        'removed' => $total_removed_count,
+        'size' => $total_size
+      )
+    );
+
+    return response()->json([
+      'status' => true,
+      'message' => 'All unused media files are cleared!',
+      'data' => $returnData
     ]);
   }
 }

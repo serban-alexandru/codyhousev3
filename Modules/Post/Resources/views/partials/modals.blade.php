@@ -1,5 +1,5 @@
 <!-- 👇 Full Screen Modal -->
-<form action="#" id="formAddPost">
+<form action="#" id="formAddPost" enctype="multipart/form-data">
   @csrf
   <div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll custom-disable-modal-close" id="modal-add-article">
     <div class="modal__content height-100% tabs js-tabs width-100% max-width-sm bg radius-md shadow-md flex flex-column">
@@ -8,7 +8,7 @@
           <nav class="tabs">
             <ul class="flex flex-wrap gap-lg js-tabs__controls" aria-label="Tabs Interface">
               <li><a href="#tab1Panel1" class="tabs__control" aria-selected="true">Add</a></li>
-              <li><a href="#tab1Panel2" class="tabs__control">Image</a></li>
+              <li><a href="#tab1Panel2" class="tabs__control">Media</a></li>
               <li><a href="#tab1Panel3" class="tabs__control">Settings</a></li>
             </ul>
           </nav>
@@ -46,7 +46,11 @@
               <input type="file" id="realThumbnail" class="is-hidden">
               <div class="ddf">
                 <div class="ddf__area padding-y-xl padding-x-md js-ddf__area">
-                  <input class="ddf__input sr-only js-ddf__input" type="file" id="upload-file" name="thumbnail" accept="image/*" required>
+                  <input class="ddf__input sr-only js-ddf__input" type="file" id="upload-file" name="media"  accept="image/jpeg, image/jpg, image/png, image/gif, video/mp4, video/webm" required>
+
+                  <input type="hidden" name="video" value=""/>
+                  <input type="hidden" name="thumbnail" value=""/>
+                  <input type="hidden" name="thumbnail_medium" value=""/>
 
                   <label class="ddf__label js-ddf__label" for="upload-file">
                     <i class="ddf__label-inner">
@@ -89,28 +93,25 @@
                 </div>
               </div>
 
-              <!-- Video Upload -->
-              <div class="margin-top-md file-upload inline-block">
-                <label for="upload2" class="file-upload__label btn btn--primary">
-                  <span class="flex items-center">
-                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2"><path  stroke-linecap="square" stroke-linejoin="miter" d="M2 16v6h20v-6"></path><path stroke-linejoin="miter" stroke-linecap="butt" d="M12 17V2"></path><path stroke-linecap="square" stroke-linejoin="miter" d="M18 8l-6-6-6 6"></path></g></svg>
-                    
-                    <span class="margin-left-xxs file-upload__text file-upload__text--has-max-width">Upload Video</span>
-                  </span>
-                </label> 
-              
-                <input type="file" class="file-upload__input" name="upload2" id="upload2" multiple>
-              </div>
-
-              <!-- Video progress loader -->
-              <div class="inline-block progress-bar progress-bar--color-update flex flex-column items-center js-progress-bar">
-                <p class="sr-only" aria-live="polite" aria-atomic="true">Progress value is <span class="js-progress-bar__aria-value">20%</span></p>
-              
-                <span class="progress-bar__value margin-bottom-xs" aria-hidden="true">20%</span>
-              
-                <div class="progress-bar__bg " aria-hidden="true">
-                  <div class="progress-bar__fill " style="width: 20%;"></div>
+              <!-- Media upload progress loader -->
+              <div class="margin-top-md">
+                <div class="inline-block progress-bar progress-bar--color-update flex flex-column items-center js-progress-bar" style="display:none">
+                  <p class="sr-only" aria-live="polite" aria-atomic="true">Progress value is <span class="js-progress-bar__aria-value">0%</span></p>
+                
+                  <span class="progress-bar__value margin-bottom-xs" aria-hidden="true">0%</span>
+                  <span class="progress-bar__final margin-bottom-xs" aria-hidden="true" style="display:none">Moving uploaded file...</span>
+                
+                  <div class="progress-bar__bg " aria-hidden="true">
+                    <div class="progress-bar__fill " style="width: 0%;"></div>
+                  </div>
                 </div>
+                <div class="alert alert-upload alert--is-visible" style="display:none">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                      <div class="message">
+                      </div>
+                    </div>
+                </div><!-- /.alert -->
               </div>
 
             </section>

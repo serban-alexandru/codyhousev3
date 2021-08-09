@@ -81,49 +81,6 @@ class PostBoxController extends Controller
       'title' => 'required|max:255',
     ]);
 
-    if($request->has('thumbnail')) {
-      $settings_width = 40;
-      $settings_height = 40;
-
-      if(!is_null($posts_settings = PostSetting::first())){
-        $settings_width = $posts_settings->medium_width;
-        $settings_height = $posts_settings->medium_height;
-      }
-
-      $post_image_path = storage_path() . '/app/public/posts';
-
-      // Ensure that original, and thumbnail folder exists
-      File::ensureDirectoryExists($post_image_path . '/original');
-      File::ensureDirectoryExists($post_image_path . '/thumbnail');
-
-      // Save thumbnail image in file system
-      $thumbnail = $request->file('thumbnail')->store('public/posts/original');
-      $thumbnail_name = Arr::last(explode('/', $thumbnail));
-
-      $mime_type = $request->file('thumbnail')->getMimeType();
-
-      if ($mime_type == 'image/gif') {
-          // Save thumbnail (medium) image to file system
-          $thumbnail_medium = new Imagick($post_image_path . '/original/' . $thumbnail_name);
-          $thumbnail_medium = $thumbnail_medium->coalesceImages();
-          do {
-              $thumbnail_medium->resizeImage( $settings_width, $settings_height, Imagick::FILTER_BOX, 1, true );
-          } while ( $thumbnail_medium->nextImage());
-
-          $thumbnail_medium = $thumbnail_medium->deconstructImages();
-          $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
-          $thumbnail_medium->writeImages($post_image_path . '/thumbnail/' . $thumbnail_medium_name, true);
-
-      } else {
-          $thumbnail_medium = Image::make($request->file('thumbnail'));
-          $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
-              $constraint->aspectRatio();
-          });
-          $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
-          $thumbnail_medium->save($post_image_path . '/thumbnail/' . $thumbnail_medium_name);
-      }
-    }
-
     // Generate slug
     $slug                = Str::slug(strip_tags($request->input('title')), '-');
     $post_with_same_slug = Post::firstWhere('slug', $slug);
@@ -138,14 +95,17 @@ class PostBoxController extends Controller
       'title'            => strip_tags($request->input('title')),
       'slug'             => $slug,
       'description'      => $request->input('description'),
-      'thumbnail'        => ($request->has('thumbnail')) ? $thumbnail_name : NULL,
-      'thumbnail_medium' => ($request->has('thumbnail')) ? $thumbnail_medium_name : NULL,
+      'thumbnail'        => ($request->has('thumbnail') && !empty($request->input('thumbnail')) ) ? $request->input('thumbnail') : NULL,
+      'thumbnail_medium' => ($request->has('thumbnail_medium') && !empty($request->input('thumbnail_medium')) )  ? $request->input('thumbnail_medium') : NULL,
       'tags'             => ($request->has('tags')) ? implode(',', $request->input('tags')) : NULL,
       'status'           => $request->input('status')
     ]);
 
     if ( $request->input('page_title') ) {
       PostsMeta::setMetaData( $post->id, 'seo_page_title', $request->input('page_title') );
+    }
+    if ( $request->input('video') ) {
+      PostsMeta::setMetaData( $post->id, 'video', $request->input('video') );
     }
 
     $tag_categories = TagCategory::all();
