@@ -466,3 +466,30 @@ button:focus {
         margin-top:0;
     }    
 }
+
+/* Sticky sidebar and control bar */
+.sidebar--sticky {
+    position: -webkit-sticky; /* Safari */  
+    position: sticky;
+    top: 50px;
+    height: 100%;
+}
+
+.controlbar--sticky {
+    position: -webkit-sticky; /* Safari */  
+    position: sticky;
+    top: 50px;
+    height: 56px;
+    z-index: 1000;
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+}
+@include breakpoint(lg) {
+    .sidebar--sticky {
+        top: 70px;
+    }
+    
+    .controlbar--sticky {
+        top: 70px;
+    }    
+}
