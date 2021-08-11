@@ -10,6 +10,8 @@
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script>
 
+<script src="https://vjs.zencdn.net/7.11.4/video.min.js"></script>
+
 <script>
   (function(){
 
@@ -108,6 +110,149 @@
       (function(i){new CustomJSInput(customJSInputElem[i]);})(i);
     }
   }
+}());
+</script>
+
+<script>
+var videojs_template = 
+  `<video id="media-player" class="video-js video-small vjs-big-play-centered" width="320" height="150" style="display:none">
+    <source src="" type="" />
+    <p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a
+      web browser that
+      <a href="https://videojs.com/html5-video-support/" target="_blank"
+        >supports HTML5 video</a
+      >
+    </p>
+  </video>`;
+
+(function() {
+  // Ajax Upload Process
+  function validateMediaUpload(formData, jqForm, options) {
+    console.log('validate form before upload');
+    var form = jqForm[0];
+
+    if ( !form.media.value ) {
+      alert('File not found');
+      return false;
+    }
+  }
+
+  function uploadMedia(e) {
+    e.preventDefault();
+
+    console.log($(e.target).closest('form').attr('id'));
+    var $form = $(e.target).closest('form');
+
+    var progress_wrp = $('.progress-bar');
+    var progress_value = $(progress_wrp).find('.progress-bar__value');
+    var progress_final = $(progress_wrp).find('.progress-bar__final');
+    var notification = $('.alert-upload');
+    var bar = $('.progress-bar .progress-bar__fill');
+    var js_percent = $('.progress-bar .js-progress-bar__aria-value');
+    var percent = $('.progress-bar .progress-bar__value');
+
+
+    $form.ajaxSubmit({
+      url: "{{ route('posts.upload-media') }}",
+      type: 'post',
+      beforeSubmit: validateMediaUpload,
+      beforeSend: function() {
+        console.log('before send');
+        var percentVal = '0%';
+        progress_wrp.show();
+        bar.width(percentVal)
+        percent.html(percentVal);
+        js_percent.html(percentVal);
+
+        // Disable Save buttons
+        $('#btnSave, #btnPublish, #btnEditSaveDraft, #btnEditSave, #btnEditSavePublish, .restore-post-link').addClass('btn--disabled');
+      },
+      uploadProgress: function(event, position, total, percentComplete) {
+        console.log('uploading...');
+        var percentVal = percentComplete + '%';
+        bar.width(percentVal)
+        percent.html(percentVal);
+        js_percent.html(percentVal);
+
+        if (percentComplete == 100) {
+          console.log('upload done');
+          progress_value.hide();
+          progress_final.show();
+        }
+      },
+      complete: function(xhr) {
+        console.log('upload complete');
+
+        progress_wrp.hide();
+        progress_value.show();
+        progress_final.hide();
+
+        $(notification).find('.message').html('Media file is uploaded successfully.');
+        notification.removeClass('alert--error').addClass('alert--success').fadeIn().delay(1000).fadeOut();
+
+        // reset progress bar
+        var percentVal = '0%';
+        bar.width(percentVal)
+        percent.html(percentVal);
+        js_percent.html(percentVal);
+
+        console.log(xhr.responseJSON);
+        // Update form data based on response data.
+        $form.find('input[name="video"]').val(xhr.responseJSON.video);
+        $form.find('input[name="thumbnail"]').val(xhr.responseJSON.thumbnail);
+        $form.find('input[name="thumbnail_medium"]').val(xhr.responseJSON.thumbnail_medium);
+
+        // Should clear file upload input field. (Trick to clear data)
+        $(e.target).attr('type', 'text');
+        $(e.target).attr('type', 'file');
+        $(e.target).prop('required', false);
+
+        // reset video (Only when video is already initialized)
+        if ( $('div#media-player').length > 0 ) {
+          var oldPlayer = document.getElementById('media-player');
+          videojs(oldPlayer).dispose();
+        }
+
+        // Update media video & thumbnail
+        if ( xhr.responseJSON.video_url != '') {
+          console.log('update video')
+          $('#edit-media-player').html(videojs_template).show();
+
+          $('#media-player').find('source').attr('src', xhr.responseJSON.video_url).attr('type', xhr.responseJSON.video_type);
+          $('#media-player').attr('poster', xhr.responseJSON.thumbnail_url).show();
+
+          videojs('#media-player', {
+            controls: true,
+            autoplay: false,
+            fill: true,
+            preload: 'auto'
+          });
+          $('#thumbnailPreview').hide();
+        } else {
+          console.log('update thumbnail')
+          $('#thumbnailPreview').attr('src', xhr.responseJSON.thumbnail_url).show();
+          $('#edit-media-player').hide();
+        }
+
+        // Enable Save Buttons 
+        $('#btnSave, #btnPublish, #btnEditSaveDraft, #btnEditSave, #btnEditSavePublish, .restore-post-link').removeClass('btn--disabled');
+      },
+      error: function() {
+        // alert('failed');
+        progress_wrp.hide();
+        progress_value.show();
+        progress_final.hide();
+
+        $(notification).find('.message').html('Filed to upload media file.');
+        notification.removeClass('alert--success').addClass('alert--error').fadeIn().delay(1000).fadeOut();
+      }
+    });
+
+    return false;
+  }  
+  $(document).on('change', '#editMedia', uploadMedia);
+  $(document).on('change', '#upload-file', uploadMedia);
 }());
 </script>
 
@@ -443,6 +588,8 @@
     });
 
     $(document).on('click', '#btnSave, #btnPublish', function(){
+        if ($(this).hasClass('btn--disabled'))
+          return;
         if (!formDataValidation($('#formAddPost')))
           return;
 
@@ -473,10 +620,12 @@
 
     $(document).on('click', '#closeEditModal', function(){
       $('#modal-edit-post').removeClass('modal--is-visible');
+      // reset video
+      var oldPlayer = document.getElementById('media-player');
+      videojs(oldPlayer).dispose();
     });
 
     $(document).on('click', 'td[aria-controls="modal-edit-post"]', function(){
-
       var postId = $(this).attr('data-id');
       var editUrl = "posts/" + postId + "/fetch-data";
 
@@ -488,6 +637,9 @@
       });
       // tinymce.remove('#editDescription');
       editor2.clear(); // used editorjs for edit post form
+
+      $('#edit-media-player').html(videojs_template).hide();
+      $('#thumbnailPreview').hide();
 
       $.ajax({
         url: editUrl,
@@ -513,7 +665,21 @@
           $('#editTitleElem').html(response.title);
           $('#editSlug').val(response.slug);
           $('#editDescription').val(response.description);
-          $('#thumbnailPreview').attr('src', response.thumbnail);
+          if ( response.video != '') {
+            $('#media-player').find('source').attr('src', response.video).attr('type', response.video_type);
+            $('#media-player').attr('poster', response.thumbnail).show();
+            videojs('#media-player', {
+              controls: true,
+              autoplay: false,
+              fill: true,
+              preload: 'auto'
+            });
+            $('#edit-media-player').show();
+            $('#thumbnailPreview').hide();
+          } else {
+            $('#thumbnailPreview').attr('src', response.thumbnail).show();
+            $('#edit-media-player').hide();
+          }
           $('#editPageTitle').val(response.page_title);
           // $('#editTags').html(response.tags);
           $('#postId').val(postId);
@@ -559,8 +725,10 @@
     });
 
     function savePost(e) {
-
       e.preventDefault();
+
+      if ($(e.target).hasClass('btn--disabled'))
+        return;
 
       if (!formDataValidation($('#formEditPost')))
         return;

@@ -5,14 +5,15 @@
       <div>
         <div class="text-sm text-xs@md color-contrast-medium flex flex-wrap gap-xs">
           <span>&copy; {{ !empty($settings_data['logo_title']) ? $settings_data['logo_title'] : '' }} - </span>
-          <a class="color-contrast-high" href="/about">About</a>
-          <a class="color-contrast-high" href="/contact">Contact</a>
+          <?php 
+            $shortcode = app('shortcode');
+            echo $shortcode->compile('[menu name="Footer Menu" location="footer"]');
+          ?>
         </div>
       </div>
 
       <div>
         <?php 
-          $shortcode = app('shortcode');
           echo $shortcode->compile('[socialicons]');
 
           if (isset($disable_shortcode) && $disable_shortcode)

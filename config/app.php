@@ -185,8 +185,9 @@ return [
         /**
          * Drag & Drop Menu Service Providers...
          */
-        Harimayco\Menu\MenuServiceProvider::class,        
+        Harimayco\Menu\MenuServiceProvider::class,
 
+        Lakshmaji\Thumbnail\ThumbnailServiceProvider::class,
     ],
 
     /*
@@ -241,6 +242,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Shortcode' => Webwizo\Shortcodes\Facades\Shortcode::class,
         'Menu' => Harimayco\Menu\Facades\Menu::class,
+        'Thumbnail' => Lakshmaji\Thumbnail\Facade\Thumbnail::class,
     ],
 
 ];

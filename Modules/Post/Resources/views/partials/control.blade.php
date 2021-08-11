@@ -1,4 +1,4 @@
-<div class="flex justify-between">
+<div class="controlbar--sticky flex justify-between">
   <div class="margin-xs">
     <div class="inline-flex items-baseline">
       <h1 class="text-md color-contrast-high padding-y-xxxxs margin-x-xs" for="filterItems">Posts:</h1>

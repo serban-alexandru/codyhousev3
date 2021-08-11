@@ -1,6 +1,23 @@
 @if ($post)
 <article class="padding-bottom-lg">
-  <div class="t-article-v2__hero">
+  @php
+    $wrapper_class = $post->video ? "main-video-wrap" : ""
+  @endphp
+  <div class="t-article-v2__hero {{ $wrapper_class }}">
+    @if ($post->video)
+    <div class="video-wrap">
+      <video id="video-player-{{$post->id}}" class="video-js video-small vjs-big-play-centered video-player" width="320" height="150" data-setup='{"controls": false, "autoplay": true, "preload": "auto", "fluid": true, "loop": true}'>
+        <source src="{{ $post->video }}" type="{{ $post->video_type }}" />
+        <p class="vjs-no-js">
+          To view this video please enable JavaScript, and consider upgrading to a
+          web browser that
+          <a href="https://videojs.com/html5-video-support/" target="_blank"
+            >supports HTML5 video</a
+          >
+        </p>
+      </video>
+    </div>
+    @else
     <div
       class="t-article-v2__cover"
       aria-hidden="true"
@@ -8,6 +25,7 @@
         style="background-image: url('{{ $post->showThumbnail() }}');"
       @endif
     ></div>
+    @endif
 
     <div class="t-article-v2__intro container max-width-adaptive-sm radius-lg">
       <div class="text-component text-center">
@@ -86,3 +104,18 @@
 
 </article>
 @endif
+
+@push('module-styles')
+  <!-- MODULE'S CUSTOM Style -->
+  <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
+@endpush
+
+@push('module-scripts')
+  <!-- MODULE'S CUSTOM SCRIPT -->
+  <script src="https://vjs.zencdn.net/7.11.4/video.min.js"></script>
+  <script type="text/javascript">
+    videojs.hook('setup', function(player) {
+      $('.main-video-wrap').addClass("loaded");
+    });  
+  </script>
+@endpush

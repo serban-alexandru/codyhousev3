@@ -49,24 +49,38 @@ class MasonryV1 extends Component
                     $post_ids[] = $post->id;
                 }
 
-                $posts = Post::whereIn('id', $post_ids)->get();
+                $posts = Post::leftJoin('posts_metas', 'posts.id', '=', 'posts_metas.post_id')
+                    ->select(DB::raw(
+                        'posts.id,
+                        title,
+                        slug,
+                        description,
+                        posts.created_at as created_at,
+                        thumbnail,
+                        thumbnail_medium,
+                        IF(posts_metas.meta_key = "video", posts_metas.meta_value, "") as video'
+                    ))
+                    ->whereIn('posts.id', $post_ids)
+                    ->get();
                 $this->posts = $posts;
                 $this->api_route = 'posts/tag/' . $tag;
             }
         } else {
             $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
+                ->leftJoin('posts_metas', 'posts.id', '=', 'posts_metas.post_id')
                 ->leftJoin('users_settings', 'users_settings.user_id', '=', 'users.id')
-                ->select([
-                    'posts.id',
-                    'title',
-                    'slug',
-                    'posts.created_at as created_at',
-                    'thumbnail',
-                    'thumbnail_medium',
-                    'users.name',
-                    'users.username',
-                    'users_settings.avatar as avatar'
-                ])->where(
+                ->select(DB::raw(
+                    'posts.id,
+                    title,
+                    slug,
+                    posts.created_at as created_at,
+                    thumbnail,
+                    thumbnail_medium,
+                    IF(posts_metas.meta_key = "video", posts_metas.meta_value, "") as video,
+                    users.name,
+                    users.username,
+                    users_settings.avatar as avatar'
+                ))->where(
                     [
                         'posts.status' => 'published'
                     ]    

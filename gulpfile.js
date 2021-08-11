@@ -50,6 +50,7 @@ gulp.task("scripts", function() {
     return gulp
         .src([
             "node_modules/jquery/dist/jquery.min.js",
+            "resources/js/form/jquery.form.js",
             utilJsPath + "/util.js",
             componentsJsPath
         ])

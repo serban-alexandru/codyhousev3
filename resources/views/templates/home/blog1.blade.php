@@ -63,6 +63,11 @@
 	  <x-posts.lists.draggable-gallery-simple />
 @endsection
 
+@push('module-styles')
+  <!-- MODULE'S CUSTOM Style -->
+  <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
+@endpush
+
 @section('before-end')
 	@include('custom-scripts.infinite-scroll')
 @endsection

@@ -2,7 +2,7 @@
 
 namespace Modules\Post\Http\Controllers;
 
-use Arr, Str, Image, Imagick, File;
+use Arr, Str, Image, Imagick, File, Thumbnail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +13,97 @@ use Modules\Tag\Entities\{Tag, TagCategory};
 
 class PostController extends Controller
 {
+    public function uploadMedia(Request $request) {
+        $request->validate([
+            'media' => 'required',
+		]);
+
+        $status = true;
+
+        $settings_width = 40;
+        $settings_height = 40;
+
+        if(!is_null($posts_settings = PostSetting::first())){
+            $settings_width = $posts_settings->medium_width;
+            $settings_height = $posts_settings->medium_height;
+        }
+
+        $post_media_path = storage_path() . '/app/public/posts';
+
+        // Ensure that original, and thumbnail folder exists
+        File::ensureDirectoryExists($post_media_path . '/original');
+        File::ensureDirectoryExists($post_media_path . '/thumbnail');
+
+        // Save thumbnail image in file system
+        $media = request()->file('media')->store('public/posts/original');
+        $media_name = Arr::last(explode('/', $media));
+
+        $mime_type = request()->file('media')->getMimeType();
+
+        $media_type = substr($mime_type, 0, 5) === 'image' ? 'image' : 'video';
+
+        if ($media_type === 'image') {
+            $thumbnail = $media_name;
+            if ($mime_type == 'image/gif') {
+                // Save thumbnail (medium) image to file system
+                $thumbnail_medium = new Imagick($post_media_path . '/original/' . $thumbnail);
+                $thumbnail_medium = $thumbnail_medium->coalesceImages();
+                do {
+                    $thumbnail_medium->resizeImage( $settings_width, $settings_height, Imagick::FILTER_BOX, 1, true );
+                } while ( $thumbnail_medium->nextImage());
+
+                $thumbnail_medium = $thumbnail_medium->deconstructImages();
+                $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
+                $thumbnail_medium->writeImages($post_media_path . '/thumbnail/' . $thumbnail_medium_name, true);
+
+            } else {
+                $thumbnail_medium = Image::make(request()->file('media'));
+                $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
+                    $constraint->aspectRatio();
+                });
+                $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
+                $thumbnail_medium->save($post_media_path . '/thumbnail/' . $thumbnail_medium_name);
+            }
+
+            $message = 'You have successfully upload file.';
+
+        } else if ($media_type === 'video') {
+            // generate thumbnail from video
+            $thumbnail = Arr::first(explode('.', $media_name)) . '.jpg';
+
+            // get video length and process it
+            // assign the value to time_to_image (which will get screenshot of video at that specified seconds)
+            $time_to_image = 1; // Capture first frame
+
+            $thumbnail_status = Thumbnail::getThumbnail($post_media_path . '/original/' . $media_name, $post_media_path . '/original/', $thumbnail, $time_to_image);
+            if($thumbnail_status) {
+                $message = "Thumbnail generated";
+                $thumbnail_medium = Image::make($post_media_path . '/original/' . $thumbnail);
+                $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
+                    $constraint->aspectRatio();
+                });
+                $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
+                $thumbnail_medium->save($post_media_path . '/thumbnail/' . $thumbnail_medium_name);
+            } else {
+                $status = false;
+                $message = "thumbnail generation has failed";
+                $thumbnail_medium_name = '';
+            }
+        }
+
+        return response()->json(
+            [
+                'status' => $status,
+                'message' => $message,
+                'video' => ($media_type === 'video') ? $media_name : '',
+                'video_url' => ($media_type === 'video') ? asset("storage/posts/original/{$media_name}") : '',
+                'video_type' => ($media_type === 'video') ? $mime_type : '',
+                'thumbnail' => $thumbnail,
+                'thumbnail_url' => asset("storage/posts/original/{$thumbnail}"),
+                'thumbnail_medium' => $thumbnail_medium_name
+            ]
+        );
+    }
 
     public function cleanupEditorImages()
     {
@@ -201,49 +292,6 @@ class PostController extends Controller
             'title' => 'required|max:255',
         ]);
 
-        if(request()->has('thumbnail')){
-            $settings_width = 40;
-            $settings_height = 40;
-
-            if(!is_null($posts_settings = PostSetting::first())){
-                $settings_width = $posts_settings->medium_width;
-                $settings_height = $posts_settings->medium_height;
-            }
-
-            $post_image_path = storage_path() . '/app/public/posts';
-
-            // Ensure that original, and thumbnail folder exists
-            File::ensureDirectoryExists($post_image_path . '/original');
-            File::ensureDirectoryExists($post_image_path . '/thumbnail');
-
-            // Save thumbnail image in file system
-            $thumbnail = request()->file('thumbnail')->store('public/posts/original');
-            $thumbnail_name = Arr::last(explode('/', $thumbnail));
-
-            $mime_type = request()->file('thumbnail')->getMimeType();
-
-            if ($mime_type == 'image/gif') {
-                // Save thumbnail (medium) image to file system
-                $thumbnail_medium = new Imagick($post_image_path . '/original/' . $thumbnail_name);
-                $thumbnail_medium = $thumbnail_medium->coalesceImages();
-                do {
-                    $thumbnail_medium->resizeImage( $settings_width, $settings_height, Imagick::FILTER_BOX, 1, true );
-                } while ( $thumbnail_medium->nextImage());
-
-                $thumbnail_medium = $thumbnail_medium->deconstructImages();
-                $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
-                $thumbnail_medium->writeImages($post_image_path . '/thumbnail/' . $thumbnail_medium_name, true);
-
-            } else {
-                $thumbnail_medium = Image::make(request()->file('thumbnail'));
-                $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
-                    $constraint->aspectRatio();
-                });
-                $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
-                $thumbnail_medium->save($post_image_path . '/thumbnail/' . $thumbnail_medium_name);
-            }
-        }
-
         // Generate slug
         $slug                = Str::slug(strip_tags(request('title')), '-');
         $post_with_same_slug = Post::where('slug', $slug)->first();
@@ -258,8 +306,8 @@ class PostController extends Controller
             'title'            => strip_tags(request('title')),
             'slug'             => $slug,
             'description'      => request('description'),
-            'thumbnail'        => (request()->has('thumbnail')) ? $thumbnail_name : NULL,
-            'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : NULL,
+            'thumbnail'        => ( request()->has('thumbnail') && !empty(request('thumbnail')) ) ? request('thumbnail') : NULL,
+            'thumbnail_medium' => ( request()->has('thumbnail_medium') && !empty(request('thumbnail_medium')) )  ? request('thumbnail_medium') : NULL,
             'tags'             => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
             'status'           => request('status')
         ]);
@@ -267,7 +315,10 @@ class PostController extends Controller
         if ( request()->has('page_title') && !empty(request('page_title')) ) {
             PostsMeta::setMetaData( $post->id, 'seo_page_title', request('page_title') );
         }
-      
+        if ( request()->has('video') && !empty(request('video')) ) {
+            PostsMeta::setMetaData( $post->id, 'video', request('video') );
+        }
+
         $tag_categories = TagCategory::all();
 
         foreach ($tag_categories as $key => $tag_category) {
@@ -322,6 +373,10 @@ class PostController extends Controller
         $data['slug']         = $post->slug;
         $data['description']  = html_entity_decode($post->description);
         $data['thumbnail']    = asset("storage/posts/original/{$post->thumbnail}");
+        $video_file           = PostsMeta::getMetaData( $post->id, 'video' );
+        $video_extension      = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
+        $data['video']        = !empty( $video_file ) ? asset("storage/posts/original/{$video_file}") : '';
+        $data['video_type']   = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
         $data['page_title']   = PostsMeta::getMetaData( $post->id, 'seo_page_title' );
         $data['post_date']    = Date('d/m/Y', strtotime($post->created_at));
         $data['status']       = $post->status;
@@ -377,58 +432,6 @@ class PostController extends Controller
             ]);            
         }
 
-        if(request()->has('thumbnail')){
-            $settings_width = 40;
-            $settings_height = 40;
-
-            if(!is_null($posts_settings = PostSetting::first())){
-                $settings_width = $posts_settings->medium_width;
-                $settings_height = $posts_settings->medium_height;
-            }
-
-            $post_image_path = storage_path() . '/app/public/posts';
-
-            // Ensure that original, and thumbnail folder exists
-            File::ensureDirectoryExists($post_image_path . '/original');
-            File::ensureDirectoryExists($post_image_path . '/thumbnail');
-
-            // Save orignal image to file system
-            $thumbnail = request()->file('thumbnail')->store('public/posts/original');
-            $thumbnail_name = Arr::last(explode('/', $thumbnail));
-
-            $mime_type = request()->file('thumbnail')->getMimeType();
-
-            if ($mime_type == 'image/gif') {
-                // Save thumbnail (medium) image to file system
-                $thumbnail_medium = new Imagick($post_image_path . '/original/' . $thumbnail_name);
-                $thumbnail_medium = $thumbnail_medium->coalesceImages();
-                do {
-                    $thumbnail_medium->resizeImage( $settings_width, $settings_height, Imagick::FILTER_BOX, 1, true );
-                } while ( $thumbnail_medium->nextImage());
-
-                $thumbnail_medium = $thumbnail_medium->deconstructImages();
-                $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
-                $thumbnail_medium->writeImages($post_image_path . '/thumbnail/' . $thumbnail_medium_name, true);
-
-            } else {
-                $thumbnail_medium = Image::make(request()->file('thumbnail'));
-                $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
-                    $constraint->aspectRatio();
-                });
-                $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
-                $thumbnail_medium->save($post_image_path . '/thumbnail/' . $thumbnail_medium_name);
-            }
-
-            // Delete thumbnail if exists.
-            if(file_exists($post->getThumbnail())){
-                unlink($post->getThumbnail());
-            }
-
-            if(file_exists($post->getThumbnail('medium'))){
-                unlink($post->getThumbnail('medium'));
-            }
-        }
-
         $status = request()->has('status') ? request('status') : $post->status;
 
         // Generate slug
@@ -466,8 +469,8 @@ class PostController extends Controller
             'title'            => strip_tags(request('title')),
             'slug'             => $slug,
             'description'      => request('description'),
-            'thumbnail'        => (request()->has('thumbnail')) ? $thumbnail_name : $post->thumbnail,
-            'thumbnail_medium' => (request()->has('thumbnail')) ? $thumbnail_medium_name : $post->thumbnail_medium,
+            'thumbnail'        => ( request()->has('thumbnail') && !empty(request('thumbnail')) ) ? request('thumbnail') : $post->thumbnail,
+            'thumbnail_medium' => ( request()->has('thumbnail_medium') && !empty(request('thumbnail_medium')) )  ? request('thumbnail_medium') : $post->thumbnail_medium,
             'tags'             => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
             'created_at'       => $post_date,
             'status'           => $status
@@ -475,6 +478,10 @@ class PostController extends Controller
 
         if ( request()->has('page_title') && !empty(request('page_title')) ) {
             PostsMeta::setMetaData( $post->id, 'seo_page_title', request('page_title') );
+        }
+
+        if ( request()->has('video') && !empty(request('video')) ) {
+            PostsMeta::setMetaData( $post->id, 'video', request('video') );
         }
 
         $tag_categories = TagCategory::all();
@@ -548,6 +555,13 @@ class PostController extends Controller
 
         $description      = json_decode($post->description);
         $blocks           = $description->blocks ?? [];
+
+        // Delete video
+        $video_file = PostsMeta::getMetaData( $post->id, 'video' );
+        if ( !empty($video_file) ) {
+            Storage::delete('public/posts/original/' . $video_file);
+            PostsMeta::deleteMetaData( $post->id, 'video' );
+        }
 
         // Delete thumbnails
         if ($post->thumbnail) {
@@ -757,7 +771,8 @@ class PostController extends Controller
 
         $data['post']       = $post;
         $data['page_title'] = $post->title;
-
+        $data['video'] = PostsMeta::getMetaData( $post->id, 'video' );
+        $data['video_type']   = empty( $data['video'] ) ? '' : ( end( explode( '.', $data['video'] ) ) == 'mp4' ? 'video/mp4' : ( end( explode( '.', $data['video'] ) ) == 'webm' ? 'video/webm' : '' ) );
         return view('post::templates.post-template', $data);
     }
 
@@ -772,7 +787,8 @@ class PostController extends Controller
         $data['post']       = $post;
         $data['page_title'] = $post->title;
         $data['theme'] = $theme;
-
+        $data['video'] = PostsMeta::getMetaData( $post->id, 'video' );
+        $data['video_type']   = empty( $data['video'] ) ? '' : ( end( explode( '.', $data['video'] ) ) == 'mp4' ? 'video/mp4' : ( end( explode( '.', $data['video'] ) ) == 'webm' ? 'video/webm' : '' ) );
         return view('post::templates.post-template-v1', $data);
     }
 
@@ -783,17 +799,19 @@ class PostController extends Controller
         $offset = ($page_num - 1) * $perpage;
         $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
             ->leftJoin('users_settings', 'users_settings.user_id', '=', 'users.id')
-            ->select([
-                'posts.id',
-                'title',
-                'slug',
-                'posts.created_at as created_at',
-                'thumbnail',
-                'thumbnail_medium',
-                'users.name',
-                'users.username',
-                'users_settings.avatar as avatar'
-            ])->where(
+            ->leftJoin('posts_metas', 'posts.id', '=', 'posts_metas.post_id')
+            ->select(DB::raw(
+                'posts.id,
+                title,
+                slug,
+                posts.created_at as created_at,
+                thumbnail,
+                thumbnail_medium,
+                IF(posts_metas.meta_key = "video", posts_metas.meta_value, "") as video,
+                users.name,
+                users.username,
+                users_settings.avatar as avatar'
+            ))->where(
                 [
                     'posts.status' => 'published'
                 ]    
@@ -823,21 +841,23 @@ class PostController extends Controller
         $offset = ($page_num - 1) * $perpage;
         $posts = Post::leftJoin('users', 'posts.user_id', '=', 'users.id')
             ->leftJoin('users_settings', 'users_settings.user_id', '=', 'users.id')
-            ->select([
-                'posts.id',
-                'title',
-                'slug',
-                'posts.created_at as created_at',
-                'thumbnail',
-                'thumbnail_medium',
-                'users.name',
-                'users.username',
-                'users_settings.avatar as avatar'
-            ])->where(
+            ->leftJoin('posts_metas', 'posts.id', '=', 'posts_metas.post_id')
+            ->select(DB::raw(
+                'posts.id,
+                title,
+                slug,
+                posts.created_at as created_at,
+                thumbnail,
+                thumbnail_medium,
+                IF(posts_metas.meta_key = "video", posts_metas.meta_value, "") as video,
+                users.name,
+                users.username,
+                users_settings.avatar as avatar'
+            ))->where(
                 [
                     'posts.user_id' => $user_id,
                     'posts.status'  => 'published'
-                ]    
+                ]
             )
             ->orderBy('created_at', 'desc')
             ->offset($offset)
@@ -888,7 +908,19 @@ class PostController extends Controller
             $post_ids[] = $post->id;
         }
 
-        $posts = Post::whereIn('id', $post_ids)->get();
+        $posts = Post::leftJoin('posts_metas', 'posts.id', '=', 'posts_metas.post_id')
+        ->select(DB::raw(
+            'posts.id,
+            title,
+            slug,
+            description,
+            posts.created_at as created_at,
+            thumbnail,
+            thumbnail_medium,
+            IF(posts_metas.meta_key = "video", posts_metas.meta_value, "") as video'    
+        ))
+        ->whereIn('id', $post_ids)
+        ->get();
 
         $posts_count = Post::leftJoin('posts_tags', 'posts_tags.post_id', '=', 'posts.id')
             ->leftJoin('tags', 'posts_tags.tag_id', '=', 'tags.id')
@@ -947,7 +979,11 @@ class PostController extends Controller
 
             if ($post) {
                 $post['description'] = Post::parseContent($post['description']);
-                $post['seo_title'] = $post['title'] . ' | [sitetitle]';
+                $video_file          = PostsMeta::getMetaData( $post->id, 'video' );
+                $video_extension     = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
+                $post['video']       = !empty( $video_file ) ? asset("storage/posts/original/{$video_file}") : '';
+                $post['video_type']  = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
+                $post['seo_title']   = $post['title'] . ' | [sitetitle]';
                 $post['url'] = 'post/' . $post['slug'];
             }
         }
@@ -972,7 +1008,6 @@ class PostController extends Controller
         $data['post'] = $post;
         $data['tag_pills'] = $tag_pills;
         $data['nextpage'] = ($posts_count - $offset - $perpage) > 0 ? ($page_num + 1) : 0;
-
         return view('post::templates.post-infinite-load', $data);
     }
 

@@ -1,3 +1,5 @@
+<script src="https://vjs.zencdn.net/7.11.4/video.min.js"></script>
+
 <script>
 	var pageNumber = 2;
 	$(function(){
