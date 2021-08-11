@@ -12,7 +12,7 @@
             
 <div class="padding-">
               <div class="margin-bottom-md">
-                Settings (IPs randomize)
+              <h3 class="text-md">Ip Radomize</h4>
               </div>
 
               <!-- /Repeater -->
@@ -41,7 +41,7 @@
               </div>
 
               <div class="margin-bottom-sm margin-top-lg">
-                Delays (Default from 5s - 15s)
+              <h3 class="text-md">Delays (Default from 5s - 15s)</h4>
               </div>
                     <div class="input-merger form-control width-100% grid margin-bottom-sm">
                     <input type="text" class="reset input-merger__input min-width-0 col" name="userName" id="userName" placeholder="From">
@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="margin-bottom-sm margin-top-lg">
-                Images Size Settings
+                <h3 class="text-md">Images Size Settings</h4>
               </div>
                     <div class="input-merger form-control width-100% grid margin-bottom-sm">
                     <input type="text" class="reset input-merger__input min-width-0 col" name="userName" id="userName" placeholder="Min">
@@ -57,9 +57,9 @@
                 </div>
                 
             </div>
-            <div class="margin-top-auto border-top border-contrast-lower">
-                <p class="text-sm btn btn--primary margin-md">Save</p>
-              </div>
+            <div class="text-right">
+    <button class="btn btn--primary margin-right-sm margin-top-lg">Save</button>
+  </div>
 
              </div><!-- /#site-table-with-pagination-container -->
             </div><!-- Padding -->
