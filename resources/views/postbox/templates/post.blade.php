@@ -5,7 +5,7 @@
       <button id="btnAddTags" class="btn">Add Tags</button>
 
       <div class="file-upload-custom">
-        <label for="upload2" class="file-upload__label btn">
+        <label for="upload-file" class="file-upload__label btn">
           <span class="flex items-center">
             <span class="margin-right-xxs file-upload__text file-upload__text--has-max-width">Add</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>img</title><g stroke-width="2" fill="#000000"><path fill="none" stroke="#000000" stroke-linecap="square" stroke-miterlimit="10" d="M3.32 1.66h14.94v16.6h-16.6v-16.6h1.66z"></path><path data-stroke="none" d="M15.73 13.51l-2.91-5.81a0.41 0.41 0 0 0-0.33-0.23 0.43 0.43 0 0 0-0.37 0.17l-3.42 4.56-1.74-2.09a0.41 0.41 0 0 0-0.67 0.05l-2.08 3.32a0.41 0.41 0 0 0 0.35 0.63h10.79a0.41 0.41 0 0 0 0.38-0.6z" fill="#000000"></path><path data-stroke="none" fill="#000000" d="M7.88 4.98a1.24 1.24 0 1 0 0 2.49 1.24 1.24 0 1 0 0-2.49z"></path></g></svg>
@@ -13,13 +13,38 @@
             
           </span>
         </label> 
-        <input type="file" class="file-upload__input" name="thumbnail" id="upload2" required>
+        <input type="file" class="file-upload__input" name="media" id="upload-file" accept="image/jpeg, image/jpg, image/png, image/gif, video/mp4, video/webm">
+        <input type="hidden" name="video" value=""/>
+        <input type="hidden" name="thumbnail" value="" required/>
+        <input type="hidden" name="thumbnail_medium" value=""/>
       </div>
     </div>
   </div>
 </div>
+
 <div class="border-top border-contrast-lower"></div>
 <div class="box-content padding-sm">
+  <!-- Media upload progress loader -->
+  <div class="margin-top-md">
+    <div class="inline-block progress-bar progress-bar--color-update flex flex-column items-center js-progress-bar" style="display:none">
+      <p class="sr-only" aria-live="polite" aria-atomic="true">Progress value is <span class="js-progress-bar__aria-value">0%</span></p>
+    
+      <span class="progress-bar__value margin-bottom-xs" aria-hidden="true">0%</span>
+      <span class="progress-bar__final margin-bottom-xs" aria-hidden="true" style="display:none">Moving uploaded file...</span>
+    
+      <div class="progress-bar__bg " aria-hidden="true">
+        <div class="progress-bar__fill " style="width: 0%;"></div>
+      </div>
+    </div>
+    <div class="alert alert-upload alert--is-visible" style="display:none">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <div class="message">
+          </div>
+        </div>
+    </div><!-- /.alert -->
+  </div>
+
   <?php
   if($alert = session()->get('alert')) {
     $alert_class = 'alert--is-visible ' . $alert['class'];

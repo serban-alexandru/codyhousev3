@@ -29,6 +29,11 @@
   @endif
 @endsection
 
+@push('module-styles')
+<!-- MODULE'S CUSTOM Style -->
+  @include('post::partials.custom-style')
+@endpush
+
 @push('module-scripts')
   <!-- MODULE'S CUSTOM SCRIPT -->
   @include('users::dashboard.script-js')

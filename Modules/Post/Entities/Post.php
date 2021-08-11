@@ -4,7 +4,7 @@ namespace Modules\Post\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-use Modules\Post\Entities\PostsTag;
+use Modules\Post\Entities\{PostsTag, PostsMeta};
 use Modules\Tag\Entities\{Tag, TagCategory};
 
 class Post extends Model
@@ -38,6 +38,11 @@ class Post extends Model
     	if($type == 'medium'){
     		return asset('storage/posts/thumbnail') . '/' . $this->thumbnail_medium;
     	}
+	}
+
+    public function showVideo($video_file)
+    {
+        return asset('storage/posts/original') . '/' . $video_file;
 	}
 
 	public function postsTag()
@@ -79,6 +84,13 @@ class Post extends Model
 
         $posts = $posts->all();
 
+        foreach($posts as &$post) {
+            $video_file          = PostsMeta::getMetaData( $post->id, 'video' );
+            $video_extension     = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
+            $post['video']       = !empty( $video_file ) ? asset("storage/posts/original/{$video_file}") : '';
+            $post['video_type']  = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
+        }
+
         return $posts;
     }
 
@@ -106,8 +118,16 @@ class Post extends Model
         if ($limit) {
             $posts = $posts->slice(0, $limit);
         }
+        $posts = $posts->all();
 
-        return $posts->all();
+        foreach($posts as &$post) {
+            $video_file          = PostsMeta::getMetaData( $post->id, 'video' );
+            $video_extension     = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
+            $post['video']       = !empty( $video_file ) ? asset("storage/posts/original/{$video_file}") : '';
+            $post['video_type']  = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
+        }
+
+        return $posts;
     }
 
     public function getTagCategoryNames()

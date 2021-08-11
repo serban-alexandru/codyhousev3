@@ -23,17 +23,25 @@ class MenuShortcode {
 
     $menus = $menu_info->items->toArray();
 
+    $location = 'header';
+    if ($shortcode->location) {
+      $location = $shortcode->location;
+    }
+
     $version = 1;
     if ($shortcode->version) {
       $version = $shortcode->version;
     }
 
-    if ($version == 1) {
-      $menu_template = self::getMenuTemplateV1($menus);
+    if ($location == 'footer') {
+      $menu_template = self::getMenuTemplateFooter($menus);
     } else {
-      $menu_template = self::getMenuTemplateV2($menus);   
-    }
-        
+      if ($version == 1) {
+        $menu_template = self::getMenuTemplateV1($menus);
+      } else {
+        $menu_template = self::getMenuTemplateV2($menus);
+      }
+    }        
     return $menu_template;
   }
 
@@ -100,6 +108,21 @@ class MenuShortcode {
 
     $menu_template .= '</ul>';
 
+    return $menu_template;
+  }
+
+  private static function getMenuTemplateFooter($menus) {
+    $menu_template = '';
+
+    foreach ($menus as $menu) {
+      $menu_template .= '<a class="color-contrast-high" href="' . $menu['link'] . '">' . $menu['label'] . '</a>';
+
+      if ($menu['child']) {
+        foreach ($menu['child'] as $child) {
+          $menu_template .= '<a class="color-contrast-high" href="' . $child['link'] . '">' . $child['label'] . '</a>';
+        }
+      }
+    }
     return $menu_template;
   }
 }

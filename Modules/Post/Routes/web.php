@@ -114,3 +114,14 @@ Route::group([
 ], function () {
 	\UniSharp\LaravelFilemanager\Lfm::routes();
 });
+
+$user_middleware = ['auth'];
+if (config('settings.need_verify_email') === true) {
+  $user_middleware = ['auth', 'verified'];
+}
+Route::middleware($user_middleware)->group(function(){ 
+    Route::post('/posts/upload-media', [
+      'as' => 'posts.upload-media',
+      'uses' => 'PostController@uploadMedia'
+    ]);
+});

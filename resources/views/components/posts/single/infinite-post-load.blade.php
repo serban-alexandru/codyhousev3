@@ -7,7 +7,22 @@
         <h1>{{ $post->title }}</h1>
         <p class="color-contrast-medium text-md">{!! $post->description !!}</p>
         <figure class="">
+        @if($post->video)
+          <div class="video-wrap">
+            <video id="video-player-{{$post->id}}" class="video-js video-small vjs-big-play-centered video-player" width="320" height="150" data-setup='{"controls": true, "autoplay": false, "preload": "auto", "fluid": true}' poster="{{ $post->showThumbnail('medium') }}">
+              <source src="{{ $post->video }}" type="{{ $post->video_type }}" />
+              <p class="vjs-no-js">
+                To view this video please enable JavaScript, and consider upgrading to a
+                web browser that
+                <a href="https://videojs.com/html5-video-support/" target="_blank"
+                  >supports HTML5 video</a
+                >
+              </p>
+            </video>
+          </div>
+        @else
           <img src="{{ $post->showThumbnail() }}" alt="Image of {{ $post->title }}">
+        @endif
 
           <div class="author__content">
             <h4 class="story-v2__meta text-sm">
@@ -46,7 +61,12 @@
 
 </div>
 
+@push('module-styles')
+  <!-- MODULE'S CUSTOM Style -->
+  <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
+@endpush
+
 @push('module-scripts')
-<!-- MODULE'S CUSTOM SCRIPT -->
+  <!-- MODULE'S CUSTOM SCRIPT -->
   @include('custom-scripts.infinite-post-scroll')
 @endpush

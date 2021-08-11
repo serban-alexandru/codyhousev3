@@ -24,6 +24,9 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style-fallback.css') }}">
   </noscript>
 
+  <!-- MODULE Style -->
+  @stack('module-styles')
+
   <title>Admin</title>
 
   @include('partials.external-fonts-v1')

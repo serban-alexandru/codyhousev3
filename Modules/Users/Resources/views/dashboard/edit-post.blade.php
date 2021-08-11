@@ -20,21 +20,47 @@
 
               <div class="padding-top-xs">
                 <div class="margin-bottom-md">
-                  <img src="#" id="thumbnailPreview" class="width-40%">
+                  <img src="#" id="thumbnailPreview" class="width-40%" style="display:none">
+                  <div id="edit-media-player" style="display:none">
+                  </div>
                 </div>
 
                 <div class="file-upload inline-block">
-
-                  <label for="editThumbnail" class="file-upload__label btn btn--primary">
+                  <label for="editMedia" class="file-upload__label btn btn--primary">
                     <span class="flex items-center">
                       <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2"><path  stroke-linecap="square" stroke-linejoin="miter" d="M2 16v6h20v-6"></path><path stroke-linejoin="miter" stroke-linecap="butt" d="M12 17V2"></path><path stroke-linecap="square" stroke-linejoin="miter" d="M18 8l-6-6-6 6"></path></g></svg>
                       
-                      <span class="margin-left-xxs file-upload__text file-upload__text--has-max-width">Edit Photo</span>
+                      <span class="margin-left-xxs file-upload__text file-upload__text--has-max-width">Edit Media</span>
                     </span>
                   </label> 
 
-                  <input type="file" class="file-upload__input" name="thumbnail" id="editThumbnail">
-                </div>          
+                  <input type="file" class="file-upload__input" name="media" id="editMedia" accept="image/jpeg, image/jpg, image/png, image/gif, video/mp4, video/webm">
+
+                  <input type="hidden" name="video" value=""/>
+                  <input type="hidden" name="thumbnail" value=""/>
+                  <input type="hidden" name="thumbnail_medium" value=""/>
+                </div>
+                <!-- Media upload progress loader -->
+                <div class="margin-top-md">
+                  <div class="inline-block progress-bar progress-bar--color-update flex flex-column items-center js-progress-bar" style="display:none">
+                    <p class="sr-only" aria-live="polite" aria-atomic="true">Progress value is <span class="js-progress-bar__aria-value">0%</span></p>
+
+                    <span class="progress-bar__value margin-bottom-xs" aria-hidden="true">0%</span>
+                    <span class="progress-bar__final margin-bottom-xs" aria-hidden="true" style="display:none">Moving uploaded file...</span>
+
+                    <div class="progress-bar__bg " aria-hidden="true">
+                      <div class="progress-bar__fill " style="width: 0%;"></div>
+                    </div>
+                  </div>
+                  <div class="alert alert-upload alert--is-visible" style="display:none">
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center">
+                        <div class="message">
+                        </div>
+                      </div>
+                  </div><!-- /.alert -->
+                </div>
+
               </div>
 
               <div class="padding-top-xs">

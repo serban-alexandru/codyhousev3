@@ -417,3 +417,79 @@ button:focus {
     float:right;
     margin-top: 2px;
 }
+
+/* Custom Video JS Style */
+#edit-media-player {
+    width: 280px;
+    height: 130px;
+    max-width:100%;
+}
+@include breakpoint(sm) {
+    #edit-media-player {
+        width: 480px;
+        height: 225px;   
+    }
+}
+@include breakpoint(md) {
+    #edit-media-player {
+        width: 640px;
+        height: 300px;   
+    }
+}
+
+.video-js .vjs-big-play-button {
+    display: none !important;
+}
+.vjs-poster {
+    background-repeat: no-repeat !important;
+    background-position: 50% 50% !important;
+    background-size: contain !important;
+}
+
+.video-js.video-player {
+    width:100%;
+}
+
+.main-video-wrap {
+    width: 100%;
+    height: 100vh;
+    visibility: hidden;
+    opacity: 0;
+
+    &.loaded {
+        height: auto;
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .t-article-v2__intro {
+        margin-top:0;
+    }    
+}
+
+/* Sticky sidebar and control bar */
+.sidebar--sticky {
+    position: -webkit-sticky; /* Safari */  
+    position: sticky;
+    top: 50px;
+    height: 100%;
+}
+
+.controlbar--sticky {
+    position: -webkit-sticky; /* Safari */  
+    position: sticky;
+    top: 50px;
+    height: 56px;
+    z-index: 1000;
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+}
+@include breakpoint(lg) {
+    .sidebar--sticky {
+        top: 70px;
+    }
+    
+    .controlbar--sticky {
+        top: 70px;
+    }    
+}

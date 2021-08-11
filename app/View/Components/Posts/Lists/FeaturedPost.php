@@ -2,9 +2,10 @@
 
 namespace App\View\Components\Posts\Lists;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\Component;
 
-use Modules\Post\Entities\Post;
+use Modules\Post\Entities\{Post, PostsMeta};
 
 class FeaturedPost extends Component
 {
@@ -23,18 +24,33 @@ class FeaturedPost extends Component
                 'status' => 'published'
             ]
         )->latest()->first();
+        if ($featured_post) {
+            $video_file                   = PostsMeta::getMetaData( $featured_post->id, 'video' );
+            $video_extension              = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
+            $featured_post['video']       = !empty( $video_file ) ? asset("storage/posts/original/{$video_file}") : '';
+            $featured_post['video_type']  = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
+        }
 
-        $featured_list = Post::where(
+        $featured_list = Post::leftJoin('posts_metas', 'posts.id', '=', 'posts_metas.post_id')
+        ->select(DB::raw(
+            'posts.*,
+            IF(posts_metas.meta_key = "video", posts_metas.meta_value, "") as video'
+        ))->where(
             [
                 'status' => 'published'
             ]
         )
         ->orderBy('created_at', 'desc')
         ->limit($limit)
-        ->offset(1)
-        ;
+        ->offset(1);
 
         $featured_list = $featured_list->get();
+        foreach($featured_list as &$post) {
+            $video_file          = $post['video'];
+            $video_extension     = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
+            $post['video']       = !empty( $video_file ) ? asset("storage/posts/original/{$video_file}") : '';
+            $post['video_type']  = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
+        }
 
         $this->featured_post = $featured_post;
         $this->featured_list = $featured_list;

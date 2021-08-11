@@ -12,20 +12,20 @@
 */
 
 Route::get('/admin/contact',function(){
-    return view('admin::contact.index');
-  });
+  return view('admin::contact.index');
+});
 
 Route::get('/admin/scraper',function(){
-    return view('admin::scraper.index');
-  });
+  return view('admin::scraper.index');
+});
 
-  Route::get('/admin/scraper/settings',function(){
-    return view('admin::scraper.settings');
-  });
+Route::get('/admin/scraper/settings',function(){
+  return view('admin::scraper.settings');
+});
 
-  Route::get('/admin/scraper/scraper-v1',function(){
-    return view('admin::scraper.scraper-v1');
-  });
+Route::get('/admin/scraper/scraper-v1',function(){
+  return view('admin::scraper.scraper-v1');
+});
 
 use Illuminate\Support\Facades\Schema;
 use Modules\Admin\Entities\Settings;
@@ -65,6 +65,10 @@ Route::middleware($middleware)->group(function(){
         Route::post('settings/store', [
             'as' => 'settings.store',
             'uses' => 'SettingsController@store'
+        ]);
+        Route::get('settings/clear-media', [
+          'as' => 'settings.clear_media',
+          'uses' => 'SettingsController@clearUnusedMediaFiles'
         ]);
     });
 });
