@@ -3,26 +3,15 @@
       <div class="col-8@md featured-post margin-bottom-lg padding-bottom-xs">
 
         @if($featured_post)
-            @if ($featured_post->video)
-                <div class="video-wrap">
-                    <video id="video-player-{{$featured_post->id}}" class="video-js video-small vjs-big-play-centered video-player" width="320" height="150" data-setup='{"controls": true, "autoplay": false, "preload": "auto", "fluid": true}' poster="{{ $featured_post->showThumbnail('medium') }}">
-                        <source src="{{ $featured_post->video }}" type="{{ $featured_post->video_type }}" />
-                        <p class="vjs-no-js">
-                            To view this video please enable JavaScript, and consider upgrading to a
-                            web browser that
-                            <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-                        </p>
-                    </video>
-                </div>
-            @elseif($featured_post->thumbnail)
+            @if($featured_post->thumbnail)
                 <a href="{{route('single-post-view',['slug'   => $featured_post->slug])}} " class="featured__img-wrapper feautured__img-wrapper-cropped">
                     <img src="{{ $featured_post->showThumbnail('medium') }}" alt="Image of {{ $featured_post->title }}">
                 </a>
             @else
                 <span class="feautured__img-wrapper-cropped bg-black bg-opacity-50%"></span>
             @endif
-            <h1 class="featured__headline-main feature-v12__offset-item text-left margin-x-xs@md" style="position:relative">
-                <a href="{{route('single-post-view',['slug'   => $featured_post->slug])}}" class="main-featured-title" style="padding:0 10px;">{{ $featured_post->title }}</a>
+            <h1 class="featured__headline-main feature-v12__offset-item text-left margin-x-xs@md">
+                <a href="{{route('single-post-view',['slug'   => $featured_post->slug])}}" class="main-featured-title">{{ $featured_post->title }}</a>
             </h1>
         @endif
       </div>
@@ -31,20 +20,7 @@
         <div class="stories">
             @foreach($featured_list as $key => $post)
                 <li class="stories__story">
-                    @if ($post->video)
-                        <div class="video-wrap stories__img-wrapper">
-                            <video id="video-player-{{$post->id}}" class="video-js video-small vjs-big-play-centered video-player" width="320" height="150" data-setup='{"controls": true, "autoplay": false, "preload": "auto", "fluid": true}' poster="{{ $post->showThumbnail('medium') }}">
-                                <source src="{{ $post->video }}" type="{{ $post->video_type }}" />
-                                <p class="vjs-no-js">
-                                To view this video please enable JavaScript, and consider upgrading to a
-                                web browser that
-                                <a href="https://videojs.com/html5-video-support/" target="_blank"
-                                    >supports HTML5 video</a
-                                >
-                                </p>
-                            </video>
-                        </div>
-                    @elseif($post->thumbnail)
+                    @if($post->thumbnail)
                         <a href="{{route('single-post-view',['slug'   => $post->slug])}}" class="stories__img-wrapper">
                             <figure>
                                 <img src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">

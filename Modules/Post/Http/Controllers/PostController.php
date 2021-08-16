@@ -309,6 +309,7 @@ class PostController extends Controller
             'thumbnail'        => ( request()->has('thumbnail') && !empty(request('thumbnail')) ) ? request('thumbnail') : NULL,
             'thumbnail_medium' => ( request()->has('thumbnail_medium') && !empty(request('thumbnail_medium')) )  ? request('thumbnail_medium') : NULL,
             'tags'             => (request()->has('tags')) ? implode(',', request('tags')) : NULL,
+            'post_type'        => request()->has('video') && !empty(request('video')) ? 'video' : 'post',
             'status'           => request('status')
         ]);
 

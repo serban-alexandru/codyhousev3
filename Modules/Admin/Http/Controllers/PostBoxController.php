@@ -98,6 +98,7 @@ class PostBoxController extends Controller
       'thumbnail'        => ($request->has('thumbnail') && !empty($request->input('thumbnail')) ) ? $request->input('thumbnail') : NULL,
       'thumbnail_medium' => ($request->has('thumbnail_medium') && !empty($request->input('thumbnail_medium')) )  ? $request->input('thumbnail_medium') : NULL,
       'tags'             => ($request->has('tags')) ? implode(',', $request->input('tags')) : NULL,
+      'post_type'        => $request->has('video') && !empty($request->input('video')) ? 'video' : 'post',
       'status'           => $request->input('status')
     ]);
 

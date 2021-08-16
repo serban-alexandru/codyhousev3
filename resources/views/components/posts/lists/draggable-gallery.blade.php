@@ -4,20 +4,7 @@
         @foreach($posts as $post)
             <li class="drag-gallery__item">
                 <div class="card shadow-none">
-                @if($post->video)
-                    <div class="video-wrap">
-                        <video id="video-player-{{$post->id}}" class="video-js video-small vjs-big-play-centered video-player" width="320" height="150" data-setup='{"controls": true, "autoplay": false, "preload": "auto", "fluid": true}' poster="{{ $post->showThumbnail('medium') }}">
-                            <source src="{{ $post->video }}" type="{{ $post->video_type }}" />
-                            <p class="vjs-no-js">
-                            To view this video please enable JavaScript, and consider upgrading to a
-                            web browser that
-                            <a href="https://videojs.com/html5-video-support/" target="_blank"
-                                >supports HTML5 video</a
-                            >
-                            </p>
-                        </video>
-                    </div>            
-                @elseif($post->thumbnail)
+                @if($post->thumbnail)
                         <a src="
                             {{
                                 route(
