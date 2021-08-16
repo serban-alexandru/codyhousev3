@@ -30,7 +30,15 @@
       </div>
 
       <div class="margin-bottom-sm margin-top-sm">
-    <input class="form-control width-100%" placeholder="Find any page with this">
+    <input class="form-control width-100%" placeholder="Image Page https://domain.com/hentai-images/">
+    </div>
+
+    <div class="margin-bottom-sm margin-top-sm">
+    <input class="form-control width-100%" placeholder="Gif Page https://domain.com/gif-animated-hentai-images/">
+    </div>
+
+    <div class="margin-bottom-sm margin-top-sm">
+    <input class="form-control width-100%" placeholder="Video Page https://domain.com/videos/">
     </div>
   </div>
 
@@ -41,24 +49,23 @@
       <div class="margin-bottom-sm margin-top-md">
     <input class="form-control width-100%" placeholder="Image">
 
+    <div class="margin-bottom-sm margin-top-md">
+    <input class="form-control width-100%" placeholder="Video">
+
       <div class="margin-bottom-sm margin-top-md">
-    <input class="form-control width-100%" placeholder="Origin">
+    <input class="form-control width-100%" placeholder="Artist">
+
+    <div class="margin-bottom-sm margin-top-md">
+    <input class="form-control width-100%" placeholder="Origins">
 
       <div class="margin-bottom-sm margin-top-md">
     <input class="form-control width-100%" placeholder="Character">
 
       <div class="margin-bottom-sm margin-top-md">
-    <input class="form-control width-100%" placeholder="Tags">
+    <input class="form-control width-100%" placeholder="Media">
 
       <div class="margin-bottom-sm margin-top-md">
-    <input class="form-control width-100%" placeholder="Type">
-
-      <h3 class="text-md padding-top-md">Next Page Crawl (Level 3)</h4>
-      <div class="margin-bottom-sm margin-top-md">
-    <input class="form-control width-100%" placeholder="<title> Title </title>">
-
-      <div class="margin-bottom-sm margin-top-md">
-    <input class="form-control width-100%" placeholder="Example: https://domain.com/wp-content/uploads/">
+    <input class="form-control width-100%" placeholder="Misc">
 
   </div>
     </div>
