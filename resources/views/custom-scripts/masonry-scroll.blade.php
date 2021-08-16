@@ -1,17 +1,4 @@
-<script src="https://vjs.zencdn.net/7.11.4/video.min.js"></script>
-
 <script>
-	function initVideoJS() {
-		$('.video-js').each( function(index, elem) {
-			videojs(document.getElementsByClassName('video-js')[index], {
-				controls: true,
-				autoplay: false,
-				fill: false,
-				preload: 'auto'
-			});
-		});
-	}
-
 	$(function(){
 		var repositionId = null;
 		var prevScrollPos = 0;
@@ -25,8 +12,6 @@
 			prevScrollPos = $(window).scrollTop();
 			$('html').css('scroll-behavior', 'auto');
 			freezeScroll();
-
-			initVideoJS();
 
 			window.dispatchEvent(new Event('resize'));
 			setTimeout(function() {

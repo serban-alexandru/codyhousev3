@@ -10,22 +10,7 @@
   <ul class="masonry__list js-masonry__list js-infinite-scroll__content">
   @foreach($posts as $post)
     <li class="masonry__item js-masonry__item post">
-    @if($post->video)
-      @php
-        $video_extension = substr($post->video, strrpos($post->video, '.') + 1);
-        $video_type = $video_extension == 'mp4' ? 'video/mp4' : ($video_extension == 'webm' ? 'video/webm' : '' );
-      @endphp
-      <video id="video-player-{{$post->id}}" class="video-js video-small vjs-big-play-centered video-player" width="320" height="150" data-setup='{"controls": true, "autoplay": false, "preload": "auto"}' poster="{{ $post->showThumbnail('medium') }}">
-        <source src="{{ $post->showVideo($post->video) }}" type="{{ $video_type }}" />
-        <p class="vjs-no-js">
-          To view this video please enable JavaScript, and consider upgrading to a
-          web browser that
-          <a href="https://videojs.com/html5-video-support/" target="_blank"
-            >supports HTML5 video</a
-          >
-        </p>
-      </video>
-    @elseif($post->thumbnail)
+    @if($post->thumbnail)
       <a class="thumb" href="{{ route('single-post-view', ['slug'   => $post->slug]) }}">
         <figure class="card-v2">
           <img class="block width-500% radius-md radius-bottom-right-0 radius-bottom-left-0" src="{{ $post->showThumbnail('medium') }}" alt="Image of {{ $post->title }}">
@@ -55,11 +40,6 @@
     <button class="btn btn--primary js-infinite-scroll__btn">Load More</button>
   </div>
 </div>
-
-@push('module-styles')
-<!-- MODULE'S CUSTOM Style -->
-  @include('custom-scripts.custom-style')
-@endpush
 
 @push('module-scripts')
 <!-- MODULE'S CUSTOM SCRIPT -->
