@@ -5,7 +5,7 @@
     @include('admin::partials.sidebar')
     <main class="position-relative z-index-1 col-12@md link-card radius-md">
       <!-- Sub-navigation -->
-      <div class="controlbar--sticky border-bottom border-contrast-lower">
+      <div class="controlbar--sticky border-bottom border-contrast-lower" data-fixed-element>
         <div class="container max-width-lg flex items-center justify-between">
           <div class="subnav">
 
