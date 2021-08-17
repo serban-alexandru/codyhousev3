@@ -110,7 +110,7 @@
 
 <script>
 var videojs_template = 
-  `<video id="media-player" class="video-js video-small vjs-big-play-centered" width="320" height="150" style="display:none">
+  `<video id="media-player" class="video-js video-small vjs-big-play-centered" data-setup='{"controls": true, "autoplay": false, "preload": "auto", "fluid": true}' width="320" height="150" style="display:none">
     <source src="" type="" />
     <p class="vjs-no-js">
       To view this video please enable JavaScript, and consider upgrading to a

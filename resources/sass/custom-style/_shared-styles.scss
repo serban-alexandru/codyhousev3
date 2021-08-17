@@ -421,19 +421,17 @@ button:focus {
 /* Custom Video JS Style */
 #edit-media-player {
     width: 280px;
-    height: 130px;
+    height: auto;
     max-width:100%;
 }
 @include breakpoint(sm) {
     #edit-media-player {
         width: 480px;
-        height: 225px;   
     }
 }
 @include breakpoint(md) {
     #edit-media-player {
         width: 640px;
-        height: 300px;   
     }
 }
 
