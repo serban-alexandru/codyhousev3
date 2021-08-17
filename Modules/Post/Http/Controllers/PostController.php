@@ -3,6 +3,8 @@
 namespace Modules\Post\Http\Controllers;
 
 use Arr, Str, Image, Imagick, File, Thumbnail;
+use FFMpeg\FFProbe;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
@@ -68,12 +70,27 @@ class PostController extends Controller
             $message = 'You have successfully upload file.';
 
         } else if ($media_type === 'video') {
+            $ffprobe = FFProbe::create();
+            $video_dimensions = $ffprobe
+                ->streams( $post_media_path . '/original/' . $media_name )   // extracts streams informations
+                ->videos()                      // filters video streams
+                ->first()                       // returns the first video stream
+                ->getDimensions();              // returns a FFMpeg\Coordinate\Dimension object
+            $width = $video_dimensions->getWidth();
+            $height = $video_dimensions->getHeight();
+
+            $height = ceil($height * (1024/$width));
+            $width = 1024; // Limit max thumbnail width as 1024
+            $settings_height = ceil($height * ($settings_width/$width));
+            config(['thumbnail.dimensions.width' => $width]);
+            config(['thumbnail.dimensions.height' => $height]);
+
             // generate thumbnail from video
             $thumbnail = Arr::first(explode('.', $media_name)) . '.jpg';
 
             // get video length and process it
             // assign the value to time_to_image (which will get screenshot of video at that specified seconds)
-            $time_to_image = 1; // Capture first frame
+            $time_to_image = 10; // Capture first frame
 
             $thumbnail_status = Thumbnail::getThumbnail($post_media_path . '/original/' . $media_name, $post_media_path . '/original/', $thumbnail, $time_to_image);
             if($thumbnail_status) {
@@ -100,7 +117,9 @@ class PostController extends Controller
                 'video_type' => ($media_type === 'video') ? $mime_type : '',
                 'thumbnail' => $thumbnail,
                 'thumbnail_url' => asset("storage/posts/original/{$thumbnail}"),
-                'thumbnail_medium' => $thumbnail_medium_name
+                'thumbnail_medium' => $thumbnail_medium_name,
+                'width' => $width,
+                'height' => $height
             ]
         );
     }
