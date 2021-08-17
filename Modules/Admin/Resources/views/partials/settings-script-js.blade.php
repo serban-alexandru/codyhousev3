@@ -97,15 +97,15 @@
     });
 
     /** Custom script for smooth scrolling when there is a fixed header */
-    var mainHeaderHeight = parseInt($('.js-hide-nav--main').height());
-    var subHeaderHeight = parseInt($('.js-hide-nav--sub').height());
+    var mainHeaderHeight = parseInt($('header').height());
+    var subHeaderHeight = parseInt($('.controlbar--sticky').height());
     var lastItemIndex = 0;
     $('.js-smooth-scroll').each(function(index) {
       $(this).click(function() {
         var currentItemIndex = index;
         if (currentItemIndex > lastItemIndex) {
           // down scroll
-          $('html').css('scroll-padding', subHeaderHeight + 'px');
+          $('html').css('scroll-padding', mainHeaderHeight + subHeaderHeight + 'px');
         } else {
           // up scroll
           $('html').css('scroll-padding', mainHeaderHeight + subHeaderHeight + 'px');
