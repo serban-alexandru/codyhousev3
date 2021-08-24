@@ -11,7 +11,7 @@
           ?>
         </div>
       </div>
-<h1>Test footer</h1>
+
       <div>
         <?php 
           echo $shortcode->compile('[socialicons]');
