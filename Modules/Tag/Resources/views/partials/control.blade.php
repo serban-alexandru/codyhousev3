@@ -1,4 +1,4 @@
-<div class="flex justify-between">
+<div class="flex justify-between controlbar--sticky">
     <div class="margin-xs">
       <div class="inline-flex items-baseline">
         <h1 class="text-md color-contrast-high padding-y-xxxxs margin-x-xs" for="filterItems">Tags:</h1>

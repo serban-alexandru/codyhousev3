@@ -74,7 +74,7 @@
       </div>
 
       <div class="margin-bottom-sm margin-top-sm">
-    <input class="form-control width-100%" placeholder="Image Page https://domain.com/hentai-images/">
+    <input class="form-control width-100%" placeholder="class="thumb"">
     </div>
 
     <div class="margin-bottom-sm margin-top-sm">
