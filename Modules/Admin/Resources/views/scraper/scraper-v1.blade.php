@@ -11,7 +11,7 @@
           <div class="padding-md">
 
 <!-- Users select dropdown -->
-          <h3 class="text-md padding-bottom-sm">Scraper for site 1</h4>
+          <h3 class="text-md padding-bottom-sm">Scraper for site 1</h3>
           <div class="adv-select js-adv-select">
   <select name="adv-select" id="adv-select">
     <optgroup label="Admins">
@@ -62,7 +62,7 @@
     <div class="grid gap-xs">
       <div class="col-6@md">
 
-        <input class="form-control width-100%" type="text" name="input-first-name" id="input-first-name" placeholder="https://domain.com/page/2641/?new">
+        <input class="form-control width-100%" type="text" name="input-first-name" id="input-first-name" placeholder="https://domain.com/page/2641/">
       </div>
 
       <div class="col-6@md padding-top-xxs padding-left-md">
@@ -74,16 +74,9 @@
       </div>
 
       <div class="margin-bottom-sm margin-top-sm">
-    <input class="form-control width-100%" placeholder="class="thumb"">
+    <input class="form-control width-100%" placeholder="all URLs with the thumb class">
     </div>
 
-    <div class="margin-bottom-sm margin-top-sm">
-    <input class="form-control width-100%" placeholder="Gif Page https://domain.com/gif-animated-hentai-images/">
-    </div>
-
-    <div class="margin-bottom-sm margin-top-sm">
-    <input class="form-control width-100%" placeholder="Video Page https://domain.com/videos/">
-    </div>
   </div>
 
       <h3 class="text-md padding-top-md">Individual Page Crawl (Level 2)</h4>

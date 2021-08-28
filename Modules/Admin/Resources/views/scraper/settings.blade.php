@@ -47,14 +47,6 @@
                     <input type="text" class="reset input-merger__input min-width-0 col" name="userName" id="userName" placeholder="From">
                     <input type="email" class="reset input-merger__input min-width-0 col" name="userEmail" id="userEmail" placeholder="To">
                 </div>
-
-                <div class="margin-bottom-sm margin-top-lg">
-                <h3 class="text-md">Images Size Settings</h4>
-              </div>
-                    <div class="input-merger form-control width-100% grid margin-bottom-sm">
-                    <input type="text" class="reset input-merger__input min-width-0 col" name="userName" id="userName" placeholder="Min">
-                    <input type="email" class="reset input-merger__input min-width-0 col" name="userEmail" id="userEmail" placeholder="Max">
-                </div>
                 
             </div>
             <div class="text-right">

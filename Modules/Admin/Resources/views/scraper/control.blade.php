@@ -19,16 +19,7 @@
   <!-- Menu Bar -->
   <div class="flex flex-wrap items-center justify-between margin-right-xxs">
     <div class="flex flex-wrap">
-      <li class="menu-bar__item js-menu-bar padding-top-xxxs">
-      <a href="{{ url('/admin/scraper/scraper-v1') }}">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>pencil</title><g fill="#000000"><path d="M18.85 4.39l-3.32-3.32a0.83 0.83 0 0 0-1.18 0l-11.62 11.62a0.84 0.84 0 0 0-0.2 0.33l-1.66 4.98a0.83 0.83 0 0 0 0.79 1.09 0.84 0.84 0 0 0 0.26-0.04l4.98-1.66a0.84 0.84 0 0 0 0.33-0.2l11.62-11.62a0.83 0.83 0 0 0 0-1.18z m-6.54 1.08l1.17-1.18 2.15 2.15-1.18 1.17z" fill="#000000"></path></g></svg>
-        <span class="menu-bar__label">Add Post</span>
-      </li>
 
-      <li class="menu-bar__item" aria-controls="modal-search">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>search</title><g stroke-width="2" fill="#000000"><path fill="none" stroke="#000000" stroke-linecap="square" stroke-miterlimit="10" d="M1.66 18.26l3.32-3.32"></path><path fill="none" stroke="#000000" stroke-linecap="square" stroke-miterlimit="10" d="M11.62 1.66a6.64 6.64 0 1 1 0 13.28 6.64 6.64 0 1 1 0-13.28z"></path><path d="M14.94 8.3a3.32 3.32 0 0 0-3.32-3.32" fill="none" stroke="#000000" stroke-miterlimit="10"></path></g></svg>
-        <span class="menu-bar__label">Search Posts</span>
-      </li>
 
       <li class="menu-bar__item padding-top-xxxs">
         <a href="{{ url('/admin/scraper/settings') }}">
@@ -37,33 +28,7 @@
         <span class="menu-bar__label">Settings</span>
       </li>
 
-      <div class="int-table-actions" data-table-controls="table-1">
-        <menu class="menu-bar js-int-table-actions__no-items-selected js-menu-bar" id="btnRefreshTable">
-          <li class="menu-bar__item menu-bar__item--trigger js-menu-bar__trigger" role="menuitem" aria-label="More options">
-            <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
-              <circle cx="8" cy="7.5" r="1.5" />
-              <circle cx="1.5" cy="7.5" r="1.5" />
-              <circle cx="14.5" cy="7.5" r="1.5" />
-            </svg>
-          </li>
-        </menu>
-        @if(!request()->has('status') || (request()->has('status') && request('status') != 'deleted'))
-        <menu class="menu-bar is-hidden js-int-table-actions__items-selected js-menu-bar" id="btnDeleteMultiple">
-          <li class="menu-bar__item menu-bar__item--trigger js-menu-bar__trigger" role="menuitem" aria-label="More options">
-            <svg class="icon menu-bar__icon" aria-hidden="true" viewBox="0 0 16 16">
-              <circle cx="8" cy="7.5" r="1.5" />
-              <circle cx="1.5" cy="7.5" r="1.5" />
-              <circle cx="14.5" cy="7.5" r="1.5" /></svg>
-          </li>
-          <li class="menu-bar__item" role="menuitem">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>bin</title><g fill="#000000"><path d="M2.49 6.64v10.79a2.49 2.49 0 0 0 2.49 2.49h9.96a2.49 2.49 0 0 0 2.49-2.49v-10.79z m4.98 9.13h-1.66v-5.81h1.66z m3.32 0h-1.66v-5.81h1.66z m3.32 0h-1.66v-5.81h1.66z" fill="#000000"></path><path d="M19.09 3.32h-4.98v-2.49a0.83 0.83 0 0 0-0.83-0.83h-6.64a0.83 0.83 0 0 0-0.83 0.83v2.49h-4.98a0.83 0.83 0 0 0 0 1.66h18.26a0.83 0.83 0 0 0 0-1.66z m-11.62-1.66h4.98v1.66h-4.98z"></path></g></svg>
-            <span class="menu-bar__label">Delete</span>
-            <span class="counter counter--critical counter--docked"><span id="deleteBadge">1</span> <i class="sr-only">Notifications</i></span>
-          </li>
 
-        </menu>
-        @endif
-      </div> <!-- end of <div class="int-table-actions" data-table-controls="table-1"> -->
     </div>
   </div> <!-- end of <div class="flex flex-wrap items-center justify-between margin-right-xxs"> -->
 </div>
