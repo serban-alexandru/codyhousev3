@@ -145,7 +145,29 @@ Step3: Run commands for deployments
 - php artisan config:cache
 - php artisan storage:link
 - php artisan serve
-It was set as 2MB by default and I extended it as 16MB.
+- upload compiled css and js from local
+    
+## Install FFmpeg, change path and settings
+    
+Install FFmpeg for each individual site in putty:
+    
+COMPOSER_MEMORY_LIMIT=-1 composer require php-ffmpeg/php-ffmpeg
+    
+Make sure to change max file size in php.ini and server
+    
+- upload_max_filesize=500M
+- post_max_size=500M
+    
+Change path to ffmpeg
+    
+- FFMPEG_PATH = /opt/local/ffmpeg/bin/ffmpeg
+- FFPROBE_PATH = /opt/local/ffmpeg/bin/ffprobe
+- WATERMARK_PATH = /curateship/public/assets/img/play-button-overlay.png
+
+## In case not working. Try
+- php artisan config:clear
+- php artisan cache:clear
+- php artisan vendor:publish
 
 ## Trouble Shooting
 - 2MB is set by default and I extended it as 16MB in case run into memory error
