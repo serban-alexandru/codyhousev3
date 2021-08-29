@@ -90,7 +90,7 @@ class PostController extends Controller
 
             // get video length and process it
             // assign the value to time_to_image (which will get screenshot of video at that specified seconds)
-            $time_to_image = 250; // Capture first frame
+            $time_to_image = 5; // Capture first frame
 
             $thumbnail_status = Thumbnail::getThumbnail($post_media_path . '/original/' . $media_name, $post_media_path . '/original/', $thumbnail, $time_to_image);
             if($thumbnail_status) {
