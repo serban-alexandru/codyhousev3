@@ -145,7 +145,7 @@ Step3: Run commands for deployments
 - php artisan config:cache
 - php artisan storage:link
 - php artisan serve
-It was set as 2MB by default and I extended it as 16MB.
+- upload compiled css and js from local
     
 ## Install FFmpeg, change path and settings
     
