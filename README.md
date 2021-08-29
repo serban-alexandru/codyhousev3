@@ -149,6 +149,10 @@ It was set as 2MB by default and I extended it as 16MB.
     
 ## Install FFmpeg, change path and settings
     
+Install FFmpeg for each individual site in putty:
+    
+COMPOSER_MEMORY_LIMIT=-1 composer require php-ffmpeg/php-ffmpeg
+    
 Make sure to change max file size in php.ini and server
     
 - upload_max_filesize=500M
