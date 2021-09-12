@@ -1,5 +1,9 @@
 # Curateship
 
+# Important
+
+Never do composer update on live existing sites as it may break site. on prexeisting Laravel sites. Always do composer install
+
 ## 1. Migrate all tables
 
 php artisan migrate
