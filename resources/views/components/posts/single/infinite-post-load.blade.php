@@ -8,7 +8,7 @@
         <p class="color-contrast-medium text-md">{!! $post->description !!}</p>
         <figure class="">
         @if($post->video)
-          <div class="video-wrap">
+          <div class="video-wrap margin-bottom-md">
             <video id="video-player-{{$post->id}}" class="video-js video-small vjs-big-play-centered video-player" width="320" height="150" data-setup='{"controls": true, "autoplay": false, "preload": "auto", "fluid": true}' poster="{{ $post->showThumbnail('medium') }}">
               <source src="{{ $post->video }}" type="{{ $post->video_type }}" />
               <p class="vjs-no-js">
@@ -37,7 +37,7 @@
             @foreach($tag_pills as $tag_pills_key => $tag_pill_name)
               <a
                 href="{{ route('pages.tags', $tag_pill_name) }}"
-                class="btn color-contrast-medium post-thumbnail-tags-pill margin-xxxs margin-top-md"
+                class="btn color-contrast-medium post-thumbnail-tags-pill margin-right-xxxs margin-bottom-xxxs"
                 draggable="false" ondragstart="return false;"
               >
                 {{ $tag_pill_name }}
