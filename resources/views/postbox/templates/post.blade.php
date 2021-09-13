@@ -42,6 +42,7 @@
           <div class="message">
           </div>
         </div>
+      </div>
     </div><!-- /.alert -->
   </div>
 
