@@ -117,9 +117,7 @@ class PostController extends Controller
                 'video_type' => ($media_type === 'video') ? $mime_type : '',
                 'thumbnail' => $thumbnail,
                 'thumbnail_url' => asset("storage/posts/original/{$thumbnail}"),
-                'thumbnail_medium' => $thumbnail_medium_name,
-                'width' => $width,
-                'height' => $height
+                'thumbnail_medium' => $thumbnail_medium_name
             ]
         );
     }
