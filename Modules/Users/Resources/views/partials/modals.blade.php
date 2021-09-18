@@ -39,7 +39,7 @@
                 <label for="new_avatar" class="file-upload__label btn btn--subtle">
                   <span class="file-upload__text file-upload__text--has-max-width" data-default-text="Upload a file">Upload Avatar</span>
                 </label>
-              </div>              
+              </div>
             </div>
           </section>
 
@@ -64,7 +64,7 @@
   <div class="modal__content height-100% tabs js-tabs width-100% max-width-xs bg radius-md shadow-md flex flex-column" role="alertdialog" aria-labelledby="modal-edit-user-title" aria-describedby="modal-description-4">
     <form action="#" method="POST" id="modal-edit-user-form" class="modal-form  flex flex-column height-100%" enctype="multipart/form-data">
       @csrf
-      <input type="file" class="is-hidden" name="avatar" id="avatar" accept="image/*">
+      <!-- <input type="file" class="is-hidden" name="avatar" id="avatar" accept="image/*"> -->
       <header class="bg-contrast-lower padding-y-sm padding-x-xs flex items-center justify-between">
         <!-- 👇 Tabs -->
         <nav class="">
@@ -95,12 +95,53 @@
           </section>
 
           <section id="tab2Panel2" class="padding-top-md js-tabs__panel flex gap-sm items-center">
-            <a href="#" class="bg-contrast-medium author__img-wrapper modal-user-avatar"></a>
+            <!-- <a href="#" class="bg-contrast-medium author__img-wrapper modal-user-avatar"></a>
             <div>
               <label for="avatar" class="file-upload__label btn btn--subtle">
                 <span class="file-upload__text file-upload__text--has-max-width" data-default-text="Upload a file">Upload Avatar</span>
               </label>
-              <!--<a href="#" class="btn btn--subtle update-cover-photo-link" target="_blank">Edit Cover Photo</a>-->
+            </div> -->
+
+            <div>
+              {{-- COVER PHOTO --}}
+              <div>
+                <div class="alert-cover-photo hidden">
+                  <button class="btn-cover-photo" id="btnCancel" type="button" onclick="location.reload()">Cancel</button>
+                  <button class="btn-cover-photo" id="btnUploadCoverPhoto" type="button">Update</button>
+                </div>
+                <div>
+                  <input type="file" name="upload_image" id="uploadImage" style="display: none;">
+                  <div id="uploaded_image"></div>
+                </div>
+
+                <div id="imageDemo"></div>
+
+                <input type="hidden" value="" id="base64Image">
+              </div>
+
+              <div class="author margin-bottom-md">
+                <a href="#0" class="author__img-wrapper bg-black bg-opacity-50%"> 
+                  <img alt="Author picture" id="settings-avatar" style="display: none;">
+                </a>
+                <div class="author__content text-component padding-top-sm padding-left-xs">
+                  <div class="flex flex-wrap gap-sm">
+                    <div class="file-upload inline-block">
+                      <label for="avatar" class="file-upload__label btn btn--subtle">
+                        <span class="file-upload__text file-upload__text--has-max-width" data-default-text="Upload a file">Upload Avatar</span>
+                      </label>
+
+                      <input type="file" class="file-upload__input" data-custom-image-file-preview="#settings-avatar" data-custom-image-file-resetter="#settings-avatar-delete" name="avatar" id="avatar" accept="image/*">
+                    </div><!-- /.file-upload inline-block -->
+                    <button type="button" id="btnDeleteAvatar" class="btn btn--subtle">Delete Avatar</button> 
+
+                    <label for="uploadImage" class="btn" id="btnEditCoverPhoto">Edit Cover Photo</label>
+                    <button type="button" id="btnDeleteCoverPhoto" class="btn btn--subtle" >
+                      Delete Cover Photo
+                    </button>
+                  </div> 
+                </div> 
+              </div>
+
             </div>
           </section>
 

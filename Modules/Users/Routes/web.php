@@ -51,6 +51,12 @@ Route::middleware($middleware)->group(function(){
     Route::post('users/update-coverphoto/{id}', [
       'uses' => 'UsersController@postAjaxUpdateCoverPhotoAdmin'
     ]);
+    Route::post('users/delete-coverphoto/{id}', [
+      'uses' => 'UsersController@postAjaxDeleteCoverPhotoAdmin'
+    ]);
+    Route::post('users/settings/avatar/delete/ajax/{id}', [ 
+      'uses' => 'UsersController@postAjaxDeleteAvatarAdmin'
+    ]);
     Route::get('users/suspend/{id}', 'UsersController@suspend');
     Route::get('users/activate/{id}', 'UsersController@activate');
     Route::get('users/trash/{id}', 'UsersController@trash');

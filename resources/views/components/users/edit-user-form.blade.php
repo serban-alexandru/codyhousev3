@@ -64,4 +64,6 @@
     </div>
 
     <input type="hidden" class="user-id" value="{{ $user->id }}">
-    <input type="hidden" value="{{ $user->getAvatar() }}" class="input-user-avatar" data-avatar="{{ $user->users_setting ? $user->users_setting->avatar : '' }}">
+    <input type="hidden" class="input-user-cover-photo" value="{{ $user->getCoverPhoto() }}">
+    <input type="hidden" class="input-has-cover-photo" value="{{ $user->hasCoverPhoto() }}">
+    <input type="hidden" @if($user->hasAvatar()) value="{{ $user->getAvatar() }}" @endif class="input-user-avatar" data-avatar="{{ $user->users_setting ? $user->users_setting->avatar : '' }}">
