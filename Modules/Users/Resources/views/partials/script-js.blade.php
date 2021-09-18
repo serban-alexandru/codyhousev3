@@ -43,8 +43,9 @@
 
     var currentUserAvatar = currentDataAvatar = currentUserCoverPhoto = currentUserId = '';
     // trigger to show edit user modal form
-    $(document).on('click', '.modal-trigger-edit-user', function(e) {
-      e.preventDefault();
+    // $(document).on('click', '.modal-trigger-edit-user', function(e) {
+    //   e.preventDefault();
+    $('.modal-trigger-edit-user').on('click', function() {
 
       var $this = $(this);
       var url = $this.attr('href');
@@ -59,7 +60,7 @@
         currentUserCoverPhoto = $(response).filter('.input-user-cover-photo').val();
         currentUserId = $(response).filter('.user-id').val();
 
-        console.log(currentUserHasCoverPhoto);
+        console.log(url);
         /* ***********************Admin User Images setting *********************** */
         if (currentUserAvatar) {
           $('#settings-avatar').attr("src", currentUserAvatar);
@@ -96,7 +97,7 @@
         else
           $image_crop.croppie('bind', {
             url: $options['url'],
-          }); 
+          });
 
         /* ***********************Admin User Images setting *********************** */
       });
@@ -147,8 +148,7 @@
             $this.find('[name="' + key + '"]' + ' + .form-error-msg').addClass('form-error-msg--is-visible').html(value[0]);
           });
         },
-        always: function(response) {
-        },
+        always: function(response) {},
       });
 
       return false;
