@@ -1,8 +1,10 @@
 @auth
+<link rel="stylesheet" href="{{ asset('assets/js/croppie/croppie.min.css') }}">
+<script src="{{ asset('assets/js/croppie/croppie.min.js') }}"></script>
 <script>
-  (function(){
+  (function() {
     // load content when user clicked on sidebar links
-    $(document).on('change', '#filterItems', function (e) {
+    $(document).on('change', '#filterItems', function(e) {
       e.preventDefault();
       var $this = $(this);
       var url = "{{ url('/admin/users') }}";
@@ -18,14 +20,14 @@
       localStorage.setItem("cs_admin_users_init_tab", $(this).val());
 
       // loads page content inside this element
-      $('#site-table-with-pagination-container').load(url, function(){
+      $('#site-table-with-pagination-container').load(url, function() {
         // Apply pagination dynamically
         var $tablePaginationBottom = $('#table-pagination-bottom');
         var $tablePaginationTop = $('#table-pagination-top');
         $tablePaginationTop.html(
           ($tablePaginationBottom.length > 0) ?
-            $tablePaginationBottom.html() :
-            $tablePaginationTop.html('')
+          $tablePaginationBottom.html() :
+          $tablePaginationTop.html('')
         );
       });
     });
@@ -38,9 +40,10 @@
     } else {
       localStorage.setItem("cs_admin_users_init_tab", ""); // clear
     }
-    
+
+    var currentUserAvatar = currentDataAvatar = currentUserCoverPhoto = currentUserId = '';
     // trigger to show edit user modal form
-    $(document).on('click', '.modal-trigger-edit-user', function(e){
+    $(document).on('click', '.modal-trigger-edit-user', function(e) {
       e.preventDefault();
 
       var $this = $(this);
@@ -49,42 +52,69 @@
 
       $('#modal-edit-user-form').attr('action', updateURL);
       var $element = $('#ajax-edit-user-form');
-      $element.load( url, function(response, status, xhr) {
-        var currentUserAvatar = $(response).filter('.input-user-avatar').val();
-        var currentDataAvatar = $(response).filter('.input-user-avatar').attr('data-avatar');
-        var currentUserId = $(response).filter('.user-id').val();
+      $element.load(url, function(response, status, xhr) {
+        currentUserAvatar = $(response).filter('.input-user-avatar').val();
+        currentDataAvatar = $(response).filter('.input-user-avatar').attr('data-avatar');
+        currentUserHasCoverPhoto = $(response).filter('.input-has-cover-photo').val();
+        currentUserCoverPhoto = $(response).filter('.input-user-cover-photo').val();
+        currentUserId = $(response).filter('.user-id').val();
 
-        if(currentDataAvatar != ''){
-          $('.modal-user-avatar').empty();
-
-          $('.modal-user-avatar').prepend("<img src='" + currentUserAvatar + "'>");
+        console.log(currentUserHasCoverPhoto);
+        /* ***********************Admin User Images setting *********************** */
+        if (currentUserAvatar) {
+          $('#settings-avatar').attr("src", currentUserAvatar);
+          $('#settings-avatar').show();
+          $('#btnDeleteAvatar').prop('disabled', false).removeClass('btn--disabled');
         } else {
-          $('.modal-user-avatar').empty();
+          $('#btnDeleteAvatar').prop('disabled', true).addClass('btn--disabled');
+          $('#settings-avatar').hide();
+        }
+        if (currentUserHasCoverPhoto) {
+          $('#btnDeleteCoverPhoto').prop('disabled', false).removeClass('btn--disabled');
+        } else {
+          $('#btnDeleteCoverPhoto').prop('disabled', true).addClass('btn--disabled');
         }
 
-        // Update cover photo link
-        // $('.update-cover-photo-link').attr('href', '/admin/users/update-coverphoto/' + currentUserId);
-        $('.update-cover-photo-link').attr('href', '/users/settings');
+        let $options = {
+          enableExif: true,
+          showZoomer: false,
+          viewport: {
+            width: 550,
+            height: 280,
+            type: 'square' //circle
+          },
+          boundary: {
+            width: 550,
+            height: 280
+          }
+        };
 
+        $options['url'] = currentUserCoverPhoto;
+
+        if (!$('#imageDemo').data('croppie'))
+          $image_crop = $('#imageDemo').croppie($options);
+        else
+          $image_crop.croppie('bind', {
+            url: $options['url'],
+          }); 
+
+        /* ***********************Admin User Images setting *********************** */
       });
     });
 
     // trigger to show add user modal form
-    $(document).on('click', '.modal-trigger-add-user', function(e){
+    $(document).on('click', '.modal-trigger-add-user', function(e) {
       e.preventDefault();
 
       var $this = $(this);
       var url = $this.data('href');
 
-      // console.log(url);
-
       var $element = $('#ajax-add-user-form');
-      $element.load( url, function(response, status, xhr) {
-      });
+      $element.load(url, function(response, status, xhr) {});
     });
 
     // trigger to submit modal form
-    $('.modal-form').on('submit', function(e){
+    $('.modal-form').on('submit', function(e) {
       var $this = $(this);
 
       var url = $this.attr('action');
@@ -105,21 +135,19 @@
         data: formData,
         contentType: false,
         processData: false,
-        success : function(response) {
+        success: function(response) {
           $this.get(0).reset();
           location.reload();
         },
         error: function(response, textStatus) {
           var jsonResponse = response.responseJSON;
           var errors = jsonResponse.errors;
-          // console.log(response);
 
-          $.each( errors, function( key, value ) {
-            $this.find('[name="'+key+'"]' + ' + .form-error-msg').addClass('form-error-msg--is-visible').html(value[0]);
+          $.each(errors, function(key, value) {
+            $this.find('[name="' + key + '"]' + ' + .form-error-msg').addClass('form-error-msg--is-visible').html(value[0]);
           });
         },
-        always: function(response){
-          // console.log(response);
+        always: function(response) {
         },
       });
 
@@ -164,6 +192,127 @@
         reader.readAsDataURL(input.files[0]); // convert to base64 string
       }
     }
+
+    /* ***********************Admin User Images setting *********************** */
+
+    $('#uploadImage').on('change', function() {
+      readFile(this);
+      validateSize(this);
+
+      var reader = new FileReader();
+      reader.onload = function(event) {
+        $image_crop.croppie('bind', {
+          url: event.target.result
+        }).then(function() {
+          $('.alert-cover-photo').removeClass('hidden');
+        });
+      }
+      reader.readAsDataURL(this.files[0]);
+    });
+
+    function readFile(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+          result = e.target.result;
+          arrTarget = result.split(';');
+          tipo = arrTarget[0];
+          validFormats = ['data:image/jpeg', 'data:image/png'];
+          if (validFormats.indexOf(tipo) == -1) {
+            alert('Accept only .jpg o .png image types');
+            $('.alert-cover-photo').addClass('hidden');
+            $('#uploadImage').val('');
+            return false;
+          }
+        }
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    function validateSize(file) {
+      var FileSize = file.files[0].size / 1024 / 1024; // in MB
+      if (FileSize > 5) {
+        alert('File size exceeds 5 MB');
+        $(file).val('');
+      } else {
+
+      }
+    }
+
+    // upload user cover photo in admin dashboard
+    $('#btnUploadCoverPhoto').on('click', function(event) {
+      $('.alert-cover-photo').empty();
+      $('.alert-cover-photo').html('Loading...');
+      $image_crop.croppie('result', {
+        type: 'base64',
+        format: 'png',
+        size: 'original'
+      }).then(function(response) {
+        $('#base64Image').val('');
+        $('#base64Image').val(response);
+        $.ajax({
+          url: '/admin/users/update-coverphoto/' + currentUserId,
+          dataType: 'json',
+          type: 'post',
+          data: {
+            _token: $('input[name=_token]').val(),
+            base64Image: response
+          },
+          success: function(response) {
+            if (response.status) {
+              $('.alert-cover-photo').html(response.message);
+            }
+          }
+        });
+      });
+    });
+
+    // Delete user avatar in admin dashboard
+    $('#btnDeleteAvatar').on('click', function() {
+      if (confirm('Are you sure you want to delete your avatar?')) {
+        $.ajax({
+          url: 'users/settings/avatar/delete/ajax/' + currentUserId,
+          dataType: 'json',
+          type: 'post',
+          data: {
+            _token: $('input[name=_token]').val(),
+          },
+          success: function(response) {
+            if (response.status) {
+              window.location.reload();
+            } else {
+              console.log(response);
+            }
+          }
+        });
+      }
+    });
+
+    // Delete user cover photo in admin dashboard
+    $('#btnDeleteCoverPhoto').on('click', function() {
+
+      if (confirm('Are you sure you want to delete your cover photo?')) {
+        $.ajax({
+          url: '/admin/users/delete-coverphoto/' + currentUserId,
+          dataType: 'json',
+          type: 'post',
+          data: {
+            _token: $('input[name=_token]').val(),
+          },
+          success: function(response) {
+            if (response.status) {
+              window.location.reload();
+            } else {
+              console.log(response);
+            }
+          }
+        });
+      }
+    });
+    /* ***********************Admin User Images setting *********************** */
+
   })();
 </script>
 @endauth
