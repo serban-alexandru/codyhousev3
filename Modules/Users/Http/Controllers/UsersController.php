@@ -45,20 +45,19 @@ class UsersController extends Controller
         // work around for status
         $statusOrder = ($order == 'asc') ? 'desc' : 'asc';
 
-        $users = User::
-            select('users.*', 'users_settings.avatar as avatar', 'roles.name as role', 'roles.key as roleKey')
+        $users = User::select('users.*', 'users_settings.avatar as avatar', 'roles.name as role', 'roles.key as roleKey')
             ->leftJoin('users_settings', 'users_settings.user_id', '=', 'users.id')
             ->leftJoin('roles', 'roles.permission', '=', 'users.permission');
 
         $users = ($sort == 'status')
-                ? $users->orderBy($sort, $statusOrder)
-                : $users->orderBy($sort, $order);
+            ? $users->orderBy($sort, $statusOrder)
+            : $users->orderBy($sort, $order);
 
         // if search query is not null
         if ($q != null) {
             $users = $users->where('users.name', 'LIKE', '%' . $q . '%')
-                ->orWhere ( 'users.username', 'LIKE', '%' . $q . '%' )
-                ->orWhere ( 'users.email', 'LIKE', '%' . $q . '%' );
+                ->orWhere('users.username', 'LIKE', '%' . $q . '%')
+                ->orWhere('users.email', 'LIKE', '%' . $q . '%');
         }
 
         // if status is set
@@ -108,7 +107,8 @@ class UsersController extends Controller
             ['status', '!=', 'deleted'],
         ])->count();
 
-        return view($bladeTemplate,
+        return view(
+            $bladeTemplate,
             compact('users', 'q', 'limit', 'availableLimit', 'sort', 'order', 'users_active_count', 'users_suspended_count', 'users_deleted_count', 'registeredUsersCount', 'editorUsersCount', 'adminUsersCount', 'status', 'role', 'request')
         );
 
@@ -133,7 +133,7 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         // validate data
-        $this->validate($request,[
+        $this->validate($request, [
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'username' => ['required', 'string', 'max:255', 'unique:users,username'],
@@ -173,7 +173,7 @@ class UsersController extends Controller
             // Copy avatar to specific folder
             $new_avatar = $user->copyAvatar();
         }
-        
+
         UsersSetting::create([
             'user_id' => $user->id,
             'bio' => $bio,
@@ -245,11 +245,11 @@ class UsersController extends Controller
 
         $rules = [
             'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$id],
-            'username' => ['required', 'string', 'max:255', 'unique:users,username,'.$id]
+            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $id],
+            'username' => ['required', 'string', 'max:255', 'unique:users,username,' . $id]
         ];
 
-        if($request->has('avatar')) {
+        if ($request->has('avatar')) {
             $rules['avatar'] = ['image'];
         }
 
@@ -301,11 +301,11 @@ class UsersController extends Controller
 
             // Delete old avatar if not null
             $user_info = UsersSetting::where('user_id', $user->id)->first();
-            if($user_info) {
-                if ( !is_null($user_info->avatar)) {
+            if ($user_info) {
+                if (!is_null($user_info->avatar)) {
                     $user_old_avatar = $user_info->avatar;
                     $old_avatar_path = storage_path() . '/app/public/users-images/avatars/' . $user_old_avatar;
-                    if(File::exists($old_avatar_path)){
+                    if (File::exists($old_avatar_path)) {
                         unlink($old_avatar_path);
                     }
                 }
@@ -337,7 +337,7 @@ class UsersController extends Controller
         }
 
         // Update or create account setting if user have no account settings yet
-        if($user->users_setting){
+        if ($user->users_setting) {
             $user->users_setting->update([
                 'bio' => $bio,
                 'twitter_link' => $twitter_link,
@@ -362,11 +362,11 @@ class UsersController extends Controller
     {
         $user = User::find($id);
 
-        if(!$user) {
+        if (!$user) {
             return response()->json(['User does not exists.']);
         }
 
-        if(!$user->users_setting){
+        if (!$user->users_setting) {
             $users_setting = UsersSetting::create([
                 'user_id' => $user->id
             ]);
@@ -375,38 +375,6 @@ class UsersController extends Controller
         $user->refresh();
 
         return view('users::settings-admin', compact('user'));
-    }
-
-    public function postAjaxUpdateCoverPhotoAdmin($id)
-    {
-        $this->validate(request(), ['base64Image' => 'required']);
-
-        $user = User::find($id);
-
-        if(!$user) {
-            return response()->json(['User does not exists.']);
-        }
-
-        // Get and set old cover photo
-        $user_info = UsersSetting::where('user_id', $id)->first();
-        if($user->hasCoverPhoto()){
-            $old_cover_photo = storage_path() . '/app/public/users-images/cover/' . $user_info->cover_photo;
-
-            if(File::exists($old_cover_photo)){
-                unlink($old_cover_photo);
-            }
-        }
-
-        $cover_photo = (new CoverPhotoUploader)->uploadBase64Photo(request('base64Image'), 'storage/app/public/users-images/cover');
-
-        $user_info->update([
-            'cover_photo' => $cover_photo->file_name
-        ]);
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Cover photo has been updated!'
-        ]);
     }
 
     /**
@@ -430,21 +398,20 @@ class UsersController extends Controller
         // if user trying to activate is currently logged in admin
         if ($user->id == auth()->user()->id) {
             $responseMessage = 'You cannot change the status of your account.';
-        }else{
+        } else {
             // if user account was already activated
             if ($user->status == 'active') {
-                $responseMessage = 'User '. $user->email. ' was previously activated.';
-            }else{
+                $responseMessage = 'User ' . $user->email . ' was previously activated.';
+            } else {
                 $user->status = 'active';
                 $saved = $user->save();
 
                 if ($saved) {
-                    $responseMessage = 'User account for '. $user->email. ' has been activated.';
-                }else{
-                    $responseMessage = 'Failed to activate the account of '. $user->email. '. Please try again.';
+                    $responseMessage = 'User account for ' . $user->email . ' has been activated.';
+                } else {
+                    $responseMessage = 'Failed to activate the account of ' . $user->email . '. Please try again.';
                 }
             }
-
         }
 
         return redirect('admin/users')->with('responseMessage', $responseMessage);
@@ -470,21 +437,20 @@ class UsersController extends Controller
         // if user trying to suspend is currently logged in admin
         if ($user->id == auth()->user()->id) {
             $responseMessage = 'You cannot suspend your logged in account.';
-        }else{
+        } else {
             // if user account was already suspended
             if ($user->status == 'suspended') {
-                $responseMessage = 'User '. $user->email. ' was previously suspended.';
-            }else{
+                $responseMessage = 'User ' . $user->email . ' was previously suspended.';
+            } else {
                 $user->status = 'suspended';
                 $saved = $user->save();
 
                 if ($saved) {
-                    $responseMessage = 'User account for '. $user->email. ' has been suspended.';
-                }else{
-                    $responseMessage = 'Failed to suspend the account of '. $user->email. '. Please try again.';
+                    $responseMessage = 'User account for ' . $user->email . ' has been suspended.';
+                } else {
+                    $responseMessage = 'Failed to suspend the account of ' . $user->email . '. Please try again.';
                 }
             }
-
         }
 
         return redirect('admin/users')->with('responseMessage', $responseMessage);
@@ -508,7 +474,7 @@ class UsersController extends Controller
         // if user trying to delete is currently logged in admin
         if ($user->id == auth()->user()->id) {
             $responseMessage = 'You cannot delete your logged in account.';
-        }else{
+        } else {
 
             $email = $user->email;
             $user->status = 'deleted';
@@ -516,11 +482,10 @@ class UsersController extends Controller
             $deleted = $user->save();
 
             if ($deleted) {
-                $responseMessage = 'User account of '. $email . ' has been deleted.';
-            }else{
-                $responseMessage = 'Failed to delete user '. $email . '. Please try again.';
+                $responseMessage = 'User account of ' . $email . ' has been deleted.';
+            } else {
+                $responseMessage = 'Failed to delete user ' . $email . '. Please try again.';
             }
-
         }
 
         return redirect('admin/users')->with('responseMessage', $responseMessage);
@@ -545,17 +510,16 @@ class UsersController extends Controller
         // if user trying to delete is currently logged in admin
         if ($user->id == auth()->user()->id) {
             $responseMessage = 'You cannot permanently delete your logged in account.';
-        }else{
+        } else {
             $email = $user->email;
 
             $deleted = $user->delete();
 
             if ($deleted) {
-                $responseMessage = 'User account of '. $email . ' has been permanently deleted.';
-            }else{
-                $responseMessage = 'Failed to permanently delete user '. $email . '. Please try again.';
+                $responseMessage = 'User account of ' . $email . ' has been permanently deleted.';
+            } else {
+                $responseMessage = 'Failed to permanently delete user ' . $email . '. Please try again.';
             }
-
         }
 
         return redirect('admin/users')->with('responseMessage', $responseMessage);
@@ -595,34 +559,31 @@ class UsersController extends Controller
                 if ($user->id == $loggedInUser->id) {
                     $responseMessage .= 'You cannot suspend currently logged in account.';
                     $responseMessage .= '</br>';
-                }else{
+                } else {
                     // if user was already suspended then just do nothing
                     if ($user->status == 'suspended') {
                         $responseMessage .= 'User ' . $user->email . ' account was previously suspended.';
                         $responseMessage .= '</br>';
-                    }else{
+                    } else {
                         $user->status = 'suspended';
                         $saved = $user->save();
 
                         if ($saved) {
                             $responseMessage .= 'User ' . $user->email . ' account has been suspended.';
                             $responseMessage .= '</br>';
-                        }else{
+                        } else {
                             $responseMessage .= 'Failed to suspend user account ' . $user->email . '. Please try again.';
                             $responseMessage .= '</br>';
                         }
                     }
-
                 }
-
-            }else{
-                $responseMessage .= 'User with ID: '. $id . 'is not found.';
+            } else {
+                $responseMessage .= 'User with ID: ' . $id . 'is not found.';
                 $responseMessage .= '</br>';
             }
         }
 
         return back()->with('responseMessage', $responseMessage);
-
     }
 
     public function bulkDelete(Request $request)
@@ -643,29 +604,27 @@ class UsersController extends Controller
                 if ($user->id == $loggedInUser->id) {
                     $responseMessage .= 'You cannot delete currently logged in account.';
                     $responseMessage .= '</br>';
-                }else{
+                } else {
                     $user->status = 'deleted';
                     $user->save();
 
                     $responseMessage .= 'User ' . $user->email . ' has been deleted.';
                     $responseMessage .= '</br>';
                 }
-
-            }else{
-                $responseMessage .= 'User with ID: '. $id . 'is not found.';
+            } else {
+                $responseMessage .= 'User with ID: ' . $id . 'is not found.';
                 $responseMessage .= '</br>';
             }
         }
 
         return back()->with('responseMessage', $responseMessage);
-
     }
 
     public function settings()
     {
         $user = Auth::user();
 
-        if(!$user->users_setting){
+        if (!$user->users_setting) {
             $users_setting = UsersSetting::create([
                 'user_id' => $user->id
             ]);
@@ -697,7 +656,7 @@ class UsersController extends Controller
 
             foreach ($validator->messages()->getMessages() as $fieldName => $messages) {
                 foreach ($messages as $message) {
-                    $errors .= '<p>'.$message.'</p>';
+                    $errors .= '<p>' . $message . '</p>';
                 }
             }
 
@@ -747,11 +706,11 @@ class UsersController extends Controller
 
             // Delete old avatar if not null
             $user_info = UsersSetting::where('user_id', $user->id)->first();
-            if($user_info) {
+            if ($user_info) {
                 if (!is_null($user_info->avatar)) {
                     $user_old_avatar = $user_info->avatar;
                     $old_avatar_path = storage_path() . '/app/public/users-images/avatars/' . $user_old_avatar;
-                    if(File::exists($old_avatar_path)){
+                    if (File::exists($old_avatar_path)) {
                         unlink($old_avatar_path);
                     }
                 }
@@ -788,10 +747,10 @@ class UsersController extends Controller
 
         // Get and set old cover photo
         $user_info = UsersSetting::where('user_id', $user->id)->first();
-        if($user->hasCoverPhoto()){
+        if ($user->hasCoverPhoto()) {
             $old_cover_photo = storage_path() . '/app/public/users-images/cover/' . $user_info->cover_photo;
 
-            if(File::exists($old_cover_photo)){
+            if (File::exists($old_cover_photo)) {
                 unlink($old_cover_photo);
             }
         }
@@ -813,7 +772,7 @@ class UsersController extends Controller
         $user = auth()->user();
         $user_info = UsersSetting::where('user_id', $user->id)->first();
 
-        if(!$user_info->avatar){
+        if (!$user_info->avatar) {
             return response()->json([
                 'status' => true,
                 'redirect_url' => url('users/settings')
@@ -836,10 +795,10 @@ class UsersController extends Controller
         $user = auth()->user();
         $user_info = UsersSetting::where('user_id', $user->id)->first();
 
-        if($user->hasCoverPhoto()){
+        if ($user->hasCoverPhoto()) {
             $old_cover_photo = storage_path() . '/app/public/users-images/cover/' . $user_info->cover_photo;
 
-            if(File::exists($old_cover_photo)){
+            if (File::exists($old_cover_photo)) {
                 unlink($old_cover_photo);
             }
 
@@ -856,7 +815,7 @@ class UsersController extends Controller
     public function getProfile($username = null)
     {
         $user = ($username) ? User::where('username', $username)->first()
-                : auth()->user();
+            : auth()->user();
 
         if (!$user) {
             abort(403);
@@ -868,5 +827,108 @@ class UsersController extends Controller
         $data['posts'] = $posts;
 
         return view('templates.layouts.profile', $data);
+    }
+
+
+    /**
+     * Upload user cover photo in admin dashboard
+     *
+     * @param  int  $id
+     * @return json status message
+     */
+    public function postAjaxUpdateCoverPhotoAdmin($id)
+    {
+        $this->validate(request(), ['base64Image' => 'required']);
+
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['User does not exists.']);
+        }
+
+        // Get and set old cover photo
+        $user_info = UsersSetting::where('user_id', $id)->first();
+        if ($user->hasCoverPhoto()) {
+            $old_cover_photo = storage_path() . '/app/public/users-images/cover/' . $user_info->cover_photo;
+
+            if (File::exists($old_cover_photo)) {
+                unlink($old_cover_photo);
+            }
+        }
+
+        $cover_photo = (new CoverPhotoUploader)->uploadBase64Photo(request('base64Image'), 'storage/app/public/users-images/cover');
+
+        if ($user_info) {
+            $user_info->update([
+                'cover_photo' => $cover_photo->file_name
+            ]);
+        } else {
+            UsersSetting::create([
+                'user_id' => $id,
+                'cover_photo' => $cover_photo->file_name
+            ]);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Cover photo has been updated!'
+        ]);
+    }
+
+    /**
+     * Delete user cover photo in admin dashboard
+     *
+     * @param  int  $id
+     * @return json status message
+     */
+    public function postAjaxDeleteCoverPhotoAdmin($id)
+    {
+        $user = User::find($id);
+        $user_info = UsersSetting::where('user_id', $user->id)->first();
+
+        if ($user->hasCoverPhoto()) {
+            $old_cover_photo = storage_path() . '/app/public/users-images/cover/' . $user_info->cover_photo;
+
+            if (File::exists($old_cover_photo)) {
+                unlink($old_cover_photo);
+            }
+
+            if ($user_info)
+                $user_info->update(['cover_photo' => NULL]);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Cover photo has been deleted!'
+        ]);
+    }
+
+    /**
+     * Delete user cover photo in admin dashboard
+     *
+     * @param  int  $id
+     * @return json status message
+     */
+    public function postAjaxDeleteAvatarAdmin($id)
+    {
+        $user = User::find($id);
+        $user_info = UsersSetting::where('user_id', $user->id)->first();
+
+        if (!$user_info->avatar) {
+            return response()->json([
+                'status' => true,
+                'redirect_url' => url('users/settings')
+            ]);
+        }
+
+        // Delete all avatars associated with this user
+        $user->deleteAvatarFile();
+        if ($user_info)
+            $user_info->update(['avatar' => NULL]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Avatar has been deleted!'
+        ]);
     }
 }
