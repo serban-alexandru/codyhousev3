@@ -213,4 +213,33 @@ class Settings extends Model
 
     return $templates;
   }
+
+  public static function getScraperSettingInfo() {
+    $scraper_settings = [
+      'scraper_ip_ports' => [],
+      'delay_min' => 5,
+      'delay_max' => 15
+    ];
+
+    if (Schema::hasTable('settings')) {
+      $settings = Settings::whereIn('key', ['scraper_ip_ports', 'delay_min', 'delay_max'])->get();
+
+      foreach($settings as $data) {
+        if (empty($data['value'])) $data['value'] = '';
+        $scraper_settings[$data['key']] = $data['value'];
+      }
+    }
+
+    // Exclude invalid ip & port couple.
+    if (isset($scraper_settings['scraper_ip_ports'])) {
+      $scraper_settings['scraper_ip_ports'] = unserialize($scraper_settings['scraper_ip_ports']);
+      foreach($scraper_settings['scraper_ip_ports'] as $idx => $ip_port) {
+        // validate ip address
+        if ( !filter_var($ip_port['ip'], FILTER_VALIDATE_IP) || !filter_var($ip_port['port'], FILTER_VALIDATE_INT) ) {
+          unset($scraper_settings[$idx]);
+        }
+      }
+    }
+    return $scraper_settings;
+  }
 }

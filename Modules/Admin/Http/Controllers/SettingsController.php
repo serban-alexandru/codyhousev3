@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Modules\Admin\Entities\Settings;
 use Illuminate\Support\Facades\Validator;
 
+use Modules\Admin\Entities\Scraper;
 use Modules\Users\Entities\UsersSetting;
 use Modules\Post\Entities\{Post, PostsMeta};
 
@@ -337,6 +338,107 @@ class SettingsController extends Controller {
       'status' => true,
       'message' => 'All unused media files are cleared!',
       'data' => $returnData
+    ]);
+  }
+
+  /**
+   * Load Scraper General Settings
+   */
+  public function scraperSetting() {
+    $settings_data = Settings::getSiteSettings();
+
+    // Scraper IP & Port info.
+    if (isset($settings_data['scraper_ip_ports'])) {
+      $scraper_ip_ports = unserialize($settings_data['scraper_ip_ports']);
+    } else {
+      $scraper_ip_ports = [];
+    }
+
+    // Scraper delay info.
+    $delay_min = "";
+    $delay_max = "";
+    if (isset($settings_data['delay_min']))
+      $delay_min = $settings_data['delay_min'];
+
+    if (isset($settings_data['delay_max']))
+      $delay_max = $settings_data['delay_max'];
+
+    $scrapers = Scraper::all();
+    $scraper_ids = [];
+    foreach($scrapers as $scraper) {
+      $scraper_ids[] = $scraper->id;
+    }
+  
+    return view('admin::scraper.settings', compact('scraper_ip_ports', 'delay_min', 'delay_max', 'scraper_ids'));
+  }
+
+  /**
+   * Store scraper general setting data.
+   * @param Request $request
+   * @return Renderable
+   */
+  public function storeScraperSetting(Request $request) {
+    $setting_keys = [
+      'scraper_ip_ports',
+      'delay_min',
+      'delay_max'
+    ];
+
+    $validator = Validator::make($request->all(), [
+      'delay_min' => 'required|numeric|min:5|max:15',
+      'delay_max' => 'required|numeric|min:5|max:15|gt:delay_min'
+    ]);
+
+    if ($validator->fails()) {
+      return response()->json([
+        'status' => false,
+        'message' => 'Validation failed!',
+        'errors' => $validator->errors()
+      ]);
+    }
+
+    // get existing settings data
+    $settings_data = Settings::getSiteSettings();
+
+    // check if setting data is already added to database
+    $dateNow = now();
+
+    $insert_data = array();
+    $update_data = array();
+    foreach ($setting_keys as $key) {
+      $req_param = !empty($request->input($key)) ? $request->input($key) : '';
+
+      if ($key == 'scraper_ip_ports') {
+        foreach($req_param as $idx => $ip_port) {
+          if (empty($ip_port['ip']) || empty($ip_port['port'])) {
+            unset($req_param[$idx]);
+          }
+        }
+        $req_param = serialize($req_param);
+      }
+
+      if (isset($settings_data[$key]))
+        $update_data[$key] = $req_param;
+      else
+        $insert_data[] = array('key' => $key, 'value' => $req_param, 'created_at' => $dateNow, 'updated_at' => $dateNow);
+    }
+
+    if (count($insert_data) > 0) {
+      // do insert action
+      Settings::insert($insert_data);
+    }
+
+    if (count($update_data) > 0) {
+      foreach ($update_data as $key => $value) {
+        $row = Settings::where('key', $key);
+        $row->update(['value' => $value]);
+      }
+    }
+
+    return response()->json([
+      'status' => true,
+      'message' => 'Setting Data has been saved!',
+      'data' => $update_data
     ]);
   }
 }

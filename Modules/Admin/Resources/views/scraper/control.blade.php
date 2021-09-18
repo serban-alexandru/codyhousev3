@@ -1,25 +1,38 @@
 <div class="flex justify-between controlbar--sticky">
   <div class="margin-xs">
     <div class="inline-flex items-baseline">
-      <h1 class="text-md color-contrast-high padding-y-xxxxs margin-x-xs" for="filterItems">Scrapers</h1>
+      <h1 class="text-md color-contrast-high padding-y-xxxxs margin-x-xs" for="scraperFilter">Scrapers</h1>
       <div class="select inline-block js-select" data-trigger-class="reset text-sm color-contrast-high h1 inline-flex items-center cursor-pointer js-tab-focus">
-        <select name="filterItems" id="filterItems">
-          <optgroup label="Post Status">
-            <option value=""selected>Currantly Running</option>
-            <option value="draft">Scraper 1</option>
-            <option value="pending">Scraper 2</option>
-            <option value="deleted">Scraper 3</option>
+        <select name="scraper_filter" id="scraperFilter">
+          <optgroup label="Scraper Status">
+            <option value="">Currently Running</option>
+          </optgroup>
+          <optgroup label="Scrapers">
+            <?php
+              $s_idx = 1;
+            ?>
+            @foreach($scraper_ids as $id)
+              <option value="{{ $id }}" {{ isset($scraper_id) && $scraper_id == $id ? 'selected' : '' }}>Scraper {{ $s_idx }}</option>
+              <?php
+                $s_idx++;
+              ?>
+            @endforeach
           </optgroup>
         </select>
         <svg class="icon icon--xxxs margin-left-xxs" viewBox="0 0 8 8"><path d="M7.934,1.251A.5.5,0,0,0,7.5,1H.5a.5.5,0,0,0-.432.752l3.5,6a.5.5,0,0,0,.864,0l3.5-6A.5.5,0,0,0,7.934,1.251Z"/></svg>
       </div>
     </div>
-  </div>
+  </div> <!-- end of <div class="margin-xs"> -->
 
   <!-- Menu Bar -->
   <div class="flex flex-wrap items-center justify-between margin-right-xxs">
     <div class="flex flex-wrap">
-
+      <li class="menu-bar__item padding-top-xxxs">
+        <a href="{{ url('/admin/scraper/scraper-v1') }}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>pencil</title><g fill="#000000"><path d="M18.85 4.39l-3.32-3.32a0.83 0.83 0 0 0-1.18 0l-11.62 11.62a0.84 0.84 0 0 0-0.2 0.33l-1.66 4.98a0.83 0.83 0 0 0 0.79 1.09 0.84 0.84 0 0 0 0.26-0.04l4.98-1.66a0.84 0.84 0 0 0 0.33-0.2l11.62-11.62a0.83 0.83 0 0 0 0-1.18z m-6.54 1.08l1.17-1.18 2.15 2.15-1.18 1.17z" fill="#000000"></path></g></svg>
+        </a>
+        <span class="menu-bar__label">Add Scraper</span>
+      </li>
 
       <li class="menu-bar__item padding-top-xxxs">
         <a href="{{ url('/admin/scraper/settings') }}">
@@ -27,8 +40,6 @@
         </a>
         <span class="menu-bar__label">Settings</span>
       </li>
-
-
     </div>
   </div> <!-- end of <div class="flex flex-wrap items-center justify-between margin-right-xxs"> -->
 </div>

@@ -15,18 +15,6 @@ Route::get('/admin/contact',function(){
   return view('admin::contact.index');
 });
 
-Route::get('/admin/scraper',function(){
-  return view('admin::scraper.index');
-});
-
-Route::get('/admin/scraper/settings',function(){
-  return view('admin::scraper.settings');
-});
-
-Route::get('/admin/scraper/scraper-v1',function(){
-  return view('admin::scraper.scraper-v1');
-});
-
 use Illuminate\Support\Facades\Schema;
 use Modules\Admin\Entities\Settings;
 
@@ -70,5 +58,47 @@ Route::middleware($middleware)->group(function(){
           'as' => 'settings.clear_media',
           'uses' => 'SettingsController@clearUnusedMediaFiles'
         ]);
+
+        // Scraper pages
+        Route::get('scraper', 'ScraperController@index');
+        
+        Route::get('scraper/settings', 'SettingsController@scraperSetting');
+        Route::post('scraper/store', [
+          'as' => 'scraper.store',
+          'uses' => 'SettingsController@storeScraperSetting'
+        ]);
+        
+        Route::get('scraper/scraper-v1', 'ScraperController@newScraper');
+        Route::post('scraper/scraper-v1', [
+          'as' => 'scraper.save_scraper',
+          'uses' => 'ScraperController@saveScraper'
+        ]);
+        Route::get('scraper/run_pause/{id}', [
+          'as' => 'scraper.run_pause',
+          'uses' => 'ScraperController@runpauseScraperCron'
+        ]);
+        Route::get('scraper/stop/{id}', [
+          'as' => 'scraper.stop',
+          'uses' => 'ScraperController@stopScraperCron'
+        ]);
+        Route::get('scraper/delete/{id}', [
+          'as' => 'scraper.delete',
+          'uses' => 'ScraperController@deleteScraperCron'
+        ]);
+        Route::get('scraper/retry', [
+          'as' => 'scraper.retry',
+          'uses' => 'ScraperController@retryScraper'
+        ]);
+
+        Route::post('scraper/get_logs', [
+          'as' => 'scraper.get_logs',
+          'uses' => 'ScraperController@getLogs'
+        ]);
+        Route::post('scraper/delete_log_item', [
+          'as' => 'scraper.delete_log_item',
+          'uses' => 'ScraperController@deleteLogItem'
+        ]);
+
+        Route::get('scraper/scraper-v1/{id}', 'ScraperController@loadScraper');
     });
 });
