@@ -150,6 +150,7 @@ class UsersController extends Controller
         $facebook_link = $request->input('facebook_link');
         $instagram_link = $request->input('instagram_link');
         $selectedRoleKey = $request->input('role');
+        $cover_photo = $request->input('cover-photo-add');
 
         // save updated user
         $user = new User;
@@ -165,10 +166,10 @@ class UsersController extends Controller
 
         $saved = $user->save();
 
-        $new_avatar = '';
-        if ($request->file('avatar') !== null) {
+        $new_avatar = NULL;
+        if ($request->file('avatar-add')) {
             // set avatar
-            $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
+            $user->addMediaFromRequest('avatar-add')->toMediaCollection('avatars');
 
             // Copy avatar to specific folder
             $new_avatar = $user->copyAvatar();
@@ -178,6 +179,7 @@ class UsersController extends Controller
             'user_id' => $user->id,
             'bio' => $bio,
             'avatar' => $new_avatar,
+            'cover_photo' => $cover_photo,
             'twitter_link' => $twitter_link,
             'facebook_link' => $facebook_link,
             'instagram_link' => $instagram_link
@@ -929,6 +931,25 @@ class UsersController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Avatar has been deleted!'
+        ]);
+    }
+
+    /**
+     * Delete user cover photo in admin dashboard
+     *
+     * @param  int  $id
+     * @return json status message
+     */
+    public function postAjaxAddCoverPhotoAdmin()
+    {
+        $this->validate(request(), ['base64ImageAdd' => 'required']);
+
+        $cover_photo = (new CoverPhotoUploader)->uploadBase64Photo(request('base64ImageAdd'), 'storage/app/public/users-images/cover'); 
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Cover photo uploaded successfully.',
+            'file_name' => $cover_photo->file_name
         ]);
     }
 }

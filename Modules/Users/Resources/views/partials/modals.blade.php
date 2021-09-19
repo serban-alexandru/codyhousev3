@@ -34,12 +34,48 @@
 
           <section id="tab1Panel2" class="padding-top-md js-tabs__panel">
             <div class="text-component">
-              <h1 class="text-lg">Images</h1>
               <div>
-                <label for="new_avatar" class="file-upload__label btn btn--subtle">
-                  <span class="file-upload__text file-upload__text--has-max-width" data-default-text="Upload a file">Upload Avatar</span>
-                </label>
+                {{-- ADD COVER PHOTO --}}
+                <div>
+                  <div class="alert-cover-photo hidden">
+                    <button class="btn-cover-photo" id="btnCancelAdd" type="button">Cancel</button>
+                    <button class="btn-cover-photo" id="btnUploadCoverPhotoAdd" type="button">Update</button>
+                  </div>
+                  <div>
+                    <input type="file" name="upload_image" id="uploadImageAdd" style="display: none;">
+                    <div id="uploaded_image_add"></div>
+                  </div>
+
+                  <div id="imageDemoAdd"></div>
+
+                  <input type="hidden" value="" id="base64ImageAdd">
+                  <input type="hidden" name="cover-photo-add" id="cover-photo-add">
+                </div>
+
+                <div class="author margin-bottom-md">
+                  <a href="#0" class="author__img-wrapper bg-black bg-opacity-50%">
+                    <img alt="Author picture" id="settings-avatar-add" style="display: none;">
+                  </a>
+                  <div class="author__content text-component padding-top-sm padding-left-xs">
+                    <div class="flex flex-wrap gap-sm">
+                      <div class="file-upload inline-block">
+                        <label for="avatar-add" class="file-upload__label btn btn--subtle">
+                          <span class="file-upload__text file-upload__text--has-max-width" data-default-text="Upload a file">Upload Avatar</span>
+                        </label>
+
+                        <input type="file" class="file-upload__input" data-custom-image-file-preview="#settings-avatar-add" data-custom-image-file-resetter="#settings-avatar-delete" name="avatar-add" id="avatar-add" accept="image/*">
+                      </div><!-- /.file-upload inline-block -->
+                      <button type="button" id="btnDeleteAvatarAdd" class="btn btn--subtle">Delete Avatar</button>
+
+                      <label for="uploadImageAdd" class="btn" id="btnEditCoverPhotoAdd">Edit Cover Photo</label>
+                      <button type="button" id="btnDeleteCoverPhotoAdd" class="btn btn--subtle">
+                        Delete Cover Photo
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
+
             </div>
           </section>
 
@@ -95,15 +131,9 @@
           </section>
 
           <section id="tab2Panel2" class="padding-top-md js-tabs__panel flex gap-sm items-center">
-            <!-- <a href="#" class="bg-contrast-medium author__img-wrapper modal-user-avatar"></a>
-            <div>
-              <label for="avatar" class="file-upload__label btn btn--subtle">
-                <span class="file-upload__text file-upload__text--has-max-width" data-default-text="Upload a file">Upload Avatar</span>
-              </label>
-            </div> -->
 
             <div>
-              {{-- COVER PHOTO --}}
+              {{-- UPDATE COVER PHOTO --}}
               <div>
                 <div class="alert-cover-photo hidden">
                   <button class="btn-cover-photo" id="btnCancel" type="button" onclick="location.reload()">Cancel</button>
@@ -120,7 +150,7 @@
               </div>
 
               <div class="author margin-bottom-md">
-                <a href="#0" class="author__img-wrapper bg-black bg-opacity-50%"> 
+                <a href="#0" class="author__img-wrapper bg-black bg-opacity-50%">
                   <img alt="Author picture" id="settings-avatar" style="display: none;">
                 </a>
                 <div class="author__content text-component padding-top-sm padding-left-xs">
@@ -132,14 +162,14 @@
 
                       <input type="file" class="file-upload__input" data-custom-image-file-preview="#settings-avatar" data-custom-image-file-resetter="#settings-avatar-delete" name="avatar" id="avatar" accept="image/*">
                     </div><!-- /.file-upload inline-block -->
-                    <button type="button" id="btnDeleteAvatar" class="btn btn--subtle">Delete Avatar</button> 
+                    <button type="button" id="btnDeleteAvatar" class="btn btn--subtle">Delete Avatar</button>
 
                     <label for="uploadImage" class="btn" id="btnEditCoverPhoto">Edit Cover Photo</label>
-                    <button type="button" id="btnDeleteCoverPhoto" class="btn btn--subtle" >
+                    <button type="button" id="btnDeleteCoverPhoto" class="btn btn--subtle">
                       Delete Cover Photo
                     </button>
-                  </div> 
-                </div> 
+                  </div>
+                </div>
               </div>
 
             </div>
