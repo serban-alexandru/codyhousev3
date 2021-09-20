@@ -9,7 +9,7 @@ use Symfony\Component\HttpClient\HttpClient;
 use Illuminate\Support\Facades\Log;
 use App\Services\LoggerService;
 
-use Modules\Admin\Entities\{ScraperLog, Scraper, Settings};
+use Modules\Admin\Entities\{ScraperLog, ScraperStat, Scraper, Settings};
 use Modules\Post\Entities\{ PostSetting, Post, PostsTag, PostsMeta };
 use Modules\Tag\Entities\{Tag, TagCategory};
 
@@ -20,13 +20,24 @@ class ScraperService {
   public $logger = null;
   public $proxies = [];
 
+  public $scraper_status = [
+    'id' => 0,
+    'list_page' => '',
+    'detail_page' => ''
+  ];
+
   public function __construct($scraper, $settings) {
     $this->scraper = $scraper;
     $this->settings = $settings;
 
+    $this->scraper_status['id'] = $this->scraper->id;
+
     if (isset($this->scraper->default_url)) {
       $url = parse_url($this->scraper->default_url);
       $this->domain = (isset($url['scheme']) ? $url['scheme'] : 'https') . '://' . (isset($url['host']) ? $url['host'] : '') . '/';
+
+      $this->scraper_status['list_page'] = $this->scraper->default_url;
+      $this->scraper_status['detail_page'] = '';
     }
 
     if (isset($this->settings['scraper_ip_ports']) || count($this->settings['scraper_ip_ports']) > 0) {
@@ -42,12 +53,12 @@ class ScraperService {
     Log::info('Prepare to run scraper...');
 
     // Validation (Non completed settings)
-    if (!isset($this->settings['scraper_ip_ports']) || count($this->settings['scraper_ip_ports']) == 0) {
+    /*if (!isset($this->settings['scraper_ip_ports']) || count($this->settings['scraper_ip_ports']) == 0) {
       Log::warning('Scraper is canceled, because could not find ip:port list.');
       $this->logger->update_log_param('proxy', 0);
       $this->logger->save_log(false);
       return;
-    }
+    }*/
 
     // Validation (Invalid scraper)
     if (!isset($this->scraper->default_url)) {
@@ -56,6 +67,9 @@ class ScraperService {
       $this->logger->save_log(false);
       return;
     }
+
+    // Check if the scraper was paused before.
+    $scraper_stats = ScraperStat::where('scraper_id', $this->scraper->id)->first();
 
     // Next Pagination direction
     $direction = $this->scraper->direction == "1" ? 'forward' : 'backward';
@@ -67,8 +81,34 @@ class ScraperService {
 
     Log::info('Starting scraper...');
 
+    $can_scrape = true;
+    if ($scraper_stats) {
+      $can_scrape = false;
+    }
+
     $debug_data = [];
     while(true) {
+      if (!$can_scrape && $scraper_stats && $scraper_stats->list_page_url != $list_page_url) {
+        // Get next page url.
+        $next_page_num = $direction == 'forward' ? $next_page_num + 1 : $next_page_num - 1;
+        if ($next_page_num == -1)
+          break;
+        
+        // generate next page url
+        $list_page_url = $this->getNextListPageUrl($list_page_url, $next_page_num);
+        if (!$list_page_url)
+          break;
+
+        $this->scraper_status['list_page'] = $list_page_url;
+        $this->scraper_status['detail_page'] = '';
+
+        continue;
+      }
+
+      if ($scraper_stats && $scraper_stats->list_page_url == $list_page_url && $scraper_stats->item_url == '') {
+        $can_scrape = true;
+      }
+
       // Step 1 : Scrape List Page
       Log::info('Scraping list page... (' . $list_page_url . ')');
       $links = $this->scrapeListPage($list_page_url);
@@ -80,6 +120,17 @@ class ScraperService {
       // Step 2 : Scrape Item Page
       if (!empty($links)) {
         foreach($links as $page_url) {
+          if (!$can_scrape && $scraper_stats && $scraper_stats->item_url != $page_url) {
+            continue;
+          }
+
+          $can_scrape = true;
+
+          // Check whether current scraper should be paused.
+          if ($this->check_scraper_status())
+            return;
+
+          $this->scraper_status['detail_page'] = $page_url;
           $scraped_data = $this->scrapeDetailPage($page_url);
           $debug_data[] = [
             'list_url' => $list_page_url,
@@ -110,6 +161,13 @@ class ScraperService {
       if (!$list_page_url)
         break;
 
+      $this->scraper_status['list_page'] = $list_page_url;
+      $this->scraper_status['detail_page'] = '';
+
+      // Check whether current scraper should be paused.
+      if ($this->check_scraper_status())
+        return;
+
       Log::notice("Continue to the next page...");
     }
 
@@ -119,6 +177,9 @@ class ScraperService {
       $scraper_info->update(['status' => 'stopped']);
     }
 
+    // Delete scraper status info from stats table
+    ScraperStat::where('scraper_id', $this->scraper->id)->delete();
+
     return $debug_data;
   }
 
@@ -126,10 +187,10 @@ class ScraperService {
     Log::info('Prepare to retry failed scraper... (' . $log_item->url . ')');
 
     // Validation (Non completed settings)
-    if (!isset($this->settings['scraper_ip_ports']) || count($this->settings['scraper_ip_ports']) == 0) {
+    /*if (!isset($this->settings['scraper_ip_ports']) || count($this->settings['scraper_ip_ports']) == 0) {
       // This time, no need to log again. Just return.
       return;
-    }
+    }*/
 
     $debug_data = [];
 
@@ -215,9 +276,12 @@ class ScraperService {
   public function scrapeListPage($url) {
     $config = [
       'timeout' => 60,
-      // 'proxy' => 'http://cohfzrzw:nu2y6q8h5v7m@209.127.191.180:9279' // Proxy Authentication: username and password 
-      'proxy' => $this->proxies[mt_rand(0, count($this->proxies) - 1)] // Proxy Authentication: IP Authorization
     ];
+    if (count($this->proxies) > 0) {
+      // 'proxy' => 'http://cohfzrzw:nu2y6q8h5v7m@209.127.191.180:9279' // Proxy Authentication: username and password 
+      $config['proxy'] = $this->proxies[mt_rand(0, count($this->proxies) - 1)]; // Proxy Authentication: IP Authorization
+    }
+
     $client = new Client(HttpClient::Create($config));
 
     $crawler = $client->request('GET', $url);
@@ -251,9 +315,12 @@ class ScraperService {
   public function scrapeDetailPage($url) {
     $config = [
       'timeout' => 60,
-      // 'proxy' => 'http://cohfzrzw:nu2y6q8h5v7m@209.127.191.180:9279' // Proxy Authentication: username and password 
-      'proxy' => $this->proxies[mt_rand(0, count($this->proxies) - 1)] // Proxy Authentication: IP Authorization
     ];
+    if (count($this->proxies) > 0) {
+      // 'proxy' => 'http://cohfzrzw:nu2y6q8h5v7m@209.127.191.180:9279' // Proxy Authentication: username and password 
+      $config['proxy'] = $this->proxies[mt_rand(0, count($this->proxies) - 1)]; // Proxy Authentication: IP Authorization
+    }
+
     $client = new Client(HttpClient::Create($config));
 
     $crawler = $client->request('GET', $url);
@@ -865,5 +932,19 @@ class ScraperService {
       }
     }
     return true;
+  }
+
+  public function check_scraper_status() {
+    // Check current scraper status.
+    $scraper_info = Scraper::find($this->scraper->id);
+    if ($scraper_info->status == 'paused') {
+      // Save current status.
+      ScraperStat::where('scraper_id', $this->scraper->id)->update([
+        'list_page_url' => $this->scraper_status['list_page'],
+        'item_url' => $this->scraper_status['detail_page']
+      ]);
+      return true;
+    }
+    return false;
   }
 }
