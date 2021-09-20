@@ -53,12 +53,12 @@ class ScraperService {
     Log::info('Prepare to run scraper...');
 
     // Validation (Non completed settings)
-    if (!isset($this->settings['scraper_ip_ports']) || count($this->settings['scraper_ip_ports']) == 0) {
+    /*if (!isset($this->settings['scraper_ip_ports']) || count($this->settings['scraper_ip_ports']) == 0) {
       Log::warning('Scraper is canceled, because could not find ip:port list.');
       $this->logger->update_log_param('proxy', 0);
       $this->logger->save_log(false);
       return;
-    }
+    }*/
 
     // Validation (Invalid scraper)
     if (!isset($this->scraper->default_url)) {
@@ -187,10 +187,10 @@ class ScraperService {
     Log::info('Prepare to retry failed scraper... (' . $log_item->url . ')');
 
     // Validation (Non completed settings)
-    if (!isset($this->settings['scraper_ip_ports']) || count($this->settings['scraper_ip_ports']) == 0) {
+    /*if (!isset($this->settings['scraper_ip_ports']) || count($this->settings['scraper_ip_ports']) == 0) {
       // This time, no need to log again. Just return.
       return;
-    }
+    }*/
 
     $debug_data = [];
 
