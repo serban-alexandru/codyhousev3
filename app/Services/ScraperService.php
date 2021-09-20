@@ -276,9 +276,12 @@ class ScraperService {
   public function scrapeListPage($url) {
     $config = [
       'timeout' => 60,
-      // 'proxy' => 'http://cohfzrzw:nu2y6q8h5v7m@209.127.191.180:9279' // Proxy Authentication: username and password 
-      'proxy' => $this->proxies[mt_rand(0, count($this->proxies) - 1)] // Proxy Authentication: IP Authorization
     ];
+    if (count($this->proxies) > 0) {
+      // 'proxy' => 'http://cohfzrzw:nu2y6q8h5v7m@209.127.191.180:9279' // Proxy Authentication: username and password 
+      $config['proxy'] = $this->proxies[mt_rand(0, count($this->proxies) - 1)]; // Proxy Authentication: IP Authorization
+    }
+
     $client = new Client(HttpClient::Create($config));
 
     $crawler = $client->request('GET', $url);
@@ -312,9 +315,12 @@ class ScraperService {
   public function scrapeDetailPage($url) {
     $config = [
       'timeout' => 60,
-      // 'proxy' => 'http://cohfzrzw:nu2y6q8h5v7m@209.127.191.180:9279' // Proxy Authentication: username and password 
-      'proxy' => $this->proxies[mt_rand(0, count($this->proxies) - 1)] // Proxy Authentication: IP Authorization
     ];
+    if (count($this->proxies) > 0) {
+      // 'proxy' => 'http://cohfzrzw:nu2y6q8h5v7m@209.127.191.180:9279' // Proxy Authentication: username and password 
+      $config['proxy'] = $this->proxies[mt_rand(0, count($this->proxies) - 1)]; // Proxy Authentication: IP Authorization
+    }
+
     $client = new Client(HttpClient::Create($config));
 
     $crawler = $client->request('GET', $url);
