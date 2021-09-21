@@ -170,7 +170,7 @@
             <td class="int-table__cell">{{ $tag->category_name }}</td>
             <td class="int-table__cell text-center">
               @if($tag->getFirstMediaUrl('images') != '')
-                <img src="{{ $tag->getTagImage('images') }}" alt="Image of {{ $tag->name }}, " style="max-width: 50px; height: auto;" />
+                <img class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%" src="{{ $tag->getTagImage('images') }}" alt="Image of {{ $tag->name }}, " style="max-width: 50px; height: auto;" />
               @else
                 None
               @endif

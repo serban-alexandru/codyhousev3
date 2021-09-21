@@ -14,7 +14,18 @@
 @section('content')
 <section class="margin-top-md">
   <div class="container max-width-adaptive-lg">
-    <p class="text-xl margin-bottom-md">{{ $page_title }}</p>
+    
+  <div class="author ">
+  <a href="#0" class="author__img-wrapper">
+    <img src="https://codyhouse.co/app/assets/img/author-img-1.jpg" alt="Author picture">
+  </a>
+
+  <div class="author__content text-component text-space-y-xxs">
+    <h4 class="text-xl margin-bottom-md">{{ $page_title }}</h4>
+    <p class="color-contrast-medium">Tags Discription</p>
+  </div>
+</div>
+
   </div>
 </section>
 
