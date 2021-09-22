@@ -44,13 +44,25 @@
                 <select name="scraper_user" id="adv-select">
                   <optgroup label="Admins">
                     @foreach($users['admin'] as $user)
-                      <option value="{{$user->id}}" data-option-avatar="{{ $user->getAvatar() }}" {{ isset($scraper_info->user_id) && $scraper_info->user_id == $user->id ? "selected" : ""}}>{{$user->name}}</option>
+                      <?php
+                        $user_avatar = '<div class="flex width-md height-md bg-black bg-opacity-50% radius-50% margin-right-xxs">';
+                        if($user->hasAvatar())
+                          $user_avatar .= '<img class="width-md height-md radius-50% object-cover" src="' . $user->getAvatar() . '">';
+                        $user_avatar .= '</div>';
+                      ?>
+                      <option value="{{$user->id}}" data-option-avatar="{{ $user_avatar }}" {{ isset($scraper_info->user_id) && $scraper_info->user_id == $user->id ? "selected" : ""}}>{{$user->name}}</option>
                     @endforeach
                   </optgroup>
 
                   <optgroup label="Editors">
                     @foreach($users['editor'] as $user)
-                      <option value="{{$user->id}}" data-option-avatar="{{ $user->getAvatar() }}" {{ isset($scraper_info->user_id) && $scraper_info->user_id == $user->id ? "selected" : ""}}>{{$user->name}}</option>
+                      <?php
+                        $user_avatar = '<div class="flex width-md height-md bg-black bg-opacity-50% radius-50% margin-right-xxs">';
+                        if($user->hasAvatar())
+                          $user_avatar .= '<img class="width-md height-md radius-50% object-cover" src="' . $user->getAvatar() . '">';
+                        $user_avatar .= '</div>';
+                      ?>
+                      <option value="{{$user->id}}" data-option-avatar="{{ $user_avatar }}" {{ isset($scraper_info->user_id) && $scraper_info->user_id == $user->id ? "selected" : ""}}>{{$user->name}}</option>
                     @endforeach
                   </optgroup>
                 </select>
@@ -72,7 +84,7 @@
                   <!-- option -->
                   <div class="adv-select-popover__option padding-y-xxs padding-x-md" role="option">
                     <div class="flex items-center">
-                      <img class="width-md height-md radius-50% object-cover margin-right-xxs" src="{option-avatar}" alt="Profile image">
+                      {option-avatar}
                       <div class="text-truncate">{option-label}</div>
                       <svg class="adv-select-popover__check icon icon--xs margin-left-auto" viewBox="0 0 16 16"><polyline stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" points="1,9 5,13 15,3" /></svg>
                     </div>
