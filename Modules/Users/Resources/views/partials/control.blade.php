@@ -9,11 +9,11 @@
                 <option value="suspended" data-count="{{ $users_suspended_count }}" >Suspended</option>
                 <option value="deleted" data-count="{{ $users_deleted_count }}" >Deleted</option>
               </optgroup>
-              <!--<optgroup data-type="role" label="Role">
+              <optgroup data-type="role" label="Role">
                 <option value="admin" data-count="{{ $adminUsersCount }}">Admin</option>
                 <option value="editor" data-count="{{ $editorUsersCount }}">Editor</option>
                 <option value="registered" data-count="{{ $registeredUsersCount }}" >Registered</option>
-              </optgroup>-->
+              </optgroup>
             </select>
         <svg class="icon icon--xxxs margin-left-xxs" viewBox="0 0 8 8"><path d="M7.934,1.251A.5.5,0,0,0,7.5,1H.5a.5.5,0,0,0-.432.752l3.5,6a.5.5,0,0,0,.864,0l3.5-6A.5.5,0,0,0,7.934,1.251Z"/></svg>
       </div>
