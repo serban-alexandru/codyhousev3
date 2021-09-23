@@ -71,6 +71,11 @@ class doScrape extends Command
                     ScraperLog::where('id', $log->id)->delete();
                 }
             }
+
+            Log::debug('Completed run Re-Scraper - ' . date("Y-m-d H:i:s") );
+            // After complete running re-scraper, update status.
+            $row = Settings::where('key', 'scraper_retry');
+            $row->update(['value' => 'stopped']);
         }
     
         return 0;

@@ -127,10 +127,10 @@ class ScraperService {
           $can_scrape = true;
 
           // Check whether current scraper should be paused.
+          $this->scraper_status['detail_page'] = $page_url;
           if ($this->check_scraper_status())
             return;
 
-          $this->scraper_status['detail_page'] = $page_url;
           $scraped_data = $this->scrapeDetailPage($page_url);
           $debug_data[] = [
             'list_url' => $list_page_url,
@@ -212,6 +212,10 @@ class ScraperService {
       Log::info('Starting scraper...');
 
       while(true) {
+        // Check whether to stop rescrape.
+        if ($this->check_rescraper_status())
+          return;
+
         // Step 1 : Scrape List Page
         Log::info('Scraping list page... (' . $list_page_url . ')');
         $links = $this->scrapeListPage($list_page_url);
@@ -223,6 +227,10 @@ class ScraperService {
         // Step 2 : Scrape Item Page
         if (!empty($links)) {
           foreach($links as $page_url) {
+            // Check whether to stop rescrape.
+            if ($this->check_rescraper_status())
+              return;
+
             $scraped_data = $this->scrapeDetailPage($page_url);
             $debug_data[] = [
               'list_url' => $list_page_url,
@@ -254,7 +262,11 @@ class ScraperService {
 
         Log::notice("Continue to the next page...");
       }      
-    } else {
+    } else {      
+      // Check whether to stop rescrape.
+      if ($this->check_rescraper_status())
+        return;
+
       Log::info('The page is detail page. Prepare to re-scrape list page...');
 
       $scraped_data = $this->scrapeDetailPage($log_item->url);
@@ -265,10 +277,6 @@ class ScraperService {
         'data' => $scraped_data
       ];
     }
-
-    // After complete running re-scraper, update status.
-    $row = Settings::where('key', 'scraper_retry');
-    $row->update(['value' => 'stopped']);
 
     return $debug_data;
   }
@@ -889,20 +897,20 @@ class ScraperService {
 
     $tag_categories = TagCategory::all();
     foreach ($tag_categories as $key => $tag_category) {
-      switch ($tag_category->name) {
-        case 'Origin':
+      switch (strtolower($tag_category->name)) {
+        case 'origins':
           $tags_input = $post_data['tags']['origins'];
           break;
-        case 'Media':
+        case 'media':
           $tags_input = $post_data['tags']['medias'];
           break;
-        case 'Character':
+        case 'characters':
           $tags_input = $post_data['tags']['characters'];
           break;
-        case 'Artist':
+        case 'artists':
           $tags_input = $post_data['tags']['artists'];
           break;
-        case 'Misc':
+        case 'misc':
           $tags_input = $post_data['tags']['misc'];
           break;
         default:
@@ -943,6 +951,18 @@ class ScraperService {
         'list_page_url' => $this->scraper_status['list_page'],
         'item_url' => $this->scraper_status['detail_page']
       ]);
+      return true;
+    } else if ($scraper_info->status == 'stopped') {
+      return true;
+    }
+    return false;
+  }
+
+  public function check_rescraper_status() {
+    // Check current scraper status.
+    $status = Settings::where('key', 'scraper_retry')->get()->first();;
+    
+    if ($status && $status['value'] == 'stopped') {
       return true;
     }
     return false;

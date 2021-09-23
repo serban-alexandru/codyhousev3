@@ -223,15 +223,16 @@ class Settings extends Model
 
     if (Schema::hasTable('settings')) {
       $settings = Settings::whereIn('key', ['scraper_ip_ports', 'delay_min', 'delay_max'])->get();
-
-      foreach($settings as $data) {
-        if (empty($data['value'])) $data['value'] = '';
-        $scraper_settings[$data['key']] = $data['value'];
-      }
+	  if ($settings) {
+      	foreach($settings as $data) {
+          if (empty($data['value'])) $data['value'] = '';
+          $scraper_settings[$data['key']] = $data['value'];
+        }
+	  }
     }
 
     // Exclude invalid ip & port couple.
-    if (isset($scraper_settings['scraper_ip_ports'])) {
+    if (isset($scraper_settings['scraper_ip_ports']) && !empty($scraper_settings['scraper_ip_ports'])) {
       $scraper_settings['scraper_ip_ports'] = unserialize($scraper_settings['scraper_ip_ports']);
       foreach($scraper_settings['scraper_ip_ports'] as $idx => $ip_port) {
         // validate ip address
