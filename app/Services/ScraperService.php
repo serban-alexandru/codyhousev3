@@ -944,6 +944,8 @@ class ScraperService {
         'item_url' => $this->scraper_status['detail_page']
       ]);
       return true;
+    } else if ($scraper_info->status == 'stopped') {
+      return true;
     }
     return false;
   }
