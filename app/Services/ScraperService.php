@@ -889,20 +889,20 @@ class ScraperService {
 
     $tag_categories = TagCategory::all();
     foreach ($tag_categories as $key => $tag_category) {
-      switch ($tag_category->name) {
-        case 'Origin':
+      switch (strtolower($tag_category->name)) {
+        case 'origins':
           $tags_input = $post_data['tags']['origins'];
           break;
-        case 'Media':
+        case 'media':
           $tags_input = $post_data['tags']['medias'];
           break;
-        case 'Character':
+        case 'characters':
           $tags_input = $post_data['tags']['characters'];
           break;
-        case 'Artist':
+        case 'artists':
           $tags_input = $post_data['tags']['artists'];
           break;
-        case 'Misc':
+        case 'misc':
           $tags_input = $post_data['tags']['misc'];
           break;
         default:
