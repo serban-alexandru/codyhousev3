@@ -542,3 +542,63 @@ button:focus {
         top: 70px;
     }
 }
+
+/* Scraper pages */
+.scraper-item {
+    border-bottom: 1px solid var(--color-contrast-lower);
+
+    a {
+        display: flex;
+    }
+}
+
+.logs-section {
+    border: 1px solid #dedede;
+    min-height: 100px;
+    max-height: 500px;
+    overflow: auto;
+
+    .log-item {
+        position: relative;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        padding-right: 30px;
+        margin-bottom: 5px;
+        border-bottom: 1px solid var(--color-contrast-lower);
+
+        .message-item {
+            position: relative;
+            padding-left:10px;
+            margin-left:10px;
+
+            &.msg-info {
+                color:var(--color-success-darker);
+                &:before{
+                    background-color: var(--color-success-darker);
+                }
+            }
+            &.msg-error {
+                color: var(--color-error);
+                &:before{
+                    background-color: var(--color-error);
+                }
+            }
+            &:first-child {
+                margin-left: 0px;
+                &:before {
+                    content:"";
+                    position: absolute;
+                    left:0;
+                    top:0;
+                    width:3px;
+                    height: 100%;
+                }
+            }
+        }
+        .log-action {
+            position: absolute;
+            top:0;
+            right: 0;
+        }
+    }
+}

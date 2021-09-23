@@ -11,8 +11,8 @@
     <section>
       <div class="container max-width-lg">
         <div class="grid">
-          @include('users::dashboard.sidebar2')
-        <main class="position-relative z-index-1 col-12@md link-card radius-md">
+
+        <main class="position-relative z-index-1 col-15@md link-card radius-md">
           @include('users::dashboard.notification')
           @include('users::dashboard.sub-nav')
           <div class="margin-top-auto border-top border-contrast-lower"></div><!-- Divider -->

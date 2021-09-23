@@ -194,7 +194,7 @@
 
               <td class="int-table__cell cursor-pointer" aria-controls="modal-edit-post" data-id="{{ $post->id }}">
                 <a href="#0">
-                  {{ Str::limit($post->title, 47) }}
+                  {{ Str::limit($post->title, 80) }}
                 </a>
               </td>
 

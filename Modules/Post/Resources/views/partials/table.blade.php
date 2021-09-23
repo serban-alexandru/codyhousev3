@@ -319,8 +319,8 @@
 </div><!-- /.bg radius-md padding-md shadow-sm -->
 
 @if(request()->has('status') && request('status') == 'pending')
-<div class="bg radius-md padding-md margin-top-lg shadow-sm">
-  <h4 class="margin-bottom-sm">Rejected</h4>
+
+  <h4 class="margin-bottom-sm margin-top-lg">Rejected</h4>
   <div id="table-2" class="int-table text-sm js-int-table">
     <div class="int-table__inner" id="site-table-container">
       <table class="int-table__table" aria-label="Interactive table example">
@@ -517,7 +517,7 @@
 
       </table>
     </div><!-- /.int-table__inner -->
-  </div><!-- /.int-table text-sm js-int-table -->
+
 
   <div class="flex items-center justify-between padding-top-sm">
     <p class="text-sm">
