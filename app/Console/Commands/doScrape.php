@@ -51,10 +51,10 @@ class doScrape extends Command
                 // Do Scrape action.
                 $scraper_service = new ScraperService($scraper, $scraper_settings);
                 $scraper_service->run();
-                Log::debug('Run Scraper by id - ' . date("Y-m-d H:i:s") );
+                Log::info('Run Scraper by id (' . $scraper_id . ') - ' . date("Y-m-d H:i:s") );
             }    
         } else {
-            Log::debug('Run Re-Scraper - ' . date("Y-m-d H:i:s") );
+            Log::info('Run Re-Scraper - ' . date("Y-m-d H:i:s") );
 
             // Get all logs item from logs table.
             $logs = ScraperLog::all();

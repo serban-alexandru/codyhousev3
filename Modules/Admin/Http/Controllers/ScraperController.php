@@ -39,22 +39,6 @@ class ScraperController extends Controller
       $re_scraper_status = $re_scraper_settings['value'];
     }
 
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // Test purpose (Do Scrape)
-    // $scraper_settings = Settings::getScraperSettingInfo();
-    
-    // $scraper = Scraper::find(2);
-
-    // if ($scraper) {
-    //   $scraper_service = new ScraperService($scraper, $scraper_settings);
-    //   $output = $scraper_service->run();
-    //   echo json_encode($output);
-    //   exit;
-    // } else {
-    // }
-    // Test purpose (Do Scrape)
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
     return view('admin::scraper.index', compact('scrapers', 'scraper_ids', 're_scraper_status'));
   }
 
