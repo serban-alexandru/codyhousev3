@@ -30,17 +30,22 @@ class Kernel extends ConsoleKernel
     {
         $out = new \Symfony\Component\Console\Output\ConsoleOutput();
 
+        $ids = [];
         // Check for waiting schedulers every 5 seconds.
         $delay = 5;
         for ($i=0; $i<10; $i++) {
             $scrapers = Scraper::where('status', 'ready')->get();
             if (count($scrapers) > 0) {
                 foreach($scrapers as $scraper) {
-                    //Execute commands to execute scraper.
-                    $out->writeln('Schedule Scraper - ' . $scraper->id . ' (' . date('Y-m-d H:i:s') . ')' );
-                    $schedule->command('do:scrape ' . $scraper->id)->everyMinute()->runInBackground();
+                    if ( !isset($ids[$scraper->id])) {
+                        //Execute commands to execute scraper.
+                        $out->writeln('Schedule Scraper - ' . $scraper->id . ' (' . date('Y-m-d H:i:s') . ')' );
+                        $schedule->command('do:scrape ' . $scraper->id)->everyMinute()->runInBackground();
+                    } else {
+                        $out->writeln('Scraper (' . $scraper->id . ') is already scheduled for run. (' . date('Y-m-d H:i:s') . ')' );
+                    }
 
-                    Scraper::where('id', $scraper->id)->update(['status' => 'running']);
+                    $ids[$scraper->id] = 1;
                 }
             } else {
                 $out->writeln('No scrapers waiting for run. (' . date('Y-m-d H:i:s') . ')' );

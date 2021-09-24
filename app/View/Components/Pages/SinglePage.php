@@ -20,7 +20,6 @@ class SinglePage extends Component
         $page = Page::where(
             [
                 'id' => $id,
-                'status' => true,
                 'is_pending'   => false,
                 'is_deleted'   => false
             ]

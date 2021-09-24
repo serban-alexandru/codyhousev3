@@ -76,7 +76,7 @@
             </div>
 
             <div class="flex flex-wrap items-center justify-between margin-right-xxs">
-              <div class="flex flex-wrap">
+              <div class="flex flex-wrap rescrape-toolbar">
                 <li class="menu-bar__item">
                   @if($re_scraper_status == 'stopped')
                     <a class="btn-scraper-try-again" href="#">

@@ -552,6 +552,12 @@ button:focus {
     }
 }
 
+.rescrape-toolbar {
+    a {
+        display: flex;
+    }
+}
+
 .logs-section {
     border: 1px solid #dedede;
     min-height: 100px;

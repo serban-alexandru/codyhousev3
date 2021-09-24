@@ -50,6 +50,8 @@ class ScraperService {
   }
 
   public function run() {
+    Scraper::where('id', $this->scraper->id)->update(['status' => 'running']);
+
     Log::info('Prepare to run scraper...');
 
     // Validation (Non completed settings)
