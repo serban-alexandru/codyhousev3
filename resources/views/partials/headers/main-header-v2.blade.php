@@ -87,18 +87,22 @@
       </nav>
       <!-- END-->
 
-      <!-- User Icon and Drop-down Desktop -->
+      <!-- User Icon and Drop-down and Search for Desktop -->
       <nav id="second-menu" class="header-v2__nav header-v2__nav-align-right color-contrast-low">
         <ul class="header-v2__nav-list header-v2__nav-list--main">
           <li class="header-v2__nav-item header-v2__nav-item--main">
             <!-- Search Form -->
 
             <div class="autocomplete position-relative  js-autocomplete margin-right-md" data-autocomplete-dropdown-visible-class="autocomplete--results-visible">
-            
               <div class="position-relative">
-                <input class="radius-lg form-control width-100% js-autocomplete__input" type="text" name="autocomplete-input" id="autocomplete-input" placeholder="Type and press enter" autocomplete="off">
+                <form action="{{ route('pages.posts') }}" method="GET">
+                  <input type="hidden" name="limit" value="{{$limit ?? ''}}">
+                  <input type="hidden" name="sort" value="{{$sort ?? ''}}">
+                  <input type="hidden" name="order" value="{{$order ?? ''}}">
+                  <input class="form-control width-100%" type="reset search" name="q" value="{{ $q ?? '' }}" id="megasite-search" placeholder="Search something" aria-label="Search">
+                </form>
                 <button class="search-input__btn">
-                  <svg class="icon" viewBox="0 0 24 24"><title>Submit</title><g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" stroke="currentColor" fill="none" stroke-miterlimit="10"><line x1="22" y1="22" x2="15.656" y2="15.656"></line><circle cx="10" cy="10" r="8"></circle></g></svg>
+                  <svg class="icon" viewBox="0 0 20 20"><title>Submit</title><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="8" cy="8" r="6"/><line x1="12.242" y1="12.242" x2="18" y2="18"/></g></svg>
                 </button>
                 <div class="autocomplete__loader position-absolute top-0 right-0 padding-right-sm height-100% flex items-center" aria-hidden="true">
                   <div class="circle-loader circle-loader--v1">
@@ -225,8 +229,7 @@
             <input type="hidden" name="limit" value="{{$limit ?? ''}}">
             <input type="hidden" name="sort" value="{{$sort ?? ''}}">
             <input type="hidden" name="order" value="{{$order ?? ''}}">
-
-            <input class="form-control width-100%" type="reset search" name="q" value="{{ $q ?? '' }}" id="megasite-search" placeholder="Search..." aria-label="Search">
+            <input class="form-control width-100%" type="reset search" name="q" value="{{ $q ?? '' }}" id="megasite-search" placeholder="Search something" aria-label="Search">
           </form>
           <div>
           </div>
