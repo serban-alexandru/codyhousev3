@@ -1,4 +1,8 @@
-@extends('site1.layouts.app')
+@extends('templates.layouts.index')
+
+@section('in-head')
+  <link rel="stylesheet" href="{{ asset('assets/js/croppie/croppie.min.css') }}">
+@stop
 
 @section('content')
   <section class="padding-y-md">
@@ -22,12 +26,31 @@
               </div>
             </div><!-- /.alert -->
           @endif
-          <form action="{{ url('users/settings/save') }}" method="post" enctype="multipart/form-data">@csrf
+
+          {{-- COVER PHOTO --}}
+          <div>
+            <div class="alert-cover-photo hidden">
+              <button class="btn-cover-photo" id="btnCancel" type="button" onclick="location.reload()">Cancel</button>
+              <button class="btn-cover-photo" id="btnUploadCoverPhoto" type="button">Update</button>
+            </div>
+            <div>
+              <input type="file" name="upload_image" id="uploadImage" style="display: none;">
+              <div id="uploaded_image"></div>
+            </div>
+          
+            <div id="imageDemo"></div>
+            
+            <input type="hidden" value="" id="base64Image">
+          </div>
+          
+
+          <form action="{{ url('users/settings/save') }}" method="post" enctype="multipart/form-data">
+            @csrf
             <input type="hidden" name="delete_avatar" />
             <div class="author margin-bottom-md">
-              <a href="#0" class="author__img-wrapper bg-primary-dark">
-                @if(Auth::user()->getMedia('avatars')->last())
-                  <img src="{{ Auth::user()->getMedia('avatars')->last()->getFullUrl() }}" alt="Author picture" id="settings-avatar">
+              <a href="#0" class="author__img-wrapper bg-black bg-opacity-50%">
+                @if(auth()->user()->hasAvatar())
+                  <img src="{{ auth()->user()->getAvatar() }}" alt="Author picture">
                 @else
                   <img alt="Author picture" id="settings-avatar" style="display: none;">
                 @endif
@@ -36,21 +59,33 @@
                 <div class="flex flex-wrap gap-sm">
                   <div class="file-upload inline-block">
                     <label for="avatar" class="file-upload__label btn btn--subtle">
-                      <span class="file-upload__text file-upload__text--has-max-width" data-default-text="Upload a file">Upload a file</span>
+                      <span class="file-upload__text file-upload__text--has-max-width" data-default-text="Upload a file">Upload Avatar</span>
                     </label>
 
                     <input type="file" class="file-upload__input" data-custom-image-file-preview="#settings-avatar" data-custom-image-file-resetter="#settings-avatar-delete" name="avatar" id="avatar" accept="image/*">
                   </div><!-- /.file-upload inline-block -->
-                  <button type="button"
-                    id="settings-avatar-delete"
-                    data-custom-image-file-reset-file="#avatar"
-                    @if(Auth::user()->getMedia('avatars')->last())
+                  <button
+                    type="button" 
+                    id="btnDeleteAvatar"
+                    @if(auth()->user()->hasAvatar())
                       class="btn btn--subtle"
                     @else
                       class="btn btn--subtle btn--disabled"
                       disabled
                     @endif
-                  >Delete</button><!-- /.btn btn--subtle -->
+                  >Delete Avatar</button><!-- /.btn btn--subtle -->
+
+                  <label for="uploadImage" class="btn" id="btnEditCoverPhoto">Edit Cover Photo</label>
+                  <button type="button" id="btnDeleteCoverPhoto" 
+                    @if(auth()->user()->hasCoverPhoto())
+                      class="btn btn--subtle"
+                    @else
+                      class="btn btn--subtle btn--disabled"
+                      disabled
+                    @endif
+                  >
+                    Delete Cover Photo
+                  </button>
                 </div><!-- /.flex flex-wrap -->
               </div><!-- /.author__content -->
             </div><!-- /.author -->
@@ -81,6 +116,57 @@
                 </button>
               </div>
             </div><!-- /.margin-bottom-sm -->
+
+ 
+              <div class="margin-top-md margin-bottom-sm">
+                  <div class="input-group file-upload inline-block">
+                      <label for="upload2" class="file-upload__label btn btn--subtle">
+                        <span class="flex items-center">
+                          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2"><path  stroke-linecap="square" stroke-linejoin="miter" d="M2 16v6h20v-6"></path><path stroke-linejoin="miter" stroke-linecap="butt" d="M12 17V2"></path><path stroke-linecap="square" stroke-linejoin="miter" d="M18 8l-6-6-6 6"></path></g></svg>
+                          <span class="margin-left-xxs file-upload__text file-upload__text--has-max-width">Upload Cover</span>
+                        </span>
+                      </label> 
+                      <input type="file" class="file-upload__input" name="upload2" id="upload2" multiple>
+                  <button class="btn btn--accent">Delete</button>
+                </div>
+              </div>
+
+              <div class="margin-bottom-md">
+                <div class="input-group file-upload inline-block">
+                    <label for="upload2" class="file-upload__label btn btn--subtle">
+                      <span class="flex items-center">
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2"><path  stroke-linecap="square" stroke-linejoin="miter" d="M2 16v6h20v-6"></path><path stroke-linejoin="miter" stroke-linecap="butt" d="M12 17V2"></path><path stroke-linecap="square" stroke-linejoin="miter" d="M18 8l-6-6-6 6"></path></g></svg>
+                        <span class="margin-left-xxs file-upload__text file-upload__text--has-max-width">Upload Avatar</span>
+                      </span>
+                    </label> 
+                    <input type="file" class="file-upload__input" name="upload2" id="upload2" multiple>
+                <button class="btn btn--accent">Delete</button>
+              </div>
+            </div>
+
+
+            <div class="margin-bottom-sm">
+              <div class="grid gap-sm">
+                <div class="col@md">
+                  <label for="bio" class="form-label">Bio <small>(Optional)</small></label><br>
+                  <textarea name="bio" id="bio" class="form-control width-100%">{{ $user->users_setting->bio ?: old('bio') }}</textarea>
+                </div>
+              </div>
+            </div>
+
+            @foreach(['twitter_link', 'facebook_link', 'instagram_link'] as $social_media)
+              <div class="margin-bottom-sm">
+                <div class="grid gap-sm">
+                  <div class="col@md">
+                    <label for="{{ $social_media }}" class="form-label">
+                      {{ ucfirst(Str::replaceArray('_', [' '], $social_media)) }} <small>(Optional)</small>
+                    </label><!-- /.form-label -->
+                    <input type="text" class="form-control width-100%" id="{{ $social_media }}" name="{{ $social_media }}" value="{{ $user->users_setting->$social_media ?: old($social_media) }}">
+                  </div>
+                </div>
+              </div>
+            @endforeach
+
             <div class="margin-bottom-sm text-right">
               <button type="submit" class="btn btn--primary">Save</button><!-- /.btn btn--primary -->
             </div><!-- /.margin-bottom-sm -->
@@ -95,3 +181,145 @@
 <!-- MODULE'S CUSTOM SCRIPT -->
   @include('users::partials.script-js')
 @endpush
+
+@section('before-end')
+  <script src="{{ asset('assets/js/croppie/croppie.min.js') }}"></script>
+  <script>
+    $(function(){
+        let $options = {
+            enableExif: true,
+            showZoomer: false,
+            viewport: {
+              width:600,
+              height:280,
+              type:'square' //circle
+            },
+            boundary:{
+              width: 600,
+              height: 280
+            }
+        };
+          
+        $options['url'] = "{{ auth()->user()->getCoverPhoto() }}";
+
+        $image_crop = $('#imageDemo').croppie($options);
+
+        $('#uploadImage').on('change', function(){
+          readFile(this);
+          validateSize(this);
+          
+          var reader = new FileReader();
+          reader.onload = function (event) {
+            $image_crop.croppie('bind', {
+              url: event.target.result
+            }).then(function(){
+              $('.alert-cover-photo').removeClass('hidden');
+            });
+          }
+          reader.readAsDataURL(this.files[0]);
+          //$('#uploadimageModal').modal('show');
+        });
+
+        $('#btnUploadCoverPhoto').on('click', function (event) {
+          $('.alert-cover-photo').empty();
+          $('.alert-cover-photo').html('Loading...');
+          $image_crop.croppie('result', {
+            type: 'base64',
+            format: 'png',
+            size: 'original'  
+          }).then(function (response) {
+            $('#base64Image').val('');
+            $('#base64Image').val(response);
+              $.ajax({
+                url: "{{ route('cover-photo.update.ajax') }}",
+                dataType: 'json',
+                type: 'post',
+                data: {
+                  _token: $('input[name=_token]').val(),
+                  base64Image: response
+                },
+                success: function(response){
+                  if(response.status){
+                    window.location = "{{ url('users/settings') }}";
+                  }
+                }
+              });
+          });
+        });
+
+        function readFile(input) {
+            if (input.files && input.files[0]) {
+              var reader = new FileReader();
+              
+              reader.onload = function (e) {
+                result = e.target.result;
+                arrTarget = result.split(';');
+                tipo = arrTarget[0];
+                validFormats = ['data:image/jpeg', 'data:image/png'];
+                if (validFormats.indexOf(tipo) == -1){
+                  alert('Accept only .jpg o .png image types');
+                  $('.alert-cover-photo').addClass('hidden');
+                  $('#uploadImage').val('');
+                  return false;
+                }
+              }
+              
+              reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function validateSize(file) {
+            var FileSize = file.files[0].size / 1024 / 1024; // in MB
+            if (FileSize > 5) {
+                alert('File size exceeds 5 MB');
+               $(file).val('');
+            } else {
+
+            }
+        }
+
+        $('#btnDeleteAvatar').on('click', function(){
+          if(confirm('Are you sure you want to delete your avatar?')){
+            $.ajax({
+              url: "{{ route('avatar.delete.ajax') }}",
+              dataType: 'json',
+              type: 'post',
+              data: {
+                _token: $('input[name=_token]').val(),
+              },
+              success: function(response){
+                if(response.status){
+                  window.location = "{{ url('users/settings') }}";
+                } else {
+                  console.log(response);
+                }
+              }
+            });
+          }
+        });
+
+        $('#btnDeleteCoverPhoto').on('click', function(){
+          
+          if(confirm('Are you sure you want to delete your cover photo?')){
+            $.ajax({
+              url: "{{ route('cover-photo.delete.ajax') }}",
+              dataType: 'json',
+              type: 'post',
+              data: {
+                _token: $('input[name=_token]').val(),
+              },
+              success: function(response){
+                if(response.status){
+                  window.location = "{{ url('users/settings') }}";
+                } else {
+                  console.log(response);
+                }
+              }
+            });
+          }
+
+        });
+
+    });
+  </script>
+@stop

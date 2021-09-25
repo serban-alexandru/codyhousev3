@@ -125,7 +125,8 @@
         var selectedOption = select.dropdown.querySelector('[aria-selected="true"]');
         if(selectedOption) selectedOption.setAttribute('aria-selected', 'false');
         option.setAttribute('aria-selected', 'true');
-        select.trigger.getElementsByClassName('js-select__label')[0].textContent = option.textContent;
+        var option_label = option.querySelector('.select__text');
+        select.trigger.getElementsByClassName('js-select__label')[0].textContent = option_label.textContent;
         select.trigger.setAttribute('aria-expanded', 'false');
         // new option has been selected -> update native <select> element _ arai-label of trigger <button>
         updateNativeSelect(select, option.getAttribute('data-index'));
@@ -141,25 +142,30 @@
     };
   
     function updateTriggerAria(select) {
-      select.trigger.setAttribute('aria-label', select.options[select.select.selectedIndex].innerHTML+', '+select.label.textContent);
+      if (select.options.length > 0)
+        select.trigger.setAttribute('aria-label', select.options[select.select.selectedIndex].innerHTML+', '+select.label.textContent);
     };
   
     function getSelectedOptionText(select) {// used to initialize the label of the custom select button
       var label = '';
-      if('selectedIndex' in select.select) {
-        label = select.options[select.select.selectedIndex].text;
-      } else {
-        label = select.select.querySelector('option[selected]').text;
+      if (select.options.length > 0) {
+        if('selectedIndex' in select.select) {
+          label = select.options[select.select.selectedIndex].text;
+        } else {
+          label = select.select.querySelector('option[selected]').text;
+        }
       }
+
       return label;
-  
     };
     
     function initButtonSelect(select) { // create the button element -> custom select trigger
       // check if we need to add custom classes to the button trigger
       var customClasses = select.element.getAttribute('data-trigger-class') ? ' '+select.element.getAttribute('data-trigger-class') : '';
-  
-      var label = select.options[select.select.selectedIndex].innerHTML+', '+select.label.textContent;
+
+      var label = "";
+      if (select.options.length > 0)
+        label = select.options[select.select.selectedIndex].innerHTML+', '+select.label.textContent;
     
       var button = '<button type="button" class="js-select__button select__button'+customClasses+'" aria-label="'+label+'" aria-expanded="false" aria-controls="'+select.selectId+'-dropdown"><span aria-hidden="true" class="js-select__label select__label">'+select.selectedOption+'</span>';
       if(select.arrowIcon.length > 0 && select.arrowIcon[0].outerHTML) {
@@ -210,7 +216,11 @@
       var list = '';
       for(var i = 0; i < options.length; i++) {
         var selected = options[i].hasAttribute('selected') ? ' aria-selected="true"' : ' aria-selected="false"';
-        list = list + '<li><button type="button" class="reset js-select__item select__item select__item--option" role="option" data-value="'+options[i].value+'" '+selected+' data-index="'+select.optionIndex+'">'+options[i].text+'</button></li>';
+        var badge = '';
+        if (options[i].hasAttribute('data-count')) {
+          badge = '<span class="sidenav__counter">' + options[i].getAttribute('data-count') + '</span>';
+        }
+        list = list + '<li><button type="button" class="reset js-select__item select__item select__item--option" role="option" data-value="'+options[i].value+'" '+selected+' data-index="'+select.optionIndex+'"><span class="select__text">'+options[i].text+'</span>'+badge+'</button></li>';
         select.optionIndex = select.optionIndex + 1;
       };
       return list;

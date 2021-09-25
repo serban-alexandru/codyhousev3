@@ -6,8 +6,8 @@ use Modules\Users\Entities\User;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ForgotPasswordController extends Controller
 {
@@ -36,38 +36,37 @@ class ForgotPasswordController extends Controller
     }
 
     public function sendResetLinkEmail(Request $request){
-        $this->validate($request, ['email' => 'required|email']);
-        $user = User::where('email', $request->email)->first();
-        if(!$user){
-            return response()->json([
-                'status'  => 'error',
-                'message' => "User with that email doesn't exist.",
-                'data'    => null
-            ]);
+      $this->validateEmail($request);
+  
+      $user = User::where('email', $request->email)->first();
+      if(!$user){
+        return response()->json([
+          'status'  => 'error',
+          'message' => "User with that email doesn't exist.",
+          'data'    => null
+        ]);
+      } else {
+        $response = $this->broker()->sendResetLink(
+          $request->only('email')
+        );
+        if ($response == 'passwords.sent') {
+          return response()->json([
+            'status'  => 'success',
+            'message' => "We've sent you a link to reset your password. Please check your email.",
+            'data'    => null
+          ]);
         }
-        else {
-            $response = $this->broker()->sendResetLink(
-                $request->only('email')
 
-            );
-            if ($response == 'passwords.sent') {
-                return response()->json([
-                    'status'  => 'success',
-                    'message' => "We've sent you a link to reset your password. Please check your email.",
-                    'data'    => null
-                ]);
-            }
-
-            return response()->json([
-                'status'  => 'error',
-                'message' => "Something went wrong. Please try again.",
-                'data'    => null
-            ]);
-        }
+        return response()->json([
+          'status'  => 'error',
+          'message' => "Something went wrong. Please try again.",
+          'data'    => null
+        ]);
+      }
     }
 
     public function ajaxShowForm(Request $request)
     {
-        return view('users::forms.resetpassword');
+        return view('components.auth.reset-password-form');
     }
 }

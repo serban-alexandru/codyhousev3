@@ -5,6 +5,7 @@ namespace Modules\Users\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
+use Modules\Users\Entities\Permission;
 use \DB;
 
 class PermissionsSeeder extends Seeder
@@ -56,7 +57,9 @@ class PermissionsSeeder extends Seeder
          $record['created_at'] = now();
          $record['updated_at'] = $record['created_at'];
 
-         DB::table($this->table)->insert($record);
+         // DB::table($this->table)->insert($record);
+         $update = ['key' => $record['key']];
+         Permission::updateOrCreate($update, $record);
       }
    }
 

@@ -18,6 +18,24 @@ class AdminServiceProvider extends ServiceProvider
     protected $moduleNameLower = 'admin';
 
     /**
+     * Logo Font
+     * @var string $logo_font
+     */
+    public const LOGO_FONT = 'Libre Caslon Display';
+
+    /**
+     * Primary Font
+     * @var string $primary_font
+     */
+    public const PRIMARY_FONT = 'Roboto Slab';
+
+    /**
+     * Secondary Font
+     * @var string $secondary_font
+     */
+    public const SECONDARY_FONT = 'Inter';
+
+    /**
      * Boot the application events.
      *
      * @return void

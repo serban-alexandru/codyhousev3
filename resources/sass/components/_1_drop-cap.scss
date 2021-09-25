@@ -9,6 +9,7 @@ Usage: codyhouse.co/license
 
 :root {
   --drop-cap-lines: 3; // number of lines occupied by the first letter
+  --line-height-multiplier: 0.8;
 }
 
 .drop-cap::first-letter {

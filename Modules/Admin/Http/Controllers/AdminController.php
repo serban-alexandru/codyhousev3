@@ -2,19 +2,17 @@
 
 namespace Modules\Admin\Http\Controllers;
 
+use Arr, Str, Image, File;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Storage;
+
+use App\Http\Controllers\Controller;
+use Modules\Users\Entities\{ PostSetting, Post, PostsTag };
+use Modules\Tag\Entities\{Tag, TagCategory};
 
 class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
     public function index()
     {
-        return view('admin::index');
     }
-
 }

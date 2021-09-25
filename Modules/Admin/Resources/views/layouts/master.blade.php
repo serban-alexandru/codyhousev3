@@ -1,9 +1,12 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="current-url" content="{{ url()->full() }}">
+
+  <!-- favicon 👇 -->
+  <link rel="icon" type="image/svg+xml" href="{{ !empty($settings_data['favicon']) ? asset($settings_data['favicon']) : asset('assets/img/favicon.svg') }}">
 
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -21,25 +24,27 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style-fallback.css') }}">
   </noscript>
 
-  <title>Title</title>
+  <!-- MODULE Style -->
+  @stack('module-styles')
 
-  @include('admin::partials.external-fonts')
+  <title>Admin</title>
+
+  @include('partials.external-fonts-v1')
 
 </head>
 <body>
 
-  @include('site1.partials.header')
-  @include('admin::partials.admin-bar')
+  @include('admin::partials.main-header-v2')
   @yield('content')
-  @include('site1.partials.footer')
-
+  @include('partials.footers.footer')
   <!-- CODYHOUSE, LIBRARIES -->
   <script src="{{ asset('assets/js/scripts.js') }}"></script>
 
   <!-- COMMON SCRIPTS -->
   @include('admin::partials.custom-script')
-
+  @include('custom-scripts.custom-script')
   <!-- MODULE SCRIPTS -->
   @stack('module-scripts')
+
 </body>
 </html>

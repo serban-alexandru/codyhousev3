@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
 use Modules\Users\Entities\Role;
+use Modules\Users\Entities\User;
 use \Hash;
 use \DB;
 
@@ -27,8 +28,8 @@ class UsersSeeder extends Seeder
         // get Editor permission
         $editorPermission = Role::where('key', 'editor')->first()->permission;
 
-        // get Subscriber permission
-        $subscriberPermission = Role::where('key', 'subscriber')->first()->permission;
+        // get Registered User permission
+        $registeredPermission = Role::where('key', 'registered')->first()->permission;
 
         $dateNow = now();
 
@@ -39,6 +40,7 @@ class UsersSeeder extends Seeder
                 'email'      => 'admin@mailinator.com',
                 'password'   => Hash::make('helloworld'),
                 'permission' => $adminPermission,
+                'email_verified_at' => $dateNow,
                 'created_at' => $dateNow,
                 'updated_at' => $dateNow
             ],
@@ -48,6 +50,7 @@ class UsersSeeder extends Seeder
                 'email'      => 'swifties@mailinator.com',
                 'password'   => Hash::make('helloworld'),
                 'permission' => $editorPermission,
+                'email_verified_at' => $dateNow,
                 'created_at' => $dateNow,
                 'updated_at' => $dateNow
             ],
@@ -56,7 +59,8 @@ class UsersSeeder extends Seeder
                 'username'   => 'Powfu',
                 'email'      => 'powfu@mailinator.com',
                 'password'   => Hash::make('helloworld'),
-                'permission' => $subscriberPermission,
+                'permission' => $registeredPermission,
+                'email_verified_at' => $dateNow,
                 'created_at' => $dateNow,
                 'updated_at' => $dateNow
             ],
@@ -64,7 +68,9 @@ class UsersSeeder extends Seeder
 
 		foreach ($records as $record) {
 
-			DB::table($this->table)->insert($record);
+            $update = ['email' => $record['email']];
+            User::updateOrCreate($update, $record);
+            // DB::table($this->table)->insert($record);
 		}
     }
 }

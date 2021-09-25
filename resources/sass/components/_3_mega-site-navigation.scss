@@ -41,16 +41,6 @@ Usage: codyhouse.co/license
     justify-content: space-between;
 }
 
-// logo
-
-.logo {
-    font-family: 'Montserrat Subrayada', sans-serif;
-    font-size: 30px;
-    color: alpha(var(--color-contrast-lower), var(--color-o, 1));
-}
-
-
-
 // mobile buttons
 .mega-nav__icon-btns {
     display: flex;
@@ -61,8 +51,8 @@ Usage: codyhouse.co/license
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     font-size: 24px; // icon size
     color: var(--color-contrast-low); // icon color
     cursor: pointer;
@@ -207,6 +197,7 @@ Usage: codyhouse.co/license
 
 .mega-nav--mobile {
     box-shadow: inset 0px -1px 0px alpha(var(--color-contrast-medium), 0.1); // border bottom
+    
     .mega-nav__icon-btns--desktop {
         display: none; // hide --desktop icon buttons
     }
@@ -218,14 +209,12 @@ Usage: codyhouse.co/license
         top: var(--mega-nav-height);
         left: 0;
         width: 100%;
-        height: calc(
-            100vh - var(--mega-nav-height) - var(--mega-nav-offset-y, 0px)
-        ); // set --mega-nav-offset-y in JS
         overflow: auto;
         -webkit-overflow-scrolling: touch;
         background-color: var(--color-bg);
         box-shadow: var(--shadow-lg);
         border-top: 1px solid var(--color-contrast-lower);
+        border-radius: var(--radius-md);
     }
 
     .mega-nav__nav--is-visible,

@@ -5,5 +5,9 @@
     "Comment": true,
     "Article": true,
     "Post": true,
-    "Tag": true
+    "Tag": true,
+    "Video": true,
+    "Menus": true,
+    "Page": true,
+    "Gif": true
 }

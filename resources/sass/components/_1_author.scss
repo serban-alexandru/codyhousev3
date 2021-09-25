@@ -18,7 +18,7 @@ Usage: codyhouse.co/license
   }
   
   .author__img-wrapper { // img link
-    display: inline-block;
+    display: flex;
     border-radius: 50%;
     width: var(--author-img-size);
     height: var(--author-img-size);
@@ -63,9 +63,14 @@ Usage: codyhouse.co/license
   
   // --minimal -> show only author name
   .author--minimal {
-    --author-img-size: 2.4em;
+    --author-img-size: 1.3em;
     align-items: center;
     grid-gap: var(--space-xxs);
+  }
+
+  .author--minimal-mobile {
+    --author-img-size: 1.1em;
+    align-items: center;
   }
   
   // --featured -> expand author info

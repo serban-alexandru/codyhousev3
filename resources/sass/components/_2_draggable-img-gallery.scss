@@ -19,7 +19,7 @@ Usage: codyhouse.co/license
         }
 
         @include breakpoint(md) {
-            --drag-gallery-img-width: 390px;
+            --drag-gallery-img-width: 400px;
         }
     }
 }
@@ -47,6 +47,10 @@ Usage: codyhouse.co/license
         height: 1px;
         padding-right: inherit;
     }
+}
+
+.drag-gallery__list-align-top {
+    align-items: flex-start !important;
 }
 
 .drag-gallery__item {

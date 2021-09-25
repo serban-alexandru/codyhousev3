@@ -10,6 +10,7 @@ Usage: codyhouse.co/license
 :root {
     --expandable-search-size-compact: 2.2em; // height and width - compact version
     --expandable-search-size-expanded: 10em; // width - expanded version
+    --expandable-search-radius: 50em; // border radius
     --expandable-search-icon-size: 1.2em; // lens icon size
   }
   
@@ -25,23 +26,11 @@ Usage: codyhouse.co/license
     padding: 0;
     color: transparent;
     overflow: hidden;
-    border-radius: 50em;
+    border-radius: var(--expandable-search-radius);
     transition: width .3s var(--ease-out), box-shadow .3s, background-color .3s;
   
-    &::-webkit-input-placeholder {
-      color: transparent;
-    }
-  
-    &::-moz-placeholder {
+    &::placeholder {
       opacity: 0;
-      color: transparent;
-    }
-  
-    &:-ms-input-placeholder {
-      color: transparent;
-    }
-  
-    &:-moz-placeholder {
       color: transparent;
     }
   
@@ -63,20 +52,8 @@ Usage: codyhouse.co/license
       cursor: auto;
       user-select: auto;
   
-      &::-webkit-input-placeholder {
-        color: var(--color-contrast-medium);
-      }
-    
-      &::-moz-placeholder {
+      &::placeholder {
         opacity: 1;
-        color: var(--color-contrast-medium);
-      }
-    
-      &:-ms-input-placeholder {
-        color: var(--color-contrast-medium);
-      }
-    
-      &:-moz-placeholder {
         color: var(--color-contrast-medium);
       }
     }
@@ -95,17 +72,21 @@ Usage: codyhouse.co/license
   
   .expandable-search__btn {
     position: absolute;
+    display: flex;
     top: 2px;
     right: 2px;
     width: calc(var(--expandable-search-size-compact) - 4px);
     height: calc(var(--expandable-search-size-compact) - 4px);
-    border-radius: 50em;
+    border-radius: var(--expandable-search-radius);
     z-index: 1;
     pointer-events: none;
     transition: background-color .3s;
   
     .icon {
-      font-size: var(--expandable-search-icon-size); // icon size
+      display: block;
+      margin: auto;
+      height: var(--expandable-search-icon-size); // icon size
+      width: var(--expandable-search-icon-size); // icon size
     }
   
     &:hover {

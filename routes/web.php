@@ -1,48 +1,64 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+// enable shortcode globally
+Shortcode::enable();
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+$middleware = 'auth';
+if (config('settings.need_verify_email') === true) {
+  $middleware = ['auth','verified'];
+}
+
+Auth::routes(['verify' => true]);
 
 
+
+// Site 2
 
 Route::get('/',function(){
-  return view('site1.index');
+  return view('index');
 });
 
-Route::get('/site1',function(){
-    return view('site1.index');
-  });
+Route::get('/',function(){
+  return view('templates.layouts.blog');
+});
 
-  Route::get('/site1/blog',function(){
-    return view('site1.pages.blog');
-  });
+Route::get('/site2/login',function(){
+  return view('components.auth.login');
+});
 
-  Route::get('/site1/profile',function(){
-    return view('site1.pages.profile');
-  });
+Route::get('/site2/register',function(){
+  return view('components.auth.register');
+});
 
-  Route::get('/site1/post',function(){
-    return view('site1.pages.post');
-  });
+Route::get('/site2/passreset',function(){
+  return view('components.auth.pass-reset');
+});
 
-  Route::get('/site1/user-controlpanel',function(){
-    return view('site1.pages.user-controlpanel');
-  });
+// Editor JS
 
-  Route::get('/site1/home',function(){
-    return view('site1.home');
-  });
+Route::group(['middleware' => $middleware], function(){
+  Route::post('editorjs/upload-image', [
+      'as'   => 'editorjs.upload-image',
+      'uses' => 'EditorjsController@uploadImage'
+  ]);
+});
 
-  Route::get('/site2',function(){
-    return view('site2.index');
-  });
+Route::get('post/{slug}', [
+  'as'   => 'single-post-view',
+  'uses' => '\Modules\Users\Http\Controllers\SingleViewController@singlePostView'
+]);
+
+Route::get('page/{slug}', [
+  'as'   => 'single-page-view',
+  'uses' => '\Modules\Users\Http\Controllers\SingleViewController@singlePageView'
+]);
+
+Route::group([
+  'prefix' => '{theme}/{prefix}',
+  'where'  => ['theme' => 'site1|site2', 'prefix' => 'page|post']
+], function(){
+  Route::get('{slug}', [
+    'as'   => 'theme.pages.post',
+    'uses' => '\Modules\Users\Http\Controllers\SingleViewController@singleViewbyTheme'
+  ]);
+});

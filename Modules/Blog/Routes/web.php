@@ -11,9 +11,12 @@
 |
 */
 
+$middleware = ['auth', 'role:admin'];
+if (config('settings.need_verify_email') === true) {
+  $middleware = ['auth', 'verified', 'role:admin'];
+}
 
-
-Route::middleware('auth', 'role:admin')->group(function(){
+Route::middleware($middleware)->group(function(){
 
     Route::prefix('admin')->group(function(){
       Route::get('blog', 'BlogController@index');
