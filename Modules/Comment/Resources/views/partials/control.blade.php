@@ -22,7 +22,7 @@
                     </g>
                 </svg>
               </svg>
-                <span class="menu-bar__label">Search Comments</span>
+                <span class="menu-bar__label">Search Comments test</span>
               </li>
 
               <div class="modal modal--search modal--animate-fade flex flex-center padding-md js-modal" id="modal-search">
