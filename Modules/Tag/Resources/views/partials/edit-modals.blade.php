@@ -1,12 +1,12 @@
 <!-- 👇 Full Screen Modal -->
-<div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll" id="modal-edit-tag">
+<div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll custom-disable-modal-close" id="modal-edit-tag">
   <form action="{{ route('tag.store') }}" data-action="{{ route('tag.store') }}" method="post" enctype="multipart/form-data" class="modal__content height-100% tabs js-tabs width-100% max-width-sm bg radius-md shadow-md flex flex-column" id="edit-tag-form" novalidate> @csrf
     <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
       <!-- 👇 Tabs -->
       <nav class="tabs">
         <ul class="flex flex-wrap gap-lg js-tabs__controls" aria-label="Tabs Interface">
           <li><a href="#tab1Panel1" class="tabs__control" aria-selected="true">Edit</a></li>
-          <li><a href="#tab1Panel2" class="tabs__control">Images</a></li>
+          <li><a href="#tab1Panel2" class="tabs__control">Media</a></li>
           <li><a href="#tab1Panel3" class="tabs__control">Settings</a></li>
         </ul>
       </nav>
@@ -71,18 +71,44 @@
           </div>
         </section>
 
-      <!--Tab2 Content-->
+        <!--Tab2 Content-->
         <section id="tab1Panel2" class="padding-top-md js-tabs__panel">
           <div class="margin-bottom-md">
-            <img src="#" id="thumbnailPreview" class="width-40%">
+            <img src="#" id="thumbnailPreview" class="width-40%" style="display:none">
+            <div id="edit-media-player" style="display:none">
+            </div>
           </div>
 
           <div class="file-upload inline-block">
-            <label for="editThumbnail" class="file-upload__label btn btn--subtle">
-              <span class="file-upload__text file-upload__text--has-max-width">Edit Photo</span>
+            <label for="editMedia" class="file-upload__label btn btn--subtle">
+              <span class="file-upload__text file-upload__text--has-max-width">Edit Media</span>
             </label>
+            <input type="file" class="file-upload__input" name="media" id="editMedia" accept="image/jpeg, image/jpg, image/png, image/gif, video/mp4, video/webm">
 
-            <input type="file" class="file-upload__input" name="tag_image" id="editThumbnail">
+            <input type="hidden" name="video" value=""/>
+            <input type="hidden" name="thumbnail" value=""/>
+            <input type="hidden" name="thumbnail_medium" value=""/>
+          </div>
+
+          <!-- Media upload progress loader -->
+          <div class="margin-top-md">
+            <div class="inline-block progress-bar progress-bar--color-update flex flex-column items-center js-progress-bar" style="display:none">
+              <p class="sr-only" aria-live="polite" aria-atomic="true">Progress value is <span class="js-progress-bar__aria-value">0%</span></p>
+
+              <span class="progress-bar__value margin-bottom-xs" aria-hidden="true">0%</span>
+              <span class="progress-bar__final margin-bottom-xs" aria-hidden="true" style="display:none">Moving uploaded file...</span>
+
+              <div class="progress-bar__bg " aria-hidden="true">
+                <div class="progress-bar__fill " style="width: 0%;"></div>
+              </div>
+            </div>
+            <div class="alert alert-upload alert--is-visible" style="display:none">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div class="message">
+                  </div>
+                </div>
+            </div><!-- /.alert -->
           </div>
         </section>
 

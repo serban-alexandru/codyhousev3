@@ -15,7 +15,7 @@
 </div>
 @endif
 
-@if($is_trashed)
+@if($status == 'trashed')
   <div class="margin-bottom-md">
     <a href="{{ route('tag.empty-trash') }}" class="btn btn--subtle">Empty trash</a>
   </div>
@@ -27,7 +27,7 @@
 <form
   action="
     {{
-      ($is_trashed) ? route('tag.bulk-delete') : route('tag.bulk-trash')
+      ($status == 'trashed') ? route('tag.bulk-delete') : route('tag.bulk-trash')
     }}
   "
   method="POST" id="form-bulk-delete"> @csrf
@@ -46,7 +46,7 @@
                 <div class="custom-checkbox__control" aria-hidden="true"></div>
               </div>
             </td>
-
+            <th class="int-table__cell int-table__cell--th text-center">Image</th>
             <th class="int-table__cell int-table__cell--th int-table__cell--sort  js-int-table__cell--sort @if($sort == 'name') int-table__cell--{{$order}} @endif" data-sort="name">
               <div class="flex items-center">
                 <span>Tag name</span>
@@ -146,7 +146,6 @@
               </ul>
             </th>
 
-            <th class="int-table__cell int-table__cell--th text-center">Image</th>
             <th class="int-table__cell int-table__cell--th text-left">Action</th>
           </tr>
         </thead>
@@ -161,20 +160,22 @@
                 <div class="custom-checkbox__control" aria-hidden="true"></div>
               </div>
             </th>
-            <td class="int-table__cell">
-              <a href="{{ route('tag.edit', [$tag->id]) }}" data-url="{{ route('tag.edit', [$tag->id]) }}" data-method="get" aria-controls="modal-edit-tag" class="site-load-modal-edit-form item-edit-link">{{ $tag->name }}</a>
-            </td>
-            <td class="int-table__cell">
-              {{ Modules\Post\Entities\PostsTag::where('tag_id', $tag->id)->count() }}
-            </td>
-            <td class="int-table__cell">{{ $tag->category_name }}</td>
             <td class="int-table__cell text-center">
-              @if($tag->getFirstMediaUrl('images') != '')
-                <img class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%" src="{{ $tag->getTagImage('images') }}" alt="Image of {{ $tag->name }}, " style="max-width: 50px; height: auto;" />
+              @if($tag->getThumbnail('medium') != false)
+                <div class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%">
+                  <img src="{{ $tag->showThumbnail('medium') }}" alt="Image of {{ $tag->name }}, "/>
+                </div>
               @else
                 None
               @endif
             </td>
+            <td class="int-table__cell">
+              <a href="{{ route('tag.edit', [$tag->id]) }}" data-url="{{ route('tag.edit', [$tag->id]) }}" data-method="get" aria-controls="modal-edit-tag" class="site-load-modal-edit-form item-edit-link">{{ $tag->name }}</a>
+            </td>
+            <td class="int-table__cell">
+              {{ $tag->getPostCount() }}
+            </td>
+            <td class="int-table__cell">{{ $tag->category_name }}</td>
             <td class="int-table__cell text-left" style="overflow: unset;">
 
               <menu class="menu-bar menu-bar--expanded@md js-menu-bar" style="opacity: 1;">
@@ -189,7 +190,7 @@
                   <a
                     href="
                       {{
-                        ($tag->published) ?
+                        ($tag->status == 'published') ?
                           route('tag.draft', [$tag->id]) :
                           route('tag.publish', [$tag->id])
                       }}
@@ -200,7 +201,7 @@
                     </svg>
                     <span class="menu-bar__label">
                       {{
-                        ($tag->published) ? 'Move to Drafts' : 'Publish'
+                        ($tag->status == 'published') ? 'Move to Drafts' : 'Publish'
                       }}
                     </span>
                   </a>
@@ -210,7 +211,7 @@
                   <a
                     href="
                       {{
-                        ($is_trashed) ? route('tag.delete', ['id' => $tag->id])
+                        ($status == 'trashed') ? route('tag.delete', ['id' => $tag->id])
                                       : route('tag.trash', ['id' => $tag->id])
                       }}
                     "
@@ -222,7 +223,7 @@
                     </svg>
                     <span class="menu-bar__label">
                       {{
-                        ($is_trashed) ? 'Delete' : 'Move to Trash'
+                        ($status == 'trashed') ? 'Delete' : 'Move to Trash'
                       }}
                     </span>
                   </a>
@@ -268,12 +269,8 @@
         <li>
           <span class="pagination__jumper flex items-center">
             <form action="{{ url()->full() }}" class="inline" method="get">
-              @if($request->has('is_trashed'))
-                <input type="hidden" name="is_trashed" value="{{ $is_trashed }}">
-              @endif
-
-              @if($request->has('published'))
-                <input type="hidden" name="published" value="{{ $published }}">
+              @if($request->has('status'))
+                <input type="hidden" name="status" value="{{ $status }}">
               @endif
 
               @if($request->has('tag_category_id'))

@@ -7,7 +7,7 @@
       <nav class="tabs">
         <ul class="flex flex-wrap gap-lg js-tabs__controls" aria-label="Tabs Interface">
           <li><a href="#tab1Panel1" class="tabs__control" aria-selected="true">Add Tag</a></li>
-          <li><a href="#tab1Panel2" class="tabs__control">Images</a></li>
+          <li><a href="#tab1Panel2" class="tabs__control">Media</a></li>
           <li><a href="#tab1Panel3" class="tabs__control">Settings</a></li>
         </ul>
       </nav>
@@ -74,15 +74,20 @@
 
       <!--Tab2 Content-->
         <section id="tab1Panel2" class="padding-top-md js-tabs__panel">
+          <input type="file" id="realThumbnail" class="is-hidden">
           <div class="ddf">
             <div class="ddf__area padding-y-xl padding-x-md js-ddf__area">
-              <input class="ddf__input sr-only js-ddf__input" type="file" id="upload-file" name="tag_image" accept="image/*">
+              <input class="ddf__input sr-only js-ddf__input" type="file" id="upload-file" name="media"  accept="image/jpeg, image/jpg, image/png, image/gif, video/mp4, video/webm" required>
+
+              <input type="hidden" name="video" value=""/>
+              <input type="hidden" name="thumbnail" value=""/>
+              <input type="hidden" name="thumbnail_medium" value=""/>
 
               <label class="ddf__label js-ddf__label" for="upload-file">
                 <i class="ddf__label-inner">
                   <svg class="icon icon--xl color-contrast-higher ddf__icon-cloud" viewBox="0 0 64 64" aria-hidden="true"><path fill="currentColor" d="M51,27c-.374,0-.742.025-1.109.056a18,18,0,0,0-35.782,0C13.742,27.025,13.374,27,13,27a13,13,0,0,0,0,26H51a13,13,0,0,0,0-26Z"/><path d="M43.764,41.354l-11-13a1.033,1.033,0,0,0-1.526,0l-11,13A1,1,0,0,0,21,43h7V59h8V43h7a1,1,0,0,0,.764-1.646Z" fill="var(--color-bg)"/></svg>
 
-                  <span class="text-md text-bold color-contrast-higher">Drag and drop your file here</span>
+                  <span class="text-md text-bold color-contrast-higher">Drag and drop your files here</span>
 
                   <span class="color-contrast-medium padding-top-xxxs inline-block">or click to browse your files</span>
                 </i>
@@ -118,6 +123,28 @@
               </span>
             </div>
           </div>
+
+          <!-- Media upload progress loader -->
+          <div class="margin-top-md">
+            <div class="inline-block progress-bar progress-bar--color-update flex flex-column items-center js-progress-bar" style="display:none">
+              <p class="sr-only" aria-live="polite" aria-atomic="true">Progress value is <span class="js-progress-bar__aria-value">0%</span></p>
+            
+              <span class="progress-bar__value margin-bottom-xs" aria-hidden="true">0%</span>
+              <span class="progress-bar__final margin-bottom-xs" aria-hidden="true" style="display:none">Moving uploaded file...</span>
+            
+              <div class="progress-bar__bg " aria-hidden="true">
+                <div class="progress-bar__fill " style="width: 0%;"></div>
+              </div>
+            </div>
+            <div class="alert alert-upload alert--is-visible" style="display:none">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <div class="message">
+                  </div>
+                </div>
+            </div><!-- /.alert -->
+          </div>
+
         </section>
 
         <!--Tab3 Content-->
