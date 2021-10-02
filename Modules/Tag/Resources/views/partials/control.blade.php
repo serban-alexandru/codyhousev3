@@ -5,7 +5,8 @@
           <div class="select inline-block js-select" data-trigger-class="reset text-sm color-contrast-high h1 inline-flex items-center cursor-pointer js-tab-focus">
             <select name="filterItems" id="filterItems">
               <optgroup label="Tag Status">
-                <option value="#" data-count="{{ $published_tags_count }}" selected>All Tags</option>
+                <option value="published" data-count="{{ $published_tags_count }}" selected>All Tags</option>
+                <option value="draft" data-count="{{ $draft_tags_count }}">Draft</option>
                 <option value="trashed" data-count="{{ $trash_tags_count }}">Deleted</option>
               </optgroup>
             </select>

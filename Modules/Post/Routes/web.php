@@ -122,6 +122,6 @@ if (config('settings.need_verify_email') === true) {
 Route::middleware($user_middleware)->group(function(){ 
     Route::post('/posts/upload-media', [
       'as' => 'posts.upload-media',
-      'uses' => 'PostController@uploadMedia'
+      'uses' => '\Modules\Admin\Http\Controllers\MediaUploadController@uploadPostMedia'
     ]);
 });

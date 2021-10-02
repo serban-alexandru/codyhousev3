@@ -8,10 +8,10 @@ use App\Http\Controllers\Controller;
 
 use DB;
 
-use Modules\Tag\Entities\Tag;
+use Modules\Tag\Entities\{Tag, TagsMeta};
 use Modules\Tag\Entities\TagCategory;
 use Modules\Users\Entities\User;
-use Modules\Post\Entities\{PostsTag, Post};
+use Modules\Post\Entities\{PostSetting, PostsTag, Post};
 
 class TagController extends Controller
 {
@@ -25,8 +25,6 @@ class TagController extends Controller
 
         // Get query strings
         $q               = $request->input('q');
-        $is_trashed      = $request->boolean('is_trashed');
-        $published       = $request->boolean('published');
         $tag_category_id = $request->input('tag_category_id');
         $limit           = $request->input('limit') ? $request->input('limit') : 25;
         $sort            = $request->input('sort') ? $request->input('sort') : 'id';
@@ -36,14 +34,21 @@ class TagController extends Controller
         $tag_categories = TagCategory::all();
 
         // Get tags from db
-        $tags = Tag::select(
-                'tags.*',
-                'tags.id',
-                'tags.created_at',
-                'tags.updated_at',
-                'tag_categories.id as category_id',
-                'tag_categories.name as category_name'
-            )->join('tag_categories', 'tag_categories.id', '=', 'tags.tag_category_id');
+        $tags = Tag::leftJoin('tag_categories', 'tag_categories.id', '=', 'tags.tag_category_id')
+            ->leftJoin('tags_metas', 'tags.id', '=', 'tags_metas.tag_id')
+            ->select(
+                DB::raw(
+                    'tags.*,
+                    tags.id,
+                    tags.created_at,
+                    tags.updated_at,
+                    tag_categories.id as category_id,
+                    tag_categories.name as category_name,
+                    IF(tags_metas.meta_key = "thumbnail", tags_metas.meta_value, "") as thumbnail,
+                    IF(tags_metas.meta_key = "seo_page_title", tags_metas.meta_value, "") as seo_page_title,
+                    IF(tags_metas.meta_key = "description", tags_metas.meta_value, "") as description'
+                )                
+            );
 
         // Set sorting and order
         $tags = $tags->orderBy($sort, $order);
@@ -54,23 +59,11 @@ class TagController extends Controller
         }
 
         // Check if tag is trashed
-        $tags = $tags->where('is_trashed', $is_trashed);
-
-        if (!$is_trashed) {
-            // Check if tag is published if `is_trashed` is false
-            $tags = ($request->has('published'))
-                ? $tags->where('published', $published)
-                : $tags->where('published', true);
-            ;
-        }
+        $tags = (request()->has('status')) ? $tags->where('tags.status', request('status')) : $tags->where('tags.status', 'published');
 
         // If search query is not null then apply where clauses
         if ($q != null) {
-            $tags = $tags
-                    ->where('tags.name', 'LIKE', '%' . $q . '%')
-                    ->orWhere( 'tags.description', 'LIKE', '%' . $q . '%' )
-                    ->orWhere( 'tags.seo_title', 'LIKE', '%' . $q . '%' )
-            ;
+            $tags = $tags->where('tags.name', 'LIKE', '%' . $q . '%');
         }
 
         // Paginate
@@ -78,16 +71,15 @@ class TagController extends Controller
 
         // Counters
         $data['published_tags_count']  = Tag::where([
-            ['published', true],
+            ['status', 'published'],
         ])->count();
 
         $data['draft_tags_count']  = Tag::where([
-            ['is_trashed', false],
-            ['published', false],
+            ['status', 'draft'],
         ])->count();
 
         $data['trash_tags_count']  = Tag::where([
-            ['is_trashed', true]
+            ['status', 'trashed']
         ])->count();
 
 
@@ -99,8 +91,7 @@ class TagController extends Controller
         $data['sort']            = $sort;
         $data['tags']            = $tags;
         $data['tag_categories']  = $tag_categories;
-        $data['is_trashed']      = $is_trashed;
-        $data['published']       = $published;
+        $data['status']          = (request()->has('status')) ? request('status') : 'published';
         $data['tag_category_id'] = $tag_category_id;
         $data['request']         = $request;
 
@@ -142,40 +133,37 @@ class TagController extends Controller
         // Insert or update tag to db table
         $tag                  = $updating ? Tag::find($id) : new Tag;
         $tag->name            = $request->input('tag_name');
-        $tag->description     = $request->input('tag_description');
         $tag->tag_category_id = $request->input('tag_category_id');
-        $tag->seo_title       = $request->input('tag_seo_title');
-        $tag->published       = $updating ? true : $request->boolean('tag_publish');
-
+        if ($updating == false) {
+            $tag->status = $request->boolean('tag_publish') ? 'published' : 'draft';
+        }
 
         $saved = $tag->save();
 
-        // if user uploads avatar
-        if ($request->file('tag_image') !== null) {
-            // detete previous image
-            $media_items = $tag->getMedia('images');
-
-            // Loop through each images collection
-            foreach ($media_items as $key => $media_item) {
-                $media_item->delete(); // Delete image
-            }
-
-            // set tag image
-            $tag->addMediaFromRequest('tag_image')->toMediaCollection('images');
+        if ( request()->has('tag_description') && !empty(request('tag_description')) ) {
+            TagsMeta::setMetaData( $tag->id, 'description', request('tag_description') );
+        }
+        if ( request()->has('tag_seo_title') && !empty(request('tag_seo_title')) ) {
+            TagsMeta::setMetaData( $tag->id, 'seo_page_title', request('tag_seo_title') );
+        }
+        if ( request()->has('video') && !empty(request('video')) ) {
+            TagsMeta::setMetaData( $tag->id, 'video', request('video') );
+        }
+        if ( request()->has('thumbnail') && !empty(request('thumbnail')) ) {
+            TagsMeta::setMetaData( $tag->id, 'thumbnail', request('thumbnail') );
+        }
+        if ( request()->has('thumbnail_medium') && !empty(request('thumbnail_medium')) ) {
+            TagsMeta::setMetaData( $tag->id, 'thumbnail_medium', request('thumbnail_medium') );
         }
 
         if ($saved) {
             $response = [
                 'status'        => 'success',
-                'message'       => 'Tag has been saved.',
-                'data'          => $tag,
-                'tag_publish'   => $request->boolean('tag_publish'),
-                'tag_image_url' => $tag->getFirstMediaUrl('images'),
+                'message'       => 'Tag has been saved.'
             ];
         }
 
         return response()->json($response);
-
     }
 
     /**
@@ -198,7 +186,15 @@ class TagController extends Controller
         $tag = Tag::find($id);
 
         $tag['submit_url'] = route('tag.store');
-        $tag['thumbnail'] = $tag->getTagImage();
+
+        $tag['description']  = html_entity_decode(TagsMeta::getMetaData( $tag->id, 'description' ));
+        $thumbnail           = TagsMeta::getMetaData( $tag->id, 'thumbnail' );
+        $tag['thumbnail']    = asset("storage/tags/original/{$thumbnail}");
+        $video_file          = TagsMeta::getMetaData( $tag->id, 'video' );
+        $video_extension     = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
+        $tag['video']        = !empty( $video_file ) ? asset("storage/tags/original/{$video_file}") : '';
+        $tag['video_type']   = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
+        $tag['seo_title']    = TagsMeta::getMetaData( $tag->id, 'seo_page_title' );
 
         $response = [
             'status'  => 'success',
@@ -235,18 +231,31 @@ class TagController extends Controller
             return back()->with('responseMessage', 'Tag not found.');
         }
 
+        // Delete video
+        $video_file = TagsMeta::getMetaData( $tag->id, 'video' );
+        if ( !empty($video_file) ) {
+            Storage::delete('public/tags/original/' . $video_file);
+        }
+
+        // Delete thumbnails
+        $thumbnail = TagsMeta::getMetaData( $tag->id, 'thumbnail' );
+        if ( !empty($thumbnail) ) {
+            Storage::delete('public/tags/original/' . $thumbnail);
+        }
+
+        $thumbnail_medium = TagsMeta::getMetaData( $tag->id, 'thumbnail_medium' );
+        if ( !empty($thumbnail_medium) ) {
+            Storage::delete('public/tags/thumbnail/' . $thumbnail_medium);
+        }
+
+        // Delete Meta.
+        TagsMeta::emptyMetaData( $tag->id );
+
         $post_tag = PostsTag::firstWhere('tag_id', $tag->id);
 
         if ($post_tag) {
             // remove all post tags related with current tag
             PostsTag::where('tag_id', $tag->id)->delete();
-        }
-
-        $media_items = $tag->getMedia('images');
-
-        // Loop through each images collection
-        foreach ($media_items as $key => $media_item) {
-            $media_item->delete(); // Delete image
         }
 
         $deleted = $tag->delete();
@@ -275,9 +284,8 @@ class TagController extends Controller
             return back()->with('responseMessage', 'Tag not found.');
         }
 
-        $tag->is_trashed = true;
-        $tag->published = false;
-        $deleted         = $tag->save();
+        $tag->status = 'trashed';
+        $deleted     = $tag->save();
 
         if ($deleted) {
             $responseMessage = 'Tag "'. $tag->name . '" has been moved to trash.';
@@ -288,6 +296,41 @@ class TagController extends Controller
         return back()->with('responseMessage', $responseMessage);
     }
 
+    public function deleteTag($tag = null)
+    {
+        if (!$tag)
+            return;
+
+        // Delete video
+        $video_file = TagsMeta::getMetaData( $tag->id, 'video' );
+        if ( !empty($video_file) ) {
+            Storage::delete('public/tags/original/' . $video_file);
+        }
+
+        // Delete thumbnails
+        $thumbnail = TagsMeta::getMetaData( $tag->id, 'thumbnail' );
+        if ( !empty($thumbnail) ) {
+            Storage::delete('public/tags/original/' . $thumbnail);
+        }
+
+        $thumbnail_medium = TagsMeta::getMetaData( $tag->id, 'thumbnail_medium' );
+        if ( !empty($thumbnail_medium) ) {
+            Storage::delete('public/tags/thumbnail/' . $thumbnail_medium);
+        }
+
+        // Delete Meta.
+        TagsMeta::emptyMetaData( $tag->id );
+
+        $post_tag = PostsTag::firstWhere('tag_id', $tag->id);
+
+        if ($post_tag) {
+            // remove all post tags related with current tag
+            PostsTag::where('tag_id', $tag->id)->delete();
+        }
+
+        return $tag->delete();
+    }
+    
     /**
      * Empty trash
      *
@@ -295,25 +338,10 @@ class TagController extends Controller
      */
     public function emptyTrash()
     {
-        $tags = Tag::where('is_trashed', true);
+        $trashed_tags = Tag::where('status', 'trashed')->get();
 
-        // Loop through each tags
-        foreach ($tags->get() as $key => $tag) {
-
-            $post_tag = PostsTag::firstWhere('tag_id', $tag->id);
-
-            if ($post_tag) {
-                return back()->with('responseMessage', 'Cannot permanently delete tag "'.$tag->name.'" because it is used on a post.');
-            }
-
-            $media_items = $tag->getMedia('images');
-
-            $tag->delete();
-
-            // Loop through each images collection
-            foreach ($media_items as $key => $media_item) {
-                $media_item->delete(); // Delete image
-            }
+        foreach ($trashed_tags as $tag) {
+            $this->deleteTag($tag);
         }
 
         $responseMessage = 'Trash has been empty.';
@@ -335,8 +363,7 @@ class TagController extends Controller
             $tag = Tag::find($id);
 
             if ($tag) {
-                $tag->is_trashed = 1;
-                $tag->published = 0;
+                $tag->status = 'trashed';
                 $tag->save();
 
                 $responseMessage .= 'Tag "' . $tag->name . '" has been moved to trash.';
@@ -349,7 +376,6 @@ class TagController extends Controller
         }
 
         return back()->with('responseMessage', $responseMessage);
-
     }
 
     public function bulkDelete(Request $request)
@@ -366,15 +392,7 @@ class TagController extends Controller
             $tag = Tag::find($id);
 
             if ($tag) {
-                $tag_name    = $tag->name;
-                $media_items = $tag->getMedia('images');
-
-                // Loop through each images collection
-                foreach ($media_items as $key => $media_item) {
-                    $media_item->delete(); // Delete image
-                }
-
-                $tag->delete();
+                $this->deleteTag($tag);
 
                 $responseMessage .= 'Tag "' . $tag_name . '" has been deleted.';
                 $responseMessage .= '</br>';
@@ -391,7 +409,6 @@ class TagController extends Controller
 
     public function draft(Request $request, $id)
     {
-
         $tag = Tag::find($id);
         $responseMessage = 'Something went wrong. Please try again.';
 
@@ -400,9 +417,8 @@ class TagController extends Controller
             return back()->with('responseMessage', 'Tag not found.');
         }
 
-        $tag->published = false;
-        $tag->is_trashed = false;
-        $saved          = $tag->save();
+        $tag->status = 'draft';
+        $saved       = $tag->save();
 
         if ($saved) {
             $responseMessage = 'Tag "'. $tag->name . '" has been moved to drafts.';
@@ -424,8 +440,8 @@ class TagController extends Controller
             return back()->with('responseMessage', 'Tag not found.');
         }
 
-        $tag->published = true;
-        $saved          = $tag->save();
+        $tag->status = 'published';
+        $saved       = $tag->save();
 
         if ($saved) {
             $responseMessage = 'Tag "'. $tag->name . '" has been published.';
@@ -452,7 +468,10 @@ class TagController extends Controller
         if ($tag)
             $page_title = $tag->name;
 
+        // Get additional tag info.
         $data['page_title'] = $page_title;
+        $data['thumbnail']  = $tag->getThumbnail('medium') != false ? $tag->showThumbnail('medium') : false;
+        $data['description'] = Post::parseContent(TagsMeta::getMetaData($tag->id, 'description'));
         $data['posts']      = $posts;
 
         return view('templates.layouts.tag', $data);

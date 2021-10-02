@@ -21,6 +21,11 @@
   </section>
 @endsection
 
+@push('module-styles')
+<!-- MODULE'S CUSTOM Style -->
+  @include('tag::partials.custom-style')
+@endpush
+
 @push('module-scripts')
 <!-- MODULE'S CUSTOM SCRIPT -->
   @include('tag::partials.script-js')
