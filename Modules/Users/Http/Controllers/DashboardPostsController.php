@@ -100,7 +100,7 @@ class DashboardPostsController extends Controller
         
         // get all tags
         $tags_by_category = array();
-        $tags = Tag::where('published', true)->orderBy('name', 'asc')->get();
+        $tags = Tag::where('status', 'published')->orderBy('name', 'asc')->get();
         foreach($tags as $tag) {
             if (!isset($tags_by_category[$tag->tag_category_id]))
                 $tags_by_category[$tag->tag_category_id] = array();
@@ -157,7 +157,7 @@ class DashboardPostsController extends Controller
 
         // get all tags
         $tags_by_category = array();
-        $tags = Tag::where('published', true)->orderBy('name', 'asc')->get();
+        $tags = Tag::where('status', 'published')->orderBy('name', 'asc')->get();
         foreach($tags as $tag) {
             if (!isset($tags_by_category[$tag->tag_category_id]))
                 $tags_by_category[$tag->tag_category_id] = array();
@@ -308,7 +308,7 @@ class DashboardPostsController extends Controller
                         $tag                  = new Tag;
                         $tag->name            = $tag_input;
                         $tag->tag_category_id = $tag_category->id;
-                        $tag->published       = true;
+                        $tag->status          = 'published';
                         $tag->save();
                     }
 
@@ -492,7 +492,7 @@ class DashboardPostsController extends Controller
                         $tag                  = new Tag;
                         $tag->name            = $tag_input;
                         $tag->tag_category_id = $tag_category->id;
-                        $tag->published       = true;
+                        $tag->status          = 'published';
                         $tag->save();
                     }
 

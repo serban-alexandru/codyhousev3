@@ -42,4 +42,14 @@ Route::get('/tag-category/{tagCategory}', [
   'as'   => 'pages.tag-categories',
   'uses' => 'TagCategoryController@tagCategories'
 ]);
-  
+
+$user_middleware = ['auth'];
+if (config('settings.need_verify_email') === true) {
+  $user_middleware = ['auth', 'verified'];
+}
+Route::middleware($user_middleware)->group(function(){ 
+  Route::post('/tag/upload-media', [
+    'as' => 'tags.upload-media',
+    'uses' => '\Modules\Admin\Http\Controllers\MediaUploadController@uploadTagMedia'
+  ]);
+});
