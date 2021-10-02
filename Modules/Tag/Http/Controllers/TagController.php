@@ -34,14 +34,21 @@ class TagController extends Controller
         $tag_categories = TagCategory::all();
 
         // Get tags from db
-        $tags = Tag::select(
-                'tags.*',
-                'tags.id',
-                'tags.created_at',
-                'tags.updated_at',
-                'tag_categories.id as category_id',
-                'tag_categories.name as category_name'
-            )->join('tag_categories', 'tag_categories.id', '=', 'tags.tag_category_id');
+        $tags = Tag::leftJoin('tag_categories', 'tag_categories.id', '=', 'tags.tag_category_id')
+            ->leftJoin('tags_metas', 'tags.id', '=', 'tags_metas.tag_id')
+            ->select(
+                DB::raw(
+                    'tags.*,
+                    tags.id,
+                    tags.created_at,
+                    tags.updated_at,
+                    tag_categories.id as category_id,
+                    tag_categories.name as category_name,
+                    IF(tags_metas.meta_key = "thumbnail", tags_metas.meta_value, "") as thumbnail,
+                    IF(tags_metas.meta_key = "seo_page_title", tags_metas.meta_value, "") as seo_page_title,
+                    IF(tags_metas.meta_key = "description", tags_metas.meta_value, "") as description'
+                )                
+            );
 
         // Set sorting and order
         $tags = $tags->orderBy($sort, $order);
@@ -56,11 +63,7 @@ class TagController extends Controller
 
         // If search query is not null then apply where clauses
         if ($q != null) {
-            $tags = $tags
-                    ->where('tags.name', 'LIKE', '%' . $q . '%')
-                    ->orWhere( 'tags.description', 'LIKE', '%' . $q . '%' )
-                    ->orWhere( 'tags.seo_title', 'LIKE', '%' . $q . '%' )
-            ;
+            $tags = $tags->where('tags.name', 'LIKE', '%' . $q . '%');
         }
 
         // Paginate
