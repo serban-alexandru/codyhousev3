@@ -34,21 +34,15 @@ class TagController extends Controller
         $tag_categories = TagCategory::all();
 
         // Get tags from db
-        $tags = Tag::leftJoin('tag_categories', 'tag_categories.id', '=', 'tags.tag_category_id')
-            ->leftJoin('tags_metas', 'tags.id', '=', 'tags_metas.tag_id')
-            ->select(
-                DB::raw(
-                    'tags.*,
-                    tags.id,
-                    tags.created_at,
-                    tags.updated_at,
-                    tag_categories.id as category_id,
-                    tag_categories.name as category_name,
-                    IF(tags_metas.meta_key = "thumbnail", tags_metas.meta_value, "") as thumbnail,
-                    IF(tags_metas.meta_key = "seo_page_title", tags_metas.meta_value, "") as seo_page_title,
-                    IF(tags_metas.meta_key = "description", tags_metas.meta_value, "") as description'
-                )                
-            );
+        $tags = Tag::select(
+                    'tags.id',
+                    'tags.name',
+                    'tags.status',
+                    'tags.created_at',
+                    'tags.updated_at',
+                    'tag_categories.id as category_id',
+                    'tag_categories.name as category_name'
+                )->join('tag_categories', 'tag_categories.id', '=', 'tags.tag_category_id');
 
         // Set sorting and order
         $tags = $tags->orderBy($sort, $order);
@@ -58,12 +52,14 @@ class TagController extends Controller
             $tags = $tags->where('tag_categories.id', $tag_category_id);
         }
 
-        // Check if tag is trashed
-        $tags = (request()->has('status')) ? $tags->where('tags.status', request('status')) : $tags->where('tags.status', 'published');
 
         // If search query is not null then apply where clauses
         if ($q != null) {
             $tags = $tags->where('tags.name', 'LIKE', '%' . $q . '%');
+            $tags = $tags->whereIn('status', ['published', 'draft', 'trashed']);
+        } else {
+            // Check if tag is trashed
+            $tags = (request()->has('status')) ? $tags->where('tags.status', request('status')) : $tags->where('tags.status', 'published');
         }
 
         // Paginate
