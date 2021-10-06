@@ -162,11 +162,29 @@
             </th>
             <td class="int-table__cell text-center">
               @if($tag->getThumbnail('medium') != false)
-                <div class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%">
+                <a href="
+                    {{
+                      route(
+                        'pages.tags',
+                        [
+                          'tag'   => $tag->name
+                        ]
+                      )
+                    }}
+                " target="_blank" class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%">
                   <img src="{{ $tag->showThumbnail('medium') }}" alt="Image of {{ $tag->name }}, "/>
-                </div>
+                </a>
               @else
-                None
+                <a href="
+                    {{
+                      route(
+                        'pages.tags',
+                        [
+                          'tag'   => $tag->name
+                        ]
+                      )
+                    }}
+                  " target="_blank" class="post-table-image-wrapper post-table-image bg-black bg-opacity-50%"></a>
               @endif
             </td>
             <td class="int-table__cell">
