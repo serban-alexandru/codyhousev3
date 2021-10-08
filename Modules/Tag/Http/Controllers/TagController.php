@@ -2,6 +2,7 @@
 
 namespace Modules\Tag\Http\Controllers;
 
+use File;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -188,7 +189,14 @@ class TagController extends Controller
         $tag['thumbnail']    = asset("storage/tags/original/{$thumbnail}");
         $video_file          = TagsMeta::getMetaData( $tag->id, 'video' );
         $video_extension     = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
-        $tag['video']        = !empty( $video_file ) ? asset("storage/tags/original/{$video_file}") : '';
+
+        $video_mobile = storage_path() . '/app/public/videos/mobile/' . $video_file;
+        if (isMobileDevice() && File::exists($video_mobile)) {
+            $tag['video']    = !empty( $video_file ) ? asset("storage/videos/mobile/{$video_file}") : '';
+        } else {
+            $tag['video']    = !empty( $video_file ) ? asset("storage/videos/original/{$video_file}") : '';
+        }
+
         $tag['video_type']   = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
         $tag['seo_title']    = TagsMeta::getMetaData( $tag->id, 'seo_page_title' );
 
@@ -230,7 +238,8 @@ class TagController extends Controller
         // Delete video
         $video_file = TagsMeta::getMetaData( $tag->id, 'video' );
         if ( !empty($video_file) ) {
-            Storage::delete('public/tags/original/' . $video_file);
+            Storage::delete('public/videos/original/' . $video_file);
+            Storage::delete('public/videos/mobile/' . $video_file);
         }
 
         // Delete thumbnails
@@ -300,7 +309,8 @@ class TagController extends Controller
         // Delete video
         $video_file = TagsMeta::getMetaData( $tag->id, 'video' );
         if ( !empty($video_file) ) {
-            Storage::delete('public/tags/original/' . $video_file);
+            Storage::delete('public/videos/original/' . $video_file);
+            Storage::delete('public/videos/mobile/' . $video_file);
         }
 
         // Delete thumbnails

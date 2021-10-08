@@ -2,6 +2,7 @@
 
 namespace Modules\Post\Entities;
 
+use File;
 use Illuminate\Database\Eloquent\Model;
 
 use Modules\Post\Entities\{PostsTag, PostsMeta};
@@ -42,7 +43,12 @@ class Post extends Model
 
     public function showVideo($video_file)
     {
-        return asset('storage/posts/original') . '/' . $video_file;
+        $video_mobile = storage_path() . '/app/public/videos/mobile/' . $video_file;
+        if (isMobileDevice() && File::exists($video_mobile)) {
+            return asset('storage/videos/mobile') . '/' . $video_file;
+        } else {
+            return asset('storage/videos/original') . '/' . $video_file;
+        }
 	}
 
 	public function postsTag()
@@ -87,7 +93,14 @@ class Post extends Model
         foreach($posts as &$post) {
             $video_file          = PostsMeta::getMetaData( $post->id, 'video' );
             $video_extension     = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
-            $post['video']       = !empty( $video_file ) ? asset("storage/posts/original/{$video_file}") : '';
+
+            $video_mobile = storage_path() . '/app/public/videos/mobile/' . $video_file;
+            if (isMobileDevice() && File::exists($video_mobile)) {
+                $post['video']    = !empty( $video_file ) ? asset("storage/videos/mobile/{$video_file}") : '';
+            } else {
+                $post['video']    = !empty( $video_file ) ? asset("storage/videos/original/{$video_file}") : '';
+            }
+    
             $post['video_type']  = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
         }
 
@@ -123,7 +136,14 @@ class Post extends Model
         foreach($posts as &$post) {
             $video_file          = PostsMeta::getMetaData( $post->id, 'video' );
             $video_extension     = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
-            $post['video']       = !empty( $video_file ) ? asset("storage/posts/original/{$video_file}") : '';
+
+            $video_mobile = storage_path() . '/app/public/videos/mobile/' . $video_file;
+            if (isMobileDevice() && File::exists($video_mobile)) {
+                $post['video']    = !empty( $video_file ) ? asset("storage/videos/mobile/{$video_file}") : '';
+            } else {
+                $post['video']    = !empty( $video_file ) ? asset("storage/videos/original/{$video_file}") : '';
+            }
+    
             $post['video_type']  = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
         }
 
