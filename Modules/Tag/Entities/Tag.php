@@ -2,6 +2,7 @@
 
 namespace Modules\Tag\Entities;
 
+use File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
@@ -58,7 +59,12 @@ class Tag extends Model implements HasMedia
 
     public function showVideo($video_file)
     {
-        return asset('storage/tags/original') . '/' . $video_file;
+        $video_mobile = storage_path() . '/app/public/videos/mobile/' . $video_file;
+        if (isMobileDevice() && File::exists($video_mobile)) {
+            return asset('storage/videos/mobile') . '/' . $video_file;
+        } else {
+            return asset('storage/videos/original') . '/' . $video_file;
+        }
 	}
     
     public function getTagImage($collection = 'images') {

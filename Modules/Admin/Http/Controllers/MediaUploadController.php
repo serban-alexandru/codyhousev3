@@ -4,6 +4,9 @@ namespace Modules\Admin\Http\Controllers;
 
 use Arr, Str, Image, Imagick, File, Thumbnail;
 use FFMpeg\FFProbe;
+use FFMpeg\FFMpeg;
+use FFMpeg\Coordinate\Dimension;
+use FFMpeg\Format\Video\{X264, Ogg, WebM, WMV, WMV3};
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -49,19 +52,27 @@ class MediaUploadController extends Controller
             ];
         }
 
+        $mime_type = request()->file('media')->getMimeType();
+        $media_type = substr($mime_type, 0, 5) === 'image' ? 'image' : 'video';
+
         $media_path = storage_path() . "/app/public/{$subpath}";
 
         // Ensure that original, and thumbnail folder exists
         File::ensureDirectoryExists($media_path . '/original');
         File::ensureDirectoryExists($media_path . '/thumbnail');
 
+        $video_path = storage_path() . "/app/public/videos";
+
+        // Ensure that original, and thumbnail folder exists
+        File::ensureDirectoryExists($video_path . '/original');
+        File::ensureDirectoryExists($video_path . '/mobile');
+
         // Save thumbnail image in file system
-        $media = request()->file('media')->store("public/{$subpath}/original");
+        if ($media_type == 'image')
+            $media = request()->file('media')->store("public/{$subpath}/original");
+        else
+            $media = request()->file('media')->store("public/videos/original");
         $media_name = Arr::last(explode('/', $media));
-
-        $mime_type = request()->file('media')->getMimeType();
-
-        $media_type = substr($mime_type, 0, 5) === 'image' ? 'image' : 'video';
 
         if ($media_type === 'image') {
             $thumbnail = $media_name;
@@ -89,14 +100,48 @@ class MediaUploadController extends Controller
             $message = 'You have successfully upload file.';
 
         } else if ($media_type === 'video') {
+            $video_extension = strtolower(substr($media_name, strrpos($media_name,".") + 1));
+
             $ffprobe = FFProbe::create();
-            $video_dimensions = $ffprobe
-                ->streams( $media_path . '/original/' . $media_name )   // extracts streams informations
+            $video_stream = $ffprobe
+                ->streams( $video_path . '/original/' . $media_name )   // extracts streams informations
                 ->videos()                      // filters video streams
-                ->first()                       // returns the first video stream
-                ->getDimensions();              // returns a FFMpeg\Coordinate\Dimension object
+                ->first();                       // returns the first video stream
+
+            $video_dimensions = $video_stream->getDimensions();              // returns a FFMpeg\Coordinate\Dimension object
+
             $width = $video_dimensions->getWidth();
             $height = $video_dimensions->getHeight();
+
+            // Resize video
+            $m_video_width = 480;
+            $m_video_height = ceil($height * (480/$width));
+
+            $ffmpeg = FFMpeg::create();
+            $m_video = $ffmpeg->open($video_path . '/original/' . $media_name);
+            $m_video
+                ->filters()
+                ->resize(new Dimension($m_video_width, $m_video_height))
+                ->synchronize();
+
+            if ($video_extension == 'ogg') {
+                $format = new Ogg();
+            } else if ($video_extension == 'webm') {
+                $format = new WebM();
+            } else if ($video_extension == 'wmv') {
+                $format = new WMV();
+            } else if ($video_extension == 'wmv3') {
+                $format = new WMV2();
+            } else {
+                $format = new X264();
+            }
+            
+            $format
+                ->setKiloBitrate(704)
+                ->setAudioChannels(2)
+                ->setAudioKiloBitrate(256);
+        
+            $m_video->save($format, $video_path . '/mobile/' . $media_name);
 
             $height = ceil($height * (1024/$width));
             $width = 1024; // Limit max thumbnail width as 1024
@@ -111,7 +156,7 @@ class MediaUploadController extends Controller
             // assign the value to time_to_image (which will get screenshot of video at that specified seconds)
             $time_to_image = 5; // Capture first frame
 
-            $thumbnail_status = Thumbnail::getThumbnail($media_path . '/original/' . $media_name, $media_path . '/original/', $thumbnail, $time_to_image);
+            $thumbnail_status = Thumbnail::getThumbnail($video_path . '/original/' . $media_name, $media_path . '/original/', $thumbnail, $time_to_image);
             if($thumbnail_status) {
                 $message = "Thumbnail generated";
                 $thumbnail_medium = Image::make($media_path . '/original/' . $thumbnail);
@@ -131,7 +176,7 @@ class MediaUploadController extends Controller
                 'status' => $status,
                 'message' => $message,
                 'video' => ($media_type === 'video') ? $media_name : '',
-                'video_url' => ($media_type === 'video') ? asset("storage/{$subpath}/original/{$media_name}") : '',
+                'video_url' => ($media_type === 'video') ? asset("storage/videos/original/{$media_name}") : '',
                 'video_type' => ($media_type === 'video') ? $mime_type : '',
                 'thumbnail' => $thumbnail,
                 'thumbnail_url' => asset("storage/{$subpath}/original/{$thumbnail}"),

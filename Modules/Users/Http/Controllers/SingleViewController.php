@@ -2,6 +2,7 @@
 
 namespace Modules\Users\Http\Controllers;
 
+use File;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Modules\Page\Entities\Page;
@@ -26,7 +27,14 @@ class SingleViewController extends Controller
     $data['page_title'] = $post->title;
     $video_file          = PostsMeta::getMetaData( $post->id, 'video' );
     $video_extension     = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
-    $post['video']       = !empty( $video_file ) ? asset("storage/posts/original/{$video_file}") : '';
+
+    $video_mobile = storage_path() . '/app/public/videos/mobile/' . $video_file;
+    if (isMobileDevice() && File::exists($video_mobile)) {
+        $post['video']    = !empty( $video_file ) ? asset("storage/videos/mobile/{$video_file}") : '';
+    } else {
+        $post['video']    = !empty( $video_file ) ? asset("storage/videos/original/{$video_file}") : '';
+    }
+
     $post['video_type']  = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
 
     return view('templates.layouts.post', $data);
@@ -86,7 +94,14 @@ class SingleViewController extends Controller
     
         $video_file          = PostsMeta::getMetaData( $post->id, 'video' );
         $video_extension     = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
-        $post['video']       = !empty( $video_file ) ? asset("storage/posts/original/{$video_file}") : '';
+
+        $video_mobile = storage_path() . '/app/public/videos/mobile/' . $video_file;
+        if (isMobileDevice() && File::exists($video_mobile)) {
+            $post['video']    = !empty( $video_file ) ? asset("storage/videos/mobile/{$video_file}") : '';
+        } else {
+            $post['video']    = !empty( $video_file ) ? asset("storage/videos/original/{$video_file}") : '';
+        }
+
         $post['video_type']  = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
     
         $data['post']       = $post;

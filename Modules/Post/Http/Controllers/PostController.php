@@ -286,7 +286,13 @@ class PostController extends Controller
         $data['thumbnail']    = asset("storage/posts/original/{$post->thumbnail}");
         $video_file           = PostsMeta::getMetaData( $post->id, 'video' );
         $video_extension      = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
-        $data['video']        = !empty( $video_file ) ? asset("storage/posts/original/{$video_file}") : '';
+
+        $video_mobile = storage_path() . '/app/public/videos/mobile/' . $video_file;
+        if (isMobileDevice() && File::exists($video_mobile)) {
+            $data['video']    = !empty( $video_file ) ? asset("storage/videos/mobile/{$video_file}") : '';
+        } else {
+            $data['video']    = !empty( $video_file ) ? asset("storage/videos/original/{$video_file}") : '';
+        }
         $data['video_type']   = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
         $data['page_title']   = PostsMeta::getMetaData( $post->id, 'seo_page_title' );
         $data['post_date']    = Date('d/m/Y', strtotime($post->created_at));
@@ -470,7 +476,8 @@ class PostController extends Controller
         // Delete video
         $video_file = PostsMeta::getMetaData( $post->id, 'video' );
         if ( !empty($video_file) ) {
-            Storage::delete('public/posts/original/' . $video_file);
+            Storage::delete('public/videos/original/' . $video_file);
+            Storage::delete('public/videos/mobile/' . $video_file);
             PostsMeta::deleteMetaData( $post->id, 'video' );
         }
 
@@ -892,7 +899,14 @@ class PostController extends Controller
                 $post['description'] = Post::parseContent($post['description']);
                 $video_file          = PostsMeta::getMetaData( $post->id, 'video' );
                 $video_extension     = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
-                $post['video']       = !empty( $video_file ) ? asset("storage/posts/original/{$video_file}") : '';
+
+                $video_mobile = storage_path() . '/app/public/videos/mobile/' . $video_file;
+                if (isMobileDevice() && File::exists($video_mobile)) {
+                    $post['video']    = !empty( $video_file ) ? asset("storage/videos/mobile/{$video_file}") : '';
+                } else {
+                    $post['video']    = !empty( $video_file ) ? asset("storage/videos/original/{$video_file}") : '';
+                }
+
                 $post['video_type']  = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
                 $post['seo_title']   = $post['title'] . ' | [sitetitle]';
                 $post['url'] = 'post/' . $post['slug'];
