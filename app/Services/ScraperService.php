@@ -928,7 +928,7 @@ class ScraperService {
             $tag                  = new Tag;
             $tag->name            = $tag_input;
             $tag->tag_category_id = $tag_category->id;
-            $tag->published       = true;
+            $tag->status          = 'published';
             $tag->save();
           }
 
