@@ -3,6 +3,9 @@ namespace App\Services;
 
 use Arr, Str, Image, Imagick, File, Thumbnail, Storage;
 use FFMpeg\FFProbe;
+use FFMpeg\FFMpeg;
+use FFMpeg\Coordinate\Dimension;
+use FFMpeg\Format\Video\{X264, Ogg, WebM, WMV, WMV3};
 
 use Goutte\Client;
 use Symfony\Component\HttpClient\HttpClient;
@@ -478,14 +481,28 @@ class ScraperService {
         }
 
         $post_media_path = storage_path() . '/app/public/posts';
-        Log::debug('>>> Destination directory: ' . $post_media_path);
 
         // Ensure that original, and thumbnail folder exists
         File::ensureDirectoryExists($post_media_path . '/original');
         File::ensureDirectoryExists($post_media_path . '/thumbnail');
         
+        $video_path = storage_path() . "/app/public/videos";
+
+        // Ensure that original, and thumbnail folder exists
+        File::ensureDirectoryExists($video_path . '/original');
+        File::ensureDirectoryExists($video_path . '/mobile');
+
+        if ($type == 'image')
+          Log::debug('>>> Destination directory: ' . $post_media_path);
+        else
+          Log::debug('>>> Destination directory: ' . $video_path);
+
         $filename = Str::random(41) . '.' . Arr::last(explode('.', $media_url));
-        $destination = $post_media_path . '/original/' . $filename;
+        if ($type == 'image')
+            $destination = $post_media_path . '/original/' . $filename;
+        else
+            $destination = $video_path . '/original/' . $filename;
+
         Log::debug('>>> Source File: ' . $source);
         Log::debug('>>> Destination File: ' . $destination);
 
@@ -528,15 +545,47 @@ class ScraperService {
           Log::debug('>>> Thumbnail Image is generated: ' . $thumbnail_medium_name);
 
         } else if ($type === 'video') {
+          $video_extension = strtolower(substr($filename, strrpos($filename,".") + 1));
           Log::debug('>>> Generating poster from video...');
           $ffprobe = FFProbe::create();
-          $video_dimensions = $ffprobe
-            ->streams( $post_media_path . '/original/' . $filename )   // extracts streams informations
-            ->videos()                      // filters video streams
-            ->first()                       // returns the first video stream
-            ->getDimensions();              // returns a FFMpeg\Coordinate\Dimension object
+          $video_stream = $ffprobe
+              ->streams( $video_path . '/original/' . $filename )   // extracts streams informations
+              ->videos()                      // filters video streams
+              ->first();                       // returns the first video stream
+
+          $video_dimensions = $video_stream->getDimensions();              // returns a FFMpeg\Coordinate\Dimension object
           $width = $video_dimensions->getWidth();
           $height = $video_dimensions->getHeight();
+
+          // Resize video
+          $m_video_width = 480;
+          $m_video_height = ceil($height * (480/$width));
+
+          $ffmpeg = FFMpeg::create();
+          $m_video = $ffmpeg->open($video_path . '/original/' . $filename);
+          $m_video
+              ->filters()
+              ->resize(new Dimension($m_video_width, $m_video_height))
+              ->synchronize();
+
+          if ($video_extension == 'ogg') {
+              $format = new Ogg();
+          } else if ($video_extension == 'webm') {
+              $format = new WebM();
+          } else if ($video_extension == 'wmv') {
+              $format = new WMV();
+          } else if ($video_extension == 'wmv3') {
+              $format = new WMV2();
+          } else {
+              $format = new X264();
+          }
+          
+          $format
+              ->setKiloBitrate(704)
+              ->setAudioChannels(2)
+              ->setAudioKiloBitrate(256);
+      
+          $m_video->save($format, $video_path . '/mobile/' . $filename);
 
           $height = ceil($height * (1024/$width));
           $width = 1024; // Limit max thumbnail width as 1024
@@ -551,7 +600,7 @@ class ScraperService {
           // assign the value to time_to_image (which will get screenshot of video at that specified seconds)
           $time_to_image = 1; // Capture first frame
 
-          $thumbnail_status = Thumbnail::getThumbnail($post_media_path . '/original/' . $filename, $post_media_path . '/original/', $thumbnail, $time_to_image);
+          $thumbnail_status = Thumbnail::getThumbnail($video_path . '/original/' . $filename, $post_media_path . '/original/', $thumbnail, $time_to_image);
           Log::debug('>>> Generated Poster: ' . $thumbnail);
           if($thumbnail_status) {
             $thumbnail_medium = Image::make($post_media_path . '/original/' . $thumbnail);
