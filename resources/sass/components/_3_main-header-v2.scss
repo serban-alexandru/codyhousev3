@@ -102,7 +102,7 @@ Usage: codyhouse.co/license
 .header-v2__nav-item {
   .btn {
     width: 100%; // make buttons full width on small screens
-    font-size: var(--text-md);
+    font-size: var(--text-sm);
     margin: var(--space-xxs) 0;
   }
 }
@@ -331,7 +331,7 @@ Usage: codyhouse.co/license
 
   .header-v2__nav-item--main > .header-v2__nav-link {
     span {
-      color: var(--color-contrast-lower);
+      color: var(--color-contrast-low);
     }
   }
 

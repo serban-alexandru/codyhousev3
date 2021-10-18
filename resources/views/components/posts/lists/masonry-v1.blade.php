@@ -1,4 +1,3 @@
-
 <div class="masonry js-masonry js-infinite-scroll container max-width-lg margin-top-md" data-path="{{ url('/api/' . $api_route . '/page/{n}') }}" data-container=".js-infinite-scroll__content" data-current-page="1" data-load-btn="off">
   <div class="masonry__loader" aria-hidden="true">
     <svg class="icon icon--md icon--is-spinning" viewbox="0 0 32 32">
