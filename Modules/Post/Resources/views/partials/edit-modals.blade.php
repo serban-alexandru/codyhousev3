@@ -2,7 +2,7 @@
 <form action="#" id="formEditPost" enctype="multipart/form-data">
   @csrf
   <input type="hidden" id="postId" value="">
-  <div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll custom-disable-modal-close" id="modal-edit-post">
+  <div class="custom-modal modal modal--animate-translate-down flex flex-center bg-black bg-opacity-80% padding-md js-modal custom-modal-hide-body-scroll custom-disable-modal-close" id="modal-edit-post">
     <div class="modal__content height-100% tabs js-tabs width-100% max-width-sm bg radius-md shadow-md flex flex-column">
         <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
           <!-- 👇 Tabs -->

@@ -1,5 +1,5 @@
 <!-- 👇 Full Screen Modal -->
-<div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll custom-disable-modal-close" id="modal-edit-tag">
+<div class="custom-modal modal modal--animate-translate-down flex flex-center bg-black bg-opacity-80% padding-md js-modal custom-modal-hide-body-scroll custom-disable-modal-close" id="modal-edit-tag">
   <form action="{{ route('tag.store') }}" data-action="{{ route('tag.store') }}" method="post" enctype="multipart/form-data" class="modal__content height-100% tabs js-tabs width-100% max-width-sm bg radius-md shadow-md flex flex-column" id="edit-tag-form" novalidate> @csrf
     <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
       <!-- 👇 Tabs -->

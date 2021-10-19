@@ -1,6 +1,6 @@
 <!-- 👇 Full Screen Modal -->
 <form action="{{ route('tag.store') }}" data-action="{{ route('tag.store') }}" method="post" enctype="multipart/form-data" id="add-tag-form" novalidate> @csrf
-  <div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll" id="modal-add-tag">
+  <div class="custom-modal modal modal--animate-translate-down flex flex-center bg-black bg-opacity-80% padding-md js-modal custom-modal-hide-body-scroll" id="modal-add-tag">
   <div class="modal__content height-100% tabs js-tabs width-100% max-width-sm bg radius-md shadow-md flex flex-column">
     <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
       <!-- 👇 Tabs -->
@@ -181,7 +181,7 @@
 <!-- Full Screen Modal End -->
 
 <!-- 👇 Full Screen Modal -->
-<div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll" id="modal-add-tag-category">
+<div class="custom-modal modal modal--animate-translate-down flex flex-center bg-black bg-opacity-80% padding-md js-modal custom-modal-hide-body-scroll" id="modal-add-tag-category">
   <form action="{{ route('tag-category.store') }}" method="post" class="modal__content height-100% tabs js-tabs width-100% max-width-sm bg radius-md shadow-md flex flex-column" id="add-tag-category-form" novalidate> @csrf
     <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
       <!-- 👇 Tabs -->

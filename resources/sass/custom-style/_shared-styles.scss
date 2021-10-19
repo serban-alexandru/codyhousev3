@@ -7,13 +7,6 @@ h2 {
     padding-bottom: 0.3em;
 }
 
-// logo
-.logo {
-    font-family: "Libre Caslon Display", serif;
-    font-size: 27px;
-    color: alpha(var(--color-contrast-lower), var(--color-o, 1));
-}
-
 // all text links
 a,
 .link {
@@ -77,6 +70,11 @@ body {
 }
 
 // custom modal
+
+.tab-bg {
+    background-color: var(--color-bg-light);
+}
+
 // styles on mobile view
 @include breakpoint(md, "not all") {
     .custom-modal {

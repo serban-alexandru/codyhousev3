@@ -494,3 +494,10 @@ Usage: codyhouse.co/license
     justify-content: flex-end;
   }
 }
+
+// logo
+.header-v2-logo {
+  font-family: "Libre Caslon Display", serif;
+  font-size: 27px;
+  color: alpha(var(--color-white), var(--color-o, 1));
+}

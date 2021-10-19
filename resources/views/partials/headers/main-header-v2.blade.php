@@ -13,7 +13,7 @@
 
         <!-- Logo Text-->
         <a href="{{ url('/') }}">
-          <h1 class="logo">{{ !empty($settings_data['logo_title']) ? $settings_data['logo_title'] : '' }}</h1>
+          <h1 class="header-v2-logo">{{ !empty($settings_data['logo_title']) ? $settings_data['logo_title'] : '' }}</h1>
         </a>
       </div>
       <!-- END-->
