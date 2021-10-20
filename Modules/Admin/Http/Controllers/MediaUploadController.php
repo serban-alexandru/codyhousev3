@@ -30,6 +30,11 @@ class MediaUploadController extends Controller
     }
 
     public function uploadMedia(Request $request, $type = 'post') {
+        Imagick::setResourceLimit(Imagick::RESOURCETYPE_MEMORY, 1024435456);
+        Imagick::setResourceLimit(Imagick::RESOURCETYPE_MAP, 1536870912);
+        Imagick::setResourceLimit(IMagick::RESOURCETYPE_AREA, 256000000);
+        Imagick::setResourceLimit(IMagick::RESOURCETYPE_DISK, 4073741824);
+
         $request->validate([
             'media' => 'required',
 		]);
@@ -76,7 +81,7 @@ class MediaUploadController extends Controller
 
         if ($media_type === 'image') {
             $thumbnail = $media_name;
-            if ($mime_type == 'image/gif') {
+            if ($mime_type == 'image/gif') {                
                 // Save thumbnail (medium) image to file system
                 $thumbnail_medium = new Imagick($media_path . '/original/' . $thumbnail);
                 $thumbnail_medium = $thumbnail_medium->coalesceImages();
