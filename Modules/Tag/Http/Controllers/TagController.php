@@ -76,6 +76,10 @@ class TagController extends Controller
             ['status', 'draft'],
         ])->count();
 
+        $data['suspended_tags_count']  = Tag::where([
+            ['status', 'suspended'],
+        ])->count();
+
         $data['trash_tags_count']  = Tag::where([
             ['status', 'trashed']
         ])->count();

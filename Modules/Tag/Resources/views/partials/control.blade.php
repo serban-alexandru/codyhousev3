@@ -7,6 +7,7 @@
               <optgroup label="Tag Status">
                 <option value="published" data-count="{{ $published_tags_count }}" selected>All Tags</option>
                 <option value="draft" data-count="{{ $draft_tags_count }}">Draft</option>
+                <option value="suspended" data-count="{{ $suspended_tags_count }}">Suspended</option>
                 <option value="trashed" data-count="{{ $trash_tags_count }}">Deleted</option>
               </optgroup>
             </select>

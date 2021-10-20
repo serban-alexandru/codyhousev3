@@ -466,6 +466,11 @@ class ScraperService {
         }
       }
 
+      Imagick::setResourceLimit(Imagick::RESOURCETYPE_MEMORY, 1024435456);
+      Imagick::setResourceLimit(Imagick::RESOURCETYPE_MAP, 1536870912);
+      Imagick::setResourceLimit(IMagick::RESOURCETYPE_AREA, 256000000);
+      Imagick::setResourceLimit(IMagick::RESOURCETYPE_DISK, 4073741824);
+
       Log::debug('>>> Downloading files...');
       foreach($media_files as $media_info) {
         $type = $media_info['type'];
