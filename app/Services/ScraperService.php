@@ -526,28 +526,33 @@ class ScraperService {
 
         if ($type === 'image') {
           Log::debug('>>> Generating Thumbnail Image...');
-          $thumbnail = $filename;
-          if ($mime_type == 'image/gif') {
-            // Save thumbnail (medium) image to file system
-            $thumbnail_medium = new Imagick($destination);
-            $thumbnail_medium = $thumbnail_medium->coalesceImages();
-            do {
-              $thumbnail_medium->resizeImage( $settings_width, $settings_height, Imagick::FILTER_BOX, 1, true );
-            } while ( $thumbnail_medium->nextImage());
+          try {
+            $thumbnail = $filename;
+            if ($mime_type == 'image/gif') {
+              // Save thumbnail (medium) image to file system
+              $thumbnail_medium = new Imagick($destination);
+              $thumbnail_medium = $thumbnail_medium->coalesceImages();
+              do {
+                $thumbnail_medium->resizeImage( $settings_width, $settings_height, Imagick::FILTER_BOX, 1, true );
+              } while ( $thumbnail_medium->nextImage());
 
-            $thumbnail_medium = $thumbnail_medium->deconstructImages();
-            $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
-            $thumbnail_medium->writeImages($post_media_path . '/thumbnail/' . $thumbnail_medium_name, true);
+              $thumbnail_medium = $thumbnail_medium->deconstructImages();
+              $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
+              $thumbnail_medium->writeImages($post_media_path . '/thumbnail/' . $thumbnail_medium_name, true);
 
-          } else {
-            $thumbnail_medium = Image::make($destination);
-            $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
-              $constraint->aspectRatio();
-            });
-            $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
-            $thumbnail_medium->save($post_media_path . '/thumbnail/' . $thumbnail_medium_name);
+            } else {
+              $thumbnail_medium = Image::make($destination);
+              $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
+                $constraint->aspectRatio();
+              });
+              $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
+              $thumbnail_medium->save($post_media_path . '/thumbnail/' . $thumbnail_medium_name);
+            }
+            Log::debug('>>> Thumbnail Image is generated: ' . $thumbnail_medium_name);
+          } catch (Exception $e) {
+            Log::debug('>>> Exception occured while generating Thumbnail.');
+            $scrape_status = false;
           }
-          Log::debug('>>> Thumbnail Image is generated: ' . $thumbnail_medium_name);
 
         } else if ($type === 'video') {
           $video_extension = strtolower(substr($filename, strrpos($filename,".") + 1));
