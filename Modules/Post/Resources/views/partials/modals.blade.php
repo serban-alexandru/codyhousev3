@@ -1,11 +1,11 @@
 <!-- 👇 Full Screen Modal -->
 <form action="#" id="formAddPost" enctype="multipart/form-data">
   @csrf
-  <div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll custom-disable-modal-close" id="modal-add-article">
+  <div class="custom-modal modal modal--animate-translate-down flex flex-center bg-black bg-opacity-80% padding-md js-modal custom-modal-hide-body-scroll custom-disable-modal-close" id="modal-add-article">
     <div class="modal__content height-100% tabs js-tabs width-100% max-width-sm bg radius-md shadow-md flex flex-column">
-        <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
+        <header class="tab-bg padding-y-sm padding-x-md flex items-center justify-between">
           <!-- 👇 Tabs -->
-          <nav class="tabs">
+          <nav class="tabs tab-bg">
             <ul class="flex flex-wrap gap-lg js-tabs__controls" aria-label="Tabs Interface">
               <li><a href="#tab1Panel1" class="tabs__control" aria-selected="true">Add</a></li>
               <li><a href="#tab1Panel2" class="tabs__control">Media</a></li>

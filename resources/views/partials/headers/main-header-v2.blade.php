@@ -1,4 +1,4 @@
-<header class="header-v2 js-header-v2 bg-contrast-high hide-nav js-hide-nav js-hide-nav--main" data-animation="off" data-animation-offset="400">
+<header class="header-v2 js-header-v2 bg-black hide-nav js-hide-nav js-hide-nav--main" data-animation="off" data-animation-offset="400">
   <div class="header-v2__wrapper">
     <div class="header-v2__container container max-width-lg">
       <div class="header-v2__sub-container">
@@ -13,13 +13,13 @@
 
         <!-- Logo Text-->
         <a href="{{ url('/') }}">
-          <h1 class="logo">{{ !empty($settings_data['logo_title']) ? $settings_data['logo_title'] : '' }}</h1>
+          <h1 class="header-v2-logo">{{ !empty($settings_data['logo_title']) ? $settings_data['logo_title'] : '' }}</h1>
         </a>
       </div>
       <!-- END-->
 
       <!-- User Icon and Drop-down Mobile-->
-      <div class="mobile-btn flex flex-center gap-xxs">
+      <div class="mobile-btn flex flex-right gap-xxs">
         <!-- Access Button -->
         @guest
         <a href="{{ url('/site2/login') }}" class="header-v2__nav-control padding-top-xxxs"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>payee</title><g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" fill="none" stroke="#ffffff" stroke-miterlimit="10"><path d="M10,13h0C7.239,13,5,9.761,5,7V6a5,5,0,0,1,5-5h0a5,5,0,0,1,5,5V7C15,9.761,12.761,13,10,13Z"></path><polyline points="19 16 16 19 19 22" stroke="#ffffff"></polyline><line x1="23" y1="19" x2="16" y2="19" stroke-linecap="butt" stroke="#ffffff"></line><path d="M15,13.632A21.071,21.071,0,0,0,10,13a22.242,22.242,0,0,0-6.975,1.193A2.991,2.991,0,0,0,1,17.032V21H12"></path></g></svg></a>
@@ -178,7 +178,6 @@
             @endauth
           </li>
           <!-- END -->
-
           @guest
           <!-- Login and Sign-up buttons -->
           <li class="header-v2__nav-item padding-right-sm padding-left-sm"><a href="{{ url('/site2/login') }}" class="btn btn--subtle">Login</a>
@@ -222,6 +221,13 @@
         </ul>
       </nav>
 
+      <!-- Theme Switch -->
+      <div class="margin-left-md switch">
+  <input class="switch__input" type="checkbox" id="themeSwitch">
+  <label class="switch__label" for="themeSwitch" aria-hidden="true">Option label</label>
+  <div class="switch__marker" aria-hidden="true"></div>
+</div>
+
       <!-- Search Box -->
       <div id="search-menu" class="header-v2__nav header-v2__nav-search">
         <div class="">
@@ -237,4 +243,7 @@
       </div>
     </div>
   </div>
+
+  
+
 </header>
