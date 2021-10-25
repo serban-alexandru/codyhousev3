@@ -549,11 +549,13 @@ class ScraperService {
               $thumbnail_medium->save($post_media_path . '/thumbnail/' . $thumbnail_medium_name);
             }
             Log::debug('>>> Thumbnail Image is generated: ' . $thumbnail_medium_name);
+          } catch (ImagickException $e) {
+            Log::debug('>>> Exception occured while generating Thumbnail.');
+            $scrape_status = false;
           } catch (Exception $e) {
             Log::debug('>>> Exception occured while generating Thumbnail.');
             $scrape_status = false;
           }
-
         } else if ($type === 'video') {
           $video_extension = strtolower(substr($filename, strrpos($filename,".") + 1));
           Log::debug('>>> Generating poster from video...');
