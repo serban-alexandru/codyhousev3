@@ -481,8 +481,8 @@ class TagController extends Controller
 
         // Get additional tag info.
         $data['page_title'] = $page_title;
-        $data['thumbnail']  = $tag->getThumbnail('medium') != false ? $tag->showThumbnail('medium') : false;
-        $data['description'] = Post::parseContent(TagsMeta::getMetaData($tag->id, 'description'));
+        $data['thumbnail']  = $tag && $tag->getThumbnail('medium') != false ? $tag->showThumbnail('medium') : false;
+        $data['description'] = $tag ? Post::parseContent(TagsMeta::getMetaData($tag->id, 'description')) : '';
         $data['posts']      = $posts;
 
         return view('templates.layouts.tag', $data);
