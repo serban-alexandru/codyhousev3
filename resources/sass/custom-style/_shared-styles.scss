@@ -87,19 +87,6 @@ body {
     }
 }
 
-// divider title on index page
-.divider-title {
-    margin-right: auto;
-    font-family: var(--font-primary);
-    background-image: linear-gradient(120deg, #008aeb 0%, #ffffff 100%);
-    background-repeat: no-repeat;
-    background-size: 100% 0.3em;
-    background-position: 0 100%;
-    transition: background-size 0.25s ease-in;
-    &:hover {
-        background-size: 100% 88%;
-    }
-}
 
 .mce-branding-powered-by {
     display: none;
@@ -311,9 +298,6 @@ body {
     color: #707684;
     background-color: transparent;
 }
-
-
-/* Select2 Custom Styles */
 
 
 /* Select2 tag badge style */
