@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Shortcodes\{SiteTitleShortcode, PostTitleShortcode, TagTitleShortcode, MenuShortcode, UsernameShortcode, SocialIconsShortcode};
+use App\Shortcodes\{SiteTitleShortcode, PostTitleShortcode, TagTitleShortcode, TagCatTitleShortcode, MenuShortcode, UsernameShortcode, SocialIconsShortcode};
 use Shortcode;
 
 class ShortcodesServiceProvider extends ServiceProvider
@@ -18,6 +18,7 @@ class ShortcodesServiceProvider extends ServiceProvider
         Shortcode::register('sitetitle', SiteTitleShortcode::class);
         Shortcode::register('posttitle', PostTitleShortcode::class);
         Shortcode::register('tagtitle', TagTitleShortcode::class);
+        Shortcode::register('tag_cat_title', TagCatTitleShortcode::class);
         Shortcode::register('menu', MenuShortcode::class);
         Shortcode::register('username', UsernameShortcode::class);
         Shortcode::register('socialicons', SocialIconsShortcode::class);

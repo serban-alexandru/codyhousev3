@@ -41,7 +41,7 @@
           @foreach($tag_pills as $tag_pills_key => $tag_pill_name)
             <a
               href="{{ route('pages.tags', $tag_pill_name) }}"
-              class="btn color-contrast-medium post-thumbnail-tags-pill margin-xxxs margin-top-md"
+              class="btn color-contrast-medium post-thumbnail-tags-pill margin-right-xxxs margin-bottom-xxxs"
               draggable="false" ondragstart="return false;"
             >
               {{ $tag_pill_name }}

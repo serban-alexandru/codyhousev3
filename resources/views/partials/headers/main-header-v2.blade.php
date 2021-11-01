@@ -1,4 +1,4 @@
-<header class="header-v2 js-header-v2 bg-contrast-high hide-nav js-hide-nav js-hide-nav--main" data-animation="off" data-animation-offset="400">
+<header class="header-v2 js-header-v2 bg-black hide-nav js-hide-nav js-hide-nav--main" data-animation="off" data-animation-offset="400">
   <div class="header-v2__wrapper">
     <div class="header-v2__container container max-width-lg">
       <div class="header-v2__sub-container">
@@ -13,13 +13,13 @@
 
         <!-- Logo Text-->
         <a href="{{ url('/') }}">
-          <h1 class="logo">{{ !empty($settings_data['logo_title']) ? $settings_data['logo_title'] : '' }}</h1>
+          <h1 class="header-v2-logo">{{ !empty($settings_data['logo_title']) ? $settings_data['logo_title'] : '' }}</h1>
         </a>
       </div>
       <!-- END-->
 
       <!-- User Icon and Drop-down Mobile-->
-      <div class="mobile-btn flex flex-center gap-xxs">
+      <div class="mobile-btn flex flex-right gap-xxs">
         <!-- Access Button -->
         @guest
         <a href="{{ url('/site2/login') }}" class="header-v2__nav-control padding-top-xxxs"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>payee</title><g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" fill="none" stroke="#ffffff" stroke-miterlimit="10"><path d="M10,13h0C7.239,13,5,9.761,5,7V6a5,5,0,0,1,5-5h0a5,5,0,0,1,5,5V7C15,9.761,12.761,13,10,13Z"></path><polyline points="19 16 16 19 19 22" stroke="#ffffff"></polyline><line x1="23" y1="19" x2="16" y2="19" stroke-linecap="butt" stroke="#ffffff"></line><path d="M15,13.632A21.071,21.071,0,0,0,10,13a22.242,22.242,0,0,0-6.975,1.193A2.991,2.991,0,0,0,1,17.032V21H12"></path></g></svg></a>
@@ -87,18 +87,22 @@
       </nav>
       <!-- END-->
 
-      <!-- User Icon and Drop-down Desktop -->
+      <!-- User Icon and Drop-down and Search for Desktop -->
       <nav id="second-menu" class="header-v2__nav header-v2__nav-align-right color-contrast-low">
         <ul class="header-v2__nav-list header-v2__nav-list--main">
           <li class="header-v2__nav-item header-v2__nav-item--main">
             <!-- Search Form -->
 
             <div class="autocomplete position-relative  js-autocomplete margin-right-md" data-autocomplete-dropdown-visible-class="autocomplete--results-visible">
-            
               <div class="position-relative">
-                <input class="radius-lg form-control width-100% js-autocomplete__input" type="text" name="autocomplete-input" id="autocomplete-input" placeholder="Type and press enter" autocomplete="off">
+                <form action="{{ route('pages.posts') }}" method="GET">
+                  <input type="hidden" name="limit" value="{{$limit ?? ''}}">
+                  <input type="hidden" name="sort" value="{{$sort ?? ''}}">
+                  <input type="hidden" name="order" value="{{$order ?? ''}}">
+                  <input class="form-control width-100%" type="reset search" name="q" value="{{ $q ?? '' }}" id="megasite-search" placeholder="Search something" aria-label="Search">
+                </form>
                 <button class="search-input__btn">
-                  <svg class="icon" viewBox="0 0 24 24"><title>Submit</title><g stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" stroke="currentColor" fill="none" stroke-miterlimit="10"><line x1="22" y1="22" x2="15.656" y2="15.656"></line><circle cx="10" cy="10" r="8"></circle></g></svg>
+                  <svg class="icon" viewBox="0 0 20 20"><title>Submit</title><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="8" cy="8" r="6"/><line x1="12.242" y1="12.242" x2="18" y2="18"/></g></svg>
                 </button>
                 <div class="autocomplete__loader position-absolute top-0 right-0 padding-right-sm height-100% flex items-center" aria-hidden="true">
                   <div class="circle-loader circle-loader--v1">
@@ -174,7 +178,6 @@
             @endauth
           </li>
           <!-- END -->
-
           @guest
           <!-- Login and Sign-up buttons -->
           <li class="header-v2__nav-item padding-right-sm padding-left-sm"><a href="{{ url('/site2/login') }}" class="btn btn--subtle">Login</a>
@@ -218,6 +221,13 @@
         </ul>
       </nav>
 
+      <!-- Theme Switch -->
+      <div class="margin-left-md switch">
+  <input class="switch__input" type="checkbox" id="themeSwitch">
+  <label class="switch__label" for="themeSwitch" aria-hidden="true">Option label</label>
+  <div class="switch__marker" aria-hidden="true"></div>
+</div>
+
       <!-- Search Box -->
       <div id="search-menu" class="header-v2__nav header-v2__nav-search">
         <div class="">
@@ -225,8 +235,7 @@
             <input type="hidden" name="limit" value="{{$limit ?? ''}}">
             <input type="hidden" name="sort" value="{{$sort ?? ''}}">
             <input type="hidden" name="order" value="{{$order ?? ''}}">
-
-            <input class="form-control width-100%" type="reset search" name="q" value="{{ $q ?? '' }}" id="megasite-search" placeholder="Search..." aria-label="Search">
+            <input class="form-control width-100%" type="reset search" name="q" value="{{ $q ?? '' }}" id="megasite-search" placeholder="Search something" aria-label="Search">
           </form>
           <div>
           </div>
@@ -234,4 +243,7 @@
       </div>
     </div>
   </div>
+
+  
+
 </header>

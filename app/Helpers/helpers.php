@@ -49,3 +49,14 @@ if (! function_exists('getTagsCount')) {
     return Tag::count();
   }
 }
+
+if (! function_exists('isMobileDevice')) {
+  function isMobileDevice(){
+    require_once __DIR__ . '/Mobile_Detect.php';
+    $detect = new Mobile_Detect;
+
+    if( $detect->isMobile() || $detect->isTablet() ) 
+      return true;
+    return false;
+  }
+}

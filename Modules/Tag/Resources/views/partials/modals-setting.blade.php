@@ -1,5 +1,5 @@
 <!-- 👇 Full Screen Modal -->
-<div class="custom-modal modal modal--animate-translate-down flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal custom-modal-hide-body-scroll" id="modal-setting">
+<div class="custom-modal modal modal--animate-translate-down flex flex-center bg-black bg-opacity-80% padding-md js-modal custom-modal-hide-body-scroll" id="modal-setting">
   <div class="modal__content height-100% tabs js-tabs width-100% max-width-sm bg radius-md shadow-md flex flex-column">
       <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
         

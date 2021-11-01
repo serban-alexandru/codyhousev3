@@ -100,7 +100,7 @@ class DashboardPostsController extends Controller
         
         // get all tags
         $tags_by_category = array();
-        $tags = Tag::where('published', true)->orderBy('name', 'asc')->get();
+        $tags = Tag::where('status', 'published')->orderBy('name', 'asc')->get();
         foreach($tags as $tag) {
             if (!isset($tags_by_category[$tag->tag_category_id]))
                 $tags_by_category[$tag->tag_category_id] = array();
@@ -157,7 +157,7 @@ class DashboardPostsController extends Controller
 
         // get all tags
         $tags_by_category = array();
-        $tags = Tag::where('published', true)->orderBy('name', 'asc')->get();
+        $tags = Tag::where('status', 'published')->orderBy('name', 'asc')->get();
         foreach($tags as $tag) {
             if (!isset($tags_by_category[$tag->tag_category_id]))
                 $tags_by_category[$tag->tag_category_id] = array();
@@ -308,7 +308,7 @@ class DashboardPostsController extends Controller
                         $tag                  = new Tag;
                         $tag->name            = $tag_input;
                         $tag->tag_category_id = $tag_category->id;
-                        $tag->published       = true;
+                        $tag->status          = 'published';
                         $tag->save();
                     }
 
@@ -365,7 +365,14 @@ class DashboardPostsController extends Controller
         $data['thumbnail']    = asset("storage/posts/original/{$post->thumbnail}");
         $video_file           = PostsMeta::getMetaData( $post->id, 'video' );
         $video_extension      = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
-        $data['video']        = !empty( $video_file ) ? asset("storage/posts/original/{$video_file}") : '';
+
+        $video_mobile = storage_path() . '/app/public/videos/mobile/' . $video_file;
+        if (isMobileDevice() && File::exists($video_mobile)) {
+            $data['video']    = !empty( $video_file ) ? asset("storage/videos/mobile/{$video_file}") : '';
+        } else {
+            $data['video']    = !empty( $video_file ) ? asset("storage/videos/original/{$video_file}") : '';
+        }
+
         $data['video_type']   = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
         $data['post_date']    = Date('d/m/Y', strtotime($post->created_at));
         $data['status']       = $post->status;
@@ -492,7 +499,7 @@ class DashboardPostsController extends Controller
                         $tag                  = new Tag;
                         $tag->name            = $tag_input;
                         $tag->tag_category_id = $tag_category->id;
-                        $tag->published       = true;
+                        $tag->status          = 'published';
                         $tag->save();
                     }
 
@@ -549,7 +556,8 @@ class DashboardPostsController extends Controller
         // Delete video
         $video_file = PostsMeta::getMetaData( $post->id, 'video' );
         if ( !empty($video_file) ) {
-            Storage::delete('public/posts/original/' . $video_file);            
+            Storage::delete('public/videos/original/' . $video_file);
+            Storage::delete('public/videos/mobile/' . $video_file);
             PostsMeta::deleteMetaData( $post->id, 'video' );
         }
 

@@ -1,4 +1,4 @@
-<header class="header-v2 js-header-v2 bg-contrast-high position-sticky top-0 js-mega-nav">
+<header class="header-v2 js-header-v2 bg-black position-sticky top-0 js-mega-nav">
   <div class="header-v2__wrapper">
     <div class="header-v2__container container max-width-lg">
       <div class="header-v2__sub-container">
@@ -13,7 +13,7 @@
 
         <!-- Logo Text-->
         <a href="{{ url('/') }}">
-          <h1 class="logo">{{ !empty($settings_data['logo_title']) ? $settings_data['logo_title'] : '' }}</h1>
+          <h1 class="header-v2-logo">{{ !empty($settings_data['logo_title']) ? $settings_data['logo_title'] : '' }}</h1>
         </a>
       </div>
       <!-- END-->
@@ -143,9 +143,17 @@
 
           @auth
           <li class="header-v2__nav-item padding-left-sm"><a href="{{ url('/logout') }}" class="btn btn--subtle">Log out</a></li>
+          
+          <!-- Theme Switch -->
+          <div class="margin-left-md switch">
+          <input class="switch__input" type="checkbox" id="themeSwitch">
+          <label class="switch__label" for="themeSwitch" aria-hidden="true">Option label</label>
+          <div class="switch__marker" aria-hidden="true"></div>
+          </div>
           @endauth
         </ul>
       </nav>
+
 
       <!-- User Icon and Drop-down Mobile -->
       <nav id="user-menu" class="header-v2__nav header-v2__nav-dropdown">
@@ -153,7 +161,7 @@
           <li class="header-v2__nav-item header-v2__nav-item--label">My Post Panel</li>
           <li class="header-v2__nav-item"><a href="{{ url('dashboard') }}" class="header-v2__nav-link">Dashboard</a></li>
           <li class="header-v2__nav-item">
-            <a href="#0" class="header-v2__nav-link justify-between">
+            <a href="#0" class="header-v2__nav-link">
               <span>Add Post <i class="sr-only">(opens in new window)</i></span>
               <svg class="icon icon--xxs" aria-hidden="true" viewBox="0 0 12 12">
                 <g stroke-width="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none">
@@ -175,7 +183,8 @@
           <li class="header-v2__nav-item header-v2__nav-item--label">Admin</li>
           <li class="header-v2__nav-item"><a href="{{ url('admin') }}" class="header-v2__nav-link">Admin Dashboard</a></li>
         </ul>
-      </nav>     
+      </nav>   
     </div>
   </div>
+
 </header>

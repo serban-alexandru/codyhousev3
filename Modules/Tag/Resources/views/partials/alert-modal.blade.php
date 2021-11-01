@@ -1,5 +1,5 @@
 <!-- Delete Screen Modal -->
-<div class="modal modal--animate-scale flex flex-center bg-contrast-higher bg-opacity-90% padding-md js-modal" id="modal-name-1">
+<div class="modal modal--animate-scale flex flex-center bg-black bg-opacity-80% padding-md js-modal" id="modal-name-1">
     <div class="modal__content width-100% max-width-xs bg radius-md shadow-md" role="alertdialog" aria-labelledby="modal-title-1" aria-describedby="modal-description-1">
       <header class="bg-contrast-lower padding-y-sm padding-x-md flex items-center justify-between">
         <h4 class="text-truncate" id="modal-title-1">Modal title</h4>

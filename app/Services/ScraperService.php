@@ -3,6 +3,9 @@ namespace App\Services;
 
 use Arr, Str, Image, Imagick, File, Thumbnail, Storage;
 use FFMpeg\FFProbe;
+use FFMpeg\FFMpeg;
+use FFMpeg\Coordinate\Dimension;
+use FFMpeg\Format\Video\{X264, Ogg, WebM, WMV, WMV3};
 
 use Goutte\Client;
 use Symfony\Component\HttpClient\HttpClient;
@@ -52,7 +55,7 @@ class ScraperService {
   public function run() {
     Scraper::where('id', $this->scraper->id)->update(['status' => 'running']);
 
-    Log::info('Prepare to run scraper...');
+    // Log::info('Prepare to run scraper...');
 
     // Validation (Non completed settings)
     /*if (!isset($this->settings['scraper_ip_ports']) || count($this->settings['scraper_ip_ports']) == 0) {
@@ -81,6 +84,7 @@ class ScraperService {
 
     $list_page_url = $this->scraper->default_url;
 
+    Log::info('===============================================================================================');
     Log::info('Starting scraper...');
 
     $can_scrape = true;
@@ -112,6 +116,7 @@ class ScraperService {
       }
 
       // Step 1 : Scrape List Page
+      Log::info('_______________________________________________________________________');
       Log::info('Scraping list page... (' . $list_page_url . ')');
       $links = $this->scrapeListPage($list_page_url);
 
@@ -170,7 +175,7 @@ class ScraperService {
       if ($this->check_scraper_status())
         return;
 
-      Log::notice("Continue to the next page...");
+      // Log::notice("Continue to the next page...");
     }
 
     // Mark current scraper as completed.
@@ -201,7 +206,7 @@ class ScraperService {
     if ($pagenum) {
       ScraperLog::where('id', $log_item->id)->delete(); // Delete log item
 
-      Log::info('The page is list page. Prepare to re-scrape list page...');
+      // Log::info('The page is list page. Prepare to re-scrape list page...');
 
       // Next Pagination direction
       $direction = $this->scraper->direction == "1" ? 'forward' : 'backward';
@@ -211,7 +216,7 @@ class ScraperService {
 
       $list_page_url = $log_item->url;
 
-      Log::info('Starting scraper...');
+      // Log::info('Starting scraper...');
 
       while(true) {
         // Check whether to stop rescrape.
@@ -262,14 +267,14 @@ class ScraperService {
         if (!$list_page_url)
           break;
 
-        Log::notice("Continue to the next page...");
+        // Log::notice("Continue to the next page...");
       }      
     } else {      
       // Check whether to stop rescrape.
       if ($this->check_rescraper_status())
         return;
 
-      Log::info('The page is detail page. Prepare to re-scrape list page...');
+      // Log::info('The page is detail page. Prepare to re-scrape list page...');
 
       $scraped_data = $this->scrapeDetailPage($log_item->url);
       ScraperLog::where('id', $log_item->id)->delete(); // Delete log item
@@ -345,26 +350,26 @@ class ScraperService {
 
     $titles = $this->filterItemInfo($crawler, $this->scraper->title, 'content');
     if (count($titles) > 0) {
-      Log::info('Scrape "Title" >>> Success!');
+      // Log::info('Scrape "Title" >>> Success!');
     } else {
-      Log::error('Scrape "Title" >>> Not Found!');
+      // Log::error('Scrape "Title" >>> Not Found!');
       $scrape_status = false;
       $this->logger->update_log_param('title', 0);
     }
 
     $images = $this->filterItemInfo($crawler, $this->scraper->image, 'src', $url);
-    if (count($images) > 0) {
-      Log::info('Scrape "Images" >>> Success!');
-    } else {
-      Log::error('Scrape "Images" >>> Not Found!');
-    }
+    // if (count($images) > 0) {
+    //   Log::info('Scrape "Images" >>> Success!');
+    // } else {
+    //   Log::error('Scrape "Images" >>> Not Found!');
+    // }
 
     $videos = $this->filterItemInfo($crawler, $this->scraper->video, 'src', $url);
-    if (count($videos) > 0) {
-      Log::info('Scrape "Videos" >>> Success!');
-    } else {
-      Log::error('Scrape "Videos" >>> Not Found!');
-    }
+    // if (count($videos) > 0) {
+    //   Log::info('Scrape "Videos" >>> Success!');
+    // } else {
+    //   Log::error('Scrape "Videos" >>> Not Found!');
+    // }
 
     // log only when both images, videos were not scraped.
     if (count($images) == 0 && count($videos) == 0) {
@@ -376,52 +381,52 @@ class ScraperService {
     $artists = [];
     if (!empty($this->scraper->artist))
       $artists = $this->filterItemInfo($crawler, $this->scraper->artist, 'content');
-    if (count($artists) > 0) {
-      Log::info('Scrape "Artists" >>> Success!');
-    } else {
-      Log::error('Scrape "Artists" >>> Not Found!');
-      // $this->logger->update_log_param('artists', 0);
-    }
+    // if (count($artists) > 0) {
+    //   Log::info('Scrape "Artists" >>> Success!');
+    // } else {
+    //   Log::error('Scrape "Artists" >>> Not Found!');
+    //   // $this->logger->update_log_param('artists', 0);
+    // }
 
     $origins = [];
     if (!empty($this->scraper->origins))
       $origins = $this->filterItemInfo($crawler, $this->scraper->origins, 'content');
-    if (count($origins) > 0) {
-      Log::info('Scrape "Origins" >>> Success!');
-    } else {
-      Log::error('Scrape "Origins" >>> Not Found!');
-      // $this->logger->update_log_param('origins', 0);
-    }
+    // if (count($origins) > 0) {
+    //   Log::info('Scrape "Origins" >>> Success!');
+    // } else {
+    //   Log::error('Scrape "Origins" >>> Not Found!');
+    //   // $this->logger->update_log_param('origins', 0);
+    // }
 
     $characters = [];
     if (!empty($this->scraper->character))
       $characters = $this->filterItemInfo($crawler, $this->scraper->character, 'content');
-    if (count($characters) > 0) {
-      Log::info('Scrape "Characters" >>> Success!');
-    } else {
-      Log::error('Scrape "Characters" >>> Not Found!');
-      // $this->logger->update_log_param('characters', 0);
-    }
+    // if (count($characters) > 0) {
+    //   Log::info('Scrape "Characters" >>> Success!');
+    // } else {
+    //   Log::error('Scrape "Characters" >>> Not Found!');
+    //   // $this->logger->update_log_param('characters', 0);
+    // }
 
     $medias = [];
     if (!empty($this->scraper->media))
       $medias = $this->filterItemInfo($crawler, $this->scraper->media, 'content');
-    if (count($medias) > 0) {
-      Log::info('Scrape "Medias" >>> Success!');
-    } else {
-      Log::error('Scrape "Medias" >>> Not Found!');
-      // $this->logger->update_log_param('medias', 0);
-    }
+    // if (count($medias) > 0) {
+    //   Log::info('Scrape "Medias" >>> Success!');
+    // } else {
+    //   Log::error('Scrape "Medias" >>> Not Found!');
+    //   // $this->logger->update_log_param('medias', 0);
+    // }
 
     $misc = [];
     if (!empty($this->scraper->misc))
       $misc = $this->filterItemInfo($crawler, $this->scraper->misc, 'content');
-    if (count($misc) > 0) {
-      Log::info('Scrape "Misc" >>> Success!');
-    } else {
-      Log::error('Scrape "Misc" >>> Not Found!');
-      // $this->logger->update_log_param('misc', 0);
-    }
+    // if (count($misc) > 0) {
+    //   Log::info('Scrape "Misc" >>> Success!');
+    // } else {
+    //   Log::error('Scrape "Misc" >>> Not Found!');
+    //   // $this->logger->update_log_param('misc', 0);
+    // }
 
     if (count($artists) == 0 && count($origins) == 0 && count($characters) == 0 && count($medias) == 0 && count($misc) == 0) {
       $scrape_status = false;
@@ -463,7 +468,12 @@ class ScraperService {
         }
       }
 
-      Log::debug('>>> Downloading files...');
+      Imagick::setResourceLimit(Imagick::RESOURCETYPE_MEMORY, 1024435456);
+      Imagick::setResourceLimit(Imagick::RESOURCETYPE_MAP, 1536870912);
+      Imagick::setResourceLimit(IMagick::RESOURCETYPE_AREA, 256000000);
+      Imagick::setResourceLimit(IMagick::RESOURCETYPE_DISK, 4073741824);
+
+      // Log::debug('>>> Downloading files...');
       foreach($media_files as $media_info) {
         $type = $media_info['type'];
         $media_url = $media_info['url'];
@@ -478,19 +488,29 @@ class ScraperService {
         }
 
         $post_media_path = storage_path() . '/app/public/posts';
-        Log::debug('>>> Destination directory: ' . $post_media_path);
 
         // Ensure that original, and thumbnail folder exists
         File::ensureDirectoryExists($post_media_path . '/original');
         File::ensureDirectoryExists($post_media_path . '/thumbnail');
         
+        $video_path = storage_path() . "/app/public/videos";
+
+        // Ensure that original, and thumbnail folder exists
+        File::ensureDirectoryExists($video_path . '/original');
+        File::ensureDirectoryExists($video_path . '/mobile');
+
+        // if ($type == 'image')
+        //   Log::debug('>>> Destination directory: ' . $post_media_path);
+        // else
+        //   Log::debug('>>> Destination directory: ' . $video_path);
+
         $filename = Str::random(41) . '.' . Arr::last(explode('.', $media_url));
-        $destination = $post_media_path . '/original/' . $filename;
-        Log::debug('>>> Source File: ' . $source);
-        Log::debug('>>> Destination File: ' . $destination);
+        if ($type == 'image')
+            $destination = $post_media_path . '/original/' . $filename;
+        else
+            $destination = $video_path . '/original/' . $filename;
 
         $download_size = $this->chunked_copy($source, $destination);
-        Log::debug('>>> Downloaded Size: ' . $download_size);
         if (!$download_size) {
           // Log error
           $scrape_status = false;
@@ -500,43 +520,88 @@ class ScraperService {
 
         // $mime_type = Storage::mimeType($destination);
         $mime_type = mime_content_type($destination);
-        Log::debug('>>> Mime Type: ' . $mime_type);
+        // Log::debug('>>> Mime Type: ' . $mime_type);
 
         if ($type === 'image') {
-          Log::debug('>>> Generating Thumbnail Image...');
-          $thumbnail = $filename;
-          if ($mime_type == 'image/gif') {
-            // Save thumbnail (medium) image to file system
-            $thumbnail_medium = new Imagick($destination);
-            $thumbnail_medium = $thumbnail_medium->coalesceImages();
-            do {
-              $thumbnail_medium->resizeImage( $settings_width, $settings_height, Imagick::FILTER_BOX, 1, true );
-            } while ( $thumbnail_medium->nextImage());
+          // Log::debug('>>> Generating Thumbnail Image...');
+          try {
+            $thumbnail = $filename;
+            if ($mime_type == 'image/gif') {
+              // Save thumbnail (medium) image to file system
+              $thumbnail_medium = new Imagick($destination);
+              $thumbnail_medium = $thumbnail_medium->coalesceImages();
+              do {
+                $thumbnail_medium->resizeImage( $settings_width, $settings_height, Imagick::FILTER_BOX, 1, true );
+              } while ( $thumbnail_medium->nextImage());
 
-            $thumbnail_medium = $thumbnail_medium->deconstructImages();
-            $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
-            $thumbnail_medium->writeImages($post_media_path . '/thumbnail/' . $thumbnail_medium_name, true);
+              $thumbnail_medium = $thumbnail_medium->deconstructImages();
+              $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
+              $thumbnail_medium->writeImages($post_media_path . '/thumbnail/' . $thumbnail_medium_name, true);
 
-          } else {
-            $thumbnail_medium = Image::make($destination);
-            $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
-              $constraint->aspectRatio();
-            });
-            $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
-            $thumbnail_medium->save($post_media_path . '/thumbnail/' . $thumbnail_medium_name);
+            } else {
+              $thumbnail_medium = Image::make($destination);
+              $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
+                $constraint->aspectRatio();
+              });
+              $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
+              $thumbnail_medium->save($post_media_path . '/thumbnail/' . $thumbnail_medium_name);
+            }
+            // Log::debug('>>> Thumbnail Image is generated: ' . $thumbnail_medium_name);
+          } catch (ImagickException $e) {
+            Log::error('>>> Exception occured while generating Thumbnail.');
+            Log::info('>>> Source File: ' . $source);
+            Log::info('>>> Destination File: ' . $destination);
+            Log::info('>>> Downloaded Size: ' . $download_size);
+            $scrape_status = false;
+          } catch (Exception $e) {
+            Log::error('>>> Exception occured while generating Thumbnail.');
+            Log::info('>>> Source File: ' . $source);
+            Log::info('>>> Destination File: ' . $destination);
+            Log::info('>>> Downloaded Size: ' . $download_size);
+            $scrape_status = false;
           }
-          Log::debug('>>> Thumbnail Image is generated: ' . $thumbnail_medium_name);
-
         } else if ($type === 'video') {
-          Log::debug('>>> Generating poster from video...');
+          $video_extension = strtolower(substr($filename, strrpos($filename,".") + 1));
+          // Log::debug('>>> Generating poster from video...');
           $ffprobe = FFProbe::create();
-          $video_dimensions = $ffprobe
-            ->streams( $post_media_path . '/original/' . $filename )   // extracts streams informations
-            ->videos()                      // filters video streams
-            ->first()                       // returns the first video stream
-            ->getDimensions();              // returns a FFMpeg\Coordinate\Dimension object
+          $video_stream = $ffprobe
+              ->streams( $video_path . '/original/' . $filename )   // extracts streams informations
+              ->videos()                      // filters video streams
+              ->first();                       // returns the first video stream
+
+          $video_dimensions = $video_stream->getDimensions();              // returns a FFMpeg\Coordinate\Dimension object
           $width = $video_dimensions->getWidth();
           $height = $video_dimensions->getHeight();
+
+          // Resize video
+          $m_video_width = 480;
+          $m_video_height = ceil($height * (480/$width));
+
+          $ffmpeg = FFMpeg::create();
+          $m_video = $ffmpeg->open($video_path . '/original/' . $filename);
+          $m_video
+              ->filters()
+              ->resize(new Dimension($m_video_width, $m_video_height))
+              ->synchronize();
+
+          if ($video_extension == 'ogg') {
+              $format = new Ogg();
+          } else if ($video_extension == 'webm') {
+              $format = new WebM();
+          } else if ($video_extension == 'wmv') {
+              $format = new WMV();
+          } else if ($video_extension == 'wmv3') {
+              $format = new WMV2();
+          } else {
+              $format = new X264();
+          }
+          
+          $format
+              ->setKiloBitrate(704)
+              ->setAudioChannels(2)
+              ->setAudioKiloBitrate(256);
+      
+          $m_video->save($format, $video_path . '/mobile/' . $filename);
 
           $height = ceil($height * (1024/$width));
           $width = 1024; // Limit max thumbnail width as 1024
@@ -551,8 +616,8 @@ class ScraperService {
           // assign the value to time_to_image (which will get screenshot of video at that specified seconds)
           $time_to_image = 1; // Capture first frame
 
-          $thumbnail_status = Thumbnail::getThumbnail($post_media_path . '/original/' . $filename, $post_media_path . '/original/', $thumbnail, $time_to_image);
-          Log::debug('>>> Generated Poster: ' . $thumbnail);
+          $thumbnail_status = Thumbnail::getThumbnail($video_path . '/original/' . $filename, $post_media_path . '/original/', $thumbnail, $time_to_image);
+          // Log::debug('>>> Generated Poster: ' . $thumbnail);
           if($thumbnail_status) {
             $thumbnail_medium = Image::make($post_media_path . '/original/' . $thumbnail);
             $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
@@ -560,10 +625,13 @@ class ScraperService {
             });
             $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
             $thumbnail_medium->save($post_media_path . '/thumbnail/' . $thumbnail_medium_name);
-            Log::debug('>>> Generated video Thumbnail Image: ' . $thumbnail_medium_name);
+            // Log::debug('>>> Generated video Thumbnail Image: ' . $thumbnail_medium_name);
           } else {
             $scrape_status = false;
             Log::error('>>> Failed to generate video thumbnail!');
+            Log::info('>>> Source File: ' . $source);
+            Log::info('>>> Destination File: ' . $destination);
+            Log::info('>>> Downloaded Size: ' . $download_size);
             // Log error
             $this->logger->update_log_param('download', 0);
             break;
@@ -928,7 +996,7 @@ class ScraperService {
             $tag                  = new Tag;
             $tag->name            = $tag_input;
             $tag->tag_category_id = $tag_category->id;
-            $tag->published       = true;
+            $tag->status          = 'published';
             $tag->save();
           }
 

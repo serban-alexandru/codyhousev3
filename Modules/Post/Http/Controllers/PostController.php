@@ -15,113 +15,6 @@ use Modules\Tag\Entities\{Tag, TagCategory};
 
 class PostController extends Controller
 {
-    public function uploadMedia(Request $request) {
-        $request->validate([
-            'media' => 'required',
-		]);
-
-        $status = true;
-
-        $settings_width = 40;
-        $settings_height = 40;
-
-        if(!is_null($posts_settings = PostSetting::first())){
-            $settings_width = $posts_settings->medium_width;
-            $settings_height = $posts_settings->medium_height;
-        }
-
-        $post_media_path = storage_path() . '/app/public/posts';
-
-        // Ensure that original, and thumbnail folder exists
-        File::ensureDirectoryExists($post_media_path . '/original');
-        File::ensureDirectoryExists($post_media_path . '/thumbnail');
-
-        // Save thumbnail image in file system
-        $media = request()->file('media')->store('public/posts/original');
-        $media_name = Arr::last(explode('/', $media));
-
-        $mime_type = request()->file('media')->getMimeType();
-
-        $media_type = substr($mime_type, 0, 5) === 'image' ? 'image' : 'video';
-
-        if ($media_type === 'image') {
-            $thumbnail = $media_name;
-            if ($mime_type == 'image/gif') {
-                // Save thumbnail (medium) image to file system
-                $thumbnail_medium = new Imagick($post_media_path . '/original/' . $thumbnail);
-                $thumbnail_medium = $thumbnail_medium->coalesceImages();
-                do {
-                    $thumbnail_medium->resizeImage( $settings_width, $settings_height, Imagick::FILTER_BOX, 1, true );
-                } while ( $thumbnail_medium->nextImage());
-
-                $thumbnail_medium = $thumbnail_medium->deconstructImages();
-                $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
-                $thumbnail_medium->writeImages($post_media_path . '/thumbnail/' . $thumbnail_medium_name, true);
-
-            } else {
-                $thumbnail_medium = Image::make(request()->file('media'));
-                $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
-                    $constraint->aspectRatio();
-                });
-                $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
-                $thumbnail_medium->save($post_media_path . '/thumbnail/' . $thumbnail_medium_name);
-            }
-
-            $message = 'You have successfully upload file.';
-
-        } else if ($media_type === 'video') {
-            $ffprobe = FFProbe::create();
-            $video_dimensions = $ffprobe
-                ->streams( $post_media_path . '/original/' . $media_name )   // extracts streams informations
-                ->videos()                      // filters video streams
-                ->first()                       // returns the first video stream
-                ->getDimensions();              // returns a FFMpeg\Coordinate\Dimension object
-            $width = $video_dimensions->getWidth();
-            $height = $video_dimensions->getHeight();
-
-            $height = ceil($height * (1024/$width));
-            $width = 1024; // Limit max thumbnail width as 1024
-            $settings_height = ceil($height * ($settings_width/$width));
-            config(['thumbnail.dimensions.width' => $width]);
-            config(['thumbnail.dimensions.height' => $height]);
-
-            // generate thumbnail from video
-            $thumbnail = Arr::first(explode('.', $media_name)) . '.jpg';
-
-            // get video length and process it
-            // assign the value to time_to_image (which will get screenshot of video at that specified seconds)
-            $time_to_image = 5; // Capture first frame
-
-            $thumbnail_status = Thumbnail::getThumbnail($post_media_path . '/original/' . $media_name, $post_media_path . '/original/', $thumbnail, $time_to_image);
-            if($thumbnail_status) {
-                $message = "Thumbnail generated";
-                $thumbnail_medium = Image::make($post_media_path . '/original/' . $thumbnail);
-                $thumbnail_medium->resize($settings_width, $settings_height, function($constraint){
-                    $constraint->aspectRatio();
-                });
-                $thumbnail_medium_name = Str::random(27) . '.' . Arr::last(explode('.', $thumbnail));
-                $thumbnail_medium->save($post_media_path . '/thumbnail/' . $thumbnail_medium_name);
-            } else {
-                $status = false;
-                $message = "thumbnail generation has failed";
-                $thumbnail_medium_name = '';
-            }
-        }
-
-        return response()->json(
-            [
-                'status' => $status,
-                'message' => $message,
-                'video' => ($media_type === 'video') ? $media_name : '',
-                'video_url' => ($media_type === 'video') ? asset("storage/posts/original/{$media_name}") : '',
-                'video_type' => ($media_type === 'video') ? $mime_type : '',
-                'thumbnail' => $thumbnail,
-                'thumbnail_url' => asset("storage/posts/original/{$thumbnail}"),
-                'thumbnail_medium' => $thumbnail_medium_name
-            ]
-        );
-    }
-
     public function cleanupEditorImages()
     {
         // `$directory` path value must be the value from `uploadImage` method
@@ -193,7 +86,7 @@ class PostController extends Controller
 
         // get all tags
         $tags_by_category = array();
-        $tags = Tag::where('published', true)->orderBy('name', 'asc')->get();
+        $tags = Tag::where('status', 'published')->orderBy('name', 'asc')->get();
         foreach($tags as $tag) {
             if (!isset($tags_by_category[$tag->tag_category_id]))
                 $tags_by_category[$tag->tag_category_id] = array();
@@ -352,7 +245,7 @@ class PostController extends Controller
                         $tag                  = new Tag;
                         $tag->name            = $tag_input;
                         $tag->tag_category_id = $tag_category->id;
-                        $tag->published       = true;
+                        $tag->status          = 'published';
                         $tag->save();
                     }
 
@@ -393,7 +286,13 @@ class PostController extends Controller
         $data['thumbnail']    = asset("storage/posts/original/{$post->thumbnail}");
         $video_file           = PostsMeta::getMetaData( $post->id, 'video' );
         $video_extension      = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
-        $data['video']        = !empty( $video_file ) ? asset("storage/posts/original/{$video_file}") : '';
+
+        $video_mobile = storage_path() . '/app/public/videos/mobile/' . $video_file;
+        if (isMobileDevice() && File::exists($video_mobile)) {
+            $data['video']    = !empty( $video_file ) ? asset("storage/videos/mobile/{$video_file}") : '';
+        } else {
+            $data['video']    = !empty( $video_file ) ? asset("storage/videos/original/{$video_file}") : '';
+        }
         $data['video_type']   = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
         $data['page_title']   = PostsMeta::getMetaData( $post->id, 'seo_page_title' );
         $data['post_date']    = Date('d/m/Y', strtotime($post->created_at));
@@ -525,7 +424,7 @@ class PostController extends Controller
                         $tag                  = new Tag;
                         $tag->name            = $tag_input;
                         $tag->tag_category_id = $tag_category->id;
-                        $tag->published       = true;
+                        $tag->status          = 'published';
                         $tag->save();
                     }
 
@@ -577,7 +476,8 @@ class PostController extends Controller
         // Delete video
         $video_file = PostsMeta::getMetaData( $post->id, 'video' );
         if ( !empty($video_file) ) {
-            Storage::delete('public/posts/original/' . $video_file);
+            Storage::delete('public/videos/original/' . $video_file);
+            Storage::delete('public/videos/mobile/' . $video_file);
             PostsMeta::deleteMetaData( $post->id, 'video' );
         }
 
@@ -587,7 +487,7 @@ class PostController extends Controller
         }
 
         if ($post->thumbnail_medium) {
-            Storage::delete('public/posts/thumbnail' . $post->thumbnail_medium);
+            Storage::delete('public/posts/thumbnail/' . $post->thumbnail_medium);
         }
 
         // Delete records on `posts_tags` table
@@ -937,7 +837,7 @@ class PostController extends Controller
             thumbnail_medium,
             IF(posts_metas.meta_key = "video", posts_metas.meta_value, "") as video'    
         ))
-        ->whereIn('id', $post_ids)
+        ->whereIn('posts.id', $post_ids)
         ->get();
 
         $posts_count = Post::leftJoin('posts_tags', 'posts_tags.post_id', '=', 'posts.id')
@@ -999,7 +899,14 @@ class PostController extends Controller
                 $post['description'] = Post::parseContent($post['description']);
                 $video_file          = PostsMeta::getMetaData( $post->id, 'video' );
                 $video_extension     = empty( $video_file ) ? '' : substr($video_file, strrpos($video_file,".") + 1);
-                $post['video']       = !empty( $video_file ) ? asset("storage/posts/original/{$video_file}") : '';
+
+                $video_mobile = storage_path() . '/app/public/videos/mobile/' . $video_file;
+                if (isMobileDevice() && File::exists($video_mobile)) {
+                    $post['video']    = !empty( $video_file ) ? asset("storage/videos/mobile/{$video_file}") : '';
+                } else {
+                    $post['video']    = !empty( $video_file ) ? asset("storage/videos/original/{$video_file}") : '';
+                }
+
                 $post['video_type']  = $video_extension == 'mp4' ? 'video/mp4' : ( $video_extension == 'webm' ? 'video/webm' : '' );
                 $post['seo_title']   = $post['title'] . ' | [sitetitle]';
                 $post['url'] = 'post/' . $post['slug'];
